@@ -4,11 +4,21 @@ Monorepository for the search abstraction over different search engine.
 
 ## Research
 
-At current state collect here different search implementation which could be interesting to be implemented and abstracted for PHP.
+At current state collect here different search engines which are available:
 
  - [Elasticsearch](#elasticsearch)
  - [Opensearch](#opensearch)
- 
+ - [RediSearch](#redisearch)
+ - [Zinc Labs](#zinc-labs)
+ - [Typesense](#typesense)
+ - [Algolia](#algolia)
+ - [ZendSearch](#zendsearch)
+ - [TnTSearch](#tntsearch)
+ - [MeiliSearch](#meilisearch)
+ - [Solr](#solr)
+ - [Sonic](#sonic)
+ - [Vespa](#vespa)
+
 ### Elasticsearch
  
 Widely used search based on Java.
@@ -22,6 +32,13 @@ Fork of Elasticsearch also written in Java.
 
  - Server: [Opensearch Server](https://github.com/opensearch-project/OpenSearch)
  - PHP Client: [Opensearch PHP](https://github.com/opensearch-project/opensearch-php)
+
+### RediSearch
+ 
+A search out of the house of the redis labs.
+
+ - Server: [RediSearch Server]([https://github.com/opensearch-project/OpenSearch](https://github.com/RediSearch/RediSearch))
+ - PHP Client: [RediSearch PHP](https://github.com/MacFJA/php-redisearch)
 
 ### Zinc Labs
 
