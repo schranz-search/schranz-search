@@ -1,0 +1,20 @@
+{
+    "name": "schranz-search/seal",
+    "description": "Search Engine Abstraction Layer",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    }
+}
