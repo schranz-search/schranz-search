@@ -2,14 +2,15 @@
 
 namespace Schranz\Search\SEAL\Schema;
 
+use Schranz\Search\SEAL\Schema\Field\AbstractField;
+
 final class Index
 {
     /**
-     * @param array<string, Field> $fields
+     * @param array<string, AbstractField> $fields
      */
     public function __construct(
         public readonly string $name,
-        public readonly string $normalizedName,
         public readonly array $fields
     ) {}
 }

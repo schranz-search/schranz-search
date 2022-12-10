@@ -70,6 +70,11 @@ final class Engine
         );
     }
 
+    public function createIndex(string $index): void
+    {
+        $this->adapter->getSchemaManager()->createIndex($this->schema->indexes[$index]);
+    }
+
     public function dropIndex(string $index): void
     {
         $this->adapter->getSchemaManager()->dropIndex($this->schema->indexes[$index]);
@@ -78,11 +83,6 @@ final class Engine
     public function existIndex(string $index): void
     {
         $this->adapter->getSchemaManager()->existIndex($this->schema->indexes[$index]);
-    }
-
-    public function createIndex(string $index): void
-    {
-        $this->adapter->getSchemaManager()->createIndex($this->schema->indexes[$index]);
     }
 
     public function createSchema(): void
