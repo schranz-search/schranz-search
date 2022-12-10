@@ -6,21 +6,34 @@ use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
+use Schranz\Search\SEAL\Schema\Schema;
 
-class AbstractAdapterTestCase extends TestCase
+abstract class AbstractAdapterTestCase extends TestCase
 {
-    protected AdapterInterface $adapter;
+    protected static AdapterInterface $adapter;
+
+    protected static Engine $engine;
+
+    protected static Schema $schema;
+
+    protected static function getEngine(): Engine
+    {
+        if (!isset(self::$engine)) {
+            self::$schema = TestingHelper::createSchema();
+
+            self::$engine = new Engine(
+                self::$adapter,
+                self::$schema,
+            );
+        }
+
+        return self::$engine;
+    }
 
     public function testIndex(): void
     {
-        $schema = TestingHelper::createSchema('index_');
-
-        $engine = new Engine(
-            $this->adapter,
-            $schema
-        );
-
-        $index = $schema->indexes[TestingHelper::INDEX_SIMPLE];
+        $engine = self::getEngine();
+        $index = self::$schema->indexes[TestingHelper::INDEX_SIMPLE];
 
         $this->assertFalse($engine->existIndex($index));
 
@@ -35,35 +48,25 @@ class AbstractAdapterTestCase extends TestCase
 
     public function testSchema(): void
     {
-        $schema = TestingHelper::createSchema('schema_');
-
-        $engine = new Engine(
-            $this->adapter,
-            $schema
-        );
+        $engine = self::getEngine();
+        $indexes = self::$schema->indexes;
 
         $engine->createSchema();
 
-        foreach (array_keys($schema->indexes) as $index) {
+        foreach (array_keys($indexes) as $index) {
             $this->assertTrue($engine->existIndex($index));
         }
 
         $engine->dropSchema();
 
-        foreach (array_keys($schema->indexes) as $index) {
+        foreach (array_keys($indexes) as $index) {
             $this->assertFalse($engine->existIndex($index));
         }
     }
 
     public function testDocument(): void
     {
-        $schema = TestingHelper::createSchema();
-
-        $engine = new Engine(
-            $this->adapter,
-            $schema
-        );
-
+        $engine = self::getEngine();
         $documents = TestingHelper::createComplexFixtures();
 
         foreach ($documents as $document) {
@@ -112,5 +115,10 @@ class AbstractAdapterTestCase extends TestCase
                 'Expected the exception "DocumentNotFoundException" to be thrown.'
             );
         }
+    }
+
+    public static function setUpBeforeClass(): void
+    {
+        self::getEngine()->dropSchema();
     }
 }
