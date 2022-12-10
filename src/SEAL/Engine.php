@@ -3,7 +3,10 @@
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Schema\Schema;
+use Schranz\Search\SEAL\Search\Filter\IdentifierFilter;
+use Schranz\Search\SEAL\Search\SearchBuilder;
 
 final class Engine
 {
@@ -30,6 +33,40 @@ final class Engine
         $this->adapter->getConnection()->delete(
             $this->schema->indexes[$index],
             $identifier
+        );
+    }
+
+    /**
+     * @return array<string, mixed>
+     *
+     * @throws DocumentNotFoundException
+     */
+    public function findDocument(string $index, string $identifier): array
+    {
+        $documents = [...$this->createSearchBuilder()
+            ->addIndex($index)
+            ->addFilter(new IdentifierFilter($identifier))
+            ->limit(1)
+            ->getResult()];
+
+        $document = $documents[0] ?? null;
+
+        if ($document === null) {
+            throw new DocumentNotFoundException(\sprintf(
+                'Document with the identifier "%s" not found in index "%s.',
+                $identifier,
+                $index
+            ));
+        }
+
+        return $document;
+    }
+
+    public function createSearchBuilder(): SearchBuilder
+    {
+        return new SearchBuilder(
+            $this->schema,
+            $this->adapter->getConnection()
         );
     }
 
