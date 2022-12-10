@@ -5,6 +5,8 @@
 This package was highly inspired by [Doctrine DBAL](https://github.com/doctrine/dbal)
 and [Flysystem](https://github.com/thephpleague/flysystem).
 
+> This package is still in development and no adapters do exist yet.
+
 ## Usage
 
 ### Example Document
@@ -36,8 +38,9 @@ $document = [
 ];
 ```
 
-> Not you can use some kind of normalizer like symfony/serializer to convert an object to an array
-> and back to an object at current state a Document Mapper package does not yet exist.
+> Currently, you can use some kind of normalizer like symfony/serializer to convert an object to an array
+> and back to an object at current state a Document Mapper package does not yet exist. If provided in future
+> it will be part of an own package which make usage of SEAL. Example like doctrine/orm using doctrine/dbal.
 
 ### Creating a Schema
 
@@ -79,7 +82,7 @@ $fields = [
     'categoryIds' => new Field\CollectionField('comments', new Field\IntegerField('')),
 ];
 
-$prefix = 'test_';
+$prefix = 'test_'; // to avoid conflicts the indexes can be prefixed
 
 $newsIndex = new Index($prefix . 'news', $fields);
 
@@ -87,6 +90,8 @@ $schema = new Schema([
     'news' => $newsIndex,
 ]);
 ```
+
+The schema is serializable, so it can be stored in any cache and loaded fast.
 
 ### Create the engine
 
@@ -104,7 +109,7 @@ $engine = new Engine(
 );
 ```
 
-The engine is the main entry point to interact with the search engine.
+The engine is the main entry point to interact with the search engine:
 
 #### Indexing a document
 
