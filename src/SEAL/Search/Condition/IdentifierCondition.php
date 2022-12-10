@@ -1,8 +1,8 @@
 <?php
 
-namespace Schranz\Search\SEAL\Search\Filter;
+namespace Schranz\Search\SEAL\Search\Condition;
 
-class IdentifierFilter
+class IdentifierCondition
 {
     public function __construct(
         readonly string $identifier,

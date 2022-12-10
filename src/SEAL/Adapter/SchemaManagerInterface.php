@@ -6,7 +6,7 @@ use Schranz\Search\SEAL\Schema\Index;
 
 interface SchemaManagerInterface
 {
-    public function existIndex(Index $index): void;
+    public function existIndex(Index $index): bool;
 
     public function dropIndex(Index $index): void;
 

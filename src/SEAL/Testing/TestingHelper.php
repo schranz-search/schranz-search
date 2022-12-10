@@ -8,9 +8,13 @@ use Schranz\Search\SEAL\Schema\Field;
 
 class TestingHelper
 {
+    public const INDEX_COMPLEX = 'complex';
+
+    public const INDEX_SIMPLE = 'simple';
+
     private function __construct() {}
 
-    public function createSchema(): Schema
+    public static function createSchema(string $prefix = 'test_'): Schema
     {
         $complexFields = [
             'id' => new Field\IdentifierField('id'),
@@ -33,14 +37,12 @@ class TestingHelper
             'title' => new Field\TextField('title'),
         ];
 
-        $prefix = 'test_';
-
         $complexIndex = new Index($prefix . 'news', $complexFields);
         $simpleIndex = new Index($prefix . 'blog', $simpleFields);
 
         return new Schema([
-            'complex' => $complexIndex,
-            'simple' => $simpleIndex,
+            self::INDEX_COMPLEX => $complexIndex,
+            self::INDEX_SIMPLE => $simpleIndex,
         ]);
     }
 
@@ -59,7 +61,7 @@ class TestingHelper
      *     categoryIds?: string[]|null,
      * }>
      */
-    public function createComplexFixtures(): array
+    public static function createComplexFixtures(): array
     {
         return [
             [
@@ -105,7 +107,7 @@ class TestingHelper
      *     title?: string|null,
      * }>
      */
-    public function createSimpleFixtures(): array
+    public static function createSimpleFixtures(): array
     {
         return [
             [

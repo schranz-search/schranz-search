@@ -120,7 +120,7 @@ $engine->indexDocument('news', $document);
 #### Find a document
 
 ```php
-$engine->findDocument('news', '1');
+$engine->getDocument('news', '1');
 ```
 
 #### Delete a document
@@ -129,16 +129,20 @@ $engine->findDocument('news', '1');
 $engine->deleteDocument('news', '1');
 ```
 
-#### Search a documents
+#### Search documents
 
 ```php
+use Schranz\Search\SEAL\Search\Condition;
+
 $documents = $engine->createSearchBuilder()
     ->addIndex('news')
-    ->addFilter(new IdentifierFilter('1'))
+    ->addFilter(new Condition\IdentifierCondition('1'))
     ->limit(1)
     ->offset(0)
     ->getResult();
 ```
+
+> Condition is what in Elasticsearch are Query and Filters.
 
 #### Create schema
 
