@@ -111,11 +111,13 @@ $engine = new Engine(
 
 The engine is the main entry point to interact with the search engine:
 
-#### Indexing a document
+#### Save a document
 
 ```php
-$engine->indexDocument('news', $document);
+$engine->saveDocument('news', $document);
 ```
+
+> Will overwrite existing document if document with same id already exists.
 
 #### Find a document
 

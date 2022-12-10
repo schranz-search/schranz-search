@@ -8,7 +8,7 @@ use Schranz\Search\SEAL\Search\Search;
 
 interface ConnectionInterface
 {
-    public function index(Index $index, array $document);
+    public function save(Index $index, array $document);
 
     public function delete(Index $index, string $identifier);
 
