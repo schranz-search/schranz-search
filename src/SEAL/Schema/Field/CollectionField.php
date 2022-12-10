@@ -9,8 +9,8 @@ use Schranz\Search\SEAL\Schema\FieldType;
  */
 final class CollectionField extends AbstractField
 {
-    public function __construct(string $name, string $normalizedName, readonly public AbstractField $field)
+    public function __construct(string $name, readonly public AbstractField $field)
     {
-        parent::__construct($name, $normalizedName, FieldType::COLLECTION);
+        parent::__construct($name, FieldType::COLLECTION);
     }
 }

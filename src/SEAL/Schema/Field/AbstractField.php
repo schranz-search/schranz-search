@@ -8,7 +8,6 @@ abstract class AbstractField
 {
     public function __construct(
         public readonly string $name,
-        public readonly string $normalizedName,
         public readonly FieldType $type
     ) {}
 }

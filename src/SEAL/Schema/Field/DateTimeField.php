@@ -9,8 +9,8 @@ use Schranz\Search\SEAL\Schema\FieldType;
  */
 final class DateTimeField extends AbstractField
 {
-    public function __construct(string $name, string $normalizedName)
+    public function __construct(string $name)
     {
-        parent::__construct($name, $normalizedName, FieldType::DATETIME);
+        parent::__construct($name, FieldType::DATETIME);
     }
 }

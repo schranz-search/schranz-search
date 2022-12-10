@@ -2,19 +2,11 @@
 
 Monorepository for the search abstraction over different search engine.
 
-## Field Types
+### SEAL
 
- - `IDENTIFIER`: required unique identifier for the document
- - `TEXT`: any text, options can maybe use to specify it more specific
- - `BOOLEAN`: boolean to store true or false flags
- - `FLOAT`: float to store any PHP float value
- - `INTEGER`: integer to store any PHP int value
- - `DATETIME`: datetime field to store date and date times
- - `COLLECTION`: list of objects
- - `OBJECT`: contains other fields nested in it
+What `doctrine/dbal` is for doctrine `SEAL` is for schranz-search package.
 
-Currently, not keep in mind are types like geopoint, date, specific numeric types.
-Specific text types like, url, path, ... should be specified over options in the future.
+Read more about it in the [README.md](src/SEAL/README.md) of the package.
 
 ## Research
 
