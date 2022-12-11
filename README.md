@@ -25,6 +25,10 @@ At current state collect here different search engines which are around and coul
  - [Solr](#solr)
  - [Sonic](#sonic)
  - [Vespa](#vespa)
+ - [Toshi](#toshi)
+ - [Quickwit](#quickwit)
+ - [nrtSearch](#nrtsearch)
+ - [MongoDB Atlas](#mongodb-atlas)
 
 ### Elasticsearch
  
@@ -108,3 +112,31 @@ Describe itself as the open big data serving engine - Store, search, organize an
  - Server: [Vespa Server](https://github.com/vespa-engine/vespa)
 https://github.com/vespa-engine/vespa
  - PHP Client: No client available only API based
+
+### Toshi
+
+A full-text search engine in rust. Toshi strives to be to Elasticsearch what [Tantivy Server](https://github.com/quickwit-oss/tantivy) is to Lucene:
+
+ - Server: [Toshi Server](https://github.com/toshi-search/Toshi)
+ - PHP Client: No client available only API based
+
+### Quickwit
+
+Describe itself as a cloud-native search engine for log management & analytics written in Rust. It is designed to be very cost-effective, easy to operate, and scale to petabytes.
+
+ - Server: [Quickwit Server](https://github.com/quickwit-oss/quickwit)
+ - PHP Client: No client available only API based
+
+### nrtSearch
+
+Describe itself as a high performance gRPC server, with optional REST APIs on top of Apache Lucene version 8.x source, exposing Lucene's core functionality over a simple gRPC based API.:
+
+ - Server: [nrtSearch Server](https://github.com/Yelp/nrtsearch)
+ - PHP Client: No client available only API based
+
+### MongoDB Atlas
+
+None open source search engine from MongoDB. It is a cloud based search engine.
+
+ - Server: [MongoDB Atlas](https://www.mongodb.com/atlas/search)
+ - PHP Client: [MongoDB Atlas PHP Client](https://www.mongodb.com/docs/drivers/php/#connect-to-mongodb-atlas)
