@@ -1,0 +1,21 @@
+{
+    "name": "schranz-search/seal-read-write-adapter",
+    "description": "An adapter to support to split read and write operations for the schranz-search/seal package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\ReadWrite\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "schranz-search/seal": "^1.0"
+    }
+}

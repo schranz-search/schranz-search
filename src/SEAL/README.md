@@ -7,6 +7,8 @@ and [Flysystem](https://github.com/thephpleague/flysystem).
 
 > This package is still in development and no adapters do exist yet.
 
+> This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
+
 ## Usage
 
 ### Example Document
@@ -110,6 +112,11 @@ $engine = new Engine(
 ```
 
 The engine is the main entry point to interact with the search engine:
+
+#### List of adapters
+
+ - [ReadWrite](Adapter/ReadWrite)
+ - ... more coming soon
 
 #### Save a document
 

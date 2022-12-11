@@ -140,3 +140,10 @@ None open source search engine from MongoDB. It is a cloud based search engine.
 
  - Server: [MongoDB Atlas](https://www.mongodb.com/atlas/search)
  - PHP Client: [MongoDB Atlas PHP Client](https://www.mongodb.com/docs/drivers/php/#connect-to-mongodb-atlas)
+
+## Similar Projects
+
+Following projects in the past target similar problem:
+
+ - [https://github.com/nresni/Ariadne](https://github.com/nresni/Ariadne) (Solr, Elasticsearch, Zendsearch: outdated 12 years ago)
+ - [https://github.com/massiveart/MassiveSearchBundle](https://github.com/massiveart/MassiveSearchBundle) (ZendSearch, Elasticsearch)
