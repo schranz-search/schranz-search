@@ -35,12 +35,12 @@ enum FieldType
     case DATETIME;
 
     /**
-     * Type to store a list of objects.
-     */
-    case COLLECTION;
-
-    /**
      * Type to store fields inside a nested object.
      */
     case OBJECT;
+
+    /**
+     * Type to store fields different based on a type field.
+     */
+    case TYPED;
 }

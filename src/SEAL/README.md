@@ -27,7 +27,7 @@ $document = [
             'type' => 'text',
             'title' => 'Titel',
             'description' => '<p>Description</p>',
-            'media' => ['id' => 1, 'displayOption' => 'top'],
+            'media' => [3, 4],
         ],
         [
             'type' => 'text',
@@ -74,8 +74,9 @@ A schema can contain multiple indexes. The following field types are available:
 - `INTEGER`: integer to store any PHP int value
 - `DATETIME`: datetime field to store date and date times
 - `OBJECT`: contains other fields nested in it
+- `TYPED`: can define different fields by a type field
 
-With exception to the Identifier all types can be defined as `multiple` to store a list of values.
+With exception to the `Identifier` type all other types can be defined as `multiple` to store a list of values.
 
 Currently, not keep in mind are types like geopoint, date, specific numeric types.
 Specific text types like, url, path, ... should be specified over options in the future.
@@ -92,7 +93,17 @@ $fields = [
     'title' => new Field\TextField('title'),
     'title.raw' => new Field\TextField('title'),
     'article' => new Field\TextField('article'),
-    'blocks' => new Field\CollectionField('blocks', /* TODO */),
+    'blocks' => new Field\TypedField('blocks', 'type', [
+        'text' => [
+            'title' => new Field\TextField('title'),
+            'description' => new Field\TextField('description'),
+            'media' => new Field\IntegerField('media', multiple: true),
+        ],
+        'embed' => [
+            'title' => new Field\TextField('title'),
+            'media' => new Field\TextField('media'),
+        ],
+    ], multiple: true),
     'created' => new Field\DateTimeField('created'),
     'commentsCount' => new Field\IntegerField('commentsCount'),
     'rating' => new Field\FloatField('rating'),
