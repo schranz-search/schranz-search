@@ -182,7 +182,7 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-> Condition is what in Elasticsearch are Query and Filters.
+> Condition is what in Elasticsearch are Queries and Filters.
 
 #### Create schema
 
