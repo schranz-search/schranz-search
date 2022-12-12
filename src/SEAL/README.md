@@ -22,6 +22,24 @@ $document = [
     'id' => '1',
     'title' => 'New Blog',
     'article' => '<article><h2>Some Subtitle</h2><p>A html field with some content</p></article>',
+    'blocks' => [
+        [
+            'type' => 'text',
+            'title' => 'Titel',
+            'description' => '<p>Description</p>',
+            'media' => ['id' => 1, 'displayOption' => 'top'],
+        ],
+        [
+            'type' => 'text',
+            'title' => 'Titel 2',
+            'description' => '<p>Description 2</p>',
+        ],
+        [
+            'type' => 'embed',
+            'title' => 'Video',
+            'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+        ],
+    ],
     'created' => new \DateTimeImmutable('2022-12-24 12:00:00'),
     'commentsCount' => 2,
     'rating' => 3.5,
@@ -74,6 +92,7 @@ $fields = [
     'title' => new Field\TextField('title'),
     'title.raw' => new Field\TextField('title'),
     'article' => new Field\TextField('article'),
+    'blocks' => new Field\CollectionField('blocks', /* TODO */),
     'created' => new Field\DateTimeField('created'),
     'commentsCount' => new Field\IntegerField('commentsCount'),
     'rating' => new Field\FloatField('rating'),
