@@ -21,6 +21,17 @@ class TestingHelper
             'title' => new Field\TextField('title'),
             'title.raw' => new Field\TextField('title'),
             'article' => new Field\TextField('article'),
+            'blocks' => new Field\TypedField('blocks', 'type', [
+                'text' => [
+                    'title' => new Field\TextField('title'),
+                    'description' => new Field\TextField('description'),
+                    'media' => new Field\IntegerField('media', multiple: true),
+                ],
+                'embed' => [
+                    'title' => new Field\TextField('title'),
+                    'media' => new Field\TextField('media'),
+                ],
+            ], multiple: true),
             'created' => new Field\DateTimeField('created'),
             'commentsCount' => new Field\IntegerField('commentsCount'),
             'rating' => new Field\FloatField('rating'),
@@ -68,6 +79,24 @@ class TestingHelper
                 'id' => '1',
                 'title' => 'New Blog',
                 'article' => '<article><h2>Some Subtitle</h2><p>A html field with some content</p></article>',
+                'blocks' => [
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel',
+                        'description' => '<p>Description</p>',
+                        'media' => [3, 4],
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 2',
+                        'description' => '<p>Description 2</p>',
+                    ],
+                    [
+                        'type' => 'embed',
+                        'title' => 'Video',
+                        'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                    ],
+                ],
                 'created' => new \DateTimeImmutable('2022-12-24 12:00:00'),
                 'commentsCount' => 2,
                 'rating' => 3.5,
