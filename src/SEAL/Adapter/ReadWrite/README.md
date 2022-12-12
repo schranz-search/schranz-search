@@ -1,7 +1,8 @@
 # Schranz Search SEAL Read Write Adapter
 
-The `ReadWriteAdapter` allows to use one adapter instance for writing
-and one for reading. This is useful if you want to reindex something.
+The `ReadWriteAdapter` allows to use one adapter instance for reading
+and one for writing. This is useful if you want to reindex something
+without a downtime.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
@@ -34,3 +35,4 @@ $engine = new Engine(
 > Read a document and partial update it based on the read document should be avoided
 > when using this adapter, as the read document could already be outdated. So always
 > fully update the document and never do based on read documents.
+> Have a look at the `MultiAdapter` to write into read and write adapter.
