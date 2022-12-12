@@ -24,12 +24,12 @@ class TestingHelper
             'created' => new Field\DateTimeField('created'),
             'commentsCount' => new Field\IntegerField('commentsCount'),
             'rating' => new Field\FloatField('rating'),
-            'comments' => new Field\CollectionField('comments', new Field\ObjectField('', [
+            'comments' => new Field\ObjectField('comments', [
                 'email' => new Field\TextField('email'),
                 'text' => new Field\TextField('title'),
-            ])),
-            'tags' => new Field\CollectionField('comments', new Field\TextField('')),
-            'categoryIds' => new Field\CollectionField('comments', new Field\IntegerField('')),
+            ], multiple: true),
+            'tags' => new Field\TextField('comments', multiple: true),
+            'categoryIds' => new Field\IntegerField('comments', multiple: true),
         ];
 
         $simpleFields = [

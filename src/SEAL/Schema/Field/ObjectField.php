@@ -12,8 +12,8 @@ final class ObjectField extends AbstractField
     /**
      * @param array<string, AbstractField> $fields
      */
-    public function __construct(string $name, readonly public array $fields)
+    public function __construct(string $name, readonly public array $fields, bool $multiple = false)
     {
-        parent::__construct($name, FieldType::OBJECT);
+        parent::__construct($name, FieldType::OBJECT, $multiple);
     }
 }

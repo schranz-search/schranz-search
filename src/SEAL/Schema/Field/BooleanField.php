@@ -9,8 +9,8 @@ use Schranz\Search\SEAL\Schema\FieldType;
  */
 final class BooleanField extends AbstractField
 {
-    public function __construct(string $name)
+    public function __construct(string $name, bool $multiple = false)
     {
-        parent::__construct($name, FieldType::BOOLEAN);
+        parent::__construct($name, FieldType::BOOLEAN, $multiple);
     }
 }

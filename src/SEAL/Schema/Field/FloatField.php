@@ -9,8 +9,8 @@ use Schranz\Search\SEAL\Schema\FieldType;
  */
 final class FloatField extends AbstractField
 {
-    public function __construct(string $name)
+    public function __construct(string $name, bool $multiple = false)
     {
-        parent::__construct($name, FieldType::FLOAT);
+        parent::__construct($name, FieldType::FLOAT, $multiple);
     }
 }
