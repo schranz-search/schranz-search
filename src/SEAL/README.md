@@ -55,8 +55,9 @@ A schema can contain multiple indexes. The following field types are available:
 - `FLOAT`: float to store any PHP float value
 - `INTEGER`: integer to store any PHP int value
 - `DATETIME`: datetime field to store date and date times
-- `COLLECTION`: list of objects
 - `OBJECT`: contains other fields nested in it
+
+With exception to the Identifier all types can be defined as `multiple` to store a list of values.
 
 Currently, not keep in mind are types like geopoint, date, specific numeric types.
 Specific text types like, url, path, ... should be specified over options in the future.
@@ -76,12 +77,12 @@ $fields = [
     'created' => new Field\DateTimeField('created'),
     'commentsCount' => new Field\IntegerField('commentsCount'),
     'rating' => new Field\FloatField('rating'),
-    'comments' => new Field\CollectionField('comments', new Field\ObjectField('', [
+    'comments' => new Field\ObjectField('comments', [
         'email' => new Field\TextField('email'),
         'text' => new Field\TextField('title'),
-    ])),
-    'tags' => new Field\CollectionField('comments', new Field\TextField('')),
-    'categoryIds' => new Field\CollectionField('comments', new Field\IntegerField('')),
+    ], multiple: true),
+    'tags' => new Field\TextField('tags', multiple: true),
+    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true),
 ];
 
 $prefix = 'test_'; // to avoid conflicts the indexes can be prefixed
