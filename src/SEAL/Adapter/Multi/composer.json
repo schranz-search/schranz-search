@@ -1,0 +1,21 @@
+{
+    "name": "schranz-search/seal-multi-adapter",
+    "description": "An adapter to support to write into multiple other adapters schranz-search/seal package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\Multi\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "schranz-search/seal": "^1.0"
+    }
+}

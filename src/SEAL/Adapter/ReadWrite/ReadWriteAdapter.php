@@ -23,7 +23,7 @@ final class ReadWriteAdapter implements AdapterInterface
     public function getConnection(): ConnectionInterface
     {
         if ($this->connection === null) {
-            return new ReadWriteConnection(
+            $this->connection = new ReadWriteConnection(
                 $this->readAdapter->getConnection(),
                 $this->writeAdapter->getConnection(),
             );
