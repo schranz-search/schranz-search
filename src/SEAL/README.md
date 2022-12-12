@@ -40,7 +40,7 @@ $document = [
             'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
         ],
     ],
-    'created' => new \DateTimeImmutable('2022-12-24 12:00:00'),
+    'created' => '2022-12-24T12:00:00+01:00',
     'commentsCount' => 2,
     'rating' => 3.5,
     'comments' => [

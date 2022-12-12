@@ -61,7 +61,7 @@ class TestingHelper
      * @return array<array{
      *     id: string,
      *     title?: string|null,
-     *     created?: \DateTimeImmutable|null,
+     *     created?: \string|null,
      *     commentsCount?: int|null,
      *     rating?: int|null,
      *     comments?: array<array{
@@ -97,7 +97,7 @@ class TestingHelper
                         'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
                     ],
                 ],
-                'created' => new \DateTimeImmutable('2022-12-24 12:00:00'),
+                'created' => '2022-12-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
                 'comments' => [
@@ -117,7 +117,7 @@ class TestingHelper
                 'id' => '2',
                 'title' => 'Other Blog',
                 'article' => '<article><h2>Other title</h2><p>A html field with some content</p></article>',
-                'created' => new \DateTimeImmutable('2022-12-26 12:00:00'),
+                'created' => '2022-12-26T12:00:00+01:00',
                 'commentsCount' => 0,
                 'rating' => null,
                 'comments' => [],
