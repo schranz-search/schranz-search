@@ -61,6 +61,13 @@ class TestingHelper
      * @return array<array{
      *     id: string,
      *     title?: string|null,
+     *     article?: string|null,
+     *     blocks?: array<array{
+     *          type: string,
+     *          title?: string|null,
+     *          description?: string|null
+     *          media?: int[]|string,
+     *     }>,
      *     created?: \string|null,
      *     commentsCount?: int|null,
      *     rating?: int|null,
