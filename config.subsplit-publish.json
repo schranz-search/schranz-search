@@ -3,17 +3,17 @@
         {
             "name": "SEAL",
             "directory": "src/SEAL",
-            "target": "git@github.com:schranz-templating/seal.git"
+            "target": "git@github.com:schranz-search/seal.git"
         },
         {
             "name": "SEALReadWriteAdapter",
             "directory": "src/SEAL/Adapter/ReadWrite",
-            "target": "git@github.com:schranz-templating/seal-read-write-adapter.git"
+            "target": "git@github.com:schranz-search/seal-read-write-adapter.git"
         },
         {
             "name": "SEALMultiAdapter",
             "directory": "src/SEAL/Adapter/Multi",
-            "target": "git@github.com:schranz-templating/seal-multi-adapter.git"
+            "target": "git@github.com:schranz-search/seal-multi-adapter.git"
         }
     ]
 }
