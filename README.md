@@ -9,6 +9,8 @@ It provides a common interface to interact with different search engines.
 
 Read more about it in the [README.md](src/SEAL/README.md) of the package.
 
+![duffy-duck-investigating](https://user-images.githubusercontent.com/1698337/209232131-8b0a3dcf-8500-45ed-bcc2-1b97a25b1e15.gif)
+
 ## Research
 
 At current state collect here different search engines which are around and could be interesting:
