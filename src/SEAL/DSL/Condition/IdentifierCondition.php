@@ -1,6 +1,6 @@
 <?php
 
-namespace Schranz\Search\SEAL\Search\Condition;
+namespace Schranz\Search\SEAL\DSL\Condition;
 
 class IdentifierCondition
 {

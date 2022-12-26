@@ -3,8 +3,8 @@
 namespace Schranz\Search\SEAL\Adapter;
 
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Result;
-use Schranz\Search\SEAL\Search\Search;
+use Schranz\Search\SEAL\DSL\Result;
+use Schranz\Search\SEAL\DSL\Search;
 
 interface ConnectionInterface
 {

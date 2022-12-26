@@ -172,7 +172,7 @@ $engine->deleteDocument('news', '1');
 #### Search documents
 
 ```php
-use Schranz\Search\SEAL\Search\Condition;
+use Schranz\Search\SEAL\DSL\Condition;
 
 $documents = $engine->createSearchBuilder()
     ->addIndex('news')

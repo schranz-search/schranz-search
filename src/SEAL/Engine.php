@@ -5,8 +5,8 @@ namespace Schranz\Search\SEAL;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Schema\Schema;
-use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
-use Schranz\Search\SEAL\Search\SearchBuilder;
+use Schranz\Search\SEAL\DSL\Condition\IdentifierCondition;
+use Schranz\Search\SEAL\DSL\SearchBuilder;
 
 final class Engine
 {

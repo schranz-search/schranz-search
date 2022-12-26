@@ -6,6 +6,16 @@
             "target": "git@github.com:schranz-search/seal.git"
         },
         {
+            "name": "DSL",
+            "directory": "src/SEAL/DSL",
+            "target": "git@github.com:schranz-search/dsl.git"
+        },
+        {
+            "name": "Schema",
+            "directory": "src/SEAL/Schema",
+            "target": "git@github.com:schranz-search/schema.git"
+        },
+        {
             "name": "SEALReadWriteAdapter",
             "directory": "src/SEAL/Adapter/ReadWrite",
             "target": "git@github.com:schranz-search/seal-read-write-adapter.git"

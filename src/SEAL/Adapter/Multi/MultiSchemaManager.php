@@ -2,11 +2,8 @@
 
 namespace Schranz\Search\SEAL\Adapter\ReadWrite;
 
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Result;
-use Schranz\Search\SEAL\Search\Search;
 
 /**
  * @internal This class should never be needed to be instanced manually.
