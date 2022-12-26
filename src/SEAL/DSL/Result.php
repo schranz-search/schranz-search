@@ -1,6 +1,6 @@
 <?php
 
-namespace Schranz\Search\SEAL\Search;
+namespace Schranz\Search\SEAL\DSL;
 
 class Result extends \IteratorIterator
 {

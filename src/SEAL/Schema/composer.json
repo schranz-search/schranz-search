@@ -1,0 +1,20 @@
+{
+    "name": "schranz-search/schema",
+    "description": "Schema component for schranz-search/seal package.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Schema\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    }
+}

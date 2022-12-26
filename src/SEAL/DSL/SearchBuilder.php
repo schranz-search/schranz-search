@@ -1,6 +1,6 @@
 <?php
 
-namespace Schranz\Search\SEAL\Search;
+namespace Schranz\Search\SEAL\DSL;
 
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Schema\Index;
