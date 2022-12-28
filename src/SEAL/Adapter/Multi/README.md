@@ -1,6 +1,6 @@
 # Schranz Search SEAL Multi Adapter
 
-The `MultiAdater` allows to write into multiple adapters.
+The `MultiAdapter` allows to write into multiple adapters.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
@@ -33,4 +33,4 @@ $engine = new Engine(
 ```
 
 > **Note**
-> Currently the `MultiAdapter` does not support the `search` method and so the `ReadWriteAdapter` is required.
+> The `MultiAdapter` does not support the `search` method and so the `ReadWriteAdapter` is required.

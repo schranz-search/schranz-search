@@ -1,11 +1,11 @@
 {
-    "name": "schranz-search/seal-multi-adapter",
-    "description": "An adapter to support to write into multiple other adapters schranz-search/seal package.",
+    "name": "schranz-search/seal-memory-adapter",
+    "description": "An adapter to support to write into memory for schranz-search/seal package.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Multi\\": ""
+            "Schranz\\Search\\SEAL\\Adapter\\Memory\\": ""
         }
     },
     "authors": [
@@ -18,10 +18,16 @@
         "php": "^8.1",
         "schranz-search/seal": "^0.1"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
     "repositories": [
         {
             "type": "path",
-            "url": "./../..",
+            "url": "./../../../SEAL",
             "options": {
                 "symlink": true
             }

@@ -33,17 +33,17 @@ abstract class AbstractAdapterTestCase extends TestCase
     public function testIndex(): void
     {
         $engine = self::getEngine();
-        $index = self::$schema->indexes[TestingHelper::INDEX_SIMPLE];
+        $indexName = TestingHelper::INDEX_SIMPLE;
 
-        $this->assertFalse($engine->existIndex($index));
+        $this->assertFalse($engine->existIndex($indexName));
 
-        $engine->createIndex($index);
+        $engine->createIndex($indexName);
 
-        $this->assertTrue($engine->existIndex($index));
+        $this->assertTrue($engine->existIndex($indexName));
 
-        $engine->dropIndex($index);
+        $engine->dropIndex($indexName);
 
-        $this->assertTrue($engine->existIndex($index));
+        $this->assertFalse($engine->existIndex($indexName));
     }
 
     public function testSchema(): void
@@ -70,7 +70,7 @@ abstract class AbstractAdapterTestCase extends TestCase
         $documents = TestingHelper::createComplexFixtures();
 
         foreach ($documents as $document) {
-            $engine->indexDocument(TestingHelper::INDEX_COMPLEX, $document);
+            $engine->saveDocument(TestingHelper::INDEX_COMPLEX, $document);
         }
 
         $loadedDocuments = [];
@@ -85,14 +85,6 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         foreach ($loadedDocuments as $key => $loadedDocument) {
             $expectedDocument = $documents[$key];
-
-            $this->assertSame(
-                $expectedDocument['created']?->format('c') ?? null,
-                $loadedDocument['created']?->format('c') ?? null,
-            );
-
-            unset($loadedDocument['created']);
-            unset($expectedDocument['created']);
 
             $this->assertSame($expectedDocument, $loadedDocument);
         }

@@ -1,0 +1,6 @@
+.gitattributes export-ignore
+.gitignore export-ignore
+composer.lock export-ignore
+Adapter/Memory export-ignore
+Adapter/Multi export-ignore
+Adapter/ReadWrite export-ignore
