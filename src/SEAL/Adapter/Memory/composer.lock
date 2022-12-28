@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9277da252aa00e4ad34f2a15d9d32b9e",
+    "content-hash": "210555416e33d2e3a941b8a5e407ee45",
     "packages": [
         {
             "name": "schranz-search/seal",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../../SEAL",
-                "reference": "55b0beaf1b142e3ea4cc41f5f99db35622ffab04"
+                "reference": "9518356430ef4e49c7bda11f9d3053d36ed61f75"
             },
             "require": {
                 "php": "^8.1"
@@ -26,6 +26,7 @@
                     "Schranz\\Search\\SEAL\\": ""
                 },
                 "exclude-from-classmap": [
+                    "/Adapter/Memory/",
                     "/Adapter/Multi/",
                     "/Adapter/ReadWrite/"
                 ]
@@ -1790,7 +1791,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "schranz-search/seal": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

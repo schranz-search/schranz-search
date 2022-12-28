@@ -8,6 +8,7 @@
             "Schranz\\Search\\SEAL\\": ""
         },
         "exclude-from-classmap": [
+            "/Adapter/Memory/",
             "/Adapter/Multi/",
             "/Adapter/ReadWrite/"
         ]
