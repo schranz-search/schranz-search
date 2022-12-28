@@ -2,22 +2,22 @@
     "sub-splits": [
         {
             "name": "SEAL",
-            "directory": "src/SEAL",
+            "directory": "packages/seal",
             "target": "git@github.com:schranz-search/seal.git"
         },
         {
             "name": "SEALMemoryAdapter",
-            "directory": "src/SEAL/Adapter/Memory",
+            "directory": "packages/seal-memory-adapter",
             "target": "git@github.com:schranz-search/seal-memory-adapter.git"
         },
         {
             "name": "SEALReadWriteAdapter",
-            "directory": "src/SEAL/Adapter/ReadWrite",
+            "directory": "packages/seal-read-write-adapter",
             "target": "git@github.com:schranz-search/seal-read-write-adapter.git"
         },
         {
             "name": "SEALMultiAdapter",
-            "directory": "src/SEAL/Adapter/Multi",
+            "directory": "packages/seal-multi-adapter",
             "target": "git@github.com:schranz-search/seal-multi-adapter.git"
         }
     ]

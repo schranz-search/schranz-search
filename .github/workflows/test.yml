@@ -35,16 +35,16 @@ jobs:
                   coverage: none
 
             - name: Require @dev packages
-              working-directory: "src/SEAL/Adapter/Memory"
+              working-directory: "packages/seal-memory-adapter"
               run: |
                   composer require schranz-search/seal:"@dev"
 
             - name: Install composer dependencies
               uses: ramsey/composer-install@v2
               with:
-                  working-directory: "src/SEAL/Adapter/Memory"
+                  working-directory: "packages/seal-memory-adapter"
                   dependency-versions: ${{matrix.dependency-versions}}
 
             - name: Run tests
               run: vendor/bin/phpunit
-              working-directory: "src/SEAL/Adapter/Memory"
+              working-directory: "packages/seal-memory-adapter"
