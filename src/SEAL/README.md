@@ -146,7 +146,9 @@ The engine is the main entry point to interact with the search engine:
 
 #### List of adapters
 
+ - [Memory](Adapter/Memory)
  - [ReadWrite](Adapter/ReadWrite)
+ - [Multi](Adapter/Multi)
  - ... more coming soon
 
 #### Save a document

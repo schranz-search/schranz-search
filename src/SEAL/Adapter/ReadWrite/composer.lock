@@ -1,0 +1,69 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "43b6896516794e324f8824509b6ffce5",
+    "packages": [
+        {
+            "name": "schranz-search/seal",
+            "version": "0.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schranz-search/seal.git",
+                "reference": "e2482ff7be86996be099fdc419d2b9d89caef9cf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schranz-search/seal/zipball/e2482ff7be86996be099fdc419d2b9d89caef9cf",
+                "reference": "e2482ff7be86996be099fdc419d2b9d89caef9cf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Schranz\\Search\\SEAL\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Adapter/Multi/",
+                    "/Adapter/ReadWrite/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Schranz",
+                    "email": "alexander@sulu.io"
+                }
+            ],
+            "description": "Search Engine Abstraction Layer",
+            "support": {
+                "issues": "https://github.com/schranz-search/seal/issues",
+                "source": "https://github.com/schranz-search/seal/tree/0.1"
+            },
+            "time": "2022-12-20T21:03:20+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.1"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

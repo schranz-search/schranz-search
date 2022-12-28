@@ -53,7 +53,7 @@ final class Engine
 
         if ($document === null) {
             throw new DocumentNotFoundException(\sprintf(
-                'Document with the identifier "%s" not found in index "%s.',
+                'Document with the identifier "%s" not found in index "%s".',
                 $identifier,
                 $index
             ));

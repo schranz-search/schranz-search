@@ -5,7 +5,7 @@ namespace Schranz\Search\SEAL\Testing;
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 
-abstract class AbstractSchemaManagerTest extends TestCase
+abstract class AbstractSchemaManagerTestCase extends TestCase
 {
     protected static SchemaManagerInterface $schemaManager;
 
@@ -22,6 +22,6 @@ abstract class AbstractSchemaManagerTest extends TestCase
 
         static::$schemaManager->dropIndex($index);
 
-        $this->assertTrue(static::$schemaManager->existIndex($index));
+        $this->assertFalse(static::$schemaManager->existIndex($index));
     }
 }

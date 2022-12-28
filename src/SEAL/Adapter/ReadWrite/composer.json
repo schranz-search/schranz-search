@@ -16,6 +16,16 @@
     ],
     "require": {
         "php": "^8.1",
-        "schranz-search/seal": "^1.0"
-    }
+        "schranz-search/seal": "^0.1"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../..",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev"
 }
