@@ -4,14 +4,14 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "823631d62ec545d1d3848f84dfcdc281",
+    "content-hash": "9277da252aa00e4ad34f2a15d9d32b9e",
     "packages": [
         {
             "name": "schranz-search/seal",
             "version": "0.1.x-dev",
             "dist": {
                 "type": "path",
-                "url": "./../..",
+                "url": "./../../../SEAL",
                 "reference": "55b0beaf1b142e3ea4cc41f5f99db35622ffab04"
             },
             "require": {
