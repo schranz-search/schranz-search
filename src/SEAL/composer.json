@@ -6,12 +6,7 @@
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Adapter/Memory/",
-            "/Adapter/Multi/",
-            "/Adapter/ReadWrite/"
-        ]
+        }
     },
     "authors": [
         {

@@ -34,6 +34,11 @@ jobs:
                   ini-values: memory_limit=-1
                   coverage: none
 
+            - name: Require @dev packages
+              working-directory: "src/SEAL/Adapter/Memory"
+              run: |
+                  composer require schranz-search/seal:"@dev"
+
             - name: Install composer dependencies
               uses: ramsey/composer-install@v2
               with:
