@@ -21,7 +21,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./../..",
+            "url": "./../seal",
             "options": {
                 "symlink": true
             }

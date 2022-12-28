@@ -7,7 +7,7 @@ Monorepository for the search abstraction over different search engine.
 What `doctrine/dbal` is for `doctrine`, the `schranz-search/SEAL` is for `schranz-search` package.
 It provides a common interface to interact with different search engines.
 
-Read more about it in the [README.md](src/SEAL/README.md) of the package.
+Read more about it in the [README.md](packages/seal/README.md) of the package.
 
 ![duffy-duck-investigating](https://user-images.githubusercontent.com/1698337/209232131-8b0a3dcf-8500-45ed-bcc2-1b97a25b1e15.gif)
 
