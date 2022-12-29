@@ -67,6 +67,8 @@ abstract class AbstractAdapterTestCase extends TestCase
     public function testDocument(): void
     {
         $engine = self::getEngine();
+        $engine->createSchema();
+
         $documents = TestingHelper::createComplexFixtures();
 
         foreach ($documents as $document) {
@@ -110,6 +112,11 @@ abstract class AbstractAdapterTestCase extends TestCase
     }
 
     public static function setUpBeforeClass(): void
+    {
+        self::getEngine()->dropSchema();
+    }
+
+    public static function tearDownAfterClass(): void
     {
         self::getEngine()->dropSchema();
     }

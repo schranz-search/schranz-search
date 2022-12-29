@@ -10,23 +10,14 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class MemoryConnection implements ConnectionInterface
 {
-    private array $indexes = [];
-
     public function save(Index $index, array $document): array
     {
-        $identifierField = $index->getIdentifierField();
-
-        $document[$identifierField->name] = (string) $document[$identifierField->name]
-            ?? uniqid('id-', true);
-
-        $this->indexes[$index->name][$document[$identifierField->name]] = $document;
-
-        return $document;
+        return MemoryStorage::save($index, $document);
     }
 
     public function delete(Index $index, string $identifier): void
     {
-        unset($this->indexes[$index->name][$identifier]);
+        MemoryStorage::delete($index, $identifier);
     }
 
     public function search(Search $search): Result
@@ -34,7 +25,7 @@ final class MemoryConnection implements ConnectionInterface
         $documents = [];
 
         foreach ($search->indexes as $index) {
-            foreach ($this->indexes[$index->name] as $identifier => $document) {
+            foreach (MemoryStorage::getDocuments($index) as $identifier => $document) {
                 $identifier = (string) $identifier;
 
                 if (count($search->filters) === 0) {
