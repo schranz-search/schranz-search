@@ -146,6 +146,7 @@ The engine is the main entry point to interact with the search engine:
 
 #### List of adapters
 
+ - [Elasticsearch](../seal-elasticsearch-adapter)
  - [Memory](../seal-memory-adapter)
  - [ReadWrite](../seal-read-write-adapter)
  - [Multi](../seal-multi-adapter)
