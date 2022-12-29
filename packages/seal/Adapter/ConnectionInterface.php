@@ -9,6 +9,8 @@ use Schranz\Search\SEAL\Search\Search;
 interface ConnectionInterface
 {
     /**
+     * @param array<string, mixed> $document
+     *
      * @return array<string, mixed>
      */
     public function save(Index $index, array $document): array;

@@ -7,20 +7,19 @@ use Schranz\Search\SEAL\Schema\Index;
 
 final class MemorySchemaManager implements SchemaManagerInterface
 {
-    private array $indexes = [];
 
     public function existIndex(Index $index): bool
     {
-        return array_key_exists($index->name, $this->indexes);
+        return MemoryStorage::existIndex($index);
     }
 
     public function dropIndex(Index $index): void
     {
-        unset($this->indexes[$index->name]);
+        MemoryStorage::dropIndex($index);
     }
 
     public function createIndex(Index $index): void
     {
-        $this->indexes[$index->name] = $index;
+        MemoryStorage::createIndex($index);
     }
 }
