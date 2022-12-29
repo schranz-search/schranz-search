@@ -6,6 +6,14 @@
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\Adapter\\Multi\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\Multi\\Tests\\": "Tests"
         }
     },
     "authors": [

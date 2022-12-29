@@ -13,26 +13,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "10dcfce151b967d20fde1b34ae6640712c3891bc"
+                "reference": "6f1e0c4fe793e48a58efb931510239f53a15be10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/10dcfce151b967d20fde1b34ae6640712c3891bc",
-                "reference": "10dcfce151b967d20fde1b34ae6640712c3891bc",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/6f1e0c4fe793e48a58efb931510239f53a15be10",
+                "reference": "6f1e0c4fe793e48a58efb931510239f53a15be10",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9",
+                "doctrine/coding-standard": "^9 || ^11",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^0.16 || ^1",
                 "phpstan/phpstan": "^1.4",
                 "phpstan/phpstan-phpunit": "^1",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "vimeo/psalm": "^4.22"
+                "vimeo/psalm": "^4.30 || ^5.4"
             },
             "type": "library",
             "autoload": {
@@ -75,7 +75,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-03T08:28:38+00:00"
+            "time": "2022-12-29T10:47:47+00:00"
         },
         {
             "name": "myclabs/deep-copy",

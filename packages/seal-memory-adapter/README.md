@@ -1,6 +1,6 @@
 # Schranz Search SEAL Memory Adapter
 
-The `MemoryAdapter` write the documents into a in memory array.
+The `MemoryAdapter` write the documents into an in-memory array.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
