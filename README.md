@@ -31,6 +31,10 @@ At current state collect here different search engines which are around and coul
  - [Quickwit](#quickwit)
  - [nrtSearch](#nrtsearch)
  - [MongoDB Atlas](#mongodb-atlas)
+ - [Sphinx Search](#sphinx-search)
+ - [Azure Cognitive Search](#azure-cognitive-search)
+ - [Google Cloud Search](#google-cloud-search)
+ - [Amazon CloudSearch](#amazon-cloudsearch)
 
 ### Elasticsearch
  
@@ -142,6 +146,34 @@ None open source search engine from MongoDB. It is a cloud based search engine.
 
  - Server: [MongoDB Atlas](https://www.mongodb.com/atlas/search)
  - PHP Client: [MongoDB Atlas PHP Client](https://www.mongodb.com/docs/drivers/php/#connect-to-mongodb-atlas)
+
+### Sphinx Search
+
+An older search engine written in Python.
+
+ - Server: [Sphinx Search](http://sphinxsearch.com/downloads/current/)
+ - PHP Client: No official client available
+
+### Azure Cognitive Search
+
+A cloud based search from Microsoft Azure:
+
+ - Server: No server only SaaS [Azure Cognitive Search](https://learn.microsoft.com/en-us/azure/search/)
+ - PHP Client: No client available only [REST API](https://learn.microsoft.com/en-us/azure/search/search-get-started-rest)
+
+### Google Cloud Search
+
+A cloud based search from Google:
+
+ - Server: No server only SaaS [Google Cloud Search](https://workspace.google.com/products/cloud-search/)
+ - PHP Client: No client available only [REST API](https://developers.google.com/cloud-search/docs/reference/rest)
+
+### Amazon CloudSearch
+
+A cloud based search from Amazon:
+
+ - Server: No server only SaaS [Amazon CloudSearch](https://aws.amazon.com/de/cloudsearch/)
+ - PHP Client: No client available only [REST API](https://docs.aws.amazon.com/aws-sdk-php/v2/guide/service-cloudsearch.html)
 
 ## Similar Projects
 
