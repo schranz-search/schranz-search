@@ -1,11 +1,19 @@
 {
     "name": "schranz-search/seal-memory-adapter",
-    "description": "An adapter to support to write into memory for schranz-search/seal package.",
+    "description": "An adapter to support to write into memory for schranz-search/seal search abstraction.",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\Adapter\\Memory\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\Memory\\Tests\\": "Tests"
         }
     },
     "authors": [
