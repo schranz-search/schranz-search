@@ -13,9 +13,11 @@ jobs:
         uses: ./.github/workflows/callable-test.yml
         with:
             directory: 'packages/seal-memory-adapter'
+            docker: false
 
     elasticsearch-adapter:
         name: Elasticsearch Adapter
         uses: ./.github/workflows/callable-test.yml
         with:
             directory: 'packages/seal-elasticsearch-adapter'
+            docker: true

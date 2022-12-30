@@ -6,6 +6,9 @@ on:
             directory:
                 required: true
                 type: string
+            docker:
+                required: true
+                type: boolean
 
 jobs:
     test:
@@ -25,6 +28,12 @@ jobs:
         steps:
             - name: Checkout project
               uses: actions/checkout@v2
+
+            - name: Start Docker services
+              if: ${{ inputs.docker }}
+              uses: isbang/compose-action@v1.4.1
+              with:
+                  compose-file: "${{ inputs.directory }}/docker-compose.yml"
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2

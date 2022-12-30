@@ -4,6 +4,7 @@ services:
     environment:
       discovery.type: single-node
       xpack.security.enabled: 'false'
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
     ports:
       - "9200:9200"
     volumes:
