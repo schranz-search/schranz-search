@@ -28,7 +28,10 @@
         "elasticsearch/elasticsearch": "^8.5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "php-http/curl-client": "^2.0",
+        "guzzlehttp/psr7": "^2.0",
+        "php-http/message": "^1.0"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
