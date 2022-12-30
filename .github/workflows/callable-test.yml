@@ -34,6 +34,7 @@ jobs:
               uses: isbang/compose-action@v1.4.1
               with:
                   compose-file: "${{ inputs.directory }}/docker-compose.yml"
+                  up-flags: "--wait"
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
@@ -53,6 +54,13 @@ jobs:
               with:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: ${{matrix.dependency-versions}}
+
+            - name: Check services healthiness
+              if: ${{ inputs.docker }}
+              uses: thegabriele97/dockercompose-health-action@v1.0
+              with:
+                  timeout: '60'
+                  workdir: ${{ inputs.directory }}
 
             - name: Run tests
               run: vendor/bin/phpunit
