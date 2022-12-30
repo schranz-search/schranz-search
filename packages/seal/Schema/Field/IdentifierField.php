@@ -2,12 +2,13 @@
 
 namespace Schranz\Search\SEAL\Schema\Field;
 
-use Schranz\Search\SEAL\Schema\FieldType;
-
+/**
+ * Type to store the identifier this field type only exist once per index.
+ */
 final class IdentifierField extends AbstractField
 {
     public function __construct(string $name)
     {
-        parent::__construct($name, FieldType::IDENTIFIER, false);
+        parent::__construct($name, false, []);
     }
 }

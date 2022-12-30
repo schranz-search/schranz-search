@@ -7,7 +7,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 
-class ElasticsearchAdapter implements AdapterInterface
+final class ElasticsearchAdapter implements AdapterInterface
 {
     private readonly ConnectionInterface $connection;
 

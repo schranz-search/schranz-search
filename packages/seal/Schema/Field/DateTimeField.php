@@ -2,15 +2,18 @@
 
 namespace Schranz\Search\SEAL\Schema\Field;
 
-use Schranz\Search\SEAL\Schema\FieldType;
-
 /**
  * Type to store date and date times.
  */
 final class DateTimeField extends AbstractField
 {
-    public function __construct(string $name, bool $multiple = false)
+    public const FORMAT = 'YYYY-MM-DD\'T\'HH:mm:ssZ'; // matches ISO 8601 PHP 'c' format
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(string $name, bool $multiple = false, array $options = [])
     {
-        parent::__construct($name, FieldType::DATETIME, $multiple);
+        parent::__construct($name, $multiple, $options);
     }
 }

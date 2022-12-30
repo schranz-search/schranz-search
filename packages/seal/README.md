@@ -91,7 +91,6 @@ use Schranz\Search\SEAL\Schema\Schema;
 $fields = [
     'id' => new Field\IdentifierField('id'),
     'title' => new Field\TextField('title'),
-    'title.raw' => new Field\TextField('title'),
     'article' => new Field\TextField('article'),
     'blocks' => new Field\TypedField('blocks', 'type', [
         'text' => [

@@ -11,13 +11,16 @@ It is mostly used for testing purposes and as a reference implementation.
 ```php
 <?php
 
+use Elastic\Elasticsearch\ClientBuilder;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
 use Schranz\Search\SEAL\Engine;
 
-$client = Elasticsearch\ClientBuilder::create()->build();
+$client = ClientBuilder::create()->setHosts([
+    '127.0.0.1:9200'
+])->build()
 
 $engine = new Engine(
-    new Elasticsearch($client),
+    new ElasticsearchAdapter($client),
     $schema,
 );
 ```

@@ -4,15 +4,37 @@ namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Schema\Schema;
 
 abstract class AbstractSchemaManagerTestCase extends TestCase
 {
     protected static SchemaManagerInterface $schemaManager;
 
-    public function testIndex(): void
+    protected Schema $schema;
+
+    public function setUp(): void
     {
-        $schema = TestingHelper::createSchema();
-        $index = $schema->indexes[TestingHelper::INDEX_SIMPLE];
+        $this->schema = TestingHelper::createSchema();
+    }
+
+    public function testSimpleSchema(): void
+    {
+        $index = $this->schema->indexes[TestingHelper::INDEX_SIMPLE];
+
+        $this->assertFalse(static::$schemaManager->existIndex($index));
+
+        static::$schemaManager->createIndex($index);
+
+        $this->assertTrue(static::$schemaManager->existIndex($index));
+
+        static::$schemaManager->dropIndex($index);
+
+        $this->assertFalse(static::$schemaManager->existIndex($index));
+    }
+
+    public function testComplexSchema(): void
+    {
+        $index = $this->schema->indexes[TestingHelper::INDEX_COMPLEX];
 
         $this->assertFalse(static::$schemaManager->existIndex($index));
 

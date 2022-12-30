@@ -19,7 +19,6 @@ class TestingHelper
         $complexFields = [
             'id' => new Field\IdentifierField('id'),
             'title' => new Field\TextField('title'),
-            'title.raw' => new Field\TextField('title'),
             'article' => new Field\TextField('article'),
             'blocks' => new Field\TypedField('blocks', 'type', [
                 'text' => [
@@ -39,8 +38,8 @@ class TestingHelper
                 'email' => new Field\TextField('email'),
                 'text' => new Field\TextField('title'),
             ], multiple: true),
-            'tags' => new Field\TextField('comments', multiple: true),
-            'categoryIds' => new Field\IntegerField('comments', multiple: true),
+            'tags' => new Field\TextField('tags', multiple: true),
+            'categoryIds' => new Field\IntegerField('categoryIds', multiple: true),
         ];
 
         $simpleFields = [
@@ -48,8 +47,8 @@ class TestingHelper
             'title' => new Field\TextField('title'),
         ];
 
-        $complexIndex = new Index($prefix . 'news', $complexFields);
-        $simpleIndex = new Index($prefix . 'blog', $simpleFields);
+        $complexIndex = new Index($prefix . 'complex', $complexFields);
+        $simpleIndex = new Index($prefix . 'simple', $simpleFields);
 
         return new Schema([
             self::INDEX_COMPLEX => $complexIndex,
