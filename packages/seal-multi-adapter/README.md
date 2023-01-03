@@ -14,8 +14,9 @@ composer require schranz-search/seal schranz-search/seal-multi-adapter
 
 ## Usage
 
-It is mostly used in combination with the `ReadWriteAdapter` to still
-write into both indexes.
+It is mostly used in combination with the `ReadWriteAdapter` to still write into both indexes.
+
+The following code shows how to create an Engine using this Adapter:
 
 ```php
 <?php

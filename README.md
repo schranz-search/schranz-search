@@ -23,7 +23,7 @@ At current state collect here different search engines which are around and coul
  - [Algolia](#algolia)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
- - [MeiliSearch](#meilisearch)
+ - [Meilisearch](#meilisearch)
  - [Solr](#solr)
  - [Sonic](#sonic)
  - [Vespa](#vespa)
@@ -90,7 +90,7 @@ Another implementation of a Search index written in PHP. Not based on Lucene.
 
  - Implementation: [TntSearch Implementation](https://github.com/teamtnt/tntsearch)
 
-### MeiliSearch
+### Meilisearch
 
 A search engine written in Rust:
 
