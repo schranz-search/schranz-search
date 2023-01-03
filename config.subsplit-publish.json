@@ -11,6 +11,11 @@
             "target": "git@github.com:schranz-search/seal-elasticsearch-adapter.git"
         },
         {
+            "name": "SEALOpensearchAdapter",
+            "directory": "packages/seal-opensearch-adapter",
+            "target": "git@github.com:schranz-search/seal-opensearch-adapter.git"
+        },
+        {
             "name": "SEALMemoryAdapter",
             "directory": "packages/seal-memory-adapter",
             "target": "git@github.com:schranz-search/seal-memory-adapter.git"

@@ -9,6 +9,16 @@ and [Flysystem](https://github.com/thephpleague/flysystem).
 
 > This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
+## Installation
+
+Use [composer](https://getcomposer.org/) for install the package:
+
+```bash
+composer require schranz-search/seal
+```
+
+Also install atleast one of the [listed adapters](#list-of-adapters).
+
 ## Usage
 
 ### Example Document
@@ -21,6 +31,10 @@ This should show the example document we want to create an index for:
 $document = [
     'id' => '1',
     'title' => 'New Blog',
+    'header' => [
+        'type' => 'image',
+        'media' => 1,
+    ],
     'article' => '<article><h2>Some Subtitle</h2><p>A html field with some content</p></article>',
     'blocks' => [
         [
@@ -39,6 +53,9 @@ $document = [
             'title' => 'Video',
             'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
         ],
+    ],
+    'footer' => [
+        'title' => 'New Footer',
     ],
     'created' => '2022-12-24T12:00:00+01:00',
     'commentsCount' => 2,
@@ -91,6 +108,14 @@ use Schranz\Search\SEAL\Schema\Schema;
 $fields = [
     'id' => new Field\IdentifierField('id'),
     'title' => new Field\TextField('title'),
+    'header' => new Field\TypedField('header', 'type', [
+        'image' => [
+            'media' => new Field\IntegerField('media'),
+        ],
+        'video' => [
+            'media' => new Field\TextField('media'),
+        ],
+    ]),
     'article' => new Field\TextField('article'),
     'blocks' => new Field\TypedField('blocks', 'type', [
         'text' => [
@@ -103,6 +128,9 @@ $fields = [
             'media' => new Field\TextField('media'),
         ],
     ], multiple: true),
+    'footer' => new Field\ObjectField('footer', [
+        'title' => new Field\TextField('title'),
+    ]),
     'created' => new Field\DateTimeField('created'),
     'commentsCount' => new Field\IntegerField('commentsCount'),
     'rating' => new Field\FloatField('rating'),
@@ -132,7 +160,7 @@ The engine requires an adapter and a previously created schema.
 ```php
 <?php
 
-use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter; // does not yet exist
+use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
 use Schranz\Search\SEAL\Engine;
 
 $engine = new Engine(
@@ -146,6 +174,7 @@ The engine is the main entry point to interact with the search engine:
 #### List of adapters
 
  - [Elasticsearch](../seal-elasticsearch-adapter)
+ - [Opensearch](../seal-opensearch-adapter)
  - [Memory](../seal-memory-adapter)
  - [ReadWrite](../seal-read-write-adapter)
  - [Multi](../seal-multi-adapter)

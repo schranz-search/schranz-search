@@ -27,7 +27,7 @@
         "schranz-search/seal": "^0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5.27"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
