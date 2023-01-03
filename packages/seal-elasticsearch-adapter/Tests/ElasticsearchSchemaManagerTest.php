@@ -102,7 +102,33 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'created' => [
                 'type' => 'date',
-                'format' => 'YYYY-MM-DD\'T\'HH:mm:ssZ',
+            ],
+            'footer' => [
+                'properties' => [
+                    'title' => [
+                        'type' => 'text',
+                    ],
+                ],
+            ],
+            'header' => [
+                'properties' => [
+                    'image' => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'media' => [
+                                'type' => 'integer',
+                            ],
+                        ],
+                    ],
+                    'video' => [
+                        'type' => 'nested',
+                        'properties' => [
+                            'media' => [
+                                'type' => 'text',
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'id' => [
                 'type' => 'keyword',

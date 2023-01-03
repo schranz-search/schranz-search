@@ -66,7 +66,6 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                 ],
                 $field instanceof Field\DateTimeField => $properties[$name] = [
                     'type' => 'date',
-                    'format' => Field\DateTimeField::FORMAT,
                 ],
                 $field instanceof Field\IntegerField => $properties[$name] = [
                     'type' => 'integer',

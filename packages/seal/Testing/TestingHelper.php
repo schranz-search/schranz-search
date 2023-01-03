@@ -19,6 +19,14 @@ class TestingHelper
         $complexFields = [
             'id' => new Field\IdentifierField('id'),
             'title' => new Field\TextField('title'),
+            'header' => new Field\TypedField('header', 'type', [
+                'image' => [
+                    'media' => new Field\IntegerField('media'),
+                ],
+                'video' => [
+                    'media' => new Field\TextField('media'),
+                ],
+            ]),
             'article' => new Field\TextField('article'),
             'blocks' => new Field\TypedField('blocks', 'type', [
                 'text' => [
@@ -31,12 +39,15 @@ class TestingHelper
                     'media' => new Field\TextField('media'),
                 ],
             ], multiple: true),
+            'footer' => new Field\ObjectField('footer', [
+                'title' => new Field\TextField('title'),
+            ]),
             'created' => new Field\DateTimeField('created'),
             'commentsCount' => new Field\IntegerField('commentsCount'),
             'rating' => new Field\FloatField('rating'),
             'comments' => new Field\ObjectField('comments', [
                 'email' => new Field\TextField('email'),
-                'text' => new Field\TextField('title'),
+                'text' => new Field\TextField('text'),
             ], multiple: true),
             'tags' => new Field\TextField('tags', multiple: true),
             'categoryIds' => new Field\IntegerField('categoryIds', multiple: true),
@@ -84,7 +95,11 @@ class TestingHelper
             [
                 'id' => '1',
                 'title' => 'New Blog',
-                'article' => '<article><h2>Some Subtitle</h2><p>A html field with some content</p></article>',
+                'header' => [
+                    'type' => 'image',
+                    'media' => 1,
+                ],
+                'article' => '<article><h2>New Subtitle</h2><p>A html field with some content</p></article>',
                 'blocks' => [
                     [
                         'type' => 'text',
@@ -102,6 +117,9 @@ class TestingHelper
                         'title' => 'Video',
                         'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
                     ],
+                ],
+                'footer' => [
+                    'title' => 'New Footer',
                 ],
                 'created' => '2022-12-24T12:00:00+01:00',
                 'commentsCount' => 2,
@@ -122,7 +140,14 @@ class TestingHelper
             [
                 'id' => '2',
                 'title' => 'Other Blog',
-                'article' => '<article><h2>Other title</h2><p>A html field with some content</p></article>',
+                'header' => [
+                    'type' => 'video',
+                    'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                ],
+                'article' => '<article><h2>Other Subtitle</h2><p>A html field with some content</p></article>',
+                'footer' => [
+                    'title' => 'Other Footer',
+                ],
                 'created' => '2022-12-26T12:00:00+01:00',
                 'commentsCount' => 0,
                 'rating' => null,
