@@ -91,7 +91,6 @@ use Schranz\Search\SEAL\Schema\Schema;
 $fields = [
     'id' => new Field\IdentifierField('id'),
     'title' => new Field\TextField('title'),
-    'title.raw' => new Field\TextField('title'),
     'article' => new Field\TextField('article'),
     'blocks' => new Field\TypedField('blocks', 'type', [
         'text' => [
@@ -146,6 +145,7 @@ The engine is the main entry point to interact with the search engine:
 
 #### List of adapters
 
+ - [Elasticsearch](../seal-elasticsearch-adapter)
  - [Memory](../seal-memory-adapter)
  - [ReadWrite](../seal-read-write-adapter)
  - [Multi](../seal-multi-adapter)
