@@ -1,6 +1,6 @@
 # Schranz Search SEAL Opensearch Adapter
 
-The `OpensearchAdapter` write the documents into an Elasticsearch server instance.
+The `OpensearchAdapter` write the documents into an Opensearch server instance.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
@@ -19,7 +19,7 @@ It is mostly used for testing purposes and as a reference implementation.
 ```php
 <?php
 
-use Elastic\Elasticsearch\ClientBuilder;
+use OpenSearch\ClientBuilder;
 use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchAdapter;
 use Schranz\Search\SEAL\Engine;
 
@@ -28,7 +28,7 @@ $client = ClientBuilder::create()->setHosts([
 ])->build()
 
 $engine = new Engine(
-    new ElasticsearchAdapter($client),
+    new OpensearchAdapter($client),
     $schema,
 );
 ```
