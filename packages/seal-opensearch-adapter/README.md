@@ -1,6 +1,6 @@
-# Schranz Search SEAL Elasticsearch Adapter
+# Schranz Search SEAL Opensearch Adapter
 
-The `ElasticsearchAdapter` write the documents into an Elasticsearch server instance.
+The `OpensearchAdapter` write the documents into an Elasticsearch server instance.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
@@ -9,7 +9,7 @@ The `ElasticsearchAdapter` write the documents into an Elasticsearch server inst
 Use [composer](https://getcomposer.org/) for install the package:
 
 ```bash
-composer require schranz-search/seal schranz-search/seal-elasticsearch-adapter
+composer require schranz-search/seal schranz-search/seal-opensearch-adapter
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ It is mostly used for testing purposes and as a reference implementation.
 <?php
 
 use Elastic\Elasticsearch\ClientBuilder;
-use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
+use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchAdapter;
 use Schranz\Search\SEAL\Engine;
 
 $client = ClientBuilder::create()->setHosts([

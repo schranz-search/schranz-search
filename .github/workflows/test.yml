@@ -21,3 +21,10 @@ jobs:
         with:
             directory: 'packages/seal-elasticsearch-adapter'
             docker: true
+
+    opensearch-adapter:
+        name: Opensearch Adapter
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal-opensearch-adapter'
+            docker: true

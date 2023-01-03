@@ -1,8 +1,7 @@
 <?php
 
-namespace Schranz\Search\SEAL\Adapter\Memory\Tests;
+namespace Schranz\Search\SEAL\Adapter\Elasticsearch\Tests;
 
-use Schranz\Search\SEAL\Adapter\Elasticsearch\Tests\ClientHelper;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
 use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
 
