@@ -20,6 +20,8 @@ To use the adapter an instance of `ReadWriteAdapter` need to be created
 which get a `$readAdapter` and `$writeAdapter` which are instances of the
 `AdapterInterface`.
 
+The following code shows how to create an Engine using this Adapter:
+
 ```php
 <?php
 

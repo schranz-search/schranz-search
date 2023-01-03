@@ -16,6 +16,8 @@ composer require schranz-search/seal schranz-search/seal-memory-adapter
 
 It is mostly used for testing purposes and as a reference implementation.
 
+The following code shows how to create an Engine using this Adapter:
+
 ```php
 <?php
 
