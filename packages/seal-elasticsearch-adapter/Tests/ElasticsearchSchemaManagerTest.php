@@ -28,7 +28,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'index' => $index->name,
         ])->asArray();
 
-        $this->assertTrue(isset($mapping['test_simple']['mappings']['properties']));
+        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
         $this->assertSame([
             'id' => [
@@ -37,9 +37,10 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping['test_simple']['mappings']['properties']);
+        ], $mapping[$index->name]['mappings']['properties']);
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
     }
 
     public function testComplexElasticsearchMapping(): void
@@ -53,7 +54,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'index' => $index->name,
         ])->asArray();
 
-        $this->assertTrue(isset($mapping['test_complex']['mappings']['properties']));
+        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
         $this->assertSame([
             'article' => [
@@ -146,8 +147,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping['test_complex']['mappings']['properties']);
+        ], $mapping[$index->name]['mappings']['properties']);
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
     }
 }
