@@ -207,7 +207,7 @@ final class OpensearchConnection implements ConnectionInterface
      * @param Index[] $indexes
      * @param array<string, mixed> $searchResult
      *
-     * @return array<string, mixed>
+     * @return \Generator<array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, array $hits): \Generator
     {

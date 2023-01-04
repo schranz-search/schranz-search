@@ -1,19 +1,19 @@
 <?php
 
-namespace Schranz\Search\SEAL\Adapter\Meilisearch;
+namespace Schranz\Search\SEAL\Adapter\Algolia;
 
-use Meilisearch\Client;
-use Meilisearch\Exceptions\ApiException;
+use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
+use Algolia\AlgoliaSearch\SearchClient;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 
-final class MeilisearchConnection implements ConnectionInterface
+final class AlgoliaConnection implements ConnectionInterface
 {
     public function __construct(
-        private readonly Client $client,
+        private readonly SearchClient $client,
     ) {
     }
 
@@ -21,25 +21,18 @@ final class MeilisearchConnection implements ConnectionInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        $searchIndex = $this->client->initIndex($index->name);
 
-        $data = $this->client->index($index->name)->addDocuments([$document], $identifierField->name);
-
-        if ($data['status'] !== 'enqueued') {
-            throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
-        }
+        $searchIndex->saveObject($document, ['objectIDKey' => $identifierField->name]);
 
         return $document;
     }
 
     public function delete(Index $index, string $identifier): void
     {
-        $data = $this->client->index($index->name)->deleteDocument($identifier);
+        $searchIndex = $this->client->initIndex($index->name);
 
-        if ($data['status'] !== 'enqueued') {
-            throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
-        }
+        $searchIndex->deleteObject($identifier);
     }
 
     public function search(Search $search): Result
@@ -52,13 +45,14 @@ final class MeilisearchConnection implements ConnectionInterface
             && ($search->offset === null || $search->offset === 0)
             && ($search->limit === null || $search->limit > 0)
         ) {
-            try {
-                $data = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name)->getDocument($search->filters[0]->identifier);
-            } catch (ApiException $e) {
-                if ($e->httpStatus !== 404) {
-                    throw $e;
-                }
+            $index = $search->indexes[\array_key_first($search->indexes)];
+            $identifierField = $index->getIdentifierField();
 
+            $searchIndex = $this->client->initIndex($index->name);
+
+            try {
+                $data = $searchIndex->getObject($search->filters[0]->identifier, ['objectIDKey' => $identifierField->name]);
+            } catch (NotFoundException $e) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
                     0
@@ -72,16 +66,16 @@ final class MeilisearchConnection implements ConnectionInterface
         }
 
         if (count($search->indexes) !== 1) {
-            throw new \RuntimeException('Meilisearch does not support multiple indexes in one query.');
+            throw new \RuntimeException('Algolia does not support multiple indexes in one query.');
         }
 
-        $index = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name);
+        $index = $this->client->initIndex($search->indexes[\array_key_first($search->indexes)]->name);
 
-        $query = null;
+        $query = '';
         $filters = [];
         foreach ($search->filters as $filter) {
             if ($filter instanceof IdentifierCondition) {
-                $filters[] = 'id = "' . $filter->identifier . '"'; // TODO escape?
+                $filters[] = 'id:' . $filter->identifier; // TODO escape?
             } else {
                 throw new \LogicException($filter::class . ' filter not implemented.');
             }
@@ -89,14 +83,14 @@ final class MeilisearchConnection implements ConnectionInterface
 
         $searchParams = [];
         if (\count($filters) !== 0) {
-            $searchParams = ['filter' => \implode(' AND ', $filters)];
+            $searchParams = ['filters' => \implode(' AND ', $filters)];
         }
 
-        $data = $index->search($query, $searchParams)->toArray();
+        $data = $index->search($query, $searchParams);
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $data['hits']),
-            $data['totalHits'] ?? $data['estimatedTotalHits'] ?? null,
+            $data['nbHits'] ?? null,
         );
     }
 
@@ -109,6 +103,10 @@ final class MeilisearchConnection implements ConnectionInterface
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {
         foreach ($hits as $hit) {
+            // remove Algolia Metadata
+            unset($hit['objectID']);
+            unset($hit['_highlightResult']);
+
             yield $hit;
         }
     }

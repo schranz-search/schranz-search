@@ -35,3 +35,11 @@ jobs:
         with:
             directory: 'packages/seal-meilisearch-adapter'
             docker: true
+
+    algolia-adapter:
+        name: Algolia Adapter
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal-algolia-adapter'
+            docker: false
+        secrets: inherit

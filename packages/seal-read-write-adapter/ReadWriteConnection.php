@@ -31,5 +31,4 @@ final class ReadWriteConnection implements ConnectionInterface
     {
         return $this->readConnection->search($search);
     }
-
 }
