@@ -21,12 +21,13 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
     {
         $index = $this->schema->indexes[TestingHelper::INDEX_SIMPLE];
         static::$schemaManager->createIndex($index);
+        static::waitForCreateIndex();
 
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
         ]);
 
-        $this->assertTrue(isset($mapping['test_simple']['mappings']['properties']));
+        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
         $this->assertSame([
             'id' => [
@@ -35,21 +36,23 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping['test_simple']['mappings']['properties']);
+        ], $mapping[$index->name]['mappings']['properties']);
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
     }
 
     public function testComplexOpensearchMapping(): void
     {
         $index = $this->schema->indexes[TestingHelper::INDEX_COMPLEX];
         static::$schemaManager->createIndex($index);
+        static::waitForCreateIndex();
 
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
         ]);
 
-        $this->assertTrue(isset($mapping['test_complex']['mappings']['properties']));
+        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
         $this->assertSame([
             'article' => [
@@ -142,8 +145,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping['test_complex']['mappings']['properties']);
+        ], $mapping[$index->name]['mappings']['properties']);
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
     }
 }

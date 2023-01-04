@@ -14,8 +14,10 @@ class TestingHelper
 
     private function __construct() {}
 
-    public static function createSchema(string $prefix = 'test_'): Schema
+    public static function createSchema(): Schema
     {
+        $prefix = getenv('TEST_INDEX_PREFIX') ?: $_ENV['TEST_INDEX_PREFIX'] ?? 'test_';
+
         $complexFields = [
             'id' => new Field\IdentifierField('id'),
             'title' => new Field\TextField('title'),

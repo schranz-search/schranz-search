@@ -7,7 +7,7 @@
 <h1 align="center">Schranz Search</h1>
 
 <div align="center">
-   <strong>Monorepository for the search abstraction over different search engine..</strong>
+   <strong>Monorepository for the search abstraction over different search engine.</strong>
 </div>
 
 <br />
@@ -20,7 +20,11 @@ It provides a common interface to interact with different search engines.
 
 Read more about it in the [README.md](packages/seal/README.md) of the package.
 
+<div align="center">
+
 ![duffy-duck-investigating](https://user-images.githubusercontent.com/1698337/209232131-8b0a3dcf-8500-45ed-bcc2-1b97a25b1e15.gif)
+
+</div>
 
 ## Research
 
@@ -29,10 +33,10 @@ At current state collect here different search engines which are around and coul
  - [Elasticsearch](#elasticsearch) - [schranz-search/seal-elasticsearch-adapter](packages/seal-elasticsearch-adapter)
  - [Opensearch](#opensearch) - [schranz-search/seal-opensearch-adapter](packages/seal-opensearch-adapter)
  - [Meilisearch](#meilisearch) - [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
+ - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [RediSearch](#redisearch)
  - [Zinc Labs](#zinc-labs)
  - [Typesense](#typesense)
- - [Algolia](#algolia)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
  - [Solr](#solr)
@@ -74,6 +78,15 @@ A search engine written in Rust:
 
 Implementation: [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
 
+### Algolia
+
+Is a search as SaaS provided via Rest APIs and SDKs:
+
+- Server: No server only Saas [https://www.algolia.com/](https://www.algolia.com/)
+- PHP Client: [Algolia PHP](https://github.com/algolia/algoliasearch-client-php)
+
+Implementation: [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
+
 ### RediSearch
  
 A search out of the house of the redis labs.
@@ -94,13 +107,6 @@ Describes itself as a alternative to Algolia and Elasticsearch written in C++.
 
  - Server: [Typesense Server](https://github.com/typesense/typesense)
  - PHP Client: [Typesense PHP](https://github.com/typesense/typesense-php)
-
-### Algolia
-
-Is a search as SaaS provided via Rest APIs and SDKs:
-
- - Server: No server only Saas [https://www.algolia.com/](https://www.algolia.com/)
- - PHP Client: [Algolia PHP](https://github.com/algolia/algoliasearch-client-php)
 
 ### ZendSearch
 
