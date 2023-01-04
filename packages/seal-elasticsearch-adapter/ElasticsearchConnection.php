@@ -19,7 +19,7 @@ final class ElasticsearchConnection implements ConnectionInterface
     ) {
     }
 
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
         $identifierField = $index->getIdentifierField();
 
@@ -41,7 +41,7 @@ final class ElasticsearchConnection implements ConnectionInterface
 
         $document[$identifierField->name] = $response->asArray()['_id'];
 
-        return $document;
+        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void

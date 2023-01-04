@@ -20,9 +20,9 @@ final class Engine
      *
      * @return array<string, mixed>
      */
-    public function saveDocument(string $index, array $document): array
+    public function saveDocument(string $index, array $document): void
     {
-        return $this->adapter->getConnection()->save(
+        $this->adapter->getConnection()->save(
             $this->schema->indexes[$index],
             $document
         );

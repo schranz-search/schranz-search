@@ -19,7 +19,7 @@ final class MultiConnection implements ConnectionInterface
         public readonly iterable $connections,
     ) {}
 
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
         $document = null;
         foreach ($this->connections as $connection) {
@@ -30,7 +30,7 @@ final class MultiConnection implements ConnectionInterface
             throw new \LogicException('No connections were available.');
         }
 
-        return $document;
+        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void
