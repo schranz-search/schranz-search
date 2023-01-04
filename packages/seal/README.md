@@ -175,6 +175,7 @@ The engine is the main entry point to interact with the search engine:
 
  - [Elasticsearch](../seal-elasticsearch-adapter)
  - [Opensearch](../seal-opensearch-adapter)
+ - [Meilisearch](../seal-meilisearch-adapter)
  - [Memory](../seal-memory-adapter)
  - [ReadWrite](../seal-read-write-adapter)
  - [Multi](../seal-multi-adapter)

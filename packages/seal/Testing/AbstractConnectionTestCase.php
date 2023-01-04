@@ -50,6 +50,8 @@ abstract class AbstractConnectionTestCase extends TestCase
             self::$connection->save($schema->indexes[TestingHelper::INDEX_COMPLEX], $document);
         }
 
+        $this->waitForAddDocuments();
+
         $loadedDocuments = [];
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
@@ -78,6 +80,8 @@ abstract class AbstractConnectionTestCase extends TestCase
             self::$connection->delete($schema->indexes[TestingHelper::INDEX_COMPLEX], $document['id']);
         }
 
+        $this->waitForDeleteDocuments();
+
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
@@ -87,5 +91,19 @@ abstract class AbstractConnectionTestCase extends TestCase
 
             $this->assertNull($resultDocument, 'Expected document with id "' . $document['id'] . '" to be deleted.');
         }
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to add documents.
+     */
+    protected function waitForAddDocuments(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to delete documents.
+     */
+    protected function waitForDeleteDocuments(): void
+    {
     }
 }

@@ -28,3 +28,10 @@ jobs:
         with:
             directory: 'packages/seal-opensearch-adapter'
             docker: true
+
+    meilisearch-adapter:
+        name: Meilisearch Adapter
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal-meilisearch-adapter'
+            docker: true

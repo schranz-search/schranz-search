@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
+use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Schema\Schema;
 
 abstract class AbstractAdapterTestCase extends TestCase
@@ -39,9 +40,13 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $engine->createIndex($indexName);
 
+        $this->waitForCreateIndex();
+
         $this->assertTrue($engine->existIndex($indexName));
 
         $engine->dropIndex($indexName);
+
+        $this->waitForDropIndex();
 
         $this->assertFalse($engine->existIndex($indexName));
     }
@@ -53,11 +58,15 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $engine->createSchema();
 
+        $this->waitForCreateIndex();
+
         foreach (array_keys($indexes) as $index) {
             $this->assertTrue($engine->existIndex($index));
         }
 
         $engine->dropSchema();
+
+        $this->waitForDropIndex();
 
         foreach (array_keys($indexes) as $index) {
             $this->assertFalse($engine->existIndex($index));
@@ -74,6 +83,8 @@ abstract class AbstractAdapterTestCase extends TestCase
         foreach ($documents as $document) {
             $engine->saveDocument(TestingHelper::INDEX_COMPLEX, $document);
         }
+
+        $this->waitForAddDocuments();
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
@@ -94,6 +105,8 @@ abstract class AbstractAdapterTestCase extends TestCase
         foreach ($documents as $document) {
             $engine->deleteDocument(TestingHelper::INDEX_COMPLEX, $document['id']);
         }
+
+        $this->waitForDeleteDocuments();
 
         foreach ($documents as $document) {
             $exceptionThrown = false;
@@ -119,5 +132,33 @@ abstract class AbstractAdapterTestCase extends TestCase
     public static function tearDownAfterClass(): void
     {
         self::getEngine()->dropSchema();
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to add documents.
+     */
+    protected function waitForAddDocuments(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to delete documents.
+     */
+    protected function waitForDeleteDocuments(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be created.
+     */
+    protected function waitForCreateIndex(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be deleted.
+     */
+    protected function waitForDropIndex(): void
+    {
     }
 }
