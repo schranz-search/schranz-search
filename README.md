@@ -1,6 +1,17 @@
-# Schranz Search
+<div align="center">
 
-Monorepository for the search abstraction over different search engine.
+<img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
+
+</div>
+
+<h1 align="center">Schranz Search</h1>
+
+<div align="center">
+   <strong>Monorepository for the search abstraction over different search engine..</strong>
+</div>
+
+<br />
+<br />
 
 ### SEAL
 
