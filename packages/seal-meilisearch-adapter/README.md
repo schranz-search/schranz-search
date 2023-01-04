@@ -1,6 +1,6 @@
 # Schranz Search SEAL Meilisearch Adapter
 
-The `MeilisearchAdapter` write the documents into an Elasticsearch server instance.
+The `MeilisearchAdapter` write the documents into a Meilisearch server instance.
 
 > This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 

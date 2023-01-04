@@ -22,6 +22,8 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $index = $this->schema->indexes[TestingHelper::INDEX_SIMPLE];
         static::$schemaManager->createIndex($index);
 
+        $this->waitForCreateIndex();
+
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
         ])->asArray();
@@ -44,6 +46,8 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
     {
         $index = $this->schema->indexes[TestingHelper::INDEX_COMPLEX];
         static::$schemaManager->createIndex($index);
+
+        $this->waitForCreateIndex();
 
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,

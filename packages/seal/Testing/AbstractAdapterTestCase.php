@@ -39,14 +39,12 @@ abstract class AbstractAdapterTestCase extends TestCase
         $this->assertFalse($engine->existIndex($indexName));
 
         $engine->createIndex($indexName);
-
-        $this->waitForCreateIndex();
+        static::waitForCreateIndex();
 
         $this->assertTrue($engine->existIndex($indexName));
 
         $engine->dropIndex($indexName);
-
-        $this->waitForDropIndex();
+        static::waitForDropIndex();
 
         $this->assertFalse($engine->existIndex($indexName));
     }
@@ -57,16 +55,14 @@ abstract class AbstractAdapterTestCase extends TestCase
         $indexes = self::$schema->indexes;
 
         $engine->createSchema();
-
-        $this->waitForCreateIndex();
+        static::waitForCreateIndex();
 
         foreach (array_keys($indexes) as $index) {
             $this->assertTrue($engine->existIndex($index));
         }
 
         $engine->dropSchema();
-
-        $this->waitForDropIndex();
+        static::waitForDropIndex();
 
         foreach (array_keys($indexes) as $index) {
             $this->assertFalse($engine->existIndex($index));
@@ -77,6 +73,7 @@ abstract class AbstractAdapterTestCase extends TestCase
     {
         $engine = self::getEngine();
         $engine->createSchema();
+        static::waitForCreateIndex();
 
         $documents = TestingHelper::createComplexFixtures();
 
@@ -84,7 +81,7 @@ abstract class AbstractAdapterTestCase extends TestCase
             $engine->saveDocument(TestingHelper::INDEX_COMPLEX, $document);
         }
 
-        $this->waitForAddDocuments();
+        static::waitForAddDocuments();
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
@@ -106,7 +103,7 @@ abstract class AbstractAdapterTestCase extends TestCase
             $engine->deleteDocument(TestingHelper::INDEX_COMPLEX, $document['id']);
         }
 
-        $this->waitForDeleteDocuments();
+        static::waitForDeleteDocuments();
 
         foreach ($documents as $document) {
             $exceptionThrown = false;
@@ -137,28 +134,28 @@ abstract class AbstractAdapterTestCase extends TestCase
     /**
      * For async adapters, we need to wait for the index to add documents.
      */
-    protected function waitForAddDocuments(): void
+    protected static function waitForAddDocuments(): void
     {
     }
 
     /**
      * For async adapters, we need to wait for the index to delete documents.
      */
-    protected function waitForDeleteDocuments(): void
+    protected static function waitForDeleteDocuments(): void
     {
     }
 
     /**
      * For async adapters, we need to wait for the index to be created.
      */
-    protected function waitForCreateIndex(): void
+    protected static function waitForCreateIndex(): void
     {
     }
 
     /**
      * For async adapters, we need to wait for the index to be deleted.
      */
-    protected function waitForDropIndex(): void
+    protected static function waitForDropIndex(): void
     {
     }
 }

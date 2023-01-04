@@ -16,18 +16,23 @@ class MeilisearchAdapterTest extends AbstractAdapterTestCase
         self::$adapter = new MeilisearchAdapter(self::$client);
     }
 
-    protected function waitForCreateIndex(): void
+    protected static function waitForCreateIndex(): void
     {
-        usleep(100_000); // wait 100ms for async index creation
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
     }
 
-    public function waitForAddDocuments(): void
+    protected static function waitForDropIndex(): void
     {
-        usleep(100_000); // wait 100ms for async document add
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
     }
 
-    public function waitForDeleteDocuments(): void
+    public static function waitForAddDocuments(): void
     {
-        usleep(100_000); // wait 100ms for async document deletion
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
+    }
+
+    public static function waitForDeleteDocuments(): void
+    {
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
     }
 }

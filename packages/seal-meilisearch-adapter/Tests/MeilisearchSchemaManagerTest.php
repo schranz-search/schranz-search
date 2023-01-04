@@ -18,8 +18,13 @@ class MeilisearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         self::$schemaManager = new MeilisearchSchemaManager(self::$client);
     }
 
-    protected function waitForCreateIndex(): void
+    protected static function waitForCreateIndex(): void
     {
-        usleep(100_000); // wait 100ms for async index creation
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
+    }
+
+    protected static function waitForDropIndex(): void
+    {
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
     }
 }
