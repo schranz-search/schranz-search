@@ -67,8 +67,8 @@ Implementation: [schranz-search/seal-meilisearch-adapter](packages/seal-meilisea
  
 A search out of the house of the redis labs.
 
- - Server: [RediSearch Server]([https://github.com/opensearch-project/OpenSearch](https://github.com/RediSearch/RediSearch))
- - PHP Client: [RediSearch PHP](https://github.com/MacFJA/php-redisearch)
+ - Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
+ - PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
 
 ### Zinc Labs
 
