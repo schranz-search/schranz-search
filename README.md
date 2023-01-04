@@ -15,15 +15,15 @@ Read more about it in the [README.md](packages/seal/README.md) of the package.
 
 At current state collect here different search engines which are around and could be interesting:
 
- - [Elasticsearch](#elasticsearch)
- - [Opensearch](#opensearch)
+ - [Elasticsearch](#elasticsearch) - [schranz-search/seal-elasticsearch-adapter](packages/seal-elasticsearch-adapter)
+ - [Opensearch](#opensearch) - [schranz-search/seal-opensearch-adapter](packages/seal-opensearch-adapter)
+ - [Meilisearch](#meilisearch) - [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
  - [RediSearch](#redisearch)
  - [Zinc Labs](#zinc-labs)
  - [Typesense](#typesense)
  - [Algolia](#algolia)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
- - [Meilisearch](#meilisearch)
  - [Solr](#solr)
  - [Sonic](#sonic)
  - [Vespa](#vespa)
@@ -43,12 +43,25 @@ Widely used search based on Java.
  - Server: [Elasticsearch Server](https://github.com/elastic/elasticsearch)
  - PHP Client: [Elasticsearch PHP](https://github.com/elastic/elasticsearch-php)
 
+Implementation: [schranz-search/seal-elasticsearch-adapter](packages/seal-elasticsearch-adapter)
+
 ### Opensearch
  
 Fork of Elasticsearch also written in Java.
 
  - Server: [Opensearch Server](https://github.com/opensearch-project/OpenSearch)
  - PHP Client: [Opensearch PHP](https://github.com/opensearch-project/opensearch-php)
+
+Implementation: [schranz-search/seal-elasticsearch-adapter](packages/seal-opensearch-adapter)
+
+### Meilisearch
+
+A search engine written in Rust:
+
+- Server: [MeiliSearch Server](https://github.com/meilisearch/meilisearch)
+- PHP Client: [MeiliSearch PHP](https://github.com/meilisearch/meilisearch-php)
+
+Implementation: [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
 
 ### RediSearch
  
@@ -89,13 +102,6 @@ A complete in PHP written implementation of the Lucene index. Not longer maintai
 Another implementation of a Search index written in PHP. Not based on Lucene.
 
  - Implementation: [TntSearch Implementation](https://github.com/teamtnt/tntsearch)
-
-### Meilisearch
-
-A search engine written in Rust:
-
- - Server: [MeiliSearch Server](https://github.com/meilisearch/meilisearch)
- - PHP Client: [MeiliSearch PHP](https://github.com/meilisearch/meilisearch-php)
 
 ### Solr
 
