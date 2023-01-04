@@ -15,4 +15,14 @@ class OpensearchAdapterTest extends AbstractAdapterTestCase
 
         self::$adapter = new OpensearchAdapter(self::$client);
     }
+
+    public static function waitForAddDocuments(): void
+    {
+        usleep((int) ($_ENV['OPENSEARCH_WAIT_TIME'] ?? 1_000_000));
+    }
+
+    public static function waitForDeleteDocuments(): void
+    {
+        usleep((int) ($_ENV['OPENSEARCH_WAIT_TIME'] ?? 1_000_000));
+    }
 }

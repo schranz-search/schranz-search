@@ -24,10 +24,12 @@ abstract class AbstractSchemaManagerTestCase extends TestCase
         $this->assertFalse(static::$schemaManager->existIndex($index));
 
         static::$schemaManager->createIndex($index);
+        static::waitForCreateIndex();
 
         $this->assertTrue(static::$schemaManager->existIndex($index));
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
 
         $this->assertFalse(static::$schemaManager->existIndex($index));
     }
@@ -39,11 +41,27 @@ abstract class AbstractSchemaManagerTestCase extends TestCase
         $this->assertFalse(static::$schemaManager->existIndex($index));
 
         static::$schemaManager->createIndex($index);
+        static::waitForCreateIndex();
 
         $this->assertTrue(static::$schemaManager->existIndex($index));
 
         static::$schemaManager->dropIndex($index);
+        static::waitForDropIndex();
 
         $this->assertFalse(static::$schemaManager->existIndex($index));
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be created.
+     */
+    protected static function waitForCreateIndex(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be deleted.
+     */
+    protected static function waitForDropIndex(): void
+    {
     }
 }

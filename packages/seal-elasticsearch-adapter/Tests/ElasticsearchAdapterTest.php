@@ -15,4 +15,14 @@ class ElasticsearchAdapterTest extends AbstractAdapterTestCase
 
         self::$adapter = new ElasticsearchAdapter(self::$client);
     }
+
+    public static function waitForAddDocuments(): void
+    {
+        usleep((int) ($_ENV['ELASTICSEARCH_WAIT_TIME'] ?? 100_000));
+    }
+
+    public static function waitForDeleteDocuments(): void
+    {
+        usleep((int) ($_ENV['ELASTICSEARCH_WAIT_TIME'] ?? 100_000));
+    }
 }

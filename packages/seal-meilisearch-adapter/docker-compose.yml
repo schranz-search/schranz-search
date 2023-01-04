@@ -1,0 +1,17 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v0.30
+    environment:
+      MEILI_ENV: development
+    ports:
+      - "7700:7700"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:7700/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - meilisearch-data:/data.ms
+
+volumes:
+  meilisearch-data:

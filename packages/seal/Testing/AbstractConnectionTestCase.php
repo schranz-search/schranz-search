@@ -22,6 +22,8 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach (self::getSchema()->indexes as $index) {
             self::$schemaManager->createIndex($index);
         }
+
+        static::waitForCreateIndex();
     }
 
     public static function tearDownAfterClass(): void
@@ -29,6 +31,8 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach (self::getSchema()->indexes as $index) {
             self::$schemaManager->dropIndex($index);
         }
+
+        static::waitForDropIndex();
     }
 
     protected static function getSchema(): Schema
@@ -49,6 +53,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             self::$connection->save($schema->indexes[TestingHelper::INDEX_COMPLEX], $document);
         }
+        static::waitForAddDocuments();
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
@@ -77,6 +82,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             self::$connection->delete($schema->indexes[TestingHelper::INDEX_COMPLEX], $document['id']);
         }
+        static::waitForDeleteDocuments();
 
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
@@ -87,5 +93,33 @@ abstract class AbstractConnectionTestCase extends TestCase
 
             $this->assertNull($resultDocument, 'Expected document with id "' . $document['id'] . '" to be deleted.');
         }
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be created.
+     */
+    protected static function waitForCreateIndex(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to be deleted.
+     */
+    protected static function waitForDropIndex(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to add documents.
+     */
+    protected static function waitForAddDocuments(): void
+    {
+    }
+
+    /**
+     * For async adapters, we need to wait for the index to delete documents.
+     */
+    protected static function waitForDeleteDocuments(): void
+    {
     }
 }

@@ -16,6 +16,11 @@
             "target": "git@github.com:schranz-search/seal-opensearch-adapter.git"
         },
         {
+            "name": "SEALMeilisearchAdapter",
+            "directory": "packages/seal-meilisearch-adapter",
+            "target": "git@github.com:schranz-search/seal-meilisearch-adapter.git"
+        },
+        {
             "name": "SEALMemoryAdapter",
             "directory": "packages/seal-memory-adapter",
             "target": "git@github.com:schranz-search/seal-memory-adapter.git"
