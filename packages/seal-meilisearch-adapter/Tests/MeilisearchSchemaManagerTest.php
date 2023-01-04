@@ -20,11 +20,11 @@ class MeilisearchSchemaManagerTest extends AbstractSchemaManagerTestCase
 
     protected static function waitForCreateIndex(): void
     {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
     }
 
     protected static function waitForDropIndex(): void
     {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 100_000));
+        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
     }
 }
