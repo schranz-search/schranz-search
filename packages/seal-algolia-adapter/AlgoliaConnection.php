@@ -17,7 +17,7 @@ final class AlgoliaConnection implements ConnectionInterface
     ) {
     }
 
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
         $identifierField = $index->getIdentifierField();
 
@@ -25,7 +25,7 @@ final class AlgoliaConnection implements ConnectionInterface
 
         $searchIndex->saveObject($document, ['objectIDKey' => $identifierField->name]);
 
-        return $document;
+        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void

@@ -10,10 +10,8 @@ interface ConnectionInterface
 {
     /**
      * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
      */
-    public function save(Index $index, array $document): array;
+    public function save(Index $index, array $document): void;
 
     public function delete(Index $index, string $identifier): void;
 

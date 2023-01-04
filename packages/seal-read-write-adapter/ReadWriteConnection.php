@@ -17,9 +17,9 @@ final class ReadWriteConnection implements ConnectionInterface
         public readonly ConnectionInterface $writeConnection,
     ) {}
 
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
-        return $this->writeConnection->save($index, $document);
+        $this->writeConnection->save($index, $document);
     }
 
     public function delete(Index $index, string $identifier): void

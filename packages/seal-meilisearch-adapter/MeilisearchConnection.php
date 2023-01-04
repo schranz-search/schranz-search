@@ -17,7 +17,7 @@ final class MeilisearchConnection implements ConnectionInterface
     ) {
     }
 
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
         $identifierField = $index->getIdentifierField();
 
@@ -30,7 +30,7 @@ final class MeilisearchConnection implements ConnectionInterface
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
         }
 
-        return $document;
+        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void

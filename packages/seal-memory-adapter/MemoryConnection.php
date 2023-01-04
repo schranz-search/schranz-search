@@ -10,9 +10,11 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class MemoryConnection implements ConnectionInterface
 {
-    public function save(Index $index, array $document): array
+    public function save(Index $index, array $document): void
     {
-        return MemoryStorage::save($index, $document);
+        $document = MemoryStorage::save($index, $document);
+
+        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void
