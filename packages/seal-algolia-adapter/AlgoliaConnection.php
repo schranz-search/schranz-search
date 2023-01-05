@@ -9,6 +9,8 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
+use Schranz\Search\SEAL\Task\SyncTask;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class AlgoliaConnection implements ConnectionInterface
 {
@@ -17,7 +19,7 @@ final class AlgoliaConnection implements ConnectionInterface
     ) {
     }
 
-    public function save(Index $index, array $document): void
+    public function save(Index $index, array $document, array $options = []): ?TaskInterface
     {
         $identifierField = $index->getIdentifierField();
 
@@ -25,14 +27,24 @@ final class AlgoliaConnection implements ConnectionInterface
 
         $searchIndex->saveObject($document, ['objectIDKey' => $identifierField->name]);
 
-        // return $document;
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask($document); // TODO wait for the result of the search engine
     }
 
-    public function delete(Index $index, string $identifier): void
+    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
         $searchIndex = $this->client->initIndex($index->name);
 
         $searchIndex->deleteObject($identifier);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null); // TODO wait for the result of the search engine
     }
 
     public function search(Search $search): Result

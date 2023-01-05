@@ -4,6 +4,7 @@ namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MemorySchemaManager implements SchemaManagerInterface
 {
@@ -13,13 +14,25 @@ final class MemorySchemaManager implements SchemaManagerInterface
         return MemoryStorage::existIndex($index);
     }
 
-    public function dropIndex(Index $index): void
+    public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
         MemoryStorage::dropIndex($index);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
     }
 
-    public function createIndex(Index $index): void
+    public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
         MemoryStorage::createIndex($index);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
     }
 }

@@ -11,6 +11,8 @@ use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
+use Schranz\Search\SEAL\Task\SyncTask;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class ElasticsearchConnection implements ConnectionInterface
 {
@@ -19,7 +21,7 @@ final class ElasticsearchConnection implements ConnectionInterface
     ) {
     }
 
-    public function save(Index $index, array $document): void
+    public function save(Index $index, array $document, array $options = []): ?TaskInterface
     {
         $identifierField = $index->getIdentifierField();
 
@@ -32,25 +34,29 @@ final class ElasticsearchConnection implements ConnectionInterface
             'index' => $index->name,
             'id' => $identifier,
             'body' => $document,
-            'refresh' => true, // index document immediately, so it is available in the `/_search` api directly
+            'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
         ]);
 
         if ($response->getStatusCode() !== 201) {
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '".');
         }
 
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
         $document[$identifierField->name] = $response->asArray()['_id'];
 
-        // return $document;
+        return new SyncTask($document);
     }
 
-    public function delete(Index $index, string $identifier): void
+    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
         try {
             $response = $this->client->delete([
                 'index' => $index->name,
                 'id' => $identifier,
-                'refresh' => true, // update document immediately, so it is no longer available in the `/_search` api directly
+                'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is no longer available in the `/_search` api directly
             ]);
 
             if ($response->getStatusCode() !== 200 && ($response->asArray()['deleted'] ?? false) === false) {
@@ -61,6 +67,12 @@ final class ElasticsearchConnection implements ConnectionInterface
                 throw $e;
             }
         }
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
     }
 
     public function search(Search $search): Result
