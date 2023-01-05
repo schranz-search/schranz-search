@@ -3,6 +3,12 @@
     "description": "An adapter to support to write into memory for schranz-search/seal search abstraction.",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "schranz-search-adapter",
+        "seal-adapter",
+        "search-client"
+    ],
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\Adapter\\Memory\\": ""

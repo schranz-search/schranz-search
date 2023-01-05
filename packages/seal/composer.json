@@ -3,6 +3,16 @@
     "description": "Search Engine Abstraction Layer",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "search",
+        "search-client",
+        "search-abstraction",
+        "elasticsearch",
+        "opensearch",
+        "meilisearch",
+        "algolia"
+    ],
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\": ""

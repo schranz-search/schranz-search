@@ -3,6 +3,13 @@
     "description": "An adapter to support opensearch in schranz-search/seal search abstraction.",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "schranz-search-adapter",
+        "seal-adapter",
+        "search-client",
+        "opensearch"
+    ],
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\Adapter\\Opensearch\\": ""
