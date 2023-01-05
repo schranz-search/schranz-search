@@ -5,7 +5,7 @@ namespace Schranz\Search\SEAL\Adapter\Algolia;
 use Algolia\AlgoliaSearch\SearchClient;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Task\SyncTask;
+use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class AlgoliaSchemaManager implements SchemaManagerInterface
@@ -26,20 +26,22 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
     {
         $index = $this->client->initIndex($index->name);
 
-        $index->delete();
+        $indexResponse = $index->delete();
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new SyncTask(null); // TODO wait for index drop
+        return new AsyncTask(function() use ($indexResponse) {
+            $indexResponse->wait();
+        });
     }
 
     public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
         $searchIndex = $this->client->initIndex($index->name);
 
-        $searchIndex->setSettings([
+        $indexResponse = $searchIndex->setSettings([
             'searchableAttributes' => [],
             'attributesForFaceting' => [
                 $index->getIdentifierField()->name,
@@ -50,6 +52,8 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new SyncTask(null); // TODO wait for index create
+        return new AsyncTask(function() use ($indexResponse) {
+            $indexResponse->wait();
+        });
     }
 }

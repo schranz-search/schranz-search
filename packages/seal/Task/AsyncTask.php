@@ -17,13 +17,16 @@ final class AsyncTask implements TaskInterface
      * @param \Closure(): T $callback
      */
     public function __construct(
-        \Closure $callback,
+        private \Closure $callback,
     ) {
-
+        // TODO check if async library (e.g. react-php) should call callback method already here
+        //      for Agolia this is currently not required or possible as they use a blocking usleep
+        //      see https://github.com/algolia/algoliasearch-client-php/issues/712
+        //      but maybe for other adapters make sense to async resolve it here
     }
 
     public function wait(): mixed
     {
-        throw new \RuntimeException('TODO need to be implemented');
+        return ($this->callback)();
     }
 }

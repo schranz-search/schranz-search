@@ -15,14 +15,4 @@ class AlgoliaSchemaManagerTest extends AbstractSchemaManagerTestCase
 
         self::$schemaManager = new AlgoliaSchemaManager(self::$client);
     }
-
-    protected static function waitForCreateIndex(): void
-    {
-        usleep((int) ($_ENV['ALGOLIA_WAIT_TIME'] ?? 5_000_000));
-    }
-
-    protected static function waitForDropIndex(): void
-    {
-        usleep((int) ($_ENV['ALGOLIA_WAIT_TIME'] ?? 5_000_000));
-    }
 }

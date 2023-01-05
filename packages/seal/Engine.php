@@ -7,6 +7,8 @@ use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
+use Schranz\Search\SEAL\Task\AsyncTask;
+use Schranz\Search\SEAL\Task\MultiTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class Engine
@@ -125,9 +127,11 @@ final class Engine
             $tasks[] = $this->adapter->getSchemaManager()->createIndex($index, $options);
         }
 
-        return null;
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
 
-        // TODO return TaskInterface for $returnWaitPromise = true
+        return new MultiTask($tasks);
     }
 
     /**
@@ -144,8 +148,10 @@ final class Engine
             $tasks[] = $this->adapter->getSchemaManager()->dropIndex($index, $options);
         }
 
-        return null;
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
 
-        // TODO return TaskInterface for $returnWaitPromise = true
+        return new MultiTask($tasks);
     }
 }

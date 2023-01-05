@@ -5,6 +5,7 @@ namespace Schranz\Search\SEAL\Testing;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Schema\Field;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 class TestingHelper
 {
@@ -161,6 +162,21 @@ class TestingHelper
                 'id' => '3',
             ],
         ];
+    }
+
+    /**
+     * @param \Closure(TaskInterface[]: $tasks) $callback
+     */
+    public static function waitForTasks(\Closure $callback): void
+    {
+        /** @var TaskInterface[] $tasks */
+        $tasks = [];
+
+        ($callback)($tasks);
+
+        foreach ($tasks as $task) {
+            $task->wait();
+        }
     }
 
     /**
