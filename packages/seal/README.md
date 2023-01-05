@@ -36,11 +36,11 @@ Also install one of the listed adapters.
 
 The following adapters are available:
 
- - [MemoryAdapter](../seal-memory-adapter): `schranz-search/seal-memory-adapter
- - [ElasticsearchAdapter](../seal-elasticsearch-adapter): `schranz-search/seal-elasticsearch-adapter
- - [OpensearchAdapter](../seal-opensearch-adapter): `schranz-search/seal-opensearch-adapter
+ - [MemoryAdapter](../seal-memory-adapter): `schranz-search/seal-memory-adapter`
+ - [ElasticsearchAdapter](../seal-elasticsearch-adapter): `schranz-search/seal-elasticsearch-adapter`
+ - [OpensearchAdapter](../seal-opensearch-adapter): `schranz-search/seal-opensearch-adapter`
  - [MeilisearchAdapter](../seal-meilisearch-adapter): `schranz-search/seal-meilisearch-adapter
- - [AlgoliaAdapter](../seal-algolia-adapter): `schranz-search/seal-algolia-adapter
+ - [AlgoliaAdapter](../seal-algolia-adapter): `schranz-search/seal-algolia-adapter`
  - ... more coming soon
 
 Additional Wrapper adapters:
