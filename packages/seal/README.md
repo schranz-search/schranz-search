@@ -1,13 +1,26 @@
-# Schranz Search SEAL
+<div align="center">
+    <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
+</div>
+
+<h1 align="center">Schranz Search SEAL</h1>
+
+<div align="center">
 
 **S**earch **E**ngine **A**bstraction **L**ayer with support to different search engines.
+
+</div>
+
+<br />
+<br />
 
 This package was highly inspired by [Doctrine DBAL](https://github.com/doctrine/dbal)
 and [Flysystem](https://github.com/thephpleague/flysystem).
 
-> This package is still in development and no adapters do exist yet.
-
+> **Note**:
 > This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
+
+> **Warning**:
+> This project is heavily under development and not ready for production.
 
 ## Installation
 
@@ -17,7 +30,23 @@ Use [composer](https://getcomposer.org/) for install the package:
 composer require schranz-search/seal
 ```
 
-Also install atleast one of the [listed adapters](#list-of-adapters).
+Also install one of the listed adapters.
+
+### List of adapters
+
+The following adapters are available:
+
+ - [MemoryAdapter](../seal-memory-adapter)
+ - [ElasticsearchAdapter](../seal-elasticsearch-adapter)
+ - [OpensearchAdapter](../seal-opensearch-adapter)
+ - [MeilisearchAdapter](../seal-meilisearch-adapter)
+ - [AlgoliaAdapter](../seal-algolia-adapter)
+ - ... more coming soon
+
+Additional Wrapper adapters:
+
+ - [ReadWriteAdapter](../seal-read-write-adapter)
+ - [MultiAdapter](../seal-multi-adapter)
 
 ## Usage
 
@@ -76,7 +105,7 @@ $document = [
 ```
 
 > Currently, you can use some kind of normalizer like symfony/serializer to convert an object to an array
-> and back to an object at current state a Document Mapper package does not yet exist. If provided in future
+> and back to an object at current state a Document Mapper or ODM package does not yet exist. If provided in future
 > it will be part of an own package which make usage of SEAL. Example like doctrine/orm using doctrine/dbal.
 
 ### Creating a Schema
@@ -155,34 +184,56 @@ The schema is serializable, so it can be stored in any cache and loaded fast.
 
 ### Create the engine
 
-The engine requires an adapter and a previously created schema.
+The engine requires [an adapter](#list-of-adapters) and a previously created schema.
 
 ```php
 <?php
 
+use Elastic\Elasticsearch\ClientBuilder;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
 use Schranz\Search\SEAL\Engine;
 
 $engine = new Engine(
-    new ElasticsearchAdapter(/* ... */),
+    new ElasticsearchAdapter(
+        ClientBuilder::create()->setHosts(['127.0.0.1:9200'])->build(),
+    ),
     $schema,
 );
 ```
 
 The engine is the main entry point to interact with the search engine:
 
-#### List of adapters
+#### Write operations
 
- - [Elasticsearch](../seal-elasticsearch-adapter)
- - [Opensearch](../seal-opensearch-adapter)
- - [Meilisearch](../seal-meilisearch-adapter)
- - [Algolia](../seal-algolia-adapter)
- - [Memory](../seal-memory-adapter)
- - [ReadWrite](../seal-read-write-adapter)
- - [Multi](../seal-multi-adapter)
- - ... more coming soon
+All write operations returns nothing by default as some adapters are asynchron.
 
-#### Save a document
+##### Schema operations
+
+With the Schema methods all your indexes will be created or dropped:
+
+```php
+$engine->createSchema();
+$engine->dropSchema();
+```
+
+It is possible to create or drop also only a specific index via:
+
+```php
+$engine->createIndex('news');
+$engine->dropIndex('news');
+```
+
+It is also possible to check if an index already exists with:
+
+```php
+if (!$engine->existIndex('news')) {
+   $engine->createIndex('news');
+}
+```
+
+##### Document operations
+
+To save a new or update an existing document you can use the `saveDocument` method:
 
 ```php
 $engine->saveDocument('news', $document);
@@ -190,19 +241,21 @@ $engine->saveDocument('news', $document);
 
 > Will overwrite existing document if document with same id already exists.
 
-#### Find a document
-
-```php
-$engine->getDocument('news', '1');
-```
-
-#### Delete a document
+To delete a document you can use the `deleteDocument` method with the document identifier:
 
 ```php
 $engine->deleteDocument('news', '1');
 ```
 
-#### Search documents
+#### Search operations
+
+##### Find a document
+
+```php
+$engine->getDocument('news', '1');
+```
+
+##### Search documents
 
 ```php
 use Schranz\Search\SEAL\Search\Condition;
@@ -216,35 +269,5 @@ $documents = $engine->createSearchBuilder()
 ```
 
 > Condition is what in Elasticsearch are Queries and Filters.
-
-#### Create schema
-
-```php
-$engine->createSchema();
-```
-
-#### Drop schema
-
-```php
-$engine->dropSchema();
-```
-
-#### Create an index
-
-```php
-$engine->createIndex('news');
-```
-
-#### Drop an index
-
-```php
-$engine->dropIndex('news');
-```
-
-#### Check if index exists
-
-```php
-if (!$engine->existIndex('news')) {
-    $engine->createIndex('news');
-}
-```
+> Not all conditions are supported by all adapters.
+> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).

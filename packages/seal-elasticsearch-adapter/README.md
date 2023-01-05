@@ -1,3 +1,20 @@
+<div align="center">
+    <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
+</div>
+
+<h1 align="center">Schranz Search SEAL <br /> Elasticsearch Adapter</h1>
+
+<br />
+<br />
+
+The `ElasticsearchAdapter` write the documents into an [Elasticsearch](https://github.com/elastic/elasticsearch) server instance.
+
+> **Note**:
+> This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
+
+> **Warning**:
+> This project is heavily under development and not ready for production.
+
 # Schranz Search SEAL Elasticsearch Adapter
 
 The `ElasticsearchAdapter` write the documents into an Elasticsearch server instance.

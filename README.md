@@ -7,7 +7,7 @@
 <h1 align="center">Schranz Search</h1>
 
 <div align="center">
-   <strong>Monorepository for the search abstraction over different search engine.</strong>
+   <strong>Monorepository for the search abstraction over different search engines.</strong>
 </div>
 
 <br />
@@ -19,6 +19,9 @@ What `doctrine/dbal` is for `doctrine`, the `schranz-search/SEAL` is for `schran
 It provides a common interface to interact with different search engines.
 
 Read more about it in the [README.md](packages/seal/README.md) of the package.
+
+> **Warning**:
+> This project is heavily under development and not ready for production.
 
 <div align="center">
 

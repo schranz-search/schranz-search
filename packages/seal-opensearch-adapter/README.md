@@ -1,16 +1,19 @@
-# Schranz Search SEAL Opensearch Adapter
+<div align="center">
+    <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
+</div>
 
-The `OpensearchAdapter` write the documents into an Opensearch server instance.
+<h1 align="center">Schranz Search SEAL <br /> Meilisearch Adapter</h1>
 
-> This is a subtree split of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
+<br />
+<br />
 
-## Installation
+The `OpensearchAdapter` write the documents into an [Opensearch](https://github.com/opensearch-project/OpenSearch) server instance.
 
-Use [composer](https://getcomposer.org/) for install the package:
+> **Note**:
+> This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
-```bash
-composer require schranz-search/seal schranz-search/seal-opensearch-adapter
-```
+> **Warning**:
+> This project is heavily under development and not ready for production.
 
 ## Usage
 
