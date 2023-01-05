@@ -34,6 +34,7 @@ final class ElasticsearchConnection implements ConnectionInterface
             'index' => $index->name,
             'id' => $identifier,
             'body' => $document,
+            // TODO refresh should be refactored with async tasks
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
         ]);
 
@@ -56,6 +57,7 @@ final class ElasticsearchConnection implements ConnectionInterface
             $response = $this->client->delete([
                 'index' => $index->name,
                 'id' => $identifier,
+                // TODO refresh should be refactored with async tasks
                 'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is no longer available in the `/_search` api directly
             ]);
 
