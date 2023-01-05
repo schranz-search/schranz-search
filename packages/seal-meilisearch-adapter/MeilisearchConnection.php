@@ -9,6 +9,7 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
+use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
@@ -26,9 +27,9 @@ final class MeilisearchConnection implements ConnectionInterface
         /** @var string|null $identifier */
         $identifier = ((string) $document[$identifierField->name]) ?? null;
 
-        $data = $this->client->index($index->name)->addDocuments([$document], $identifierField->name);
+        $indexResponse = $this->client->index($index->name)->addDocuments([$document], $identifierField->name);
 
-        if ($data['status'] !== 'enqueued') {
+        if ($indexResponse['status'] !== 'enqueued') {
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
         }
 
@@ -36,14 +37,16 @@ final class MeilisearchConnection implements ConnectionInterface
             return null;
         }
 
-        return new SyncTask($document); // TODO wait for the result of the search engine
+        return new AsyncTask(function() use ($indexResponse) {
+            $this->client->waitForTask($indexResponse['taskUid']);
+        });
     }
 
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
-        $data = $this->client->index($index->name)->deleteDocument($identifier);
+        $deleteResponse = $this->client->index($index->name)->deleteDocument($identifier);
 
-        if ($data['status'] !== 'enqueued') {
+        if ($deleteResponse['status'] !== 'enqueued') {
             throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
         }
 
@@ -51,7 +54,9 @@ final class MeilisearchConnection implements ConnectionInterface
             return null;
         }
 
-        return new SyncTask(null); // TODO wait for the result of the search engine
+        return new AsyncTask(function() use ($deleteResponse) {
+            $this->client->waitForTask($deleteResponse['taskUid']);
+        });
     }
 
     public function search(Search $search): Result

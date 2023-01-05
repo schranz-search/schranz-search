@@ -6,6 +6,7 @@ use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
@@ -33,13 +34,15 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
 
     public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
-         $this->client->deleteIndex($index->name);
+        $deleteIndexResponse = $this->client->deleteIndex($index->name);
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new SyncTask(null); // TODO wait for index drop
+        return new AsyncTask(function() use ($deleteIndexResponse) {
+            $this->client->waitForTask($deleteIndexResponse['taskUid']);
+        });
     }
 
     public function createIndex(Index $index, array $options = []): ?TaskInterface
@@ -51,7 +54,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             ]
         );
 
-        $this->client->index($index->name)
+        $updateIndexResponse = $this->client->index($index->name)
             ->updateSettings([
                 'filterableAttributes' => [
                     $index->getIdentifierField()->name
@@ -62,6 +65,8 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new SyncTask(null); // TODO wait for index create
+        return new AsyncTask(function() use ($updateIndexResponse) {
+            $this->client->waitForTask($updateIndexResponse['taskUid']);
+        });
     }
 }
