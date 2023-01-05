@@ -7,7 +7,7 @@
 <h1 align="center">Schranz Search</h1>
 
 <div align="center">
-   <strong>Monorepository for the search abstraction over different search engine.</strong>
+   <strong>Monorepository for the search abstraction over different search engines.</strong>
 </div>
 
 <br />
