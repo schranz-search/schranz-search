@@ -6,6 +6,8 @@ use OpenSearch\Client;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class OpensearchSchemaManager implements SchemaManagerInterface
 {
@@ -21,14 +23,20 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         ]);
     }
 
-    public function dropIndex(Index $index): void
+    public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
-         $this->client->indices()->delete([
+        $this->client->indices()->delete([
             'index' => $index->name,
         ]);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null); // TODO wait for index drop
     }
 
-    public function createIndex(Index $index): void
+    public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
         $properties = $this->createPropertiesMapping($index->fields);
 
@@ -40,6 +48,12 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                 ],
             ],
         ]);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null); // TODO wait for index create
     }
 
     /**

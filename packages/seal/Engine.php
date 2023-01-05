@@ -7,6 +7,7 @@ use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class Engine
 {
@@ -16,23 +17,34 @@ final class Engine
     ) {}
 
     /**
-     * @param array<string, mixed> $document
+     * @template T of bool
      *
-     * @return array<string, mixed>
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<array<string, mixed>> : null)
      */
-    public function saveDocument(string $index, array $document): void
+    public function saveDocument(string $index, array $document, array $options = []): ?TaskInterface
     {
-        $this->adapter->getConnection()->save(
+        return $this->adapter->getConnection()->save(
             $this->schema->indexes[$index],
-            $document
+            $document,
+            $options,
         );
     }
 
-    public function deleteDocument(string $index, string $identifier): void
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<null> : null)
+     */
+    public function deleteDocument(string $index, string $identifier, array $options = []): ?TaskInterface
     {
-        $this->adapter->getConnection()->delete(
+        return $this->adapter->getConnection()->delete(
             $this->schema->indexes[$index],
-            $identifier
+            $identifier,
+            $options,
         );
     }
 
@@ -70,14 +82,28 @@ final class Engine
         );
     }
 
-    public function createIndex(string $index): void
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<null> : null)
+     */
+    public function createIndex(string $index, array $options = []): ?TaskInterface
     {
-        $this->adapter->getSchemaManager()->createIndex($this->schema->indexes[$index]);
+        return $this->adapter->getSchemaManager()->createIndex($this->schema->indexes[$index], $options);
     }
 
-    public function dropIndex(string $index): void
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<null> : null)
+     */
+    public function dropIndex(string $index, array $options = []): ?TaskInterface
     {
-        $this->adapter->getSchemaManager()->dropIndex($this->schema->indexes[$index]);
+        return $this->adapter->getSchemaManager()->dropIndex($this->schema->indexes[$index], $options);
     }
 
     public function existIndex(string $index): bool
@@ -85,17 +111,41 @@ final class Engine
         return $this->adapter->getSchemaManager()->existIndex($this->schema->indexes[$index]);
     }
 
-    public function createSchema(): void
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<null> : null)
+     */
+    public function createSchema(array $options = []): ?TaskInterface
     {
+        $tasks = [];
         foreach ($this->schema->indexes as $index) {
-            $this->adapter->getSchemaManager()->createIndex($index);
+            $tasks[] = $this->adapter->getSchemaManager()->createIndex($index, $options);
         }
+
+        return null;
+
+        // TODO return TaskInterface for $returnWaitPromise = true
     }
 
-    public function dropSchema(): void
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface<null> : null)
+     */
+    public function dropSchema(array $options = []): ?TaskInterface
     {
+        $tasks = [];
         foreach ($this->schema->indexes as $index) {
-            $this->adapter->getSchemaManager()->dropIndex($index);
+            $tasks[] = $this->adapter->getSchemaManager()->dropIndex($index, $options);
         }
+
+        return null;
+
+        // TODO return TaskInterface for $returnWaitPromise = true
     }
 }

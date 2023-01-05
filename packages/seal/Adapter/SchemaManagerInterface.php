@@ -3,12 +3,27 @@
 namespace Schranz\Search\SEAL\Adapter;
 
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 interface SchemaManagerInterface
 {
     public function existIndex(Index $index): bool;
 
-    public function dropIndex(Index $index): void;
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface : null)
+     */
+    public function dropIndex(Index $index, array $options = []): ?TaskInterface;
 
-    public function createIndex(Index $index): void;
+    /**
+     * @template T of bool
+     *
+     * @param array{return_slow_promise_result: T} $options
+     *
+     * @return (T is true ? TaskInterface : null)
+     */
+    public function createIndex(Index $index, array $options = []): ?TaskInterface;
 }

@@ -6,6 +6,8 @@ use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MeilisearchSchemaManager implements SchemaManagerInterface
 {
@@ -29,12 +31,18 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         return true;
     }
 
-    public function dropIndex(Index $index): void
+    public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
          $this->client->deleteIndex($index->name);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null); // TODO wait for index drop
     }
 
-    public function createIndex(Index $index): void
+    public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
         $this->client->createIndex(
             $index->name,
@@ -49,5 +57,11 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
                     $index->getIdentifierField()->name
                 ],
             ]);
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null); // TODO wait for index create
     }
 }
