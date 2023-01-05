@@ -46,13 +46,11 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $task = $engine->createIndex($indexName, ['return_slow_promise_result' => true]);
         $task->wait();
-        static::waitForCreateIndex(); // TODO remove when all adapter migrated to $task->wait();
 
         $this->assertTrue($engine->existIndex($indexName));
 
         $task = $engine->dropIndex($indexName, ['return_slow_promise_result' => true]);
         $task->wait();
-        static::waitForDropIndex(); // TODO remove when all adapter migrated to $task->wait();
 
         $this->assertFalse($engine->existIndex($indexName));
     }
@@ -64,7 +62,6 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $task = $engine->createSchema(['return_slow_promise_result' => true]);
         $task->wait();
-        static::waitForCreateIndex(); // TODO remove when all adapter migrated to $task->wait();
 
         foreach (array_keys($indexes) as $index) {
             $this->assertTrue($engine->existIndex($index));
@@ -72,7 +69,6 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $task = $engine->dropSchema(['return_slow_promise_result' => true]);
         $task->wait();
-        static::waitForDropIndex(); // TODO remove when all adapter migrated to $task->wait();
 
         foreach (array_keys($indexes) as $index) {
             $this->assertFalse($engine->existIndex($index));
@@ -84,7 +80,6 @@ abstract class AbstractAdapterTestCase extends TestCase
         $engine = self::getEngine();
         $task = $engine->createSchema(['return_slow_promise_result' => true]);
         $task->wait();
-        static::waitForCreateIndex(); // TODO remove when all adapter migrated to $task->wait();
 
         $documents = TestingHelper::createComplexFixtures();
 
@@ -93,7 +88,6 @@ abstract class AbstractAdapterTestCase extends TestCase
         }
 
         self::$taskHelper->waitForAll();
-        static::waitForAddDocuments(); // TODO remove when all adapter migrated to $task->wait();
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
@@ -116,7 +110,6 @@ abstract class AbstractAdapterTestCase extends TestCase
         }
 
         self::$taskHelper->waitForAll();
-        static::waitForDeleteDocuments(); // TODO remove when all adapter migrated to $task->wait();
 
         foreach ($documents as $document) {
             $exceptionThrown = false;
@@ -142,45 +135,5 @@ abstract class AbstractAdapterTestCase extends TestCase
     public static function tearDownAfterClass(): void
     {
         self::getEngine()->dropSchema();
-    }
-
-    /**
-     * @deprecated Use return AsyncTask instead.
-     *
-     * For async adapters, we need to wait for the index to add documents.
-     */
-    protected static function waitForAddDocuments(): void
-    {
-        // TODO remove when all adapter migrated to $task->wait();
-    }
-
-    /**
-     * @deprecated Use return AsyncTask instead.
-     *
-     * For async adapters, we need to wait for the index to delete documents.
-     */
-    protected static function waitForDeleteDocuments(): void
-    {
-        // TODO remove when all adapter migrated to $task->wait();
-    }
-
-    /**
-     * @deprecated Use return AsyncTask instead.
-     *
-     * For async adapters, we need to wait for the index to be created.
-     */
-    protected static function waitForCreateIndex(): void
-    {
-        // TODO remove when all adapter migrated to $task->wait();
-    }
-
-    /**
-     * @deprecated Use return AsyncTask instead.
-     *
-     * For async adapters, we need to wait for the index to be deleted.
-     */
-    protected static function waitForDropIndex(): void
-    {
-        // TODO remove when all adapter migrated to $task->wait();
     }
 }
