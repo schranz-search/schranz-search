@@ -19,14 +19,4 @@ class OpensearchConnectionTest extends AbstractConnectionTestCase
 
         parent::setUpBeforeClass();
     }
-
-    public static function waitForAddDocuments(): void
-    {
-        usleep((int) ($_ENV['OPENSEARCH_WAIT_TIME'] ?? 100_000));
-    }
-
-    public static function waitForDeleteDocuments(): void
-    {
-        usleep((int) ($_ENV['OPENSEARCH_WAIT_TIME'] ?? 100_000));
-    }
 }
