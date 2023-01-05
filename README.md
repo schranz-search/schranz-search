@@ -49,6 +49,8 @@ At current state collect here different search engines which are around and coul
  - [Quickwit](#quickwit)
  - [nrtSearch](#nrtsearch)
  - [MongoDB Atlas](#mongodb-atlas)
+ - [PostgreSQL Full Text Search](#postgresql-full-text-search)
+ - [MySQL Full Text Search](#mysql-full-text-search)
  - [Sphinx Search](#sphinx-search)
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)
@@ -172,6 +174,16 @@ None open source search engine from MongoDB. It is a cloud based search engine.
 
  - Server: [MongoDB Atlas](https://www.mongodb.com/atlas/search)
  - PHP Client: [MongoDB Atlas PHP Client](https://www.mongodb.com/docs/drivers/php/#connect-to-mongodb-atlas)
+
+### PostgreSQL Full Text Search
+
+ - Server: [PostgreSQL](https://www.postgresql.org/)
+ - PHP Client: No client use the [Full Text Feature](https://www.postgresql.org/docs/current/textsearch.html) the Database connection.
+
+### MySQL Full Text Search
+
+ - Server: [MySQL](https://dev.mysql.com/)
+ - PHP Client: No client use the [Full Text Feature](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html) the Database connection.
 
 ### Sphinx Search
 
