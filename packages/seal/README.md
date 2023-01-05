@@ -48,6 +48,8 @@ Additional Wrapper adapters:
  - [ReadWriteAdapter](../seal-read-write-adapter)
  - [MultiAdapter](../seal-multi-adapter)
 
+Creating your own adapter? Add the [`seal-php-adapter`](https://github.com/topics/seal-php-adapter) Topic to your Github Repository.
+
 ## Usage
 
 ### Example Document

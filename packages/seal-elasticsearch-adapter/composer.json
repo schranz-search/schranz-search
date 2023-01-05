@@ -3,6 +3,13 @@
     "description": "An adapter to support elasticsearch in schranz-search/seal search abstraction.",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "schranz-search-adapter",
+        "seal-adapter",
+        "search-client",
+        "elasticsearch"
+    ],
     "autoload": {
         "psr-4": {
             "Schranz\\Search\\SEAL\\Adapter\\Elasticsearch\\": ""
