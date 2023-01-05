@@ -19,24 +19,4 @@ class MeilisearchConnectionTest extends AbstractConnectionTestCase
 
         parent::setUpBeforeClass();
     }
-
-    protected static function waitForCreateIndex(): void
-    {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
-    }
-
-    protected static function waitForDropIndex(): void
-    {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
-    }
-
-    public static function waitForAddDocuments(): void
-    {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
-    }
-
-    public static function waitForDeleteDocuments(): void
-    {
-        usleep((int) ($_ENV['MEILISEARCH_WAIT_TIME'] ?? 200_000));
-    }
 }
