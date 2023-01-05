@@ -18,7 +18,7 @@
 What `doctrine/dbal` is for `doctrine`, the `schranz-search/SEAL` is for `schranz-search` package.
 It provides a common interface to interact with different search engines.
 
-Read more about it in the [README.md](packages/seal/README.md) of the package.
+Read more about it in the [README.md](packages/seal) of the package.
 
 > **Warning**:
 > This project is heavily under development and not ready for production.
