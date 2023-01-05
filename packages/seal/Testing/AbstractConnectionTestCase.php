@@ -17,22 +17,33 @@ abstract class AbstractConnectionTestCase extends TestCase
 
     protected static Schema $schema;
 
+    private static TaskHelper $taskHelper;
+
+    public function setUp(): void
+    {
+        self::$taskHelper = new TaskHelper();
+    }
+
     public static function setUpBeforeClass(): void
     {
+        self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
-            self::$schemaManager->createIndex($index);
+            static::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         }
 
-        static::waitForCreateIndex();
+        self::$taskHelper->waitForAll();
+        static::waitForCreateIndex(); // TODO remove when all adapter migrated to $task->wait();
     }
 
     public static function tearDownAfterClass(): void
     {
+        self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
-            self::$schemaManager->dropIndex($index);
+            self::$taskHelper->tasks[] = self::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         }
 
-        static::waitForDropIndex();
+        self::$taskHelper->waitForAll();
+        static::waitForDropIndex(); // TODO remove when all adapter migrated to $task->wait();
     }
 
     protected static function getSchema(): Schema
@@ -51,9 +62,14 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$connection->save($schema->indexes[TestingHelper::INDEX_COMPLEX], $document);
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true]
+            );
         }
-        static::waitForAddDocuments();
+        self::$taskHelper->waitForAll();;
+        static::waitForAddDocuments(); // TODO remove when all adapter migrated to $task->wait();
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
@@ -80,9 +96,15 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$connection->delete($schema->indexes[TestingHelper::INDEX_COMPLEX], $document['id']);
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['id'],
+                ['return_slow_promise_result' => true]
+            );
         }
-        static::waitForDeleteDocuments();
+
+        self::$taskHelper->waitForAll();
+        static::waitForDeleteDocuments(); // TODO remove when all adapter migrated to $task->wait();
 
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
@@ -96,30 +118,42 @@ abstract class AbstractConnectionTestCase extends TestCase
     }
 
     /**
+     * @deprecated Use return AsyncTask instead.
+     *
      * For async adapters, we need to wait for the index to be created.
      */
     protected static function waitForCreateIndex(): void
     {
+        // TODO remove when all adapter migrated to $task->wait();
     }
 
     /**
+     * @deprecated Use return AsyncTask instead.
+     *
      * For async adapters, we need to wait for the index to be deleted.
      */
     protected static function waitForDropIndex(): void
     {
+        // TODO remove when all adapter migrated to $task->wait();
     }
 
     /**
+     * @deprecated Use return AsyncTask instead.
+     *
      * For async adapters, we need to wait for the index to add documents.
      */
     protected static function waitForAddDocuments(): void
     {
+        // TODO remove when all adapter migrated to $task->wait();
     }
 
     /**
+     * @deprecated Use return AsyncTask instead.
+     *
      * For async adapters, we need to wait for the index to delete documents.
      */
     protected static function waitForDeleteDocuments(): void
     {
+        // TODO remove when all adapter migrated to $task->wait();
     }
 }

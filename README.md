@@ -52,6 +52,7 @@ At current state collect here different search engines which are around and coul
  - [PostgreSQL Full Text Search](#postgresql-full-text-search)
  - [MySQL Full Text Search](#mysql-full-text-search)
  - [Sphinx Search](#sphinx-search)
+ - [Manticoresearch](#manticoresearch)
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)
  - [Amazon CloudSearch](#amazon-cloudsearch)
@@ -177,20 +178,28 @@ None open source search engine from MongoDB. It is a cloud based search engine.
 
 ### PostgreSQL Full Text Search
 
- - Server: [PostgreSQL](https://www.postgresql.org/)
+ - Server: [PostgreSQL Server](https://www.postgresql.org/)
  - PHP Client: No client use the [Full Text Feature](https://www.postgresql.org/docs/current/textsearch.html) the Database connection.
 
 ### MySQL Full Text Search
 
- - Server: [MySQL](https://dev.mysql.com/)
+ - Server: [MySQL Server](https://dev.mysql.com/)
  - PHP Client: No client use the [Full Text Feature](https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html) the Database connection.
 
 ### Sphinx Search
 
 An older search engine written in Python.
 
- - Server: [Sphinx Search](http://sphinxsearch.com/downloads/current/)
+ - Server: [Sphinx Search Server](http://sphinxsearch.com/downloads/current/)
  - PHP Client: No official client available
+
+### Manticore Search
+
+Fork of Sphinx 2.3.2 in 2017, describes itself as an easy to use open source fast database for search.
+Good alternative for Elasticsearch.
+
+ - Server: [Manticore Search Server](https://github.com/manticoresoftware/manticoresearch)
+ - PHP Client: [Manticore Search PHP Client](https://github.com/manticoresoftware/manticoresearch-php)
 
 ### Azure Cognitive Search
 
