@@ -20,6 +20,9 @@ It provides a common interface to interact with different search engines.
 
 Read more about it in the [README.md](packages/seal/README.md) of the package.
 
+> **Warning**:
+> This project is heavily under development and not ready for production.
+
 <div align="center">
 
 ![duffy-duck-investigating](https://user-images.githubusercontent.com/1698337/209232131-8b0a3dcf-8500-45ed-bcc2-1b97a25b1e15.gif)
