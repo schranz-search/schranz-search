@@ -20,7 +20,7 @@ class TestingHelper
         $prefix = getenv('TEST_INDEX_PREFIX') ?: $_ENV['TEST_INDEX_PREFIX'] ?? 'test_';
 
         $complexFields = [
-            'id' => new Field\IdentifierField('id'),
+            'uuid' => new Field\IdentifierField('uuid'),
             'title' => new Field\TextField('title'),
             'header' => new Field\TypedField('header', 'type', [
                 'image' => [
@@ -96,7 +96,7 @@ class TestingHelper
     {
         return [
             [
-                'id' => '1',
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
                 'title' => 'New Blog',
                 'header' => [
                     'type' => 'image',
@@ -141,7 +141,7 @@ class TestingHelper
                 'categoryIds' => [1, 2],
             ],
             [
-                'id' => '2',
+                'uuid' => '79848403-c1a1-4420-bcc2-06ed537e0d4d',
                 'title' => 'Other Blog',
                 'header' => [
                     'type' => 'video',
@@ -159,7 +159,7 @@ class TestingHelper
                 'categoryIds' => [2, 3],
             ],
             [
-                'id' => '3',
+                'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5318cd',
             ],
         ];
     }

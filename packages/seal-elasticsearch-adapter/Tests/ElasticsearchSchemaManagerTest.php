@@ -133,9 +133,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                 ],
             ],
-            'id' => [
-                'type' => 'keyword',
-            ],
             'rating' => [
                 'type' => 'float',
             ],
@@ -144,6 +141,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'title' => [
                 'type' => 'text',
+            ],
+            'uuid' => [
+                'type' => 'keyword',
             ],
         ], $mapping[$index->name]['mappings']['properties']);
 

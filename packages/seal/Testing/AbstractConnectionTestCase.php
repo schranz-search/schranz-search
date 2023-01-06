@@ -28,6 +28,10 @@ abstract class AbstractConnectionTestCase extends TestCase
     {
         self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
+            if (self::$schemaManager->existIndex($index)) {
+                self::$schemaManager->dropIndex($index);
+            }
+
             static::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         }
 
@@ -72,7 +76,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new IdentifierCondition($document['id']));
+            $search->addFilter(new IdentifierCondition($document['uuid']));
 
             $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
 
@@ -95,7 +99,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                $document['id'],
+                $document['uuid'],
                 ['return_slow_promise_result' => true]
             );
         }
@@ -105,11 +109,40 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new IdentifierCondition($document['id']));
+            $search->addFilter(new IdentifierCondition($document['uuid']));
 
             $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
 
-            $this->assertNull($resultDocument, 'Expected document with id "' . $document['id'] . '" to be deleted.');
+            $this->assertNull($resultDocument, 'Expected document with uuid "' . $document['uuid'] . '" to be deleted.');
         }
+    }
+
+    public function testFindMultipleIndexes(): void
+    {
+        $document = TestingHelper::createSimpleFixtures()[0];
+
+        $schema = self::getSchema();
+
+        self::$connection->save(
+            $schema->indexes[TestingHelper::INDEX_SIMPLE],
+            $document,
+            ['return_slow_promise_result' => true]
+        )->wait();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addIndex(TestingHelper::INDEX_SIMPLE);
+        $search->addFilter(new IdentifierCondition($document['id']));
+
+        $expectedDocument = $document;
+        $loadedDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
+
+        $this->assertSame($expectedDocument, $loadedDocument);
+
+        self::$connection->delete(
+            $schema->indexes[TestingHelper::INDEX_SIMPLE],
+            $document['id'],
+            ['return_slow_promise_result' => true]
+        )->wait();
     }
 }

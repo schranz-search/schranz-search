@@ -118,7 +118,7 @@ final class OpensearchConnection implements ConnectionInterface
         }
 
         $searchResult = $this->client->search([
-            'index' => count($indexesNames) === 1 ? $indexesNames[0] : $indexesNames,
+            'index' => implode(',', $indexesNames),
             'body' => [
                 'query' => $query,
             ],
