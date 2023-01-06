@@ -6,12 +6,10 @@ use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
-use Schranz\Search\SEAL\Search\Condition\SearchCondition;
+use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\AsyncTask;
-use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MeilisearchConnection implements ConnectionInterface
@@ -66,7 +64,7 @@ final class MeilisearchConnection implements ConnectionInterface
         if (
             count($search->indexes) === 1
             && count($search->filters) === 1
-            && $search->filters[0] instanceof IdentifierCondition
+            && $search->filters[0] instanceof Condition\IdentifierCondition
             && ($search->offset === null || $search->offset === 0)
             && ($search->limit === null || $search->limit > 0)
         ) {
@@ -98,13 +96,11 @@ final class MeilisearchConnection implements ConnectionInterface
         $query = null;
         $filters = [];
         foreach ($search->filters as $filter) {
-            if ($filter instanceof IdentifierCondition) {
-                $filters[] = 'id = "' . $filter->identifier . '"'; // TODO escape?
-            } elseif ($filter instanceof SearchCondition) {
-                $query = $filter->query;
-            } else {
-                throw new \LogicException($filter::class . ' filter not implemented.');
-            }
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id = "' . $filter->identifier . '"', // TODO escape?
+                $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
         }
 
         $searchParams = [];
