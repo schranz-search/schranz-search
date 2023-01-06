@@ -52,7 +52,8 @@ At current state collect here different search engines which are around and coul
  - [PostgreSQL Full Text Search](#postgresql-full-text-search)
  - [MySQL Full Text Search](#mysql-full-text-search)
  - [Sphinx Search](#sphinx-search)
- - [Manticoresearch](#manticoresearch)
+ - [Manticoresearch](#manticore-search)
+ - [Search.io](#searchio)
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)
  - [Amazon CloudSearch](#amazon-cloudsearch)
@@ -200,6 +201,14 @@ Good alternative for Elasticsearch.
 
  - Server: [Manticore Search Server](https://github.com/manticoresoftware/manticoresearch)
  - PHP Client: [Manticore Search PHP Client](https://github.com/manticoresoftware/manticoresearch-php)
+
+### Search.io
+
+A SaaS search engine, In the past they used the name for Sajari Site Search.
+Lately [acquired by Algolia](https://twitter.com/SearchioHQ/status/1569298045959020549).
+
+ - Server: No server only Saas [Search.io Server](https://search.io/)
+ - PHP Client: [Official Search.io SDK for PHP](https://github.com/sajari/sdk-php)
 
 ### Azure Cognitive Search
 
