@@ -20,9 +20,8 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
     public function testSimpleElasticsearchMapping(): void
     {
         $index = $this->schema->indexes[TestingHelper::INDEX_SIMPLE];
-        static::$schemaManager->createIndex($index);
-
-        $this->waitForCreateIndex();
+        $task = static::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
 
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
@@ -39,16 +38,15 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
         ], $mapping[$index->name]['mappings']['properties']);
 
-        static::$schemaManager->dropIndex($index);
-        static::waitForDropIndex();
+        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
     }
 
     public function testComplexElasticsearchMapping(): void
     {
         $index = $this->schema->indexes[TestingHelper::INDEX_COMPLEX];
-        static::$schemaManager->createIndex($index);
-
-        $this->waitForCreateIndex();
+        $task = static::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
 
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
@@ -149,7 +147,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
         ], $mapping[$index->name]['mappings']['properties']);
 
-        static::$schemaManager->dropIndex($index);
-        static::waitForDropIndex();
+        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
     }
 }
