@@ -7,9 +7,8 @@ use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Schema\Field\AbstractField;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
+use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Schema\Field;
-use Schranz\Search\SEAL\Search\Condition\SearchCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\SyncTask;
@@ -84,7 +83,7 @@ final class ElasticsearchConnection implements ConnectionInterface
         if (
             count($search->indexes) === 1
             && count($search->filters) === 1
-            && $search->filters[0] instanceof IdentifierCondition
+            && $search->filters[0] instanceof Condition\IdentifierCondition
             && ($search->offset === null || $search->offset === 0)
             && ($search->limit === null || $search->limit > 0)
         ) {
@@ -118,13 +117,11 @@ final class ElasticsearchConnection implements ConnectionInterface
 
         $query = [];
         foreach ($search->filters as $filter) {
-            if ($filter instanceof IdentifierCondition) {
-                $query['ids']['values'][] = $filter->identifier;
-            } elseif ($filter instanceof SearchCondition) {
-                $query['query_string']['query'] = $filter->query;
-            } else {
-                throw new \LogicException($filter::class . ' filter not implemented.');
-            }
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
+                $filter instanceof Condition\SearchCondition => $query['query_string']['query'] = $filter->query,
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
         }
 
         if (count($query) === 0) {

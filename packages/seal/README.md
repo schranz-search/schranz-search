@@ -259,6 +259,33 @@ $engine->getDocument('news', '1');
 
 ##### Search documents
 
+The library provides different `Condition` classes to build a query for the search engines.
+
+> Condition is what in Elasticsearch are Queries and Filters.  
+> Not all conditions are supported by all adapters.  
+
+###### SearchCondition
+
+The `SearchCondition` can be used for a basic search query:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\SearchCondition('New Blog'))
+    ->limit(1)
+    ->offset(0)
+    ->getResult();
+```
+
+> To search in multiple indexes you can use the `addIndex` method multiple times.  
+> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).
+
+###### IdentifierCondition
+
+The `IdentifierCondition` can be used to load a specific document:
+
 ```php
 use Schranz\Search\SEAL\Search\Condition;
 
@@ -270,6 +297,8 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-> Condition is what in Elasticsearch are Queries and Filters.
-> Not all conditions are supported by all adapters.
-> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).
+If no additional filters are required also the [`getDocument`](#find-a-document) function can be used instead:
+
+```php
+$document = $engine->getDocument('news', '1');
+```
