@@ -9,6 +9,7 @@ use Schranz\Search\SEAL\Schema\Field\AbstractField;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Schema\Field;
+use Schranz\Search\SEAL\Search\Condition\SearchCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\SyncTask;
@@ -108,7 +109,9 @@ final class OpensearchConnection implements ConnectionInterface
         foreach ($search->filters as $filter) {
             if ($filter instanceof IdentifierCondition) {
                 $query['ids']['values'][] = $filter->identifier;
-            } else {
+            } elseif ($filter instanceof SearchCondition) {
+                $query['query_string']['query'] = $filter->query;
+            }  else {
                 throw new \LogicException($filter::class . ' filter not implemented.');
             }
         }

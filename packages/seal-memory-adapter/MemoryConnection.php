@@ -5,6 +5,7 @@ namespace Schranz\Search\SEAL\Adapter\Memory;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
+use Schranz\Search\SEAL\Search\Condition\SearchCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\SyncTask;
@@ -52,6 +53,16 @@ final class MemoryConnection implements ConnectionInterface
                     if ($filter instanceof IdentifierCondition) {
                         if ($filter->identifier !== $identifier) {
                             continue 2;
+                        }
+                    } elseif ($filter instanceof SearchCondition) {
+                        $text = \json_encode($document, JSON_THROW_ON_ERROR);
+
+                        $terms = \explode(' ', $filter->query);
+
+                        foreach ($terms as $term) {
+                            if (!\str_contains($text, $term)) {
+                                continue 3;
+                            }
                         }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
