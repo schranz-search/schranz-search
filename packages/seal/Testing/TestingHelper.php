@@ -124,7 +124,7 @@ class TestingHelper
                 'footer' => [
                     'title' => 'New Footer',
                 ],
-                'created' => '2022-12-24T12:00:00+01:00',
+                'created' => '2022-01-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
                 'comments' => [
@@ -153,10 +153,24 @@ class TestingHelper
                 ],
                 'created' => '2022-12-26T12:00:00+01:00',
                 'commentsCount' => 0,
-                'rating' => null,
+                'rating' => 2.5,
                 'comments' => [],
                 'tags' => ['UI', 'UX'],
                 'categoryIds' => [2, 3],
+            ],
+            [
+                'uuid' => '8d90e7d9-2b56-4980-90ce-f91d020cee53',
+                'title' => 'Other Thing',
+                'article' => '<article><h2>Other Thing</h2><p>A html field with some content</p></article>',
+                'footer' => [
+                    'title' => 'Other Footer',
+                ],
+                'created' => '2023-02-03T12:00:00+01:00',
+                'commentsCount' => 0,
+                'rating' => null,
+                'comments' => [],
+                'tags' => ['Tech'],
+                'categoryIds' => [3, 4],
             ],
             [
                 'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5318cd',

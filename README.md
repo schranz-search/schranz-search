@@ -52,7 +52,7 @@ At current state collect here different search engines which are around and coul
  - [PostgreSQL Full Text Search](#postgresql-full-text-search)
  - [MySQL Full Text Search](#mysql-full-text-search)
  - [Sphinx Search](#sphinx-search)
- - [Manticoresearch](#manticore-search)
+ - [Manticore Search](#manticore-search)
  - [Search.io](#searchio)
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)

@@ -7,6 +7,7 @@ use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
+use Schranz\Search\SEAL\Search\Condition\SearchCondition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
 
 abstract class AbstractConnectionTestCase extends TestCase
@@ -142,7 +143,58 @@ abstract class AbstractConnectionTestCase extends TestCase
         self::$connection->delete(
             $schema->indexes[TestingHelper::INDEX_SIMPLE],
             $document['id'],
-            ['return_slow_promise_result' => true]
+            ['return_slow_promise_result' => true],
         )->wait();
+    }
+
+    public function testSearchCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new SearchCondition('Blog'));
+
+        $expectedDocumentsVariantA = [
+            $documents[0],
+            $documents[1],
+        ];
+        $expectedDocumentsVariantB = [
+            $documents[1],
+            $documents[0],
+        ];
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+
+        $this->assertTrue(
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+        );
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new SearchCondition('Thing'));
+
+        $this->assertSame([$documents[2]], [...$search->getResult()]);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
     }
 }

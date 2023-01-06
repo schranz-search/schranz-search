@@ -2,10 +2,10 @@
 
 namespace Schranz\Search\SEAL\Search\Condition;
 
-class IdentifierCondition
+class SearchCondition
 {
     public function __construct(
-        public readonly string $identifier,
+        public readonly string $query,
     ) {
     }
 }
