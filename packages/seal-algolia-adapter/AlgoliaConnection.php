@@ -10,7 +10,6 @@ use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\AsyncTask;
-use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class AlgoliaConnection implements ConnectionInterface
@@ -85,7 +84,7 @@ final class AlgoliaConnection implements ConnectionInterface
         }
 
         if (count($search->indexes) !== 1) {
-            throw new \RuntimeException('Algolia does not support multiple indexes in one query.');
+            throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
         $index = $this->client->initIndex($search->indexes[\array_key_first($search->indexes)]->name);

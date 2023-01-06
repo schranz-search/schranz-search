@@ -91,7 +91,7 @@ abstract class AbstractAdapterTestCase extends TestCase
 
         $loadedDocuments = [];
         foreach ($documents as $document) {
-            $loadedDocuments[] = $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['id']);
+            $loadedDocuments[] = $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['uuid']);
         }
 
         $this->assertSame(
@@ -106,7 +106,7 @@ abstract class AbstractAdapterTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = $engine->deleteDocument(TestingHelper::INDEX_COMPLEX, $document['id'], ['return_slow_promise_result' => true]);
+            self::$taskHelper->tasks[] = $engine->deleteDocument(TestingHelper::INDEX_COMPLEX, $document['uuid'], ['return_slow_promise_result' => true]);
         }
 
         self::$taskHelper->waitForAll();
@@ -115,7 +115,7 @@ abstract class AbstractAdapterTestCase extends TestCase
             $exceptionThrown = false;
 
             try {
-                $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['id']);
+                $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['uuid']);
             } catch (DocumentNotFoundException $e) {
                 $exceptionThrown = true;
             }

@@ -89,7 +89,7 @@ final class MeilisearchConnection implements ConnectionInterface
         }
 
         if (count($search->indexes) !== 1) {
-            throw new \RuntimeException('Meilisearch does not support multiple indexes in one query.');
+            throw new \RuntimeException('Meilisearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
         }
 
         $index = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name);

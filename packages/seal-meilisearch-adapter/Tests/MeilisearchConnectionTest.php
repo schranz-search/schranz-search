@@ -19,4 +19,9 @@ class MeilisearchConnectionTest extends AbstractConnectionTestCase
 
         parent::setUpBeforeClass();
     }
+
+    public function testFindMultipleIndexes(): void
+    {
+        $this->markTestSkipped('Not supported by Meilisearch: https://github.com/schranz-search/schranz-search/issues/28');
+    }
 }
