@@ -4,12 +4,9 @@ namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
-use Schranz\Search\SEAL\Schema\Field\AbstractField;
-use Schranz\Search\SEAL\Schema\Field\ObjectField;
-use Schranz\Search\SEAL\Schema\Field\TypedField;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
-use Schranz\Search\SEAL\Search\Condition\SearchCondition;
+use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\SyncTask;
@@ -62,11 +59,11 @@ final class MemoryConnection implements ConnectionInterface
                 }
 
                 foreach ($search->filters as $filter) {
-                    if ($filter instanceof IdentifierCondition) {
+                    if ($filter instanceof Condition\IdentifierCondition) {
                         if ($filter->identifier !== $identifier) {
                             continue 2;
                         }
-                    } elseif ($filter instanceof SearchCondition) {
+                    } elseif ($filter instanceof Condition\SearchCondition) {
                         $searchableDocument = $this->getSearchableDocument($index->fields, $document);
 
                         $text = \json_encode($searchableDocument, JSON_THROW_ON_ERROR);
@@ -76,6 +73,26 @@ final class MemoryConnection implements ConnectionInterface
                             if (!\str_contains($text, $term)) {
                                 continue 3;
                             }
+                        }
+                    } elseif ($filter instanceof Condition\EqualCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (!\in_array($filter->value, $values, true)) {
+                            continue 2;
+                        }
+                    } elseif ($filter instanceof Condition\NotEqualCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (\in_array($filter->value, $values, true)) {
+                            continue 2;
                         }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
@@ -101,7 +118,7 @@ final class MemoryConnection implements ConnectionInterface
     }
 
     /**
-     * @param AbstractField[] $fields
+     * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $document
      *
      * @return array<string, mixed>
@@ -120,8 +137,8 @@ final class MemoryConnection implements ConnectionInterface
             }
 
             match(true) {
-                $field instanceof ObjectField => $document[$field->name] = $this->getSearchableObjectFields($field, $document[$field->name]),
-                $field instanceof TypedField => $document[$field->name] = $this->getSearchableTypedFields($field, $document[$field->name]),
+                $field instanceof Field\ObjectField => $document[$field->name] = $this->getSearchableObjectFields($field, $document[$field->name]),
+                $field instanceof Field\TypedField => $document[$field->name] = $this->getSearchableTypedFields($field, $document[$field->name]),
                 default => null,
             };
         }
@@ -130,12 +147,12 @@ final class MemoryConnection implements ConnectionInterface
     }
 
     /**
-     * @param AbstractField[] $fields
+     * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $document
      *
      * @return array<string, mixed>
      */
-    private function getSearchableObjectFields(ObjectField $field, array $data)
+    private function getSearchableObjectFields(Field\ObjectField $field, array $data)
     {
         if (!$field->multiple) {
             return $this->getSearchableDocument($field->fields, $data);
@@ -150,12 +167,12 @@ final class MemoryConnection implements ConnectionInterface
     }
 
     /**
-     * @param AbstractField[] $fields
+     * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $document
      *
      * @return array<string, mixed>
      */
-    private function getSearchableTypedFields(TypedField $field, array $data)
+    private function getSearchableTypedFields(Field\TypedField $field, array $data)
     {
         $documents = [];
         foreach ($data as $type => $sub) {
