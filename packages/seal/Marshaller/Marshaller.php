@@ -85,12 +85,12 @@ final class Marshaller
             ], $this->marshall($typedFields, $data));
 
             if ($field->multiple) {
-                $rawFields[$name . '.' . $type][] = $rawData;
+                $rawFields[$name][$type][] = $rawData;
 
                 continue;
             }
 
-            $rawFields[$name . '.' . $type] = $rawData;
+            $rawFields[$name][$type] = $rawData;
         }
 
         return $rawFields;
@@ -131,11 +131,11 @@ final class Marshaller
         $documentFields = [];
 
         foreach ($field->types as $type => $typedFields) {
-            if (!isset($raw[$name . '.' . $type])) {
+            if (!isset($raw[$name][$type])) {
                 continue;
             }
 
-            $dataList = $field->multiple ? $raw[$name . '.' . $type] : [$raw[$name . '.' . $type]];
+            $dataList = $field->multiple ? $raw[$name][$type] : [$raw[$name][$type]];
 
             foreach ($dataList as $data) {
                 $documentData = \array_replace([$field->typeField => $type], $this->unmarshall($typedFields, $data));
