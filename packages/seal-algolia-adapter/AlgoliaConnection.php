@@ -5,6 +5,7 @@ namespace Schranz\Search\SEAL\Adapter\Algolia;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Algolia\AlgoliaSearch\SearchClient;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
@@ -14,9 +15,12 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class AlgoliaConnection implements ConnectionInterface
 {
+    private Marshaller $marshaller;
+
     public function __construct(
         private readonly SearchClient $client,
     ) {
+        $this->marshaller = new Marshaller();
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
@@ -25,7 +29,10 @@ final class AlgoliaConnection implements ConnectionInterface
 
         $searchIndex = $this->client->initIndex($index->name);
 
-        $batchIndexingResponse = $searchIndex->saveObject($document, ['objectIDKey' => $identifierField->name]);
+        $batchIndexingResponse = $searchIndex->saveObject(
+            $this->marshaller->marshall($index->fields, $document),
+            ['objectIDKey' => $identifierField->name]
+        );
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
@@ -130,12 +137,14 @@ final class AlgoliaConnection implements ConnectionInterface
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {
+        $index = $indexes[\array_key_first($indexes)];
+
         foreach ($hits as $hit) {
             // remove Algolia Metadata
             unset($hit['objectID']);
             unset($hit['_highlightResult']);
 
-            yield $hit;
+            yield $this->marshaller->unmarshall($index->fields, $hit);
         }
     }
 }

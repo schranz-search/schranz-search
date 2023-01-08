@@ -79,11 +79,11 @@ class MarshallerTest extends TestCase
             'rating' => 3.5,
             'comments' => [
                 [
-                    'email' => 'admin@localhost',
+                    'email' => 'admin.nonesearchablefield@localhost',
                     'text' => 'Awesome blog!',
                 ],
                 [
-                    'email' => 'example@localhost',
+                    'email' => 'example.nonesearchablefield@localhost',
                     'text' => 'Like this blog!',
                 ],
             ],

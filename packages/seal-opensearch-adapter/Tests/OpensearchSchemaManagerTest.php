@@ -27,19 +27,20 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'index' => $index->name,
         ]);
 
+        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
+
         $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
         $this->assertSame([
             'id' => [
                 'type' => 'keyword',
+                'index' => false,
             ],
             'title' => [
                 'type' => 'text',
             ],
         ], $mapping[$index->name]['mappings']['properties']);
-
-        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
-        $task->wait();
     }
 
     public function testComplexOpensearchMapping(): void
@@ -51,6 +52,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $mapping = self::$client->indices()->getMapping([
             'index' => $index->name,
         ]);
+
+        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
+        $task->wait();
 
         $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
 
@@ -64,6 +68,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                         'properties' => [
                             'media' => [
                                 'type' => 'text',
+                                'index' => false,
                             ],
                             'title' => [
                                 'type' => 'text',
@@ -77,6 +82,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             ],
                             'media' => [
                                 'type' => 'integer',
+                                'index' => false,
                             ],
                             'title' => [
                                 'type' => 'text',
@@ -87,11 +93,13 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'categoryIds' => [
                 'type' => 'integer',
+                'index' => false,
             ],
             'comments' => [
                 'properties' => [
                     'email' => [
                         'type' => 'text',
+                        'index' => false,
                     ],
                     'text' => [
                         'type' => 'text',
@@ -100,6 +108,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'commentsCount' => [
                 'type' => 'integer',
+                'index' => false,
             ],
             'created' => [
                 'type' => 'date',
@@ -117,6 +126,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                         'properties' => [
                             'media' => [
                                 'type' => 'integer',
+                                'index' => false,
                             ],
                         ],
                     ],
@@ -124,6 +134,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                         'properties' => [
                             'media' => [
                                 'type' => 'text',
+                                'index' => false,
                             ],
                         ],
                     ],
@@ -131,6 +142,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'rating' => [
                 'type' => 'float',
+                'index' => false,
             ],
             'tags' => [
                 'type' => 'text',
@@ -140,10 +152,8 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'uuid' => [
                 'type' => 'keyword',
+                'index' => false,
             ],
         ], $mapping[$index->name]['mappings']['properties']);
-
-        $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
-        $task->wait();
     }
 }

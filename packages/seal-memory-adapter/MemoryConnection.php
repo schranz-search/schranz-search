@@ -3,6 +3,10 @@
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Marshaller\Marshaller;
+use Schranz\Search\SEAL\Schema\Field\AbstractField;
+use Schranz\Search\SEAL\Schema\Field\ObjectField;
+use Schranz\Search\SEAL\Schema\Field\TypedField;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\Condition\SearchCondition;
@@ -13,9 +17,16 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MemoryConnection implements ConnectionInterface
 {
+    private Marshaller $marshaller;
+
+    public function __construct()
+    {
+        $this->marshaller = new Marshaller();
+    }
+
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
     {
-        $document = MemoryStorage::save($index, $document);
+        $document = MemoryStorage::save($index, $this->marshaller->marshall($index->fields, $document));
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
@@ -39,6 +50,7 @@ final class MemoryConnection implements ConnectionInterface
     {
         $documents = [];
 
+        /** @var Index $index */
         foreach ($search->indexes as $index) {
             foreach (MemoryStorage::getDocuments($index) as $identifier => $document) {
                 $identifier = (string) $identifier;
@@ -55,8 +67,12 @@ final class MemoryConnection implements ConnectionInterface
                             continue 2;
                         }
                     } elseif ($filter instanceof SearchCondition) {
-                        $text = \json_encode($document, JSON_THROW_ON_ERROR);
+                        $searchableDocument = $this->getSearchableDocument($index->fields, $document);
 
+                        var_dump($searchableDocument);
+                        exit;
+
+                        $text = \json_encode($searchableDocument, JSON_THROW_ON_ERROR);
                         $terms = \explode(' ', $filter->query);
 
                         foreach ($terms as $term) {
@@ -69,7 +85,7 @@ final class MemoryConnection implements ConnectionInterface
                     }
                 }
 
-                $documents[] = $document;
+                $documents[] = $this->marshaller->unmarshall($index->fields, $document);
             }
         }
 
@@ -85,5 +101,83 @@ final class MemoryConnection implements ConnectionInterface
             $generator(),
             count($documents),
         );
+    }
+
+    /**
+     * @param AbstractField[] $fields
+     * @param array<string, mixed> $document
+     *
+     * @return array<string, mixed>
+     */
+    private function getSearchableDocument(array $fields, array $document): array
+    {
+        foreach ($fields as $field) {
+            if (!isset($document[$field->name])) {
+                continue;
+            }
+
+            if (!$field->searchable) {
+                unset($document[$field->name]);
+
+                continue;
+            }
+
+            match(true) {
+                $field instanceof ObjectField => $document[$field->name] = $this->getSearchableObjectFields($field, $document[$field->name]),
+                $field instanceof TypedField => $document[$field->name] = $this->getSearchableTypedFields($field, $document[$field->name]),
+                default => null,
+            };
+        }
+
+        return $document;
+    }
+
+    /**
+     * @param AbstractField[] $fields
+     * @param array<string, mixed> $document
+     *
+     * @return array<string, mixed>
+     */
+    private function getSearchableObjectFields(ObjectField $field, array $data)
+    {
+        if (!$field->multiple) {
+            return $this->getSearchableDocument($field->fields, $data);
+        }
+
+        $documents = [];
+        foreach ($data as $sub) {
+            $documents[] = $this->getSearchableDocument($field->fields, $sub);
+        }
+
+        return $documents;
+    }
+
+    /**
+     * @param AbstractField[] $fields
+     * @param array<string, mixed> $document
+     *
+     * @return array<string, mixed>
+     */
+    private function getSearchableTypedFields(TypedField $field, array $data)
+    {
+        $documents = [];
+        foreach ($data as $type => $sub) {
+            if (!$field->multiple) {
+                $sub = [$sub];
+            }
+
+            $typeFields = $field->types[$type];
+            foreach ($sub as $item) {
+                $subDocument = $this->getSearchableDocument($typeFields, $item);
+
+                if (!$field->multiple) {
+                    return [$type => $subDocument];
+                }
+
+                $documents[$type][] = $subDocument;
+            }
+        }
+
+        return $documents;
     }
 }

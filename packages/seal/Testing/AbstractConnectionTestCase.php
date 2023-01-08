@@ -199,6 +199,28 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
     }
 
+    public function testNoneSearchableFields(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new SearchCondition('admin.nonesearchablefield@localhost'));
+
+        $this->assertCount(0, [...$search->getResult()]);
+    }
+
     public function testLimitAndOffset(): void
     {
         $documents = TestingHelper::createComplexFixtures();

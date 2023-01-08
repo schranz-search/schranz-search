@@ -5,6 +5,7 @@ namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
@@ -14,9 +15,12 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MeilisearchConnection implements ConnectionInterface
 {
+    private Marshaller $marshaller;
+
     public function __construct(
         private readonly Client $client,
     ) {
+        $this->marshaller = new Marshaller();
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
@@ -26,7 +30,9 @@ final class MeilisearchConnection implements ConnectionInterface
         /** @var string|null $identifier */
         $identifier = ((string) $document[$identifierField->name]) ?? null;
 
-        $indexResponse = $this->client->index($index->name)->addDocuments([$document], $identifierField->name);
+        $indexResponse = $this->client->index($index->name)->addDocuments([
+            $this->marshaller->marshall($index->fields, $document),
+        ], $identifierField->name);
 
         if ($indexResponse['status'] !== 'enqueued') {
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
@@ -133,8 +139,10 @@ final class MeilisearchConnection implements ConnectionInterface
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {
+        $index = $indexes[\array_key_first($indexes)];
+
         foreach ($hits as $hit) {
-            yield $hit;
+            yield $this->marshaller->unmarshall($index->fields, $hit);
         }
     }
 }

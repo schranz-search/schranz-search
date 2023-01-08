@@ -226,7 +226,7 @@ $fields = [
         'text' => new Field\TextField('text'),
     ], multiple: true),
     'tags' => new Field\TextField('tags', multiple: true, filterable: true),
-    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
+    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
 ];
 ```
 
