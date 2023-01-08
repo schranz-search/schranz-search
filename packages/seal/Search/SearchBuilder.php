@@ -18,9 +18,9 @@ final class SearchBuilder
      */
     private array $filters = [];
 
-    private ?int $limit = null;
+    private int $offset = 0;
 
-    private ?int $offset = null;
+    private ?int $limit = null;
 
     public function __construct(
         readonly private Schema $schema,
@@ -41,16 +41,16 @@ final class SearchBuilder
         return $this;
     }
 
-    public function offset(int $offset): static
+    public function limit(int $limit): static
     {
-        $this->offset = $offset;
+        $this->limit = $limit;
 
         return $this;
     }
 
-    public function limit(int $limit): static
+    public function offset(int $offset): static
     {
-        $this->limit = $limit;
+        $this->offset = $offset;
 
         return $this;
     }

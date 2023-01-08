@@ -78,8 +78,8 @@ final class OpensearchConnection implements ConnectionInterface
             count($search->indexes) === 1
             && count($search->filters) === 1
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && ($search->offset === null || $search->offset === 0)
-            && ($search->limit === null || $search->limit > 0)
+            && $search->offset === 0
+            && $search->limit === 1
         ) {
             try {
                 $searchResult = $this->client->get([
@@ -117,11 +117,21 @@ final class OpensearchConnection implements ConnectionInterface
             $query['match_all'] = new \stdClass();
         }
 
+        $body = [
+            'query' => $query,
+        ];
+
+        if ($search->offset) {
+            $body['from'] = $search->offset;
+        }
+
+        if ($search->limit) {
+            $body['size'] = $search->limit;
+        }
+
         $searchResult = $this->client->search([
             'index' => implode(',', $indexesNames),
-            'body' => [
-                'query' => $query,
-            ],
+            'body' => $body,
         ]);
 
         return new Result(
