@@ -181,6 +181,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $this->assertTrue(
             $expectedDocumentsVariantA === $loadedDocuments
             || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
         $search = new SearchBuilder($schema, self::$connection);
@@ -188,6 +189,59 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new SearchCondition('Thing'));
 
         $this->assertSame([$documents[2]], [...$search->getResult()]);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testLimitAndOffset(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = (new SearchBuilder($schema, self::$connection))
+            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->addFilter(new SearchCondition('Blog'))
+            ->limit(1);
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+
+        $this->assertTrue(
+            [$documents[0]] === $loadedDocuments
+            || [$documents[1]] === $loadedDocuments,
+            'Not correct documents where found.',
+        );
+
+        $isFirstDocumentOnPage1 = [$documents[0]] === $loadedDocuments;
+
+        $search = (new SearchBuilder($schema, self::$connection))
+            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->addFilter(new SearchCondition('Blog'))
+            ->offset(1)
+            ->limit(1);
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+        $this->assertSame(
+            $isFirstDocumentOnPage1 ? [$documents[1]] : [$documents[0]],
+            $loadedDocuments
+        );
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(

@@ -73,6 +73,8 @@ final class MemoryConnection implements ConnectionInterface
             }
         }
 
+        $documents = \array_slice($documents, $search->offset, $search->limit);
+
         $generator = (function() use ($documents): \Generator {
             foreach ($documents as $document) {
                 yield $document;

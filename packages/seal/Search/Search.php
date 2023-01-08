@@ -14,6 +14,6 @@ final class Search
         public readonly array $indexes = [],
         public readonly array $filters = [],
         public readonly ?int $limit = null,
-        public readonly  ?int $offset = null,
+        public readonly int $offset = 0,
     ) {}
 }

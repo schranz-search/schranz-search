@@ -60,8 +60,8 @@ final class AlgoliaConnection implements ConnectionInterface
             count($search->indexes) === 1
             && count($search->filters) === 1
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && ($search->offset === null || $search->offset === 0)
-            && ($search->limit === null || $search->limit > 0)
+            && $search->offset === 0
+            && $search->limit === 1
         ) {
             $index = $search->indexes[\array_key_first($search->indexes)];
             $identifierField = $index->getIdentifierField();
@@ -87,13 +87,14 @@ final class AlgoliaConnection implements ConnectionInterface
             throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
-        $index = $this->client->initIndex($search->indexes[\array_key_first($search->indexes)]->name);
+        $index = $search->indexes[\array_key_first($search->indexes)];
+        $searchIndex = $this->client->initIndex($index->name);
 
         $query = '';
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:' . $filter->identifier,
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
                 default =>  throw new \LogicException($filter::class . ' filter not implemented.'),
             };
@@ -104,7 +105,16 @@ final class AlgoliaConnection implements ConnectionInterface
             $searchParams = ['filters' => \implode(' AND ', $filters)];
         }
 
-        $data = $index->search($query, $searchParams);
+        if ($search->offset) {
+            $searchParams['offset'] = $search->offset;
+        }
+
+        if ($search->limit) {
+            $searchParams['length'] = $search->limit;
+            $searchParams['offset'] = $searchParams['offset'] ?? 0; // length would be ignored without offset see: https://www.algolia.com/doc/api-reference/api-parameters/length/
+        }
+
+        $data = $searchIndex->search($query, $searchParams);
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $data['hits']),

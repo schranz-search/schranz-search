@@ -65,8 +65,8 @@ final class MeilisearchConnection implements ConnectionInterface
             count($search->indexes) === 1
             && count($search->filters) === 1
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && ($search->offset === null || $search->offset === 0)
-            && ($search->limit === null || $search->limit > 0)
+            && $search->offset === 0
+            && $search->limit === 1
         ) {
             try {
                 $data = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name)->getDocument($search->filters[0]->identifier);
@@ -91,13 +91,14 @@ final class MeilisearchConnection implements ConnectionInterface
             throw new \RuntimeException('Meilisearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
         }
 
-        $index = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name);
+        $index = $search->indexes[\array_key_first($search->indexes)];
+        $searchIndex = $this->client->index($index->name);
 
         $query = null;
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id = "' . $filter->identifier . '"', // TODO escape?
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = "' . $filter->identifier . '"', // TODO escape?
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
@@ -108,7 +109,15 @@ final class MeilisearchConnection implements ConnectionInterface
             $searchParams = ['filter' => \implode(' AND ', $filters)];
         }
 
-        $data = $index->search($query, $searchParams)->toArray();
+        if ($search->offset) {
+            $searchParams['offset'] = $search->offset;
+        }
+
+        if ($search->limit) {
+            $searchParams['limit'] = $search->limit;
+        }
+
+        $data = $searchIndex->search($query, $searchParams)->toArray();
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $data['hits']),
