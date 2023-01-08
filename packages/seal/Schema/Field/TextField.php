@@ -7,8 +7,24 @@ namespace Schranz\Search\SEAL\Schema\Field;
  */
 final class TextField extends AbstractField
 {
-    public function __construct(string $name, bool $multiple = false, array $options = [])
-    {
-        parent::__construct($name, $multiple, $options);
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function __construct(
+        string $name,
+        bool $multiple = false,
+        bool $searchable = true,
+        bool $filterable = false,
+        bool $sortable = false,
+        array $options = []
+    ) {
+        parent::__construct(
+            $name,
+            $multiple,
+            $searchable,
+            $filterable,
+            $sortable,
+            $options
+        );
     }
 }

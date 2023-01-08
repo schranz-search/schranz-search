@@ -16,8 +16,35 @@ final class TypedField extends AbstractField
         public readonly string $typeField,
         public readonly iterable $types,
         bool $multiple = false,
-        array $options = [],
+        array $options = []
     ) {
-        parent::__construct($name, $multiple, $options);
+        $searchable = false;
+        $filterable = false;
+        $sortable = false;
+
+        foreach ($types as $fields) {
+            foreach ($fields as $field) {
+                if ($field->searchable) {
+                    $searchable = true;
+                }
+
+                if ($field->filterable) {
+                    $filterable = true;
+                }
+
+                if ($field->sortable) {
+                    $sortable = true;
+                }
+            }
+        }
+
+        parent::__construct(
+            $name,
+            $multiple,
+            $searchable,
+            $filterable,
+            $sortable,
+            $options
+        );
     }
 }

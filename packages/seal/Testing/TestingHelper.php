@@ -24,10 +24,10 @@ class TestingHelper
             'title' => new Field\TextField('title'),
             'header' => new Field\TypedField('header', 'type', [
                 'image' => [
-                    'media' => new Field\IntegerField('media'),
+                    'media' => new Field\IntegerField('media', searchable: false),
                 ],
                 'video' => [
-                    'media' => new Field\TextField('media'),
+                    'media' => new Field\TextField('media', searchable: false),
                 ],
             ]),
             'article' => new Field\TextField('article'),
@@ -35,25 +35,25 @@ class TestingHelper
                 'text' => [
                     'title' => new Field\TextField('title'),
                     'description' => new Field\TextField('description'),
-                    'media' => new Field\IntegerField('media', multiple: true),
+                    'media' => new Field\IntegerField('media', multiple: true, searchable: false),
                 ],
                 'embed' => [
                     'title' => new Field\TextField('title'),
-                    'media' => new Field\TextField('media'),
+                    'media' => new Field\TextField('media', searchable: false),
                 ],
             ], multiple: true),
             'footer' => new Field\ObjectField('footer', [
                 'title' => new Field\TextField('title'),
             ]),
-            'created' => new Field\DateTimeField('created'),
-            'commentsCount' => new Field\IntegerField('commentsCount'),
-            'rating' => new Field\FloatField('rating'),
+            'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
+            'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
+            'rating' => new Field\FloatField('rating',  searchable: false, filterable: true, sortable: true),
             'comments' => new Field\ObjectField('comments', [
-                'email' => new Field\TextField('email'),
+                'email' => new Field\TextField('email', searchable: false),
                 'text' => new Field\TextField('text'),
             ], multiple: true),
-            'tags' => new Field\TextField('tags', multiple: true),
-            'categoryIds' => new Field\IntegerField('categoryIds', multiple: true),
+            'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
         ];
 
         $simpleFields = [
