@@ -8,6 +8,13 @@ on:
             - '[0-9]+.[0-9]+'
 
 jobs:
+    seal-core:
+        name: SEAL Core
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal'
+            docker: false
+
     memory-adapter:
         name: Memory Adapter
         uses: ./.github/workflows/callable-test.yml

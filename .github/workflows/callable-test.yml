@@ -47,6 +47,7 @@ jobs:
 
             - name: Require @dev packages
               working-directory: ${{ inputs.directory }}
+              if: ${{ inputs.directory != 'packages/seal' }}
               run: |
                   composer require schranz-search/seal:"@dev"
 

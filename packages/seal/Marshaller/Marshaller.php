@@ -79,10 +79,9 @@ final class Marshaller
 
             $typedFields = $field->types[$type];
 
-            $rawData = \array_replace([
-                '_type' => $type,
+            $rawData = \array_replace($field->multiple ? [
                 '_originalIndex' => $originalIndex,
-            ], $this->marshall($typedFields, $data));
+            ] : [], $this->marshall($typedFields, $data));
 
             if ($field->multiple) {
                 $rawFields[$name][$type][] = $rawData;
