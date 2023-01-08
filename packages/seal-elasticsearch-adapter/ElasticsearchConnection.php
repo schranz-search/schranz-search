@@ -6,6 +6,8 @@ use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
+use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
@@ -118,6 +120,8 @@ final class ElasticsearchConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $query['query_string']['query'] = $filter->query,
+                $filter instanceof Condition\EqualCondition => $query['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $query['bool']['must_not']['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -170,5 +174,24 @@ final class ElasticsearchConnection implements ConnectionInterface
 
             yield $this->marshaller->unmarshall($index->fields, $hit['_source']);
         }
+    }
+
+    private function getFilterField(array $indexes, string $name): string
+    {
+        foreach ($indexes as $index) {
+            try {
+                $field = $index->getFieldByPath($name);
+
+                if ($field instanceof Field\TextField) {
+                    return $name . '.raw';
+                }
+
+                return $name;
+            } catch (FieldByPathNotFoundException $e) {
+                // ignore when field is not found and use go to next index instead
+            }
+        }
+
+        return $name;
     }
 }

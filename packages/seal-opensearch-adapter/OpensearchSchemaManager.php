@@ -71,10 +71,14 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                     'type' => 'keyword',
                     'index' => $field->searchable,
                 ],
-                $field instanceof Field\TextField => $properties[$name] = [
+                $field instanceof Field\TextField => $properties[$name] = \array_replace([
                     'type' => 'text',
                     'index' => $field->searchable,
-                ],
+                ], ($field->filterable || $field->sortable) ? [
+                    'fields' => [
+                        'raw' => ['type' => 'keyword'],
+                    ],
+                ] : []),
                 $field instanceof Field\BooleanField => $properties[$name] = [
                     'type' => 'boolean',
                     'index' => $field->searchable,

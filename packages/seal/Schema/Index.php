@@ -2,8 +2,11 @@
 
 namespace Schranz\Search\SEAL\Schema;
 
+use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
 use Schranz\Search\SEAL\Schema\Field\AbstractField;
 use Schranz\Search\SEAL\Schema\Field\IdentifierField;
+use Schranz\Search\SEAL\Schema\Field\ObjectField;
+use Schranz\Search\SEAL\Schema\Field\TypedField;
 
 final class Index
 {
@@ -38,5 +41,25 @@ final class Index
         }
 
         return $this->identifierField;
+    }
+
+    public function getFieldByPath(string $path): AbstractField
+    {
+        $pathParts = \explode('.', $path);
+        $fields = $this->fields;
+
+        do {
+            $field = $fields[\current($pathParts)] ?? null;
+
+            if ($field instanceof TypedField) {
+                $fields = $field->types[\current($pathParts)];
+            } elseif ($field instanceof ObjectField) {
+                $fields = $field->fields;
+            } elseif ($field instanceof AbstractField) {
+                return $field;
+            } else {
+                throw new FieldByPathNotFoundException($this->name, $path);
+            }
+        } while (true);
     }
 }
