@@ -53,7 +53,7 @@ class TestingHelper
                 'text' => new Field\TextField('text'),
             ], multiple: true),
             'tags' => new Field\TextField('tags', multiple: true, filterable: true),
-            'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
+            'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
         ];
 
         $simpleFields = [
@@ -129,11 +129,11 @@ class TestingHelper
                 'rating' => 3.5,
                 'comments' => [
                     [
-                        'email' => 'admin@localhost',
+                        'email' => 'admin.nonesearchablefield@localhost',
                         'text' => 'Awesome blog!',
                     ],
                     [
-                        'email' => 'example@localhost',
+                        'email' => 'example.nonesearchablefield@localhost',
                         'text' => 'Like this blog!',
                     ],
                 ],
