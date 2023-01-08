@@ -322,13 +322,14 @@ use Schranz\Search\SEAL\Search\Condition;
 $documents = $engine->createSearchBuilder()
     ->addIndex('news')
     ->addFilter(new Condition\SearchCondition('New Blog'))
-    ->limit(1)
+    ->limit(10)
     ->offset(0)
     ->getResult();
 ```
 
 > To search in multiple indexes you can use the `addIndex` method multiple times.  
-> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).
+> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).  
+> Use `limit` and `offset` to paginate the results.
 
 ###### IdentifierCondition
 
@@ -350,3 +351,37 @@ If no additional filters are required also the [`getDocument`](#find-a-document)
 ```php
 $document = $engine->getDocument('news', '1');
 ```
+
+###### EqualCondition
+
+The `EqualCondition` can be used to load documents matching a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\EqualCondition('tags', 'UI'))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need to match.  
+For filtering by object fields use `<object_name>.<field_name>` as field e.g.: `'new Condition\EqualCondition('header.media', 1)`.  
+For filtering by typed fields use `<typed_name>.<type_name>.<field_name>` as field e.g.: `new Condition\EqualCondition('blocks.text.media', 1)`.
+
+###### NotEqualCondition
+
+The `NotEqualCondition` can be used to load documents matching not a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\NotEqualCondition('tags', 'UI'))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need not match.  
+For filtering by object fields use `<object_name>.<field_name>` as field e.g.: `'new NotEqualCondition('header.media', 1)`.  
+For filtering by typed fields use `<typed_name>.<type_name>.<field_name>` as field e.g.: `new NotEqualCondition('blocks.text.media', 1)`.  
