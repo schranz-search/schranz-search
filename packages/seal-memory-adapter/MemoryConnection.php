@@ -69,9 +69,6 @@ final class MemoryConnection implements ConnectionInterface
                     } elseif ($filter instanceof SearchCondition) {
                         $searchableDocument = $this->getSearchableDocument($index->fields, $document);
 
-                        var_dump($searchableDocument);
-                        exit;
-
                         $text = \json_encode($searchableDocument, JSON_THROW_ON_ERROR);
                         $terms = \explode(' ', $filter->query);
 
