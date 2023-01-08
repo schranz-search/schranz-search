@@ -5,10 +5,9 @@ namespace Schranz\Search\SEAL\Adapter\Opensearch;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
-use Schranz\Search\SEAL\Schema\Field\AbstractField;
+use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
-use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\SyncTask;
@@ -16,9 +15,12 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class OpensearchConnection implements ConnectionInterface
 {
+    private Marshaller $marshaller;
+
     public function __construct(
         private readonly Client $client,
     ) {
+        $this->marshaller = new Marshaller();
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
@@ -28,7 +30,7 @@ final class OpensearchConnection implements ConnectionInterface
         /** @var string|null $identifier */
         $identifier = ((string) $document[$identifierField->name]) ?? null;
 
-        $document = $this->normalizeDocument($index->fields, $document);
+        $document = $this->marshaller->marshall($index->fields, $document);
 
         $data = $this->client->index([
             'index' => $index->name,
@@ -141,93 +143,6 @@ final class OpensearchConnection implements ConnectionInterface
     }
 
     /**
-     * @param AbstractField[] $fields
-     * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
-     */
-    private function normalizeDocument(array $fields, array $document): array
-    {
-        $normalizedDocument = [];
-
-        foreach ($fields as $name => $field) {
-            if (!\array_key_exists($field->name, $document)) {
-                continue;
-            }
-
-            if ($field->multiple && !\is_array($document[$field->name])) {
-                throw new \RuntimeException('Field "' . $field->name . '" is multiple but value is not an array.');
-            }
-
-            match (true) {
-                $field instanceof Field\ObjectField => $normalizedDocument[$name] = $this->normalizeObjectFields($document[$field->name], $field),
-                $field instanceof Field\TypedField => $normalizedDocument = \array_replace($normalizedDocument, $this->normalizeTypedFields($name, $document[$field->name], $field)),
-                default => $normalizedDocument[$name] = $document[$field->name],
-            };
-        }
-
-        return $normalizedDocument;
-    }
-
-    /**
-     * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
-     */
-    private function normalizeObjectFields(array $document, Field\ObjectField $field): array
-    {
-        if (!$field->multiple) {
-            return $this->normalizeDocument($field->fields, $document);
-        }
-
-        $documents = [];
-        foreach ($document as $data) {
-            $documents[] = $this->normalizeDocument($field->fields, $data);
-        }
-
-        return $documents;
-    }
-
-    /**
-     * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
-     */
-    private function normalizeTypedFields(string $name, array $document, Field\TypedField $field): array
-    {
-        $normalizedFields = [];
-
-        if (!$field->multiple) {
-            $document = [$document];
-        }
-
-        foreach ($document as $originalIndex => $data) {
-            /** @var string|null $type */
-            $type = $data[$field->typeField] ?? null;
-            if ($type === null || !\array_key_exists($type, $field->types)) {
-                throw new \RuntimeException('Expected type field "' . $field->typeField . '" not found in document.');
-            }
-
-            $typedFields = $field->types[$type];
-
-            $normalizedData = \array_replace([
-                '_type' => $type,
-                '_originalIndex' => $originalIndex,
-            ], $this->normalizeDocument($typedFields, $data));
-
-            if ($field->multiple) {
-                $normalizedFields[$name . '.' . $type][] = $normalizedData;
-
-                continue;
-            }
-
-            $normalizedFields[$name . '.' . $type] = $normalizedData;
-        }
-
-        return $normalizedFields;
-    }
-
-    /**
      * @param Index[] $indexes
      * @param array<string, mixed> $searchResult
      *
@@ -246,91 +161,7 @@ final class OpensearchConnection implements ConnectionInterface
                 throw new \RuntimeException('SchemaMetadata for Index "' . $hit['_index'] . '" not found.');
             }
 
-            $denormalizedDocument = $this->denormalizeDocument($index->fields, $hit['_source']);
-
-            yield $denormalizedDocument;
+            yield $this->marshaller->unmarshall($index->fields, $hit['_source']);
         }
-    }
-
-    /**
-     * @param AbstractField[] $fields
-     * @param array<string, mixed> $normalizedDocument
-     *
-     * @return array<string, mixed>
-     */
-    private function denormalizeDocument(array $fields, array $normalizedDocument): array
-    {
-        $denormalizedDocument = [];
-
-        foreach ($fields as $name => $field) {
-            if (!\array_key_exists($name, $normalizedDocument) && !$field instanceof Field\TypedField ) {
-                continue;
-            }
-
-            match (true) {
-                $field instanceof Field\ObjectField => $denormalizedDocument[$field->name] = $this->denormalizeObjectFields($normalizedDocument[$name], $field),
-                $field instanceof Field\TypedField => $denormalizedDocument = \array_replace($denormalizedDocument, $this->denormalizeTypedFields($name, $normalizedDocument, $field)),
-                default => $denormalizedDocument[$field->name] = $normalizedDocument[$name] ?? ($field->multiple ? [] : null),
-            };
-        }
-
-        return $denormalizedDocument;
-    }
-
-    /**
-     * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
-     */
-    private function denormalizeTypedFields(string $name, array $document, Field\TypedField $field): array
-    {
-        $denormalizedFields = [];
-
-        foreach ($field->types as $type => $typedFields) {
-            if (!isset($document[$name . '.' . $type])) {
-                continue;
-            }
-
-            $dataList = $field->multiple ? $document[$name . '.' . $type] : [$document[$name . '.' . $type]];
-
-            foreach ($dataList as $data) {
-                $denormalizedData = \array_replace([$field->typeField => $type], $this->denormalizeDocument($typedFields, $data));
-
-                if ($field->multiple) {
-                    /** @var string|int|null $originalIndex */
-                    $originalIndex = $data['_originalIndex'] ?? null;
-                    if ($originalIndex === null) {
-                        throw new \RuntimeException('Expected "_originalIndex" field not found in document.');
-                    }
-
-                    $denormalizedFields[$name][$originalIndex] = $denormalizedData;
-
-                    continue;
-                }
-
-                $denormalizedFields[$name] = $denormalizedData;
-            }
-        }
-
-        return $denormalizedFields;
-    }
-
-    /**
-     * @param array<string, mixed> $document
-     *
-     * @return array<string, mixed>
-     */
-    private function denormalizeObjectFields(array $document, Field\ObjectField $field): array
-    {
-        if (!$field->multiple) {
-            return $this->denormalizeDocument($field->fields, $document);
-        }
-
-        $documents = [];
-        foreach ($document as $data) {
-            $documents[] = $this->denormalizeDocument($field->fields, $data);
-        }
-
-        return $documents;
     }
 }
