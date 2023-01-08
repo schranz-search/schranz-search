@@ -40,10 +40,6 @@ final class ElasticsearchConnection implements ConnectionInterface
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
         ]);
 
-        if ($response->getStatusCode() !== 201) {
-            throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '".');
-        }
-
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }

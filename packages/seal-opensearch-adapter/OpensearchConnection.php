@@ -40,10 +40,6 @@ final class OpensearchConnection implements ConnectionInterface
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
         ]);
 
-        if ($data['result'] !== 'created') {
-            throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
-        }
-
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
