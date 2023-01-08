@@ -102,15 +102,18 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
      */
     private function createTypedFieldMapping(string $name, Field\TypedField $field): array
     {
-        $properties = [];
+        $typedProperties = [];
 
         foreach ($field->types as $type => $fields) {
-            $properties[$name . '.' . $type] = [
-                'type' => 'nested',
-                'properties' => $this->createPropertiesMapping($fields),
+            $typedProperties[$type] = [
+                'type' => 'object',
+                'properties' => $this->createPropertiesMapping($fields)
             ];
         }
 
-        return $properties;
+        return [$name => [
+            'type' => 'object',
+            'properties' => $typedProperties,
+        ]];
     }
 }

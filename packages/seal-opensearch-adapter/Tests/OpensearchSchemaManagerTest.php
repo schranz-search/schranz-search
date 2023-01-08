@@ -61,7 +61,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'blocks' => [
                 'properties' => [
                     'embed' => [
-                        'type' => 'nested',
                         'properties' => [
                             'media' => [
                                 'type' => 'text',
@@ -72,7 +71,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                         ],
                     ],
                     'text' => [
-                        'type' => 'nested',
                         'properties' => [
                             'description' => [
                                 'type' => 'text',
@@ -116,7 +114,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'header' => [
                 'properties' => [
                     'image' => [
-                        'type' => 'nested',
                         'properties' => [
                             'media' => [
                                 'type' => 'integer',
@@ -124,7 +121,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                         ],
                     ],
                     'video' => [
-                        'type' => 'nested',
                         'properties' => [
                             'media' => [
                                 'type' => 'text',
