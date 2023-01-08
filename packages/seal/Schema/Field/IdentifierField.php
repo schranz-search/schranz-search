@@ -9,6 +9,13 @@ final class IdentifierField extends AbstractField
 {
     public function __construct(string $name)
     {
-        parent::__construct($name, false, []);
+        parent::__construct(
+            $name,
+            multiple: false,
+            searchable: false,
+            filterable: true,
+            sortable: true,
+            options: [],
+        );
     }
 }

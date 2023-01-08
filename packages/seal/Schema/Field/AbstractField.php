@@ -10,6 +10,9 @@ abstract class AbstractField
     public function __construct(
         public readonly string $name,
         public readonly bool $multiple,
+        public readonly bool $searchable,
+        public readonly bool $filterable,
+        public readonly bool $sortable,
         public readonly array $options,
     ) {}
 }
