@@ -146,6 +146,11 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'tags' => [
                 'type' => 'text',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                    ],
+                ],
             ],
             'title' => [
                 'type' => 'text',

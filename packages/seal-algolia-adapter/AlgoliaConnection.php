@@ -103,6 +103,8 @@ final class AlgoliaConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $filter->value,
                 default =>  throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

@@ -106,6 +106,8 @@ final class MeilisearchConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = "' . $filter->identifier . '"', // TODO escape?
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = "' . $filter->value . '"', // TODO escape?
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != "' . $filter->value . '"', // TODO escape?
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

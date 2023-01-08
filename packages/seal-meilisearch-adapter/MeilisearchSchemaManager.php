@@ -56,9 +56,6 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         );
 
         $attributes = $this->getAttributes($index->fields);
-        $attributes['filterableAttributes'] = [
-            $index->getIdentifierField()->name
-        ];
 
         $updateIndexResponse = $this->client->index($index->name)
             ->updateSettings($attributes);
@@ -77,12 +74,14 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
      *
      * @return array{
      *     searchableAttributes: array<string>,
+     *     filterableAttributes: array<string>,
      * }
      */
     private function getAttributes(array $fields): array
     {
         $attributes = [
             'searchableAttributes' => [],
+            'filterableAttributes' => [],
         ];
 
         foreach ($fields as $name => $field) {
@@ -108,6 +107,10 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
 
             if ($field->searchable) {
                 $attributes['searchableAttributes'][] = $name;
+            }
+
+            if ($field->filterable) {
+                $attributes['filterableAttributes'][] = $name;
             }
         }
 

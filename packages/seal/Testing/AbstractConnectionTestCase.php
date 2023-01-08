@@ -6,8 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Schema;
-use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
-use Schranz\Search\SEAL\Search\Condition\SearchCondition;
+use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
 
 abstract class AbstractConnectionTestCase extends TestCase
@@ -77,7 +76,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new IdentifierCondition($document['uuid']));
+            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
 
             $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
 
@@ -110,7 +109,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$connection);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new IdentifierCondition($document['uuid']));
+            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
 
             $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
 
@@ -133,7 +132,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addIndex(TestingHelper::INDEX_SIMPLE);
-        $search->addFilter(new IdentifierCondition($document['id']));
+        $search->addFilter(new Condition\IdentifierCondition($document['id']));
 
         $expectedDocument = $document;
         $loadedDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
@@ -164,7 +163,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new SearchCondition('Blog'));
+        $search->addFilter(new Condition\SearchCondition('Blog'));
 
         $expectedDocumentsVariantA = [
             $documents[0],
@@ -186,7 +185,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new SearchCondition('Thing'));
+        $search->addFilter(new Condition\SearchCondition('Thing'));
 
         $this->assertSame([$documents[2]], [...$search->getResult()]);
 
@@ -216,7 +215,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new SearchCondition('admin.nonesearchablefield@localhost'));
+        $search->addFilter(new Condition\SearchCondition('admin.nonesearchablefield@localhost'));
 
         $this->assertCount(0, [...$search->getResult()]);
     }
@@ -238,7 +237,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = (new SearchBuilder($schema, self::$connection))
             ->addIndex(TestingHelper::INDEX_COMPLEX)
-            ->addFilter(new SearchCondition('Blog'))
+            ->addFilter(new Condition\SearchCondition('Blog'))
             ->limit(1);
 
         $loadedDocuments = [...$search->getResult()];
@@ -254,7 +253,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = (new SearchBuilder($schema, self::$connection))
             ->addIndex(TestingHelper::INDEX_COMPLEX)
-            ->addFilter(new SearchCondition('Blog'))
+            ->addFilter(new Condition\SearchCondition('Blog'))
             ->offset(1)
             ->limit(1);
 
@@ -263,6 +262,98 @@ abstract class AbstractConnectionTestCase extends TestCase
         $this->assertSame(
             $isFirstDocumentOnPage1 ? [$documents[1]] : [$documents[0]],
             $loadedDocuments
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
+
+        $expectedDocumentsVariantA = [
+            $documents[0],
+            $documents[1],
+        ];
+        $expectedDocumentsVariantB = [
+            $documents[1],
+            $documents[0],
+        ];
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+
+        $this->assertTrue(
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testNotEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\NotEqualCondition('tags', 'UI'));
+
+        $expectedDocumentsVariantA = [
+            $documents[2],
+            $documents[3],
+        ];
+        $expectedDocumentsVariantB = [
+            $documents[3],
+            $documents[2],
+        ];
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+
+        $this->assertTrue(
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
         foreach ($documents as $document) {

@@ -43,9 +43,6 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         $searchIndex = $this->client->initIndex($index->name);
 
         $attributes = $this->getAttributes($index->fields);
-        $attributes['attributesForFaceting'] = [
-            $index->getIdentifierField()->name
-        ];
 
         $indexResponse = $searchIndex->setSettings($attributes);
 
@@ -63,12 +60,14 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
      *
      * @return array{
      *     searchableAttributes: array<string>,
+     *     attributesForFaceting: array<string>,
      * }
      */
     private function getAttributes(array $fields): array
     {
         $attributes = [
             'searchableAttributes' => [],
+            'attributesForFaceting' => [],
         ];
 
         foreach ($fields as $name => $field) {
@@ -94,6 +93,10 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
 
             if ($field->searchable) {
                 $attributes['searchableAttributes'][] = $name;
+            }
+
+            if ($field->filterable) {
+                $attributes['attributesForFaceting'][] = $name;
             }
         }
 
