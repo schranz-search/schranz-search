@@ -120,8 +120,8 @@ final class ElasticsearchConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $query['query_string']['query'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $query['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\NotEqualCondition => $query['bool']['must_not']['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\EqualCondition => $query['bool']['must'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $query['bool']['must_not'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
