@@ -401,4 +401,138 @@ abstract class AbstractConnectionTestCase extends TestCase
             );
         }
     }
+
+    public function testGreaterThanCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GreaterThanCondition('rating', 2.5));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+        $this->assertSame([$documents[0]], $loadedDocuments);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testGreaterThanEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+        $this->assertSame([
+            $documents[0],
+            $documents[1],
+        ], $loadedDocuments);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testLowerThanCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\LowerThanCondition('rating', 3.5));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+        $this->assertSame([$documents[1]], $loadedDocuments);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testLowerThanEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\LowerThanEqualCondition('rating', 3.5));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+        $this->assertSame([
+            $documents[0],
+            $documents[1],
+        ], $loadedDocuments);
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
 }
