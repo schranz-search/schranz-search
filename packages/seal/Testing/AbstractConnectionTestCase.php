@@ -319,6 +319,43 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
     }
 
+    public function testMultiEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
+        $search->addFilter(new Condition\EqualCondition('tags', 'UX'));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+
+        $this->assertSame(
+            [$documents[1]],
+            $loadedDocuments,
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
     public function testNotEqualCondition(): void
     {
         $documents = TestingHelper::createComplexFixtures();
