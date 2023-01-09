@@ -169,7 +169,7 @@ class TestingHelper
                 'commentsCount' => 0,
                 'rating' => null,
                 'comments' => [],
-                'tags' => ['Tech'],
+                'tags' => ['Tech', 'UX'],
                 'categoryIds' => [3, 4],
             ],
             [
