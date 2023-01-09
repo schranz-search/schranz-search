@@ -126,7 +126,7 @@ final class MemoryConnection implements ConnectionInterface
                                 continue 3;
                             }
                         }
-                    } elseif ($filter instanceof Condition\LowerThanCondition) {
+                    } elseif ($filter instanceof Condition\LessThanCondition) {
                         if (\str_contains($filter->field, '.')) {
                             throw new \RuntimeException('Nested fields are not supported yet.');
                         }
@@ -142,7 +142,7 @@ final class MemoryConnection implements ConnectionInterface
                                 continue 3;
                             }
                         }
-                    } elseif ($filter instanceof Condition\LowerThanEqualCondition) {
+                    } elseif ($filter instanceof Condition\LessThanEqualCondition) {
                         if (\str_contains($filter->field, '.')) {
                             throw new \RuntimeException('Nested fields are not supported yet.');
                         }

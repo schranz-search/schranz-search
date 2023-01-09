@@ -2,7 +2,7 @@
 
 namespace Schranz\Search\SEAL\Search\Condition;
 
-class LowerThanEqualCondition
+class LessThanCondition
 {
     public function __construct(
         public readonly string $field,

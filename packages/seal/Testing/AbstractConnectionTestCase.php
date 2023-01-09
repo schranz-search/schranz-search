@@ -470,7 +470,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
     }
 
-    public function testLowerThanCondition(): void
+    public function testLessThanCondition(): void
     {
         $documents = TestingHelper::createComplexFixtures();
 
@@ -487,7 +487,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\LowerThanCondition('rating', 3.5));
+        $search->addFilter(new Condition\LessThanCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
         foreach ($loadedDocuments as $loadedDocument) {
@@ -503,7 +503,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
     }
 
-    public function testLowerThanEqualCondition(): void
+    public function testLessThanEqualCondition(): void
     {
         $documents = TestingHelper::createComplexFixtures();
 
@@ -520,7 +520,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\LowerThanEqualCondition('rating', 3.5));
+        $search->addFilter(new Condition\LessThanEqualCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
         foreach ($loadedDocuments as $loadedDocument) {
