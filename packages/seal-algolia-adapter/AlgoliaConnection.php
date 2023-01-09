@@ -105,6 +105,10 @@ final class AlgoliaConnection implements ConnectionInterface
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
                 $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $filter->value,
                 $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $filter->value,
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $filter->value, // TODO escape?
                 default =>  throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

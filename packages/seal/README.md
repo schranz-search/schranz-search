@@ -425,3 +425,95 @@ The first parameter is the `field` and the second the `value` which need not mat
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
 > `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+
+###### GreaterThanCondition
+
+The `GreaterThanCondition` can be used to load documents where a field is `>` a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\GreaterThanCondition('rating', 3.5))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need the field need to greater than.  
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.  
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+
+###### GreaterThanEqualCondition
+
+The `GreaterThanEqualCondition` can be used to load documents where a field is `>=` a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\GreaterThanEqualCondition('rating', 3.5))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need the field need to greater than or equal.  
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.  
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+
+###### LessThanCondition
+
+The `LessThanCondition` can be used to load documents where a field is `<` a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\LessThanCondition('rating', 3.5))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need the field need to less than.  
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.  
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+
+###### LessThanEqualCondition
+
+The `LessThanEqualCondition` can be used to load documents where a field is `<=` a specific value:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\LessThanEqualCondition('rating', 3.5))
+    ->getResult();
+```
+
+The first parameter is the `field` and the second the `value` which need the field need to less than or equal.  
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.  
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  

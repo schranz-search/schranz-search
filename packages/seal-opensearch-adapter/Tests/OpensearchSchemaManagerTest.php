@@ -35,7 +35,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $this->assertSame([
             'id' => [
                 'type' => 'keyword',
-                'index' => false,
             ],
             'title' => [
                 'type' => 'text',
@@ -83,6 +82,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false
                             ],
                             'title' => [
                                 'type' => 'text',
@@ -93,7 +93,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'categoryIds' => [
                 'type' => 'integer',
-                'index' => false,
             ],
             'comments' => [
                 'properties' => [
@@ -108,7 +107,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'commentsCount' => [
                 'type' => 'integer',
-                'index' => false,
             ],
             'created' => [
                 'type' => 'date',
@@ -127,6 +125,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false,
                             ],
                         ],
                     ],
@@ -142,7 +141,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'rating' => [
                 'type' => 'float',
-                'index' => false,
             ],
             'tags' => [
                 'type' => 'text',
@@ -157,7 +155,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'uuid' => [
                 'type' => 'keyword',
-                'index' => false,
             ],
         ], $mapping[$index->name]['mappings']['properties']);
     }

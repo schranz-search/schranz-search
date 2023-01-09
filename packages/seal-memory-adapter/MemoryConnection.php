@@ -94,6 +94,70 @@ final class MemoryConnection implements ConnectionInterface
                         if (\in_array($filter->value, $values, true)) {
                             continue 2;
                         }
+                    } elseif ($filter instanceof Condition\GreaterThanCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (count($values) === 0) {
+                            continue 2;
+                        }
+
+                        foreach ($values as $value) {
+                            if ($filter->value >= $value) {
+                                continue 3;
+                            }
+                        }
+                    } elseif ($filter instanceof Condition\GreaterThanEqualCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (count($values) === 0) {
+                            continue 2;
+                        }
+
+                        foreach ($values as $value) {
+                            if ($filter->value > $value) {
+                                continue 3;
+                            }
+                        }
+                    } elseif ($filter instanceof Condition\LessThanCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (count($values) === 0) {
+                            continue 2;
+                        }
+
+                        foreach ($values as $value) {
+                            if ($filter->value <= $value) {
+                                continue 3;
+                            }
+                        }
+                    } elseif ($filter instanceof Condition\LessThanEqualCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+
+                        if (count($values) === 0) {
+                            continue 2;
+                        }
+
+                        foreach ($values as $value) {
+                            if ($filter->value < $value) {
+                                continue 3;
+                            }
+                        }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
                     }
