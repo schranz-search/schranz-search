@@ -47,7 +47,7 @@ class TestingHelper
             ]),
             'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
             'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
-            'rating' => new Field\FloatField('rating',  searchable: false, filterable: true, sortable: true),
+            'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
             'comments' => new Field\ObjectField('comments', [
                 'email' => new Field\TextField('email', searchable: false),
                 'text' => new Field\TextField('text'),

@@ -88,14 +88,17 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                 $field instanceof Field\DateTimeField => $properties[$name] = [
                     'type' => 'date',
                     'index' => $field->searchable,
+                    'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\IntegerField => $properties[$name] = [
                     'type' => 'integer',
                     'index' => $field->searchable,
+                    'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\FloatField => $properties[$name] = [
                     'type' => 'float',
                     'index' => $field->searchable,
+                    'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
                     'type' => 'object',

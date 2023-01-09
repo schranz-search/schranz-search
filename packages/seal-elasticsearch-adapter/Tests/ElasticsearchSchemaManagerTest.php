@@ -83,6 +83,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false,
                             ],
                             'title' => [
                                 'type' => 'text',
@@ -127,6 +128,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false,
                             ],
                         ],
                     ],

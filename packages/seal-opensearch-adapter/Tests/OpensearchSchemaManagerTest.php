@@ -83,6 +83,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false
                             ],
                             'title' => [
                                 'type' => 'text',
@@ -127,6 +128,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
+                                'doc_values' => false,
                             ],
                         ],
                     ],
