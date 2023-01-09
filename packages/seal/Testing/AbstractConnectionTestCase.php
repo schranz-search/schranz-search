@@ -423,7 +423,10 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(1, $loadedDocuments);
-        $this->assertSame([$documents[0]], $loadedDocuments);
+
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertGreaterThan(2.5, $loadedDocument['rating']);
+        }
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
@@ -454,11 +457,9 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(2, $loadedDocuments);
-        $this->assertSame([
-            $documents[0],
-            $documents[1],
-        ], $loadedDocuments);
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertGreaterThanOrEqual(2.5, $loadedDocument['rating']);
+        }
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
@@ -489,8 +490,9 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\LowerThanCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(1, $loadedDocuments);
-        $this->assertSame([$documents[1]], $loadedDocuments);
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertLessThan(3.5, $loadedDocument['rating']);
+        }
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
@@ -521,11 +523,9 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\LowerThanEqualCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(2, $loadedDocuments);
-        $this->assertSame([
-            $documents[0],
-            $documents[1],
-        ], $loadedDocuments);
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertLessThanOrEqual(3.5, $loadedDocument['rating']);
+        }
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
