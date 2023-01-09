@@ -310,6 +310,8 @@ $engine->getDocument('news', '1');
 The library provides different `Condition` classes to build a query for the search engines.
 
 > Condition is what in Elasticsearch are Queries and Filters.  
+
+> **Warning**:
 > Not all conditions are supported by all adapters.  
 
 ###### SearchCondition
@@ -322,14 +324,40 @@ use Schranz\Search\SEAL\Search\Condition;
 $documents = $engine->createSearchBuilder()
     ->addIndex('news')
     ->addFilter(new Condition\SearchCondition('New Blog'))
+    ->getResult();
+```
+
+###### Pagination
+
+Use `limit` and `offset` methods to paginate the results.:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addFilter(new Condition\SearchCondition('New Blog'))
     ->limit(10)
     ->offset(0)
     ->getResult();
 ```
 
-> To search in multiple indexes you can use the `addIndex` method multiple times.  
-> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28)).  
-> Use `limit` and `offset` to paginate the results.
+###### Multi Index
+
+To search in multiple indexes you can use the `addIndex` method multiple times.  
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addIndex('blog')
+    ->addFilter(new Condition\SearchCondition('New Blog'))
+    ->getResult();
+```
+
+> **Warning**:
+> Not all adapters support multiple indexes (e.g. [Meilisearch](https://github.com/schranz-search/schranz-search/issues/28), [Algolia](https://github.com/schranz-search/schranz-search/issues/41)).
 
 ###### IdentifierCondition
 
@@ -366,8 +394,14 @@ $documents = $engine->createSearchBuilder()
 ```
 
 The first parameter is the `field` and the second the `value` which need to match.  
-For filtering by object fields use `<object_name>.<field_name>` as field e.g.: `'new Condition\EqualCondition('header.media', 1)`.  
-For filtering by typed fields use `<typed_name>.<type_name>.<field_name>` as field e.g.: `new Condition\EqualCondition('blocks.text.media', 1)`.
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ###### NotEqualCondition
 
@@ -383,5 +417,11 @@ $documents = $engine->createSearchBuilder()
 ```
 
 The first parameter is the `field` and the second the `value` which need not match.  
-For filtering by object fields use `<object_name>.<field_name>` as field e.g.: `'new NotEqualCondition('header.media', 1)`.  
-For filtering by typed fields use `<typed_name>.<type_name>.<field_name>` as field e.g.: `new NotEqualCondition('blocks.text.media', 1)`.  
+
+> **Note**:  
+> For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('header.media', 1)`.  
+
+> **Note**:  
+> For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
