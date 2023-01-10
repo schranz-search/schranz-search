@@ -55,7 +55,10 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             ]
         );
 
-        $attributes = $this->getAttributes($index->fields);
+        $attributes = [
+            'searchableAttributes' => $index->searchableFields,
+            'filterableAttributes' => $index->filterableFields,
+        ];
 
         $updateIndexResponse = $this->client->index($index->name)
             ->updateSettings($attributes);
@@ -67,53 +70,5 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         return new AsyncTask(function() use ($updateIndexResponse) {
             $this->client->waitForTask($updateIndexResponse['taskUid']);
         });
-    }
-
-    /**
-     * @param Field\AbstractField[] $fields
-     *
-     * @return array{
-     *     searchableAttributes: array<string>,
-     *     filterableAttributes: array<string>,
-     * }
-     */
-    private function getAttributes(array $fields): array
-    {
-        $attributes = [
-            'searchableAttributes' => [],
-            'filterableAttributes' => [],
-        ];
-
-        foreach ($fields as $name => $field) {
-            if ($field instanceof Field\ObjectField) {
-                foreach ($this->getAttributes($field->fields) as $attributeType => $fieldNames) {
-                    foreach ($fieldNames as $fieldName) {
-                        $attributes[$attributeType][] = $name . '.' . $fieldName;
-                    }
-                }
-
-                continue;
-            } elseif ($field instanceof Field\TypedField) {
-                foreach ($field->types as $type => $fields) {
-                    foreach ($this->getAttributes($fields) as $attributeType => $fieldNames) {
-                        foreach ($fieldNames as $fieldName) {
-                            $attributes[$attributeType][] = $name . '.' . $type . '.' . $fieldName;
-                        }
-                    }
-                }
-
-                continue;
-            }
-
-            if ($field->searchable) {
-                $attributes['searchableAttributes'][] = $name;
-            }
-
-            if ($field->filterable) {
-                $attributes['filterableAttributes'][] = $name;
-            }
-        }
-
-        return $attributes;
     }
 }
