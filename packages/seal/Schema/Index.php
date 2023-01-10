@@ -13,12 +13,32 @@ final class Index
     private ?IdentifierField $identifierField = null;
 
     /**
+     * @var string[]
+     */
+    public array $searchableFields;
+
+    /**
+     * @var string[]
+     */
+    public array $sortableFields;
+
+    /**
+     * @var string[]
+     */
+    public array $filterableFields;
+
+    /**
      * @param array<string, AbstractField> $fields
      */
     public function __construct(
         public readonly string $name,
         public readonly array $fields
-    ) {}
+    ) {
+        $attributes = $this->getAttributes($fields);
+        $this->searchableFields = $attributes['searchableFields'];
+        $this->filterableFields = $attributes['filterableFields'];
+        $this->sortableFields = $attributes['sortableFields'];
+    }
 
     public function getIdentifierField(): IdentifierField
     {
@@ -61,5 +81,59 @@ final class Index
                 throw new FieldByPathNotFoundException($this->name, $path);
             }
         } while (true);
+    }
+
+    /**
+     * @param Field\AbstractField[] $fields
+     *
+     * @return array{
+     *     searchableFields: string[],
+     *     filterableFields: string[],
+     *     sortableFields: string[],
+     * }
+     */
+    private function getAttributes(array $fields): array
+    {
+        $attributes = [
+            'searchableFields' => [],
+            'filterableFields' => [],
+            'sortableFields' => [],
+        ];
+
+        foreach ($fields as $name => $field) {
+            if ($field instanceof Field\ObjectField) {
+                foreach ($this->getAttributes($field->fields) as $attributeType => $fieldNames) {
+                    foreach ($fieldNames as $fieldName) {
+                        $attributes[$attributeType][] = $name . '.' . $fieldName;
+                    }
+                }
+
+                continue;
+            } elseif ($field instanceof Field\TypedField) {
+                foreach ($field->types as $type => $fields) {
+                    foreach ($this->getAttributes($fields) as $attributeType => $fieldNames) {
+                        foreach ($fieldNames as $fieldName) {
+                            $attributes[$attributeType][] = $name . '.' . $type . '.' . $fieldName;
+                        }
+                    }
+                }
+
+                continue;
+            }
+
+            if ($field->searchable) {
+                $attributes['searchableFields'][] = $name;
+            }
+
+            if ($field->filterable) {
+                $attributes['filterableFields'][] = $name;
+            }
+
+            if ($field->sortable) {
+                $attributes['sortableFields'][] = $name;
+            }
+        }
+
+        return $attributes;
     }
 }
