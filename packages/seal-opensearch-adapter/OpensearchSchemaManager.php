@@ -68,12 +68,13 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         foreach ($fields as $name => $field) {
             // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
             $index = $field->searchable || $field->filterable || $field->sortable;
+            $doc_values = $field->filterable || $field->sortable;
 
             match (true) {
                 $field instanceof Field\IdentifierField => $properties[$name] = [
                     'type' => 'keyword',
                     'index' => $index,
-                    'doc_values' => $field->filterable,
+                    'doc_values' => $doc_values,
                 ],
                 $field instanceof Field\TextField => $properties[$name] = \array_replace([
                     'type' => 'text',
@@ -82,30 +83,30 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                     'fields' => [
                         'raw' => [
                             'type' => 'keyword',
-                            'index' => $field->searchable || $field->filterable,
-                            'doc_values' => $field->filterable,
+                            'index' => true,
+                            'doc_values' => true,
                         ],
                     ],
                 ] : []),
                 $field instanceof Field\BooleanField => $properties[$name] = [
                     'type' => 'boolean',
                     'index' => $index,
-                    'doc_values' => $field->filterable,
+                    'doc_values' => $doc_values,
                 ],
                 $field instanceof Field\DateTimeField => $properties[$name] = [
                     'type' => 'date',
                     'index' => $index,
-                    'doc_values' => $field->filterable,
+                    'doc_values' => $doc_values,
                 ],
                 $field instanceof Field\IntegerField => $properties[$name] = [
                     'type' => 'integer',
                     'index' => $index,
-                    'doc_values' => $field->filterable,
+                    'doc_values' => $doc_values,
                 ],
                 $field instanceof Field\FloatField => $properties[$name] = [
                     'type' => 'float',
                     'index' => $index,
-                    'doc_values' => $field->filterable,
+                    'doc_values' => $doc_values,
                 ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
                     'type' => 'object',

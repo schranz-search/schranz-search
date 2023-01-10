@@ -53,6 +53,7 @@ class TestingHelper
                 'text' => new Field\TextField('text'),
             ], multiple: true),
             'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            'internalTags' => new Field\TextField('internalTags', multiple: true, searchable: false, filterable: true),
             'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
         ];
 
@@ -138,6 +139,7 @@ class TestingHelper
                     ],
                 ],
                 'tags' => ['Tech', 'UI'],
+                'internalTags' => ['Internal', 'Nonesearchable'],
                 'categoryIds' => [1, 2],
             ],
             [

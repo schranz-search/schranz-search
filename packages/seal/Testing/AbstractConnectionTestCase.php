@@ -215,7 +215,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$connection);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\SearchCondition('admin.nonesearchablefield@localhost'));
+        $search->addFilter(new Condition\SearchCondition('Nonesearchable'));
 
         $this->assertCount(0, [...$search->getResult()]);
     }

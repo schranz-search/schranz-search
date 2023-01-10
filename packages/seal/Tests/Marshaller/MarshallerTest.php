@@ -88,6 +88,7 @@ class MarshallerTest extends TestCase
                 ],
             ],
             'tags' => ['Tech', 'UI'],
+            'internalTags' => ['Internal', 'Nonesearchable'],
             'categoryIds' => [1, 2],
         ];
     }
