@@ -66,42 +66,45 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         $properties = [];
 
         foreach ($fields as $name => $field) {
+            // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+            $index = $field->searchable || $field->filterable || $field->sortable;
+
             match (true) {
                 $field instanceof Field\IdentifierField => $properties[$name] = [
                     'type' => 'keyword',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\TextField => $properties[$name] = \array_replace([
                     'type' => 'text',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                 ], ($field->filterable || $field->sortable) ? [
                     'fields' => [
                         'raw' => [
                             'type' => 'keyword',
-                            'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                            'index' => $field->searchable || $field->filterable,
                             'doc_values' => $field->filterable,
                         ],
                     ],
                 ] : []),
                 $field instanceof Field\BooleanField => $properties[$name] = [
                     'type' => 'boolean',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\DateTimeField => $properties[$name] = [
                     'type' => 'date',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\IntegerField => $properties[$name] = [
                     'type' => 'integer',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\FloatField => $properties[$name] = [
                     'type' => 'float',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $index,
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
