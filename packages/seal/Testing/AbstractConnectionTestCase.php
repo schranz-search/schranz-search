@@ -535,4 +535,79 @@ abstract class AbstractConnectionTestCase extends TestCase
             );
         }
     }
+
+    public function testSortByAsc(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
+        $search->addSortBy('rating', 'asc');
+
+        $loadedDocuments = [...$search->getResult()];
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+
+        $beforeRating = 0;
+        foreach ($loadedDocuments as $loadedDocument) {
+            $rating = $loadedDocument['rating'] ?? 0;
+            $this->assertGreaterThanOrEqual($beforeRating, $rating);
+            $beforeRating = $rating;
+        }
+    }
+
+    public function testSortByDesc(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$connection);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
+        $search->addSortBy('rating', 'desc');
+
+        $loadedDocuments = [...$search->getResult()];
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$connection->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+        $beforeRating = \PHP_INT_MAX;
+        foreach ($loadedDocuments as $loadedDocument) {
+            $rating = $loadedDocument['rating'] ?? 0;
+            $this->assertLessThanOrEqual($beforeRating, $rating);
+            $beforeRating = $rating;
+        }
+    }
 }

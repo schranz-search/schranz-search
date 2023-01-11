@@ -342,6 +342,20 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
+###### Sorting
+
+Normally search results are ordered by best match but it possible to
+force a specific order via `addSortBy` method:
+
+```php
+use Schranz\Search\SEAL\Search\Condition;
+
+$documents = $engine->createSearchBuilder()
+    ->addIndex('news')
+    ->addSortBy('rating', 'desc')
+    ->getResult();
+```
+
 ###### Multi Index
 
 To search in multiple indexes you can use the `addIndex` method multiple times.  

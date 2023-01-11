@@ -167,6 +167,17 @@ final class MemoryConnection implements ConnectionInterface
             }
         }
 
+        $sortBys = \array_reverse($search->sortBys);
+        foreach ($sortBys as $field => $direction) {
+            \usort($documents, function($docA, $docB) use ($field, $direction) {
+                if ($direction === 'desc') {
+                    return $docB[$field] <=> $docA[$field];
+                }
+
+                return $docA[$field] <=> $docB[$field];
+            });
+        }
+
         $documents = \array_slice($documents, $search->offset, $search->limit);
 
         $generator = (function() use ($documents): \Generator {

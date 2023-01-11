@@ -18,6 +18,11 @@ final class SearchBuilder
      */
     private array $filters = [];
 
+    /**
+     * @var array<string, 'asc'|'desc'>
+     */
+    private array $sortBys = [];
+
     private int $offset = 0;
 
     private ?int $limit = null;
@@ -41,6 +46,13 @@ final class SearchBuilder
         return $this;
     }
 
+    public function addSortBy(string $field, string $direction): static
+    {
+        $this->sortBys[$field] = $direction;
+
+        return $this;
+    }
+
     public function limit(int $limit): static
     {
         $this->limit = $limit;
@@ -60,6 +72,7 @@ final class SearchBuilder
         return $this->connection->search(new Search(
             $this->indexes,
             $this->filters,
+            $this->sortBys,
             $this->limit,
             $this->offset,
         ));
