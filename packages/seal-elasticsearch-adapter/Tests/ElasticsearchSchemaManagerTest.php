@@ -147,6 +147,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                 ],
             ],
+            'published' => [
+                'type' => 'date',
+            ],
             'rating' => [
                 'type' => 'float',
             ],

@@ -5,7 +5,6 @@ namespace Schranz\Search\SEAL\Testing;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Schema\Field;
-use Schranz\Search\SEAL\Task\TaskInterface;
 
 class TestingHelper
 {
@@ -45,7 +44,8 @@ class TestingHelper
             'footer' => new Field\ObjectField('footer', [
                 'title' => new Field\TextField('title'),
             ]),
-            'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
+            'created' => new Field\DateTimeField('created', searchable: false, filterable: true, sortable: true),
+            'published' => new Field\DateTimeField('published', filterable: true, sortable: true),
             'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
             'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
             'comments' => new Field\ObjectField('comments', [
@@ -125,7 +125,8 @@ class TestingHelper
                 'footer' => [
                     'title' => 'New Footer',
                 ],
-                'created' => '2022-01-24T12:00:00+01:00',
+                'created' => '1998-01-24T12:00:00+01:00',
+                'published' => '2022-01-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
                 'comments' => [
@@ -153,7 +154,8 @@ class TestingHelper
                 'footer' => [
                     'title' => 'Other Footer',
                 ],
-                'created' => '2022-12-26T12:00:00+01:00',
+                'created' => '1998-12-26T12:00:00+01:00',
+                'published' => '2022-12-26T12:00:00+01:00',
                 'commentsCount' => 0,
                 'rating' => 2.5,
                 'comments' => [],
@@ -167,7 +169,8 @@ class TestingHelper
                 'footer' => [
                     'title' => 'Other Footer',
                 ],
-                'created' => '2023-02-03T12:00:00+01:00',
+                'created' => '1999-02-03T12:00:00+01:00',
+                'published' => '2023-02-03T12:00:00+01:00',
                 'commentsCount' => 0,
                 'rating' => null,
                 'comments' => [],
@@ -178,21 +181,6 @@ class TestingHelper
                 'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5318cd',
             ],
         ];
-    }
-
-    /**
-     * @param \Closure(TaskInterface[]: $tasks) $callback
-     */
-    public static function waitForTasks(\Closure $callback): void
-    {
-        /** @var TaskInterface[] $tasks */
-        $tasks = [];
-
-        ($callback)($tasks);
-
-        foreach ($tasks as $task) {
-            $task->wait();
-        }
     }
 
     /**

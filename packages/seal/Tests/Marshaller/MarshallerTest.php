@@ -74,7 +74,8 @@ class MarshallerTest extends TestCase
             'footer' => [
                 'title' => 'New Footer',
             ],
-            'created' => '2022-01-24T12:00:00+01:00',
+            'created' => '1998-01-24T12:00:00+01:00',
+            'published' => '2022-01-24T12:00:00+01:00',
             'commentsCount' => 2,
             'rating' => 3.5,
             'comments' => [

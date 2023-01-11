@@ -147,6 +147,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                 ],
             ],
+            'published' => [
+                'type' => 'date',
+            ],
             'rating' => [
                 'type' => 'float',
             ],
