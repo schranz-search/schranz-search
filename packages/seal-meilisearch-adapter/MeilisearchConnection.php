@@ -129,6 +129,10 @@ final class MeilisearchConnection implements ConnectionInterface
             $searchParams['limit'] = $search->limit;
         }
 
+        foreach ($search->sortBys as $field => $direction) {
+            $searchParams['sort'][] = $field . ':' . $direction;
+        }
+
         $data = $searchIndex->search($query, $searchParams)->toArray();
 
         return new Result(
