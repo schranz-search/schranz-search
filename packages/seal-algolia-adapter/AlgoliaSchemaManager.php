@@ -41,12 +41,34 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
     {
         $searchIndex = $this->client->initIndex($index->name);
 
+        $replicas = [];
+        foreach ($index->sortableFields as $field) {
+            foreach (['asc', 'desc'] as $direction) {
+                $replicas[] = $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction;
+            }
+        }
+
         $attributes = [
             'searchableAttributes' => $index->searchableFields,
             'attributesForFaceting' => $index->filterableFields,
+            'replicas' => $replicas,
         ];
 
         $indexResponse = $searchIndex->setSettings($attributes);
+
+        foreach ($index->sortableFields as $field) {
+            foreach (['asc', 'desc'] as $direction) {
+                $searchIndex = $this->client->initIndex(
+                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
+                );
+
+                $searchIndex->setSettings([
+                    'ranking' => [
+                        $direction . '(' . $field . ')',
+                    ],
+                ]);
+            }
+        }
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
