@@ -58,6 +58,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         $attributes = [
             'searchableAttributes' => $index->searchableFields,
             'filterableAttributes' => $index->filterableFields,
+            'sortableAttributes' => $index->sortableFields,
         ];
 
         $updateIndexResponse = $this->client->index($index->name)

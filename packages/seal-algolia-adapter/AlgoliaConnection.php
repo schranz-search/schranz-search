@@ -94,8 +94,19 @@ final class AlgoliaConnection implements ConnectionInterface
             throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
+        if (count($search->sortBys) > 1) {
+            throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
+        }
+
         $index = $search->indexes[\array_key_first($search->indexes)];
-        $searchIndex = $this->client->initIndex($index->name);
+        $indexName = $index->name;
+
+        $sortByField = \array_key_first($search->sortBys);
+        if ($sortByField) {
+            $indexName .= '__' . \str_replace('.', '_', $sortByField) . '_' . $search->sortBys[$sortByField];
+        }
+
+        $searchIndex = $this->client->initIndex($indexName);
 
         $query = '';
         $filters = [];

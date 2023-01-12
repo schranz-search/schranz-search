@@ -123,7 +123,13 @@ final class OpensearchConnection implements ConnectionInterface
             $query['match_all'] = new \stdClass();
         }
 
+        $sort = [];
+        foreach ($search->sortBys as $field => $direction) {
+            $sort[] = [$field => $direction];
+        }
+
         $body = [
+            'sort' => $sort,
             'query' => $query,
         ];
 
