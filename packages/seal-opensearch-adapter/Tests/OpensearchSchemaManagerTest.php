@@ -147,6 +147,17 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                 ],
             ],
+            'internalTags' => [
+                'type' => 'text',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ],
+            'published' => [
+                'type' => 'date',
+            ],
             'rating' => [
                 'type' => 'float',
             ],

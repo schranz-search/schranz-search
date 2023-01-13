@@ -35,7 +35,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $this->assertSame([
             'id' => [
                 'type' => 'keyword',
-                'index' => false,
             ],
             'title' => [
                 'type' => 'text',
@@ -102,7 +101,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'categoryIds' => [
                 'type' => 'integer',
-                'index' => false,
             ],
             'comments' => [
                 'properties' => [
@@ -117,7 +115,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'commentsCount' => [
                 'type' => 'integer',
-                'index' => false,
             ],
             'created' => [
                 'type' => 'date',
@@ -150,9 +147,19 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                 ],
             ],
+            'internalTags' => [
+                'type' => 'text',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                    ],
+                ],
+            ],
+            'published' => [
+                'type' => 'date',
+            ],
             'rating' => [
                 'type' => 'float',
-                'index' => false,
             ],
             'tags' => [
                 'type' => 'text',
@@ -167,7 +174,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'uuid' => [
                 'type' => 'keyword',
-                'index' => false,
             ],
         ], $mapping[$index->name]['mappings']['properties']);
     }
