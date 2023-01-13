@@ -109,12 +109,12 @@ final class OpensearchConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $query['query_string']['query'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $query['bool']['must'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\NotEqualCondition => $query['bool']['must_not'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\GreaterThanCondition => $query['bool']['must'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gt'] = $filter->value,
-                $filter instanceof Condition\GreaterThanEqualCondition => $query['bool']['must'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gte'] = $filter->value,
-                $filter instanceof Condition\LessThanCondition => $query['bool']['must'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lt'] = $filter->value,
-                $filter instanceof Condition\LessThanEqualCondition => $query['bool']['must'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\EqualCondition => $query['bool']['filter'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $query['bool']['filter']['bool']['must_not'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\GreaterThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gt'] = $filter->value,
+                $filter instanceof Condition\GreaterThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gte'] = $filter->value,
+                $filter instanceof Condition\LessThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lt'] = $filter->value,
+                $filter instanceof Condition\LessThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
