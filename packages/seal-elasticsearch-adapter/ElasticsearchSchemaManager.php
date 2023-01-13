@@ -46,6 +46,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
             'index' => $index->name,
             'body' => [
                 'mappings' => [
+                    'dynamic' => 'strict',
                     'properties' => $properties,
                 ],
             ],
@@ -124,6 +125,13 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                 'type' => 'object',
                 'properties' => $this->createPropertiesMapping($fields)
             ];
+
+            if ($field->multiple) {
+                $typedProperties[$type]['properties']['_originalIndex'] = [
+                    'type' => 'integer',
+                    'index' => false,
+                ];
+            }
         }
 
         return [$name => [
