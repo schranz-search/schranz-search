@@ -65,6 +65,10 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                 'properties' => [
                     'embed' => [
                         'properties' => [
+                            '_originalIndex' => [
+                                'type' => 'integer',
+                                'index' => false,
+                            ],
                             'media' => [
                                 'type' => 'text',
                                 'index' => false,
@@ -76,6 +80,10 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                     ],
                     'text' => [
                         'properties' => [
+                            '_originalIndex' => [
+                                'type' => 'integer',
+                                'index' => false,
+                            ],
                             'description' => [
                                 'type' => 'text',
                             ],
