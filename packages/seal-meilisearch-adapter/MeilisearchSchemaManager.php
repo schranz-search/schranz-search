@@ -5,10 +5,8 @@ namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
-use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
-use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MeilisearchSchemaManager implements SchemaManagerInterface

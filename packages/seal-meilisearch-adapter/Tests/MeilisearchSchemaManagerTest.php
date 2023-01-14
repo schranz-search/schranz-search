@@ -3,9 +3,7 @@
 namespace Schranz\Search\SEAL\Adapter\Meilisearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchSchemaManager;
-use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
-use Schranz\Search\SEAL\Testing\TestingHelper;
 
 class MeilisearchSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
