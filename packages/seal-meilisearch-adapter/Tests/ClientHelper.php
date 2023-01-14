@@ -11,7 +11,7 @@ final class ClientHelper
     public static function getClient(): Client
     {
         if (self::$client === null) {
-            self::$client = new Client($_ENV['MEILISEARCH_HOST'] ?? '127.0.0.1:9200');
+            self::$client = new Client($_ENV['MEILISEARCH_HOST'] ?? '127.0.0.1:7700');
         }
 
         return self::$client;
