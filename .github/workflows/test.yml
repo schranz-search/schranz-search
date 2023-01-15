@@ -50,3 +50,11 @@ jobs:
             directory: 'packages/seal-algolia-adapter'
             docker: false
         secrets: inherit
+
+    solr-adapter:
+        name: Solr Adapter
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal-solr-adapter'
+            docker: false
+        secrets: inherit
