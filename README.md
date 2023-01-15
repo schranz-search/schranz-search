@@ -37,12 +37,12 @@ At current state collect here different search engines which are around and coul
  - [Opensearch](#opensearch) - [schranz-search/seal-opensearch-adapter](packages/seal-opensearch-adapter)
  - [Meilisearch](#meilisearch) - [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
+ - [Solr](#solr) (help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73))
+ - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
  - [RediSearch](#redisearch)
  - [Zinc Labs](#zinc-labs)
- - [Typesense](#typesense)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
- - [Solr](#solr)
  - [Sonic](#sonic)
  - [Vespa](#vespa)
  - [Toshi](#toshi)
@@ -80,8 +80,8 @@ Implementation: [schranz-search/seal-elasticsearch-adapter](packages/seal-opense
 
 A search engine written in Rust:
 
-- Server: [MeiliSearch Server](https://github.com/meilisearch/meilisearch)
-- PHP Client: [MeiliSearch PHP](https://github.com/meilisearch/meilisearch-php)
+ - Server: [MeiliSearch Server](https://github.com/meilisearch/meilisearch)
+ - PHP Client: [MeiliSearch PHP](https://github.com/meilisearch/meilisearch-php)
 
 Implementation: [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
 
@@ -89,10 +89,28 @@ Implementation: [schranz-search/seal-meilisearch-adapter](packages/seal-meilisea
 
 Is a search as SaaS provided via Rest APIs and SDKs:
 
-- Server: No server only Saas [https://www.algolia.com/](https://www.algolia.com/)
-- PHP Client: [Algolia PHP](https://github.com/algolia/algoliasearch-client-php)
+ - Server: No server only Saas [https://www.algolia.com/](https://www.algolia.com/)
+ - PHP Client: [Algolia PHP](https://github.com/algolia/algoliasearch-client-php)
 
 Implementation: [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
+
+### Solr
+
+A search engine under the Apache Project based on Lucene written in Java:
+
+ - Server: [Solr Server](https://github.com/apache/solr)
+ - PHP Client: [Solarium PHP](https://github.com/solariumphp/solarium) seems to be a well maintained Client
+
+Implementation: help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73)
+
+### Typesense
+
+Describes itself as a alternative to Algolia and Elasticsearch written in C++.
+
+ - Server: [Typesense Server](https://github.com/typesense/typesense)
+ - PHP Client: [Typesense PHP](https://github.com/typesense/typesense-php)
+
+Implementation: work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76)
 
 ### RediSearch
  
@@ -108,13 +126,6 @@ Zinc search describes itself as a lightweight alternative to Elasticsearch writt
  - Server: [Zinclabs Server](https://github.com/zinclabs/zinc)
  - PHP Client: No PHP SDK currently: [https://github.com/zinclabs/zinc/issues/12](https://github.com/zinclabs/zinc/issues/12)
 
-### Typesense
-
-Describes itself as a alternative to Algolia and Elasticsearch written in C++.
-
- - Server: [Typesense Server](https://github.com/typesense/typesense)
- - PHP Client: [Typesense PHP](https://github.com/typesense/typesense-php)
-
 ### ZendSearch
 
 A complete in PHP written implementation of the Lucene index. Not longer maintained:
@@ -126,13 +137,6 @@ A complete in PHP written implementation of the Lucene index. Not longer maintai
 Another implementation of a Search index written in PHP. Not based on Lucene.
 
  - Implementation: [TntSearch Implementation](https://github.com/teamtnt/tntsearch)
-
-### Solr
-
-A search engine under the Apache Project based on Lucene written in Java:
-
- - Server: [Solr Server](https://github.com/apache/solr)
- - PHP Client: [Solarium PHP](https://github.com/solariumphp/solarium) seems to be a well maintained Client
 
 ### Sonic
 
