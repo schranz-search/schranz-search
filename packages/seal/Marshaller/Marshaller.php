@@ -9,6 +9,10 @@ use Schranz\Search\SEAL\Schema\Field;
  */
 final class Marshaller
 {
+    public function __construct(
+        private readonly bool $dateAsInteger = false,
+    ) {}
+
     /**
      * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $object
@@ -31,11 +35,34 @@ final class Marshaller
             match (true) {
                 $field instanceof Field\ObjectField => $rawDocument[$name] = $this->marshallObjectFields($document[$field->name], $field),
                 $field instanceof Field\TypedField => $rawDocument = \array_replace($rawDocument, $this->marhsallTypedFields($name, $document[$field->name], $field)),
+                $field instanceof Field\DateTimeField => $rawDocument[$name] = $this->marshallDateTimeField($document[$field->name], $field),
                 default => $rawDocument[$name] = $document[$field->name],
             };
         }
 
         return $rawDocument;
+    }
+
+    /**
+     * @return int|string
+     */
+    private function marshallDateTimeField(?string $value, Field\DateTimeField $field): int|string
+    {
+        if ($field->multiple) {
+            return \array_map(function($value) {
+                if ($value !== null && $this->dateAsInteger) {
+                    return \strtotime($value);
+                }
+
+                return $value;
+            }, $value);
+        }
+
+        if ($value !== null && $this->dateAsInteger) {
+            return \strtotime($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -113,6 +140,7 @@ final class Marshaller
             match (true) {
                 $field instanceof Field\ObjectField => $document[$field->name] = $this->unmarshallObjectFields($raw[$name], $field),
                 $field instanceof Field\TypedField => $document = \array_replace($document, $this->unmarshallTypedFields($name, $raw, $field)),
+                $field instanceof Field\DateTimeField => $document[$name] = $this->unmarshallDateTimeField($raw[$field->name], $field),
                 default => $document[$field->name] = $raw[$name] ?? ($field->multiple ? [] : null),
             };
         }
@@ -175,5 +203,27 @@ final class Marshaller
         }
 
         return $documentFields;
+    }
+
+    /**
+     * @return string
+     */
+    private function unmarshallDateTimeField(?string $value, Field\DateTimeField $field): string
+    {
+        if ($field->multiple) {
+            return \array_map(function($value) {
+                if ($value !== null && $this->dateAsInteger) {
+                    return date('c', $value);
+                }
+
+                return $value;
+            }, $value);
+        }
+
+        if ($value !== null && $this->dateAsInteger) {
+            return date('c', $value);
+        }
+
+        return $value;
     }
 }

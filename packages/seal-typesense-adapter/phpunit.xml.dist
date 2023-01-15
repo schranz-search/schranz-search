@@ -7,8 +7,9 @@
 >
     <php>
         <ini name="error_reporting" value="-1" />
-        <ini name="date.timezone" value="Europe/Berlin" />
         <server name="SHELL_VERBOSITY" value="-1" />
+        <env name="TYPESENSE_HOST" value="127.0.0.1:8108" />
+        <env name="TYPESENSE_API_KEY" value="S3CR3T" />
     </php>
 
     <testsuites>
