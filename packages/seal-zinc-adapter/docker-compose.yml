@@ -1,0 +1,18 @@
+services:
+  zinc:
+    image: public.ecr.aws/zinclabs/zinc:latest
+    environment:
+      ZINC_FIRST_ADMIN_USER: admin
+      ZINC_FIRST_ADMIN_PASSWORD: Complexpass#123
+    ports:
+      - "4080:4080"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:4080/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - zinc-data:/data
+
+volumes:
+  zinc-data:
