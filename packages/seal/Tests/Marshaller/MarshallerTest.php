@@ -8,28 +8,45 @@ use Schranz\Search\SEAL\Testing\TestingHelper;
 
 class MarshallerTest extends TestCase
 {
-    private Marshaller $marshaller;
-
-    public function setUp(): void
-    {
-        $this->marshaller = new Marshaller();
-    }
-
     public function testMarshall(): void
     {
+        $marshaller = new Marshaller();
         $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
         $documents = TestingHelper::createComplexFixtures();
 
-        $rawDocument = $this->marshaller->marshall($complexIndex->fields, $documents[0]);
+        $rawDocument = $marshaller->marshall($complexIndex->fields, $documents[0]);
 
         $this->assertSame($this->getRawDocument(), $rawDocument);
     }
 
     public function testUnmarshall(): void
     {
+        $marshaller = new Marshaller();
         $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
 
-        $document = $this->marshaller->unmarshall($complexIndex->fields, $this->getRawDocument());
+        $document = $marshaller->unmarshall($complexIndex->fields, $this->getRawDocument());
+
+        $documents = TestingHelper::createComplexFixtures();
+        $this->assertSame($documents[0], $document);
+    }
+
+    public function testMarshallDateAsInt(): void
+    {
+        $marshaller = new Marshaller(dateAsInteger: true);
+        $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
+        $documents = TestingHelper::createComplexFixtures();
+
+        $rawDocument = $marshaller->marshall($complexIndex->fields, $documents[0]);
+
+        $this->assertSame($this->getRawDocument(dateAsInteger: true), $rawDocument);
+    }
+
+    public function testUnmarshallDateAsInt(): void
+    {
+        $marshaller = new Marshaller(dateAsInteger: true);
+        $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
+
+        $document = $marshaller->unmarshall($complexIndex->fields, $this->getRawDocument(dateAsInteger: true));
 
         $documents = TestingHelper::createComplexFixtures();
         $this->assertSame($documents[0], $document);
@@ -38,7 +55,7 @@ class MarshallerTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    private function getRawDocument(): array
+    private function getRawDocument($dateAsInteger = false): array
     {
         return [
             'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
@@ -74,7 +91,7 @@ class MarshallerTest extends TestCase
             'footer' => [
                 'title' => 'New Footer',
             ],
-            'created' => '2022-01-24T12:00:00+01:00',
+            'created' => $dateAsInteger ? 1643022000 : '2022-01-24T12:00:00+01:00',
             'commentsCount' => 2,
             'rating' => 3.5,
             'comments' => [

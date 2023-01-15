@@ -167,7 +167,6 @@ class TestingHelper
                 ],
                 'created' => '2023-02-03T12:00:00+01:00',
                 'commentsCount' => 0,
-                'rating' => null,
                 'comments' => [],
                 'tags' => ['Tech', 'UX'],
                 'categoryIds' => [3, 4],
