@@ -6,11 +6,11 @@ services:
       ZINC_FIRST_ADMIN_PASSWORD: Complexpass#123
     ports:
       - "4080:4080"
-    healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:4080/health || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+    #healthcheck:
+    #  test: ["CMD-SHELL", "curl --silent --fail localhost:4080/ui/ || exit 1"]
+    #  interval: 5s
+    #  timeout: 5s
+    #  retries: 10
     volumes:
       - zinc-data:/data
 
