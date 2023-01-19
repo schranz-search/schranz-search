@@ -39,8 +39,8 @@ At current state collect here different search engines which are around and coul
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [Solr](#solr) (help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73))
  - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
+ - [Zinc Labs](#zinc-labs) (work in progress  [#79](https://github.com/schranz-search/schranz-search/pull/79)))
  - [RediSearch](#redisearch)
- - [Zinc Labs](#zinc-labs)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
  - [Sonic](#sonic)
@@ -112,19 +112,21 @@ Describes itself as a alternative to Algolia and Elasticsearch written in C++.
 
 Implementation: work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76)
 
+### Zinc Labs
+
+Zinc search describes itself as a lightweight alternative to Elasticsearch written in GoLang.
+
+- Server: [Zinclabs Server](https://github.com/zinclabs/zinc)
+- PHP Client: No PHP SDK currently: [https://github.com/zinclabs/zinc/issues/12](https://github.com/zinclabs/zinc/issues/12)
+
+Implementation: work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79)
+
 ### RediSearch
  
 A search out of the house of the redis labs.
 
  - Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
  - PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
-
-### Zinc Labs
-
-Zinc search describes itself as a lightweight alternative to Elasticsearch written in GoLang.
-
- - Server: [Zinclabs Server](https://github.com/zinclabs/zinc)
- - PHP Client: No PHP SDK currently: [https://github.com/zinclabs/zinc/issues/12](https://github.com/zinclabs/zinc/issues/12)
 
 ### ZendSearch
 
