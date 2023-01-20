@@ -56,5 +56,5 @@ jobs:
         uses: ./.github/workflows/callable-test.yml
         with:
             directory: 'packages/seal-solr-adapter'
-            docker: false
+            docker: true
         secrets: inherit
