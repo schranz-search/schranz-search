@@ -9,6 +9,9 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 use Solarium\Exception\HttpException;
+use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
+use Solarium\QueryType\Server\Collections\Result\CreateResult;
+use Solarium\QueryType\Server\Collections\Result\DeleteResult;
 
 final class SolrSchemaManager implements SchemaManagerInterface
 {
@@ -19,58 +22,53 @@ final class SolrSchemaManager implements SchemaManagerInterface
 
     public function existIndex(Index $index): bool
     {
-        $ping = $this->client->createPing([
-            'collection' => $index->name,
-            'path' => '/',
-            'core' => 'index',
-        ]);
+        $collectionQuery = $this->client->createCollections();
 
-        try {
-            $result = $this->client->ping($ping);
-        } catch (HttpException $e) {
-            if ($e->getCode() !== 404) {
-                throw $e;
-            }
+        $action = $collectionQuery->createClusterStatus(['name' => $index->name]);
+        $collectionQuery->setAction($action);
 
-            return false;
-        }
+        /** @var ClusterStatusResult $result */
+        $result = $this->client->collections($collectionQuery);
 
-        return true;
+        return $result->getClusterState()->collectionExists($index->name);
     }
 
     public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
-        $deleteIndexResponse = $this->client->deleteIndex($index->name);
+        $collectionQuery = $this->client->createCollections();
+
+        $action = $collectionQuery->createDelete(['name' => $index->name]);
+        $collectionQuery->setAction($action);
+
+        $this->client->collections($collectionQuery);
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function() use ($deleteIndexResponse) {
-            $this->client->waitForTask($deleteIndexResponse['taskUid']);
-        });
+        return new SyncTask(null);
     }
 
     public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
-        $query = $this->client->createCoreAdmin();
+        $collectionQuery = $this->client->createCollections();
 
-        $createAction = $query->createCreate();
-        $createAction->setCore($index->name);
-        $query->setAction($createAction);
+        $action = $collectionQuery->createCreate([
+            'name' => $index->name,
+            'numShards' => 1,
+        ]);
+        $collectionQuery->setAction($action);
 
-        // TODO
+        $this->client->collections($collectionQuery);
+
+        // TODO create schema fields
+        /*
         $attributes = [
             'searchableAttributes' => $index->searchableFields,
             'filterableAttributes' => $index->filterableFields,
             'sortableAttributes' => $index->sortableFields,
         ];
-
-        $response = $this->client->coreAdmin($query);
-        $result = $response->getStatusResult();
-
-        var_dump($result);
-        exit;
+         */
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
