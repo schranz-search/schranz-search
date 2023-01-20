@@ -1,13 +1,25 @@
+version: '3'
 services:
   solr:
-    image: solr:9
+    image: "solr:9"
     ports:
      - "8983:8983"
+     - "9983:9983"
+    command: solr -f -cloud
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:8983 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
       - solr-data:/var/solr
-    command:
-      - solr-precreate
-      - gettingstarted
+
+  zookeeper:
+    image: "solr:9"
+    depends_on:
+      - "solr"
+    network_mode: "service:solr"
+    command: bash -c "set -x; export; wait-for-solr.sh; solr zk -z localhost:9983 upconfig -n default -d /opt/solr/server/solr/configsets/_default; tail -f /dev/null"
 
 volumes:
   solr-data:

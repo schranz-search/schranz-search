@@ -7,7 +7,7 @@
 <br />
 <br />
 
-The `SolrAdapter` write the documents into a [Apache Solr](https://github.com/apache/solr) server instance.
+The `SolrAdapter` write the documents into a [Apache Solr](https://github.com/apache/solr) server instance. The Apache Solr server is running in the [`cloud mode`](https://solr.apache.org/guide/solr/latest/getting-started/tutorial-solrcloud.html) as we require to use collections for indexes.
 
 > **Note**:
 > This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
@@ -34,7 +34,7 @@ use Solr\Client;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapter;
 use Schranz\Search\SEAL\Engine;
 
-$client = new Client('http://127.0.0.1:7700');
+$client = new Client('http://127.0.0.1:8983');
 
 $engine = new Engine(
     new SolrAdapter($client),
