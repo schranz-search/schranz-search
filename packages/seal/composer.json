@@ -4,10 +4,11 @@
     "type": "library",
     "license": "MIT",
     "keywords": [
-        "schranz-search",
+        "abstraction",
         "search",
         "search-client",
         "search-abstraction",
+        "schranz-search",
         "elasticsearch",
         "opensearch",
         "meilisearch",

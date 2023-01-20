@@ -22,9 +22,7 @@ final class ClientHelper
                     'localhost' => array(
                         'host' => $host,
                         'port' => $port,
-                        'path' => '/',
-                        'core' => 'index',
-                    )
+                    ),
                 )
             ];
 

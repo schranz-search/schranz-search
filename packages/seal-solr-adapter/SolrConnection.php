@@ -2,6 +2,7 @@
 
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
+use Schranz\Search\SEAL\Task\SyncTask;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
@@ -29,38 +30,47 @@ final class SolrConnection implements ConnectionInterface
         /** @var string|null $identifier */
         $identifier = ((string) $document[$identifierField->name]) ?? null;
 
-        $indexResponse = $this->client->index($index->name)->addDocuments([
-            $this->marshaller->marshall($index->fields, $document),
-        ], $identifierField->name);
+        $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
+        $marshalledDocument['id'] = $identifier;
 
-        if ($indexResponse['status'] !== 'enqueued') {
-            throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
-        }
+        $update = $this->client->createUpdate();
+        $indexDocument = $update->createDocument();
+
+        $indexDocument->id = $identifier;
+
+        $update->addDocuments([$indexDocument]);
+        $update->addCommit();
+
+        $this->client->getEndpoint()
+            ->setCollection($index->name);
+
+        $this->client->update($update);
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponse) {
-            $this->client->waitForTask($indexResponse['taskUid']);
-        });
+        return new SyncTask(null);
     }
 
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
-        $deleteResponse = $this->client->index($index->name)->deleteDocument($identifier);
+        $update = $this->client->createUpdate();
+        $query = $update->addDeleteById($identifier);
 
-        if ($deleteResponse['status'] !== 'enqueued') {
-            throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
-        }
+        $update->addDeleteQuery($query);
+        $update->addCommit();
+
+        $this->client->getEndpoint()
+            ->setCollection($index->name);
+
+        $this->client->update($update);
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function() use ($deleteResponse) {
-            $this->client->waitForTask($deleteResponse['taskUid']);
-        });
+        return new SyncTask(null);
     }
 
     public function search(Search $search): Result
@@ -73,13 +83,14 @@ final class SolrConnection implements ConnectionInterface
             && $search->offset === 0
             && $search->limit === 1
         ) {
-            try {
-                $data = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name)->getDocument($search->filters[0]->identifier);
-            } catch (ApiException $e) {
-                if ($e->httpStatus !== 404) {
-                    throw $e;
-                }
+            $this->client->getEndpoint()
+                ->setCollection($search->indexes[\array_key_first($search->indexes)]->name);
 
+            $query = $this->client->createRealtimeGet();
+            $query->addId($search->filters[0]->identifier);
+            $result = $this->client->realtimeGet($query);
+
+            if (!$result->getNumFound()) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
                     0
@@ -87,7 +98,7 @@ final class SolrConnection implements ConnectionInterface
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$data]),
+                $this->hitsToDocuments($search->indexes, [$result->getDocument()->getFields()]),
                 1
             );
         }
@@ -151,6 +162,15 @@ final class SolrConnection implements ConnectionInterface
         $index = $indexes[\array_key_first($indexes)];
 
         foreach ($hits as $hit) {
+            unset($hit['_version_']);
+
+            if ($index->getIdentifierField()->name !== 'id') {
+                $id = $hit['id'];
+                unset($hit['id']);
+
+                $hit[$index->getIdentifierField()->name] = $id;
+            }
+
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
     }
