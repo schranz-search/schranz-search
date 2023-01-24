@@ -5,13 +5,11 @@ namespace Schranz\Search\SEAL\Adapter\Solr;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
-use Solarium\Exception\HttpException;
+use Solarium\Core\Client\Request;
 use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
-use Solarium\QueryType\Server\Collections\Result\CreateResult;
-use Solarium\QueryType\Server\Collections\Result\DeleteResult;
 
 final class SolrSchemaManager implements SchemaManagerInterface
 {
@@ -61,6 +59,19 @@ final class SolrSchemaManager implements SchemaManagerInterface
 
         $this->client->collections($collectionQuery);
 
+        $requests = $this->createRequests($index->fields);
+
+        foreach ($requests as $request) {
+            $query = $this->client->createApi([
+                'version' => Request::API_V1,
+                'handler' => $index->name.'/schema',
+                'method' => Request::METHOD_POST,
+                'rawdata' => json_encode($request, \JSON_THROW_ON_ERROR),
+            ]);
+
+            $this->client->execute($query);
+        }
+
         // TODO create schema fields
         /*
         $attributes = [
@@ -75,5 +86,82 @@ final class SolrSchemaManager implements SchemaManagerInterface
         }
 
         return new SyncTask(null);
+    }
+
+    /**
+     * @param Field\AbstractField[] $fields
+     *
+     * @return array<string, mixed>
+     */
+    private function createRequests(array $fields): array
+    {
+        $requests = [];
+
+        foreach ($fields as $name => $field) {
+            match (true) {
+                $field instanceof Field\IdentifierField => null,
+                $field instanceof Field\TextField => $requests[$name] = [
+                    'add-field' => [
+                        'name' => $name,
+                        'type' => 'string',
+                        'indexed' => $field->searchable,
+                        'docValues' => $field->filterable || $field->sortable,
+                        'stored' => false,
+                        'multiValued' => $field->multiple,
+                    ],
+                ],
+                $field instanceof Field\BooleanField => $requests[$name] = [
+                    'add-field' => [
+                        'name' => $name,
+                        'type' => 'bool',
+                        'indexed' => $field->searchable,
+                        'docValues' => $field->filterable || $field->sortable,
+                        'stored' => false,
+                        'multiValued' => $field->multiple,
+                    ],
+                ],
+                $field instanceof Field\DateTimeField => $requests[$name] = [
+                    'add-field' => [
+                        'name' => $name,
+                        'type' => 'pdate',
+                        'indexed' => $field->searchable,
+                        'docValues' => $field->filterable || $field->sortable,
+                        'stored' => false,
+                        'multiValued' => $field->multiple,
+                    ],
+                ],
+                $field instanceof Field\IntegerField => $requests[$name] = [
+                    'add-field' => [
+                        'name' => $name,
+                        'type' => 'pint',
+                        'indexed' => $field->searchable,
+                        'docValues' => $field->filterable || $field->sortable,
+                        'stored' => false,
+                        'multiValued' => $field->multiple,
+                    ],
+                ],
+                $field instanceof Field\FloatField => $requests[$name] = [
+                    'add-field' => [
+                        'name' => $name,
+                        'type' => 'pfloat',
+                        'indexed' => $field->searchable,
+                        'docValues' => $field->filterable || $field->sortable,
+                        'stored' => false,
+                        'multiValued' => $field->multiple,
+                    ],
+                ],
+                default => null,
+                /*
+                $field instanceof Field\ObjectField => $fields[$name] = [
+                    'type' => 'object',
+                    'properties' => $this->createPropertiesMapping($field->fields),
+                ],
+                $field instanceof Field\TypedField => $fields = \array_replace($properties, $this->createTypedFieldMapping($name, $field)),
+                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                */
+            };
+        }
+
+        return $requests;
     }
 }
