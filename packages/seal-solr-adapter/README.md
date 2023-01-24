@@ -31,10 +31,23 @@ The following code shows how to create an Engine using this Adapter:
 <?php
 
 use Solr\Client;
+use Solarium\Core\Client\Adapter\Curl;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapter;
 use Schranz\Search\SEAL\Engine;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
-$client = new Client('http://127.0.0.1:8983');
+$client = new Client(new Curl(), new EventDispatcher(), [
+    'endpoint' => [
+        'localhost' => [
+            'host' => '127.0.0.1',
+            'port' => '8983',
+            // authenticated required for configset api https://solr.apache.org/guide/8_9/configsets-api.html
+            // alternative set solr.disableConfigSetsCreateAuthChecks=true in your server setup
+            'username' => 'solr',
+            'password' => 'SolrRocks',
+        ],
+    ]
+]);
 
 $engine = new Engine(
     new SolrAdapter($client),

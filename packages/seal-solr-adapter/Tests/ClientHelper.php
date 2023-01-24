@@ -18,12 +18,12 @@ final class ClientHelper
             $adapter = new Curl();
             $eventDispatcher = new EventDispatcher();
             $options = [
-                'endpoint' => array(
-                    'localhost' => array(
+                'endpoint' => [
+                    'localhost' => [
                         'host' => $host,
                         'port' => $port,
-                    ),
-                )
+                    ],
+                ]
             ];
 
             self::$client = new Client($adapter, $eventDispatcher, $options);

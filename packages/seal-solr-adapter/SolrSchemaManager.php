@@ -40,6 +40,13 @@ final class SolrSchemaManager implements SchemaManagerInterface
 
         $this->client->collections($collectionQuery);
 
+        $configsetQuery = $this->client->createConfigsets();
+
+        $action = $configsetQuery->createDelete()
+            ->setName($index->name);
+        $configsetQuery->setAction($action);
+        $this->client->configsets($configsetQuery);
+
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
@@ -49,24 +56,36 @@ final class SolrSchemaManager implements SchemaManagerInterface
 
     public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
+        $configsetQuery = $this->client->createConfigsets();
+
+        $action = $configsetQuery->createCreate()
+            ->setName($index->name)
+            ->setBaseConfigSet('_default');
+        $configsetQuery->setAction($action);
+
+        $this->client->configsets($configsetQuery);
+
         $collectionQuery = $this->client->createCollections();
 
         $action = $collectionQuery->createCreate([
             'name' => $index->name,
             'numShards' => 1,
+            'collection.configName' => $index->name,
         ]);
         $collectionQuery->setAction($action);
 
         $this->client->collections($collectionQuery);
 
-        $requests = $this->createRequests($index->fields);
+        $indexFields = $this->createIndexFields($index->fields);
 
-        foreach ($requests as $request) {
+        foreach ($indexFields as $indexField) {
             $query = $this->client->createApi([
                 'version' => Request::API_V1,
                 'handler' => $index->name.'/schema',
                 'method' => Request::METHOD_POST,
-                'rawdata' => json_encode($request, \JSON_THROW_ON_ERROR),
+                'rawdata' => json_encode([
+                    'add-field' => $indexField,
+                ], \JSON_THROW_ON_ERROR),
             ]);
 
             $this->client->execute($query);
@@ -93,65 +112,55 @@ final class SolrSchemaManager implements SchemaManagerInterface
      *
      * @return array<string, mixed>
      */
-    private function createRequests(array $fields): array
+    private function createIndexFields(array $fields): array
     {
-        $requests = [];
+        $indexFields = [];
 
         foreach ($fields as $name => $field) {
             match (true) {
-                $field instanceof Field\IdentifierField => null,
-                $field instanceof Field\TextField => $requests[$name] = [
-                    'add-field' => [
-                        'name' => $name,
-                        'type' => 'string',
-                        'indexed' => $field->searchable,
-                        'docValues' => $field->filterable || $field->sortable,
-                        'stored' => false,
-                        'multiValued' => $field->multiple,
-                    ],
+                $field instanceof Field\IdentifierField => null, // TODO define primary field
+                $field instanceof Field\TextField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'string',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'multiValued' => $field->multiple,
                 ],
-                $field instanceof Field\BooleanField => $requests[$name] = [
-                    'add-field' => [
-                        'name' => $name,
-                        'type' => 'bool',
-                        'indexed' => $field->searchable,
-                        'docValues' => $field->filterable || $field->sortable,
-                        'stored' => false,
-                        'multiValued' => $field->multiple,
-                    ],
+                $field instanceof Field\BooleanField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'bool',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'multiValued' => $field->multiple,
                 ],
-                $field instanceof Field\DateTimeField => $requests[$name] = [
-                    'add-field' => [
-                        'name' => $name,
-                        'type' => 'pdate',
-                        'indexed' => $field->searchable,
-                        'docValues' => $field->filterable || $field->sortable,
-                        'stored' => false,
-                        'multiValued' => $field->multiple,
-                    ],
+                $field instanceof Field\DateTimeField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'pdate',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'multiValued' => $field->multiple,
                 ],
-                $field instanceof Field\IntegerField => $requests[$name] = [
-                    'add-field' => [
-                        'name' => $name,
-                        'type' => 'pint',
-                        'indexed' => $field->searchable,
-                        'docValues' => $field->filterable || $field->sortable,
-                        'stored' => false,
-                        'multiValued' => $field->multiple,
-                    ],
+                $field instanceof Field\IntegerField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'pint',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'multiValued' => $field->multiple,
                 ],
-                $field instanceof Field\FloatField => $requests[$name] = [
-                    'add-field' => [
-                        'name' => $name,
-                        'type' => 'pfloat',
-                        'indexed' => $field->searchable,
-                        'docValues' => $field->filterable || $field->sortable,
-                        'stored' => false,
-                        'multiValued' => $field->multiple,
-                    ],
+                $field instanceof Field\FloatField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'pfloat',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'multiValued' => $field->multiple,
                 ],
                 default => null,
-                /*
+                /* TODO implement ObjectField and TypedField
                 $field instanceof Field\ObjectField => $fields[$name] = [
                     'type' => 'object',
                     'properties' => $this->createPropertiesMapping($field->fields),
@@ -162,6 +171,6 @@ final class SolrSchemaManager implements SchemaManagerInterface
             };
         }
 
-        return $requests;
+        return $indexFields;
     }
 }

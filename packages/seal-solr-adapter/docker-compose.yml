@@ -11,6 +11,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
+    environment:
+      SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
     volumes:
       - solr-data:/var/solr
 
@@ -19,6 +21,8 @@ services:
     depends_on:
       - "solr"
     network_mode: "service:solr"
+    environment:
+      SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
     command: bash -c "set -x; export; wait-for-solr.sh; solr zk -z localhost:9983 upconfig -n default -d /opt/solr/server/solr/configsets/_default; tail -f /dev/null"
 
 volumes:
