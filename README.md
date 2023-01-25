@@ -39,7 +39,7 @@ At current state collect here different search engines which are around and coul
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [Solr](#solr) (help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73))
  - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
- - [Zinc Labs](#zinc-labs) (work in progress  [#79](https://github.com/schranz-search/schranz-search/pull/79)))
+ - [Zinc Labs](#zinc-labs) (work in progress  [#79](https://github.com/schranz-search/schranz-search/pull/79))
  - [RediSearch](#redisearch)
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
@@ -57,6 +57,12 @@ At current state collect here different search engines which are around and coul
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)
  - [Amazon CloudSearch](#amazon-cloudsearch)
+ - [Gigablast](#gigablast)
+ - [Fess](#fess)
+ - [Bleve](#bleve)
+ - [Qdrant](#qdrant)
+ - [OpenAI](#openai)
+ - [Jina](#jina)
 
 ### Elasticsearch
  
@@ -237,9 +243,54 @@ A cloud based search from Amazon:
  - Server: No server only SaaS [Amazon CloudSearch](https://aws.amazon.com/de/cloudsearch/)
  - PHP Client: No client available only [REST API](https://docs.aws.amazon.com/aws-sdk-php/v2/guide/service-cloudsearch.html)
 
+### Gigablast
+
+Describe itself as an open source web and enterprise search engine and spider/crawler
+written in C++.
+
+ - Server: [Gigablast Server](https://github.com/gigablast/open-source-search-engine)
+ - PHP Client: No client available only [REST API](https://gigablast.com/api.html)
+
+### Fess
+
+Fess is very powerful and easily deployable Enterprise Search Server.
+
+ - Server: [Fess Server](https://github.com/codelibs/fess)
+
+### Bleve
+
+A modern text ndexing in go, supported and sponsored by Couchbase:
+
+ - Library only: [Bleve](https://github.com/blevesearch/bleve)
+
+### Qdrant
+
+A vector AI based search database:
+
+ - Server: [Qdrant Server](https://github.com/qdrant/qdrant)
+ - PHP Client: No client available only [REST API](https://qdrant.github.io/qdrant/redoc/index.html)
+
+### OpenAI
+
+OpenAi embeddings can also be used to create search engine:
+
+ - Docs Embeddings: [Embeddings](https://beta.openai.com/docs/api-reference/embeddings)
+ - Docs Search: [Deprecated Search Migratin Transition](https://help.openai.com/en/articles/6272952-search-transition-guide)
+
+### Jina
+
+Another vector based search engine:
+
+ - Server: [Jina Server](https://github.com/jina-ai/jina/)
+
 ## Similar Projects
 
 Following projects in the past target similar problem:
 
  - [https://github.com/nresni/Ariadne](https://github.com/nresni/Ariadne) (Solr, Elasticsearch, Zendsearch: outdated 12 years ago)
  - [https://github.com/massiveart/MassiveSearchBundle](https://github.com/massiveart/MassiveSearchBundle) (ZendSearch, Elasticsearch)
+
+Some more links:
+
+ - [https://alternativeto.net/software/meilisearch/](https://alternativeto.net/software/meilisearch/)
+ - [https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines](https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines)
