@@ -24,9 +24,25 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
 
     public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
-        $index = $this->client->initIndex($index->name);
+        $searchIndex = $this->client->initIndex($index->name);
 
-        $indexResponse = $index->delete();
+        $indexResponse = $searchIndex->delete();
+
+        if (\count($index->sortableFields) > 0) {
+            // we need to wait for removing of primary index
+            // see also: https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/delete-indices/#delete-multiple-indices
+            $indexResponse->wait();
+        }
+
+        foreach ($index->sortableFields as $field) {
+            foreach (['asc', 'desc'] as $direction) {
+                $searchIndex = $this->client->initIndex(
+                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
+                );
+
+                $indexResponse = $searchIndex->delete();
+            }
+        }
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
