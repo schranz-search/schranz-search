@@ -40,7 +40,8 @@ abstract class AbstractConnectionTestCase extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-        self::$taskHelper = new TaskHelper();
+        self::$taskHelper->waitForAll();
+
         foreach (self::getSchema()->indexes as $index) {
             self::$taskHelper->tasks[] = self::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         }
