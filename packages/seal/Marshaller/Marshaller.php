@@ -176,6 +176,8 @@ final class Marshaller
 
                     $documentFields[$name][$originalIndex] = $documentData;
 
+                    \ksort($documentFields[$name]);
+
                     continue;
                 }
 
