@@ -272,5 +272,134 @@ class FlattenMarshallerTest extends TestCase
                 ]),
             ],
         ];
+
+        yield 'typed_objects' => [
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'blocks' => [
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel',
+                        'description' => '<p>Description</p>',
+                        'media' => [3, 4],
+                        'secondaryBlocks' => [
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel',
+                                'description' => '<p>Description</p>',
+                                'media' => [3, 4],
+                            ],
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel 2',
+                                'description' => null,
+                            ],
+                            [
+                                'type' => 'embed',
+                                'title' => 'Video',
+                                'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                            ],
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel 4',
+                                'description' => '<p>Description 4</p>',
+                                'media' => [3, 4],
+                            ],
+                        ],
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 2',
+                        'description' => null,
+                    ],
+                    [
+                        'type' => 'embed',
+                        'title' => 'Video',
+                        'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 4',
+                        'description' => '<p>Description 4</p>',
+                        'media' => [3, 4],
+                        'secondaryBlocks' => [
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel',
+                                'description' => '<p>Description</p>',
+                                'media' => [3, 4],
+                            ],
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel 2',
+                                'description' => null,
+                            ],
+                            [
+                                'type' => 'embed',
+                                'title' => 'Video',
+                                'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                            ],
+                            [
+                                'type' => 'text',
+                                'title' => 'Titel 4',
+                                'description' => '<p>Description 4</p>',
+                                'media' => [3, 4],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'blocks.text._originalIndex' => [0, 1, 3],
+                'blocks.text.title' => ['Titel', 'Titel 2', 'Titel 4'],
+                'blocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
+                'blocks.text.media._originalLength' => [2, 0, 2],
+                'blocks.text.media' => [3, 4, 3, 4],
+                'blocks.text.secondaryBlocks.text._originalIndex._originalLength' => [3, 0, 3],
+                'blocks.text.secondaryBlocks.text._originalIndex' => [0, 1, 3, 0, 1, 3],
+                'blocks.text.secondaryBlocks.text.title._originalLength' => [3, 0, 3],
+                'blocks.text.secondaryBlocks.text.title' => ['Titel', 'Titel 2', 'Titel 4', 'Titel', 'Titel 2', 'Titel 4'],
+                'blocks.text.secondaryBlocks.text.description._originalLength' => [3, 0, 3],
+                'blocks.text.secondaryBlocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>', '<p>Description</p>', null, '<p>Description 4</p>'],
+                'blocks.text.secondaryBlocks.text.media._originalLength._originalLength' => [3, 0, 3],
+                'blocks.text.secondaryBlocks.text.media._originalLength' => [2, 0, 2, 2, 0, 2],
+                'blocks.text.secondaryBlocks.text.media' => [3, 4, 3, 4, 3, 4, 3, 4],
+                'blocks.text.secondaryBlocks.embed._originalIndex._originalLength' => [1, 0, 1],
+                'blocks.text.secondaryBlocks.embed._originalIndex' => [2, 2],
+                'blocks.text.secondaryBlocks.embed.title._originalLength' => [1, 0, 1],
+                'blocks.text.secondaryBlocks.embed.title' => ['Video', 'Video'],
+                'blocks.text.secondaryBlocks.embed.media._originalLength' => [1, 0, 1],
+                'blocks.text.secondaryBlocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0', 'https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
+                'blocks.embed._originalIndex' => [2],
+                'blocks.embed.title' => ['Video'],
+                'blocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
+            ],
+            [
+                'uuid' => new Field\IdentifierField('uuid'),
+                'blocks' => new Field\TypedField('blocks', 'type', [
+                    'text' => [
+                        'title' => new Field\TextField('title'),
+                        'description' => new Field\TextField('description'),
+                        'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                        'secondaryBlocks' => new Field\TypedField('secondaryBlocks', 'type', [
+                            'text' => [
+                                'title' => new Field\TextField('title'),
+                                'description' => new Field\TextField('description'),
+                                'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                            ],
+                            'embed' => [
+                                'title' => new Field\TextField('title'),
+                                'media' => new Field\TextField('media', searchable: false),
+                            ],
+                        ], multiple: true),
+                    ],
+                    'embed' => [
+                        'title' => new Field\TextField('title'),
+                        'media' => new Field\TextField('media', searchable: false),
+                    ],
+                ], multiple: true),
+            ],
+        ];
     }
 }

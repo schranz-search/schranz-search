@@ -16,6 +16,7 @@ final class FlattenMarshaller
     ) {
         $this->marshaller = new Marshaller($dateAsInteger);
     }
+
     /**
      * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $object
@@ -197,12 +198,12 @@ final class FlattenMarshaller
         return $keepOrderRaw;
     }
 
-    private function unflatten(array $fields, array $raw)
+    private function unflatten(array $fields, array $raw, bool $isParentMultiple = false)
     {
         foreach ($fields as $name => $field) {
             match (true) {
-                $field instanceof Field\ObjectField => $raw = $this->unflattenObject($name, $raw, $field),
-                $field instanceof Field\TypedField => $raw = $this->unflattenTyped($name, $raw, $field),
+                $field instanceof Field\ObjectField => $raw = $this->unflattenObject($name, $raw, $field, $isParentMultiple),
+                $field instanceof Field\TypedField => $raw = $this->unflattenTyped($name, $raw, $field, $isParentMultiple),
                 default => null,
             };
         }
@@ -216,7 +217,7 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function unflattenObject(string $name, array $raw, Field\ObjectField $field)
+    private function unflattenObject(string $name, array $raw, Field\ObjectField $field, bool $rootIsParentMultiple)
     {
         $rawFields = [];
         $firstKey = null;
@@ -237,10 +238,10 @@ final class FlattenMarshaller
 
         $newRawData = [];
         if (!$field->multiple) {
-            $newRawData = $this->unflatten($field->fields, $rawFields);
+            $newRawData = $this->unflatten($field->fields, $rawFields, $rootIsParentMultiple);
         } else {
             foreach ($this->unflattenValue($rawFields) as $key => $value) {
-                $newRawData[$key] = $this->unflatten($field->fields, $value);
+                $newRawData[$key] = $this->unflatten($field->fields, $value, true);
             }
         }
 
@@ -263,7 +264,7 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function unflattenTyped(string $name, array $raw, Field\TypedField $field)
+    private function unflattenTyped(string $name, array $raw, Field\TypedField $field, bool $rootIsParentMultiple)
     {
         $rawFields = [];
         $firstKey = null;
@@ -287,7 +288,7 @@ final class FlattenMarshaller
             $fieldTypes = $field->types[$type];
 
             if (!$field->multiple) {
-                $newRawData[$type] = $this->unflatten($fieldTypes, $object);
+                $newRawData[$type] = $this->unflatten($fieldTypes, $object, $rootIsParentMultiple);
 
                 continue;
             }
@@ -299,7 +300,7 @@ final class FlattenMarshaller
             );
 
             foreach ($this->unflattenValue($object) as $key => $value) {
-                $newRawData[$type][$key] = $this->unflatten($fieldTypes, $value);
+                $newRawData[$type][$key] = $this->unflatten($fieldTypes, $value, true);
             }
         }
 
@@ -332,7 +333,15 @@ final class FlattenMarshaller
                 }
 
                 if (isset($object[$key . '._originalLength'])) {
-                    for ($i = 0; $i < ($object[$key . '._originalLength'][$subKey] ?? 0); ++$i) {
+                    $count = $object[$key . '._originalLength'];
+                    if (isset($object[$key . '._originalLength._originalLength'])) {
+                        $count = [];
+                        for ($i = 0; $i < ($object[$key . '._originalLength._originalLength'][$subKey] ?? 0); ++$i) {
+                            $count[] = array_shift($object[$key . '._originalLength']);
+                        }
+                    }
+
+                    for ($i = 0; $i < ($count[$subKey] ?? 0); ++$i) {
                         $subRawData[$subKey][$key][] = array_shift($value);
                     }
 
@@ -342,6 +351,8 @@ final class FlattenMarshaller
                 $subRawData[$subKey][$key] = $subValue;
             }
         }
+
+        $subRawData = array_values($subRawData);
 
         return $subRawData;
     }
