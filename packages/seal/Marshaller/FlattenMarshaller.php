@@ -37,7 +37,9 @@ final class FlattenMarshaller
      */
     public function unmarshall(array $fields, array $raw): array
     {
-        return $this->marshaller->unmarshall($fields, $raw);
+        $rawDocument = $this->unflatten($fields, $raw);
+
+        return $this->marshaller->unmarshall($fields, $rawDocument);
     }
 
     /**
@@ -46,7 +48,7 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function flatten(array $fields, array $raw)
+    private function flatten(array $fields, array $raw, bool $isParentMultiple = false)
     {
         foreach ($fields as $name => $field) {
             if (!array_key_exists($name, $raw)) {
@@ -54,8 +56,8 @@ final class FlattenMarshaller
             }
 
             match (true) {
-                $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field),
-                $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field),
+                $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $isParentMultiple),
+                $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $isParentMultiple),
                 default => null,
             };
         }
@@ -69,17 +71,18 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function flattenObject(string $name, array $raw, Field\ObjectField $field)
+    private function flattenObject(string $name, array $raw, Field\ObjectField $field, bool $rootIsParentMultiple)
     {
         $objects = $field->multiple ? $raw[$name] : [$raw[$name]];
 
         $newRawData = [];
         foreach ($objects as $index => $object) {
-            foreach ($this->flatten($field->fields, $object) as $key => $value) {
-                if (is_array($value)) {
-                    $newRawData[$name . '.' . $key . '.length'][$index] = count($value);
+            $isParentMultiple = $rootIsParentMultiple || $field->multiple;
+            foreach ($this->flatten($field->fields, $object, $isParentMultiple) as $key => $value) {
+                if ($isParentMultiple && isset($field->fields[$key]) && $field->fields[$key]->multiple) {
+                    $newRawData[$name . '.' . $key . '._originalLength'][$index] = count($value);
                     $filler = array_fill(0, $index + 1, 0);
-                    $newRawData[$name . '.' . $key . '.length'] = array_replace($filler, $newRawData[$name . '.' . $key . '.length']);
+                    $newRawData[$name . '.' . $key . '._originalLength'] = array_replace($filler, $newRawData[$name . '.' . $key . '._originalLength']);
 
                     if (!isset($newRawData[$name . '.' . $key])) {
                         $newRawData[$name . '.' . $key] = [];
@@ -87,11 +90,31 @@ final class FlattenMarshaller
 
                     \array_push($newRawData[$name . '.' . $key], ...($value));
 
-                    $newRawData[$name . '.' . $key] = array_merge($newRawData[$name . '.' . $key] ?? [], $value);
+                    continue;
+                }
+
+                if ($isParentMultiple && !is_array($value)) {
+                    $newRawData[$name . '.' . $key][$index] = $value;
+                    $filler = array_fill(0, $index + 1, 0);
+                    $newRawData[$name . '.' . $key] = array_replace($filler, $newRawData[$name . '.' . $key]);
 
                     continue;
-                } elseif ($field->multiple) {
-                    $newRawData[$name . '.' . $key][] = $value;
+                }
+
+                if (str_ends_with($key, '._originalLength')) {
+                    $newRawData[$name . '.' . $key] = $value;
+
+                    continue;
+                }
+
+                if ($isParentMultiple) {
+                    if (isset($newRawData[$name . '.' . $key . '._originalLength'])) {
+                        $newRawData[$name . '.' . $key . '._originalLength'][$index] = count($value);
+                        $filler = array_fill(0, $index + 1, 0);
+                        $newRawData[$name . '.' . $key . '._originalLength'] = array_replace($filler, $newRawData[$name . '.' . $key . '._originalLength']);
+                    }
+
+                    $newRawData[$name . '.' . $key] = [...($newRawData[$name . '.' . $key] ?? []), ...$value];
 
                     continue;
                 }
@@ -122,7 +145,7 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function flattenTyped(string $name, array $raw, Field\TypedField $field)
+    private function flattenTyped(string $name, array $raw, Field\TypedField $field, bool $rootIsParentMultiple)
     {
         $types = $raw[$name];
 
@@ -131,11 +154,12 @@ final class FlattenMarshaller
             $objects = $field->multiple ? $object : [$object];
 
             foreach ($objects as $index => $object) {
-                foreach ($this->flatten($field->types[$type], $object) as $key => $value) {
+                $isParentMultiple = $rootIsParentMultiple || $field->multiple;
+                foreach ($this->flatten($field->types[$type], $object, $isParentMultiple) as $key => $value) {
                     if (\is_array($value)) {
-                        $newRawData[$name . '.' . $type . '.' . $key . '.length'][$index] = count($value);
+                        $newRawData[$name . '.' . $type . '.' . $key . '._originalLength'][$index] = count($value);
                         $filler = array_fill(0, $index + 1, 0);
-                        $newRawData[$name . '.' . $type . '.' . $key . '.length'] = array_replace($filler, $newRawData[$name . '.' . $type . '.' . $key . '.length']);
+                        $newRawData[$name . '.' . $type . '.' . $key . '._originalLength'] = array_replace($filler, $newRawData[$name . '.' . $type . '.' . $key . '._originalLength']);
 
                         if (!isset($newRawData[$name . '.' . $type . '.' . $key])) {
                             $newRawData[$name . '.' . $type . '.' . $key] = [];
@@ -171,5 +195,154 @@ final class FlattenMarshaller
         }
 
         return $keepOrderRaw;
+    }
+
+    private function unflatten(array $fields, array $raw)
+    {
+        foreach ($fields as $name => $field) {
+            match (true) {
+                $field instanceof Field\ObjectField => $raw = $this->unflattenObject($name, $raw, $field),
+                $field instanceof Field\TypedField => $raw = $this->unflattenTyped($name, $raw, $field),
+                default => null,
+            };
+        }
+
+        return $raw;
+    }
+
+
+    /**
+     * @param array<string, mixed> $raw
+     *
+     * @return array<string, mixed>
+     */
+    private function unflattenObject(string $name, array $raw, Field\ObjectField $field)
+    {
+        $rawFields = [];
+        $firstKey = null;
+        foreach ($raw as $key => $value) {
+            if (str_starts_with($key, $name . '.')) {
+                [,  $subName] = \explode('.', $key, 2);
+
+                $rawFields[$subName] = $value;
+                if ($firstKey === null) {
+                    $firstKey = $key;
+
+                    continue;
+                }
+
+                unset($raw[$key]);
+            }
+        }
+
+        $newRawData = [];
+        if (!$field->multiple) {
+            $newRawData = $this->unflatten($field->fields, $rawFields);
+        } else {
+            foreach ($this->unflattenValue($rawFields) as $key => $value) {
+                $newRawData[$key] = $this->unflatten($field->fields, $value);
+            }
+        }
+
+        $keepOrderRaw = [];
+        foreach ($raw as $key => $value) {
+            if ($key === $firstKey) {
+                $keepOrderRaw[$name] = $newRawData;
+
+                continue;
+            }
+
+            $keepOrderRaw[$key] = $value;
+        }
+
+        return $keepOrderRaw;
+    }
+
+    /**
+     * @param array<string, mixed> $raw
+     *
+     * @return array<string, mixed>
+     */
+    private function unflattenTyped(string $name, array $raw, Field\TypedField $field)
+    {
+        $rawFields = [];
+        $firstKey = null;
+        foreach ($raw as $key => $value) {
+            if (str_starts_with($key, $name . '.')) {
+                [, $type, $subName] = \explode('.', $key, 3);
+
+                $rawFields[$type][$subName] = $value;
+                if ($firstKey === null) {
+                    $firstKey = $key;
+
+                    continue;
+                }
+
+                unset($raw[$key]);
+            }
+        }
+
+        $newRawData = [];
+        foreach ($rawFields as $type => $object) {
+            $fieldTypes = $field->types[$type];
+
+            if (!$field->multiple) {
+                $newRawData[$type] = $this->unflatten($fieldTypes, $object);
+
+                continue;
+            }
+
+            $fieldTypes['_originalIndex'] = new Field\IntegerField(
+                '_originalIndex',
+                multiple: true,
+                searchable: false,
+            );
+
+            foreach ($this->unflattenValue($object) as $key => $value) {
+                $newRawData[$type][$key] = $this->unflatten($fieldTypes, $value);
+            }
+        }
+
+        $keepOrderRaw = [];
+        foreach ($raw as $key => $value) {
+            if ($key === $firstKey) {
+                $keepOrderRaw[$name] = $newRawData;
+
+                continue;
+            }
+
+            $keepOrderRaw[$key] = $value;
+        }
+
+        return $keepOrderRaw;
+    }
+
+    /**
+     * @param array $object
+     *
+     * @return array<string, mixed>
+     */
+    private function unflattenValue(array $object): array
+    {
+        $subRawData = [];
+        foreach ($object as $key => $value) {
+            foreach ($value as $subKey => $subValue) {
+                if (str_ends_with($key, '._originalLength')) {
+                    continue;
+                }
+
+                if (isset($object[$key . '._originalLength'])) {
+                    for ($i = 0; $i < ($object[$key . '._originalLength'][$subKey] ?? 0); ++$i) {
+                        $subRawData[$subKey][$key][] = array_shift($value);
+                    }
+
+                    continue;
+                }
+
+                $subRawData[$subKey][$key] = $subValue;
+            }
+        }
+
+        return $subRawData;
     }
 }

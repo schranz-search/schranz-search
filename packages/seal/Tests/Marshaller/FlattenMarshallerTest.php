@@ -4,58 +4,273 @@ namespace Schranz\Search\SEAL\Tests\Marshaller;
 
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
-use Schranz\Search\SEAL\Testing\TestingHelper;
+use Schranz\Search\SEAL\Schema\Field;
 
 class FlattenMarshallerTest extends TestCase
 {
-    public function testMarshallFlatten(): void
+    /**
+     * @param array<string, mixed> $flattenDocument
+     *
+     * @dataProvider provideData
+     */
+    public function testMarshall(array $document, array $flattenDocument, array $fields): void
     {
         $marshaller = new FlattenMarshaller();
-        $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
-        $documents = TestingHelper::createComplexFixtures();
 
-        $rawDocument = $marshaller->marshall($complexIndex->fields, $documents[0]);
+        $marshalledDocument = $marshaller->marshall($fields, $document);
 
-        $this->assertSame($this->getRawDocument(), $rawDocument);
-    }
-
-    public function testUnmarshall(): void
-    {
-        $marshaller = new FlattenMarshaller();
-        $complexIndex = TestingHelper::createSchema()->indexes[TestingHelper::INDEX_COMPLEX];
-
-        $document = $marshaller->unmarshall($complexIndex->fields, $this->getRawDocument());
-
-        $documents = TestingHelper::createComplexFixtures();
-        $this->assertSame($documents[0], $document);
+        $this->assertSame($flattenDocument, $marshalledDocument);
     }
 
     /**
-     * @return array<string, mixed>
+     * @param array<string, mixed> $flattenDocument
+     *
+     * @dataProvider provideData
      */
-    private function getRawDocument(bool $dateAsInteger = false): array
+    public function testUnmarshall(array $document, array $flattenDocument, array $fields): void
     {
-        return [
-            'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
-            'title' => 'New Blog',
-            'header.image.media' => 1,
-            'article' => '<article><h2>New Subtitle</h2><p>A html field with some content</p></article>',
-            'blocks.text._originalIndex' => [0, 1, 3],
-            'blocks.text.title' => ['Titel', 'Titel 2', 'Titel 4'],
-            'blocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
-            'blocks.text.media.length' => [2, 0, 2],
-            'blocks.text.media' => [3, 4, 3, 4],
-            'blocks.embed._originalIndex' => [2],
-            'blocks.embed.title' => ['Video'],
-            'blocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
-            'footer.title' => 'New Footer',
-            'created' => $dateAsInteger ? 1643022000 : '2022-01-24T12:00:00+01:00',
-            'commentsCount' => 2,
-            'rating' => 3.5,
-            'comments.email' => ['admin.nonesearchablefield@localhost', 'example.nonesearchablefield@localhost'],
-            'comments.text' => ['Awesome blog!', 'Like this blog!'],
-            'tags' => ['Tech', 'UI'],
-            'categoryIds' => [1, 2],
+        $marshaller = new FlattenMarshaller();
+
+        $unmarshalledDocument = $marshaller->unmarshall($fields, $flattenDocument);
+
+        $this->assertSame($document, $unmarshalledDocument);
+    }
+
+    /**
+     * @return \Generator<array{
+     *     0: array<string, mixed>,
+     *     1: array<string, mixed>,
+     *     2: Field\AbstractField[],
+     * }>
+     */
+    private function provideData(): \Generator
+    {
+        yield 'complex_object' => [
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'title' => 'New Blog',
+                'header' => [
+                    'type' => 'image',
+                    'media' => 1,
+                ],
+                'article' => '<article><h2>New Subtitle</h2><p>A html field with some content</p></article>',
+                'blocks' => [
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel',
+                        'description' => '<p>Description</p>',
+                        'media' => [3, 4],
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 2',
+                        'description' => null,
+                    ],
+                    [
+                        'type' => 'embed',
+                        'title' => 'Video',
+                        'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 4',
+                        'description' => '<p>Description 4</p>',
+                        'media' => [3, 4],
+                    ],
+                ],
+                'footer' => [
+                    'title' => 'New Footer',
+                ],
+                'created' => '2022-01-24T12:00:00+01:00',
+                'commentsCount' => 2,
+                'rating' => 3.5,
+                'comments' => [
+                    [
+                        'email' => 'admin.nonesearchablefield@localhost',
+                        'text' => 'Awesome blog!',
+                    ],
+                    [
+                        'email' => 'example.nonesearchablefield@localhost',
+                        'text' => 'Like this blog!',
+                    ],
+                ],
+                'tags' => ['Tech', 'UI'],
+                'categoryIds' => [1, 2],
+            ],
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'title' => 'New Blog',
+                'header.image.media' => 1,
+                'article' => '<article><h2>New Subtitle</h2><p>A html field with some content</p></article>',
+                'blocks.text._originalIndex' => [0, 1, 3],
+                'blocks.text.title' => ['Titel', 'Titel 2', 'Titel 4'],
+                'blocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
+                'blocks.text.media._originalLength' => [2, 0, 2],
+                'blocks.text.media' => [3, 4, 3, 4],
+                'blocks.embed._originalIndex' => [2],
+                'blocks.embed.title' => ['Video'],
+                'blocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
+                'footer.title' => 'New Footer',
+                'created' => '2022-01-24T12:00:00+01:00',
+                'commentsCount' => 2,
+                'rating' => 3.5,
+                'comments.email' => ['admin.nonesearchablefield@localhost', 'example.nonesearchablefield@localhost'],
+                'comments.text' => ['Awesome blog!', 'Like this blog!'],
+                'tags' => ['Tech', 'UI'],
+                'categoryIds' => [1, 2],
+            ],
+            [
+                'uuid' => new Field\IdentifierField('uuid'),
+                'title' => new Field\TextField('title'),
+                'header' => new Field\TypedField('header', 'type', [
+                    'image' => [
+                        'media' => new Field\IntegerField('media', searchable: false),
+                    ],
+                    'video' => [
+                        'media' => new Field\TextField('media', searchable: false),
+                    ],
+                ]),
+                'article' => new Field\TextField('article'),
+                'blocks' => new Field\TypedField('blocks', 'type', [
+                    'text' => [
+                        'title' => new Field\TextField('title'),
+                        'description' => new Field\TextField('description'),
+                        'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                    ],
+                    'embed' => [
+                        'title' => new Field\TextField('title'),
+                        'media' => new Field\TextField('media', searchable: false),
+                    ],
+                ], multiple: true),
+                'footer' => new Field\ObjectField('footer', [
+                    'title' => new Field\TextField('title'),
+                ]),
+                'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
+                'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
+                'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
+                'comments' => new Field\ObjectField('comments', [
+                    'email' => new Field\TextField('email', searchable: false),
+                    'text' => new Field\TextField('text'),
+                ], multiple: true),
+                'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+                'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
+            ],
+        ];
+
+        yield 'nested_object' => [
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'object' => [
+                    'title' => 'Title',
+                    'secondaryObject' => [
+                        'title' => 'Secondary Title',
+                        'tertiaryObject' => [
+                            'title' => 'Tertiary Title',
+                            'media' => [1, 2],
+                            'quaternaryObject' => [
+                                'title' => 'Quaternary Title',
+                                'media' => [3, 4],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'object.title' => 'Title',
+                'object.secondaryObject.title' => 'Secondary Title',
+                'object.secondaryObject.tertiaryObject.title' => 'Tertiary Title',
+                'object.secondaryObject.tertiaryObject.media' => [1, 2],
+                'object.secondaryObject.tertiaryObject.quaternaryObject.title' => 'Quaternary Title',
+                'object.secondaryObject.tertiaryObject.quaternaryObject.media' => [3,4],
+            ],
+            [
+                'uuid' => new Field\IdentifierField('uuid'),
+                'object' => new Field\ObjectField('object', [
+                    'title' => new Field\TextField('title'),
+                    'secondaryObject' => new Field\ObjectField('secondaryObject', [
+                        'title' => new Field\TextField('title'),
+                        'tertiaryObject' => new Field\ObjectField('tertiaryObject', [
+                            'title' => new Field\TextField('title'),
+                            'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                            'quaternaryObject' => new Field\ObjectField('quaternaryObject', [
+                                'title' => new Field\TextField('title'),
+                                'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                            ]),
+                        ]),
+                    ]),
+                ]),
+            ],
+        ];
+
+        yield 'nested_object_multiple' => [
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'object' => [
+                    'title' => 'Title',
+                    'secondaryObject' => [
+                        [
+                            'title' => 'Secondary Title',
+                            'tertiaryObject' => [
+                                'title' => 'Tertiary Title',
+                                'media' => [1, 2],
+                                'quaternaryObject' => [
+                                    'title' => 'Quaternary Title',
+                                    'media' => [3, 4],
+                                ],
+                            ],
+                        ],
+                        [
+                            'title' => null,
+                            'tertiaryObject' => [
+                                'title' => null,
+                                'quaternaryObject' => [
+                                    'title' => null,
+                                ],
+                            ],
+                        ],
+                        [
+                            'title' => 'Secondary Title 3',
+                            'tertiaryObject' => [
+                                'title' => 'Tertiary Title 3',
+                                'media' => [6, 7],
+                                'quaternaryObject' => [
+                                    'title' => 'Quaternary Title 3',
+                                    'media' => [8, 9],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'object.title' => 'Title',
+                'object.secondaryObject.title' => ['Secondary Title', null, 'Secondary Title 3'],
+                'object.secondaryObject.tertiaryObject.title' => ['Tertiary Title', null, 'Tertiary Title 3'],
+                'object.secondaryObject.tertiaryObject.media._originalLength' => [2, 0, 2],
+                'object.secondaryObject.tertiaryObject.media' => [1, 2, 6, 7],
+                'object.secondaryObject.tertiaryObject.quaternaryObject.title' => ['Quaternary Title', null, 'Quaternary Title 3'],
+                'object.secondaryObject.tertiaryObject.quaternaryObject.media._originalLength' => [2, 0, 2],
+                'object.secondaryObject.tertiaryObject.quaternaryObject.media' => [3, 4, 8, 9],
+            ],
+            [
+                'uuid' => new Field\IdentifierField('uuid'),
+                'object' => new Field\ObjectField('object', [
+                    'title' => new Field\TextField('title'),
+                    'secondaryObject' => new Field\ObjectField('secondaryObject', [
+                        'title' => new Field\TextField('title'),
+                        'tertiaryObject' => new Field\ObjectField('tertiaryObject', [
+                            'title' => new Field\TextField('title'),
+                            'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                            'quaternaryObject' => new Field\ObjectField('quaternaryObject', [
+                                'title' => new Field\TextField('title'),
+                                'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                            ]),
+                        ]),
+                    ], multiple: true),
+                ]),
+            ],
         ];
     }
 }
