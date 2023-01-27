@@ -1,0 +1,6 @@
+/vendor/
+/composer.phar
+/phpunit.xml
+/.phpunit.result.cache
+/Tests/var
+/docker-compose.override.yml

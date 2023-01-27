@@ -31,6 +31,11 @@
             "target": "git@github.com:schranz-search/seal-memory-adapter.git"
         },
         {
+            "name": "SEALZincAdapter",
+            "directory": "packages/seal-zinc-adapter",
+            "target": "git@github.com:schranz-search/seal-zinc-adapter.git"
+        },
+        {
             "name": "SEALReadWriteAdapter",
             "directory": "packages/seal-read-write-adapter",
             "target": "git@github.com:schranz-search/seal-read-write-adapter.git"
