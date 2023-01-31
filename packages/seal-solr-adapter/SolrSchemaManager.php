@@ -112,11 +112,13 @@ final class SolrSchemaManager implements SchemaManagerInterface
      *
      * @return array<string, mixed>
      */
-    private function createIndexFields(array $fields): array
+    private function createIndexFields(array $fields, string $prefix = ''): array
     {
         $indexFields = [];
 
         foreach ($fields as $name => $field) {
+            $name = $prefix . $name;
+
             match (true) {
                 $field instanceof Field\IdentifierField => null, // TODO define primary field
                 $field instanceof Field\TextField => $indexFields[$name] = [
@@ -159,18 +161,29 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'stored' => false,
                     'multiValued' => $field->multiple,
                 ],
-                default => null,
-                /* TODO implement ObjectField and TypedField
-                $field instanceof Field\ObjectField => $fields[$name] = [
-                    'type' => 'object',
-                    'properties' => $this->createPropertiesMapping($field->fields),
-                ],
-                $field instanceof Field\TypedField => $fields = \array_replace($properties, $this->createTypedFieldMapping($name, $field)),
+                $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createIndexFields($field->fields, $name . '.')),
+                $field instanceof Field\TypedField => array_map(function($fields, $type) use ($name, &$indexFields) {
+                    $indexFields = \array_replace($indexFields, $this->createIndexFields($fields, $name . '.'));
+                }, $field->types, array_keys($field->types)),
                 default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
-                */
             };
         }
 
+        if ($prefix === null) {
+            $indexFields['_rawDocument'] = [
+                'name' => '_rawDocument',
+                'type' => 'string',
+                'indexed' => false,
+                'docValues' => false,
+                'stored' => false,
+                'multiValued' => false,
+            ];
+        }
+
         return $indexFields;
+    }
+
+    private function createIndexObjectFields(int|string $name, Field\ObjectField $field)
+    {
     }
 }

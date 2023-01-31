@@ -8,6 +8,8 @@ use Schranz\Search\SEAL\Schema\Field;
  * @internal This class currently in discussion to be open for all adapters.
  *
  * The FlattenMarshaller will flatten all fields and save original document under a `_rawDocument` field.
+ * The FlattenMarshaller should only be used when the Search Engine does not support nested objects and so
+ *     the Marshaller should used in many cases instead.
  */
 final class FlattenMarshaller
 {
