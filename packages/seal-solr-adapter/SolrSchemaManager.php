@@ -91,15 +91,6 @@ final class SolrSchemaManager implements SchemaManagerInterface
             $this->client->execute($query);
         }
 
-        // TODO create schema fields
-        /*
-        $attributes = [
-            'searchableAttributes' => $index->searchableFields,
-            'filterableAttributes' => $index->filterableFields,
-            'sortableAttributes' => $index->sortableFields,
-        ];
-         */
-
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
