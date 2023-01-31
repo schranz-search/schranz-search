@@ -112,12 +112,13 @@ final class SolrSchemaManager implements SchemaManagerInterface
      *
      * @return array<string, mixed>
      */
-    private function createIndexFields(array $fields, string $prefix = ''): array
+    private function createIndexFields(array $fields, string $prefix = '', bool $isParentMultiple = false): array
     {
         $indexFields = [];
 
         foreach ($fields as $name => $field) {
             $name = $prefix . $name;
+            $isMultiple = $isParentMultiple || $field->multiple;
 
             match (true) {
                 $field instanceof Field\IdentifierField => null, // TODO define primary field
@@ -127,7 +128,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
-                    'multiValued' => $field->multiple,
+                    'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\BooleanField => $indexFields[$name] = [
                     'name' => $name,
@@ -135,7 +136,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
-                    'multiValued' => $field->multiple,
+                    'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\DateTimeField => $indexFields[$name] = [
                     'name' => $name,
@@ -143,7 +144,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
-                    'multiValued' => $field->multiple,
+                    'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\IntegerField => $indexFields[$name] = [
                     'name' => $name,
@@ -151,7 +152,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
-                    'multiValued' => $field->multiple,
+                    'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\FloatField => $indexFields[$name] = [
                     'name' => $name,
@@ -159,23 +160,23 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
-                    'multiValued' => $field->multiple,
+                    'multiValued' => $isMultiple,
                 ],
-                $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createIndexFields($field->fields, $name . '.')),
-                $field instanceof Field\TypedField => array_map(function($fields, $type) use ($name, &$indexFields) {
-                    $indexFields = \array_replace($indexFields, $this->createIndexFields($fields, $name . '.'));
+                $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createIndexFields($field->fields, $name . '.', $isMultiple)),
+                $field instanceof Field\TypedField => array_map(function($fields, $type) use ($name, &$indexFields, $isMultiple) {
+                    $indexFields = \array_replace($indexFields, $this->createIndexFields($fields, $name . '.' . $type . '.', $isMultiple));
                 }, $field->types, array_keys($field->types)),
                 default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
             };
         }
 
-        if ($prefix === null) {
+        if ($prefix === '') {
             $indexFields['_rawDocument'] = [
                 'name' => '_rawDocument',
                 'type' => 'string',
                 'indexed' => false,
                 'docValues' => false,
-                'stored' => false,
+                'stored' => true,
                 'multiValued' => false,
             ];
         }

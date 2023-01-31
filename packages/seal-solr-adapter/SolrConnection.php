@@ -2,6 +2,7 @@
 
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
+use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
@@ -15,12 +16,12 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class SolrConnection implements ConnectionInterface
 {
-    private Marshaller $marshaller;
+    private FlattenMarshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new FlattenMarshaller();
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
@@ -34,9 +35,7 @@ final class SolrConnection implements ConnectionInterface
         $marshalledDocument['id'] = $identifier;
 
         $update = $this->client->createUpdate();
-        $indexDocument = $update->createDocument();
-
-        $indexDocument->id = $identifier;
+        $indexDocument = $update->createDocument($marshalledDocument);
 
         $update->addDocuments([$indexDocument]);
         $update->addCommit();
@@ -56,9 +55,7 @@ final class SolrConnection implements ConnectionInterface
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
         $update = $this->client->createUpdate();
-        $query = $update->addDeleteById($identifier);
-
-        $update->addDeleteQuery($query);
+        $update->addDeleteById($identifier);
         $update->addCommit();
 
         $this->client->getEndpoint()
