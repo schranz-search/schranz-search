@@ -171,8 +171,8 @@ final class SolrSchemaManager implements SchemaManagerInterface
         }
 
         if ($prefix === '') {
-            $indexFields['_rawDocument'] = [
-                'name' => '_rawDocument',
+            $indexFields['_source'] = [
+                'name' => '_source',
                 'type' => 'string',
                 'indexed' => false,
                 'docValues' => false,

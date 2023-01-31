@@ -7,7 +7,7 @@ use Schranz\Search\SEAL\Schema\Field;
 /**
  * @internal This class currently in discussion to be open for all adapters.
  *
- * The FlattenMarshaller will flatten all fields and save original document under a `_rawDocument` field.
+ * The FlattenMarshaller will flatten all fields and save original document under a `_source` field.
  * The FlattenMarshaller should only be used when the Search Engine does not support nested objects and so
  *     the Marshaller should used in many cases instead.
  */
@@ -30,7 +30,7 @@ final class FlattenMarshaller
     public function marshall(array $fields, array $document): array
     {
         $flattenDocument = $this->flatten($fields, $document);
-        $flattenDocument['_rawDocument'] = \json_encode($document, \JSON_THROW_ON_ERROR);
+        $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
 
         return $flattenDocument;
     }
@@ -43,7 +43,7 @@ final class FlattenMarshaller
      */
     public function unmarshall(array $fields, array $raw): array
     {
-        return \json_decode($raw['_rawDocument'], true, flags: \JSON_THROW_ON_ERROR);
+        return \json_decode($raw['_source'], true, flags: \JSON_THROW_ON_ERROR);
     }
 
     /**
