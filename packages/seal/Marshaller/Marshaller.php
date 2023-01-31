@@ -6,6 +6,8 @@ use Schranz\Search\SEAL\Schema\Field;
 
 /**
  * @internal This class currently in discussion to be open for all adapters.
+ *
+ * The Marshaller will split the typed fields into different subfields and use a `_originalIndex` field to unmarshall it again.
  */
 final class Marshaller
 {

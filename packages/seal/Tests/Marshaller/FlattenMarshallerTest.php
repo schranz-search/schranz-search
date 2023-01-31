@@ -19,7 +19,7 @@ class FlattenMarshallerTest extends TestCase
 
         $marshalledDocument = $marshaller->marshall($fields, $document);
 
-        $this->assertSame($flattenDocument, $marshalledDocument);
+        $this->assertSame([...$flattenDocument, '_rawDocument' => \json_encode($document, \JSON_THROW_ON_ERROR)], $marshalledDocument);
     }
 
     /**
@@ -31,6 +31,7 @@ class FlattenMarshallerTest extends TestCase
     {
         $marshaller = new FlattenMarshaller();
 
+        $flattenDocument['_rawDocument'] = \json_encode($document, \JSON_THROW_ON_ERROR);
         $unmarshalledDocument = $marshaller->unmarshall($fields, $flattenDocument);
 
         $this->assertSame($document, $unmarshalledDocument);
@@ -102,12 +103,9 @@ class FlattenMarshallerTest extends TestCase
                 'title' => 'New Blog',
                 'header.image.media' => 1,
                 'article' => '<article><h2>New Subtitle</h2><p>A html field with some content</p></article>',
-                'blocks.text._originalIndex' => [0, 1, 3],
                 'blocks.text.title' => ['Titel', 'Titel 2', 'Titel 4'],
                 'blocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
-                'blocks.text.media._originalLength' => [2, 0, 2],
                 'blocks.text.media' => [3, 4, 3, 4],
-                'blocks.embed._originalIndex' => [2],
                 'blocks.embed.title' => ['Video'],
                 'blocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
                 'footer.title' => 'New Footer',
@@ -248,10 +246,8 @@ class FlattenMarshallerTest extends TestCase
                 'object.title' => 'Title',
                 'object.secondaryObject.title' => ['Secondary Title', null, 'Secondary Title 3'],
                 'object.secondaryObject.tertiaryObject.title' => ['Tertiary Title', null, 'Tertiary Title 3'],
-                'object.secondaryObject.tertiaryObject.media._originalLength' => [2, 0, 2],
                 'object.secondaryObject.tertiaryObject.media' => [1, 2, 6, 7],
                 'object.secondaryObject.tertiaryObject.quaternaryObject.title' => ['Quaternary Title', null, 'Quaternary Title 3'],
-                'object.secondaryObject.tertiaryObject.quaternaryObject.media._originalLength' => [2, 0, 2],
                 'object.secondaryObject.tertiaryObject.quaternaryObject.media' => [3, 4, 8, 9],
             ],
             [
@@ -273,7 +269,7 @@ class FlattenMarshallerTest extends TestCase
             ],
         ];
 
-        yield 'typed_objects' => [
+        yield 'nested_types_multiple' => [
             [
                 'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
                 'blocks' => [
@@ -351,27 +347,14 @@ class FlattenMarshallerTest extends TestCase
             ],
             [
                 'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
-                'blocks.text._originalIndex' => [0, 1, 3],
                 'blocks.text.title' => ['Titel', 'Titel 2', 'Titel 4'],
                 'blocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
-                'blocks.text.media._originalLength' => [2, 0, 2],
                 'blocks.text.media' => [3, 4, 3, 4],
-                'blocks.text.secondaryBlocks.text._originalIndex._originalLength' => [3, 0, 3],
-                'blocks.text.secondaryBlocks.text._originalIndex' => [0, 1, 3, 0, 1, 3],
-                'blocks.text.secondaryBlocks.text.title._originalLength' => [3, 0, 3],
                 'blocks.text.secondaryBlocks.text.title' => ['Titel', 'Titel 2', 'Titel 4', 'Titel', 'Titel 2', 'Titel 4'],
-                'blocks.text.secondaryBlocks.text.description._originalLength' => [3, 0, 3],
                 'blocks.text.secondaryBlocks.text.description' => ['<p>Description</p>', null, '<p>Description 4</p>', '<p>Description</p>', null, '<p>Description 4</p>'],
-                'blocks.text.secondaryBlocks.text.media._originalLength._originalLength' => [3, 0, 3],
-                'blocks.text.secondaryBlocks.text.media._originalLength' => [2, 0, 2, 2, 0, 2],
                 'blocks.text.secondaryBlocks.text.media' => [3, 4, 3, 4, 3, 4, 3, 4],
-                'blocks.text.secondaryBlocks.embed._originalIndex._originalLength' => [1, 0, 1],
-                'blocks.text.secondaryBlocks.embed._originalIndex' => [2, 2],
-                'blocks.text.secondaryBlocks.embed.title._originalLength' => [1, 0, 1],
                 'blocks.text.secondaryBlocks.embed.title' => ['Video', 'Video'],
-                'blocks.text.secondaryBlocks.embed.media._originalLength' => [1, 0, 1],
                 'blocks.text.secondaryBlocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0', 'https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
-                'blocks.embed._originalIndex' => [2],
                 'blocks.embed.title' => ['Video'],
                 'blocks.embed.media' => ['https://www.youtube.com/watch?v=iYM2zFP3Zn0'],
             ],
@@ -398,6 +381,82 @@ class FlattenMarshallerTest extends TestCase
                         'title' => new Field\TextField('title'),
                         'media' => new Field\TextField('media', searchable: false),
                     ],
+                ], multiple: true),
+            ],
+        ];
+
+        yield 'nested_objects_multiple' => [
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'blocks' => [
+                    [
+                        'title' => 'Titel',
+                        'description' => '<p>Description</p>',
+                        'media' => [3, 4],
+                        'secondaryBlocks' => [
+                            [
+                                'title' => 'Titel',
+                                'description' => '<p>Description</p>',
+                                'media' => [3, 4],
+                            ],
+                            [
+                                'title' => 'Titel 2',
+                                'description' => null,
+                            ],
+                            [
+                                'title' => 'Titel 4',
+                                'description' => '<p>Description 4</p>',
+                                'media' => [3, 4],
+                            ],
+                        ],
+                    ],
+                    [
+                        'title' => 'Titel 2',
+                        'description' => null,
+                    ],
+                    [
+                        'title' => 'Titel 4',
+                        'description' => '<p>Description 4</p>',
+                        'media' => [3, 4],
+                        'secondaryBlocks' => [
+                            [
+                                'title' => 'Titel',
+                                'description' => '<p>Description</p>',
+                                'media' => [3, 4],
+                            ],
+                            [
+                                'title' => 'Titel 2',
+                                'description' => null,
+                            ],
+                            [
+                                'title' => 'Titel 4',
+                                'description' => '<p>Description 4</p>',
+                                'media' => [3, 4],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
+                'blocks.title' => ['Titel', 'Titel 2', 'Titel 4'],
+                'blocks.description' => ['<p>Description</p>', null, '<p>Description 4</p>'],
+                'blocks.media' => [3, 4, 3, 4],
+                'blocks.secondaryBlocks.title' => ['Titel', 'Titel 2', 'Titel 4', 'Titel', 'Titel 2', 'Titel 4'],
+                'blocks.secondaryBlocks.description' => ['<p>Description</p>', null, '<p>Description 4</p>', '<p>Description</p>', null, '<p>Description 4</p>'],
+                'blocks.secondaryBlocks.media' => [3, 4, 3, 4, 3, 4, 3, 4],
+            ],
+            [
+                'uuid' => new Field\IdentifierField('uuid'),
+                'blocks' => new Field\ObjectField('blocks', [
+                    'title' => new Field\TextField('title'),
+                    'description' => new Field\TextField('description'),
+                    'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                    'secondaryBlocks' => new Field\ObjectField('secondaryBlocks', [
+                        'title' => new Field\TextField('title'),
+                        'description' => new Field\TextField('description'),
+                        'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+                    ], multiple: true),
                 ], multiple: true),
             ],
         ];
