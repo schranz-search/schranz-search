@@ -113,12 +113,18 @@ class TestingHelper
                     [
                         'type' => 'text',
                         'title' => 'Titel 2',
-                        'description' => '<p>Description 2</p>',
+                        'description' => null,
                     ],
                     [
                         'type' => 'embed',
                         'title' => 'Video',
                         'media' => 'https://www.youtube.com/watch?v=iYM2zFP3Zn0',
+                    ],
+                    [
+                        'type' => 'text',
+                        'title' => 'Titel 4',
+                        'description' => '<p>Description 4</p>',
+                        'media' => [3, 4],
                     ],
                 ],
                 'footer' => [
