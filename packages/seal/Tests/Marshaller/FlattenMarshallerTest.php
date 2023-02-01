@@ -19,7 +19,7 @@ class FlattenMarshallerTest extends TestCase
 
         $marshalledDocument = $marshaller->marshall($fields, $document);
 
-        $this->assertSame([...$flattenDocument, '_rawDocument' => \json_encode($document, \JSON_THROW_ON_ERROR)], $marshalledDocument);
+        $this->assertSame([...$flattenDocument, '_source' => \json_encode($document, \JSON_THROW_ON_ERROR)], $marshalledDocument);
     }
 
     /**
@@ -31,7 +31,7 @@ class FlattenMarshallerTest extends TestCase
     {
         $marshaller = new FlattenMarshaller();
 
-        $flattenDocument['_rawDocument'] = \json_encode($document, \JSON_THROW_ON_ERROR);
+        $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
         $unmarshalledDocument = $marshaller->unmarshall($fields, $flattenDocument);
 
         $this->assertSame($document, $unmarshalledDocument);
@@ -116,6 +116,7 @@ class FlattenMarshallerTest extends TestCase
                 'comments.text' => ['Awesome blog!', 'Like this blog!'],
                 'tags' => ['Tech', 'UI'],
                 'categoryIds' => [1, 2],
+                'tags.raw' => ['Tech', 'UI'],
             ],
             [
                 'uuid' => new Field\IdentifierField('uuid'),

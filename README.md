@@ -37,7 +37,7 @@ At current state collect here different search engines which are around and coul
  - [Opensearch](#opensearch) - [schranz-search/seal-opensearch-adapter](packages/seal-opensearch-adapter)
  - [Meilisearch](#meilisearch) - [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
- - [Solr](#solr) (help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73))
+ - [Solr](#solr) - [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
  - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
  - [Zinc Labs](#zinc-labs) (work in progress  [#79](https://github.com/schranz-search/schranz-search/pull/79))
  - [RediSearch](#redisearch)
@@ -80,7 +80,7 @@ Fork of Elasticsearch also written in Java.
  - Server: [Opensearch Server](https://github.com/opensearch-project/OpenSearch)
  - PHP Client: [Opensearch PHP](https://github.com/opensearch-project/opensearch-php)
 
-Implementation: [schranz-search/seal-elasticsearch-adapter](packages/seal-opensearch-adapter)
+Implementation: [schranz-search/seal-opensearch-adapter](packages/seal-opensearch-adapter)
 
 ### Meilisearch
 
@@ -107,7 +107,7 @@ A search engine under the Apache Project based on Lucene written in Java:
  - Server: [Solr Server](https://github.com/apache/solr)
  - PHP Client: [Solarium PHP](https://github.com/solariumphp/solarium) seems to be a well maintained Client
 
-Implementation: help wanted [#73](https://github.com/schranz-search/schranz-search/pull/73)
+Implementation: [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
 
 ### Typesense
 
