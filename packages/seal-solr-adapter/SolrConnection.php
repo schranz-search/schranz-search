@@ -32,7 +32,7 @@ final class SolrConnection implements ConnectionInterface
         $identifier = ((string) $document[$identifierField->name]) ?? null;
 
         $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
-        $marshalledDocument['id'] = $identifier;
+        $marshalledDocument['id'] = $identifier; // Solr currently does not support set another identifier then id: https://github.com/schranz-search/schranz-search/issues/87
 
         $update = $this->client->createUpdate();
         $indexDocument = $update->createDocument($marshalledDocument);
@@ -175,6 +175,7 @@ final class SolrConnection implements ConnectionInterface
             unset($hit['_version_']);
 
             if ($index->getIdentifierField()->name !== 'id') {
+                // Solr currently does not support set another identifier then id: https://github.com/schranz-search/schranz-search/issues/87
                 $id = $hit['id'];
                 unset($hit['id']);
 
