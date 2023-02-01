@@ -116,13 +116,13 @@ final class SolrConnection implements ConnectionInterface
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $filter->identifier . '', // TODO escape?
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $filter->value . '', // TODO escape?
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $filter->field . ':' . $filter->value . '', // TODO escape?
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' >= ' . $filter->value . '', // TODO escape?
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' > ' . $filter->value . '', // TODO escape?
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' <= ' . $filter->value . '', // TODO escape?
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' < ' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':"' . $filter->identifier . '"', // TODO escape?
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':"' . $filter->value . '"', // TODO escape?
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $filter->field . ':"' . $filter->value . '"', // TODO escape?
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':{' . $filter->value . ' TO *}', // TODO escape?
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':[' . $filter->value . ' TO *]', // TODO escape?
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':{* TO ' . $filter->value . '}', // TODO escape?
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':[* TO ' . $filter->value . ']', // TODO escape?
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
