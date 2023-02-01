@@ -13,13 +13,7 @@ use Schranz\Search\SEAL\Schema\Field;
  */
 final class FlattenMarshaller
 {
-    private Marshaller $marshaller;
-
-    public function __construct(
-        bool $dateAsInteger = false,
-    ) {
-        $this->marshaller = new Marshaller($dateAsInteger);
-    }
+    public function __construct() {}
 
     /**
      * @param Field\AbstractField[] $fields
@@ -64,6 +58,10 @@ final class FlattenMarshaller
                 $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple),
                 default => null,
             };
+
+            if ($field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)) {
+                $raw[$name. '.raw'] = $raw[$name];
+            }
         }
 
         return $raw;

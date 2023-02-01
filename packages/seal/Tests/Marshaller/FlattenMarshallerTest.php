@@ -116,6 +116,7 @@ class FlattenMarshallerTest extends TestCase
                 'comments.text' => ['Awesome blog!', 'Like this blog!'],
                 'tags' => ['Tech', 'UI'],
                 'categoryIds' => [1, 2],
+                'tags.raw' => ['Tech', 'UI'],
             ],
             [
                 'uuid' => new Field\IdentifierField('uuid'),
