@@ -128,6 +128,7 @@ final class SolrConnection implements ConnectionInterface
         }
 
         if ($queryText !== null) {
+            $query->setFields($index->searchableFields);
             $query->setQuery($helper->escapePhrase($queryText));
         }
 
@@ -143,17 +144,9 @@ final class SolrConnection implements ConnectionInterface
             $query->setRows($search->limit);
         }
 
-        /*
-        $searchParams = [];
-        if (\count($filters) !== 0) {
-            $searchParams = ['filter' => \implode(' AND ', $filters)];
-        }
-
-        TODO
         foreach ($search->sortBys as $field => $direction) {
-            $searchParams['sort'][] = $field . ':' . $direction;
+            $query->addSort($field, $direction);
         }
-        */
 
         $result = $this->client->select($query);
 
