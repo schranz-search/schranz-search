@@ -130,6 +130,9 @@ final class SolrConnection implements ConnectionInterface
         }
 
         if ($queryText !== null) {
+            $dismax = $query->getDisMax();
+            $dismax->setQueryFields(implode(' ', $index->searchableFields));
+
             $query->setQuery($queryText);
         }
 
