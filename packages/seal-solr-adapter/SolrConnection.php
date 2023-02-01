@@ -6,12 +6,10 @@ use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
-use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
-use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class SolrConnection implements ConnectionInterface
@@ -95,7 +93,7 @@ final class SolrConnection implements ConnectionInterface
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$result->getDocument()->getFields()]),
+                $this->hitsToDocuments($search->indexes, [$result->getDocument()]),
                 1
             );
         }
@@ -105,52 +103,69 @@ final class SolrConnection implements ConnectionInterface
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];
-        $searchIndex = $this->client->index($index->name);
+        $this->client->getEndpoint()
+            ->setCollection($index->name);
 
-        $query = null;
+
+        $query = $this->client->createSelect();
+        $helper = $query->getHelper();
+
+        $queryText = null;
+
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = "' . $filter->identifier . '"', // TODO escape?
-                $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $filter->identifier . '', // TODO escape?
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $filter->field . ':' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' >= ' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' > ' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' <= ' . $filter->value . '', // TODO escape?
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' < ' . $filter->value . '', // TODO escape?
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
 
+        if ($queryText !== null) {
+            $query->setQuery($helper->escapePhrase($queryText));
+        }
+
+        foreach ($filters as $key => $filter) {
+            $query->createFilterQuery('filter_' . $key)->setQuery($filter);
+        }
+
+        if ($search->offset) {
+            $query->setStart($search->offset);
+        }
+
+        if ($search->limit) {
+            $query->setRows($search->limit);
+        }
+
+        /*
         $searchParams = [];
         if (\count($filters) !== 0) {
             $searchParams = ['filter' => \implode(' AND ', $filters)];
         }
 
-        if ($search->offset) {
-            $searchParams['offset'] = $search->offset;
-        }
-
-        if ($search->limit) {
-            $searchParams['limit'] = $search->limit;
-        }
-
+        TODO
         foreach ($search->sortBys as $field => $direction) {
             $searchParams['sort'][] = $field . ':' . $direction;
         }
+        */
 
-        $data = $searchIndex->search($query, $searchParams)->toArray();
+        $result = $this->client->select($query);
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $data['hits']),
-            $data['totalHits'] ?? $data['estimatedTotalHits'] ?? null,
+            $this->hitsToDocuments($search->indexes, $result->getDocuments()),
+            $result->getNumFound()
         );
     }
 
     /**
      * @param Index[] $indexes
-     * @param iterable<array<string, mixed>> $hits
+     * @param iterable<\Solarium\QueryType\Select\Result\Document> $hits
      *
      * @return \Generator<array<string, mixed>>
      */
@@ -159,6 +174,8 @@ final class SolrConnection implements ConnectionInterface
         $index = $indexes[\array_key_first($indexes)];
 
         foreach ($hits as $hit) {
+            $hit = $hit->getFields();
+
             unset($hit['_version_']);
 
             if ($index->getIdentifierField()->name !== 'id') {

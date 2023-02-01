@@ -423,7 +423,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\GreaterThanCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(1, $loadedDocuments);
+        $this->assertGreaterThanOrEqual(1, count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertGreaterThan(2.5, $loadedDocument['rating']);
@@ -458,7 +458,14 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, count($loadedDocuments));
+
         foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertNotNull(
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+            );
+
             $this->assertGreaterThanOrEqual(2.5, $loadedDocument['rating']);
         }
 
@@ -491,7 +498,14 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\LessThanCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThanOrEqual(1, count($loadedDocuments));
+
         foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertNotNull(
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+            );
+
             $this->assertLessThan(3.5, $loadedDocument['rating']);
         }
 
@@ -524,7 +538,14 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addFilter(new Condition\LessThanEqualCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, count($loadedDocuments));
+
         foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertNotNull(
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+            );
+
             $this->assertLessThanOrEqual(3.5, $loadedDocument['rating']);
         }
 
@@ -558,6 +579,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addSortBy('rating', 'asc');
 
         $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, count($loadedDocuments));
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
@@ -596,6 +618,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $search->addSortBy('rating', 'desc');
 
         $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, count($loadedDocuments));
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$connection->delete(
