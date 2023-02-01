@@ -3,9 +3,11 @@
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
+use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
@@ -117,19 +119,18 @@ final class SolrConnection implements ConnectionInterface
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $helper->escapeTerm($filter->identifier),
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $helper->escapeTerm($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $filter->field . ':' . $helper->escapeTerm($helper->escapeTerm($filter->value)),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':{' . $helper->escapeTerm($filter->value) . ' TO *}',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':[' . $helper->escapeTerm($filter->value) . ' TO *]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':{* TO ' . $helper->escapeTerm($filter->value) . '}',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':[* TO ' . $helper->escapeTerm($filter->value) . ']',
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($helper->escapeTerm($filter->value)),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $helper->escapeTerm($filter->value) . ' TO *}',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $helper->escapeTerm($filter->value) . ' TO *]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $helper->escapeTerm($filter->value) . '}',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $helper->escapeTerm($filter->value) . ']',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
 
         if ($queryText !== null) {
-            $query->setFields($index->searchableFields);
-            $query->setQuery($helper->escapePhrase($queryText));
+            $query->setQuery($queryText);
         }
 
         foreach ($filters as $key => $filter) {
@@ -180,5 +181,24 @@ final class SolrConnection implements ConnectionInterface
 
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
+    }
+
+    private function getFilterField(array $indexes, string $name): string
+    {
+        foreach ($indexes as $index) {
+            try {
+                $field = $index->getFieldByPath($name);
+
+                if ($field instanceof Field\TextField) {
+                    return $name . '.raw';
+                }
+
+                return $name;
+            } catch (FieldByPathNotFoundException $e) {
+                // ignore when field is not found and use go to next index instead
+            }
+        }
+
+        return $name;
     }
 }

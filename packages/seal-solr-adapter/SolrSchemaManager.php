@@ -115,10 +115,11 @@ final class SolrSchemaManager implements SchemaManagerInterface
                 $field instanceof Field\IdentifierField => null, // TODO define primary field
                 $field instanceof Field\TextField => $indexFields[$name] = [
                     'name' => $name,
-                    'type' => 'string',
+                    'type' => $field->searchable ? 'text_general' : 'string',
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
+                    'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\BooleanField => $indexFields[$name] = [
@@ -127,6 +128,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
+                    'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\DateTimeField => $indexFields[$name] = [
@@ -135,6 +137,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
+                    'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\IntegerField => $indexFields[$name] = [
@@ -143,6 +146,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
+                    'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\FloatField => $indexFields[$name] = [
@@ -159,6 +163,17 @@ final class SolrSchemaManager implements SchemaManagerInterface
                 }, $field->types, array_keys($field->types)),
                 default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
             };
+
+            if ($field instanceof Field\TextField && $field->searchable && ($field->filterable || $field->sortable)) {
+                // add additional raw field for field which is filterable/sortable but also searchable
+                $fieldSettings = $indexFields[$name];
+
+                $fieldSettings['name'] = $name . '.raw';
+                $fieldSettings['type'] = 'string';
+                $indexFields[$name . '.raw'] = $fieldSettings;
+
+                $indexFields[$name]['docValues'] = false;
+            }
         }
 
         if ($prefix === '') {
