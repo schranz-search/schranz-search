@@ -101,13 +101,12 @@ final class SolrConnection implements ConnectionInterface
         }
 
         if (count($search->indexes) !== 1) {
-            throw new \RuntimeException('Solr does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
+            throw new \RuntimeException('Solr does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/86');
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];
         $this->client->getEndpoint()
             ->setCollection($index->name);
-
 
         $query = $this->client->createSelect();
         $helper = $query->getHelper();
