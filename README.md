@@ -39,8 +39,8 @@ At current state collect here different search engines which are around and coul
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [Solr](#solr) - [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
  - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
- - [Zinc Labs](#zinc-labs) (work in progress  [#79](https://github.com/schranz-search/schranz-search/pull/79))
- - [RediSearch](#redisearch)
+ - [Zinc Labs](#zinc-labs) (work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79))
+ - [RediSearch](#redisearch) (work in progress [#89](https://github.com/schranz-search/schranz-search/pull/89))
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
  - [Sonic](#sonic)
@@ -133,6 +133,8 @@ A search out of the house of the redis labs.
 
  - Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
  - PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
+
+Implementation: work in progress [#89](https://github.com/schranz-search/schranz-search/pull/89)
 
 ### ZendSearch
 
