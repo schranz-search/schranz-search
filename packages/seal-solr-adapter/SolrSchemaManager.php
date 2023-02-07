@@ -189,8 +189,4 @@ final class SolrSchemaManager implements SchemaManagerInterface
 
         return $indexFields;
     }
-
-    private function createIndexObjectFields(int|string $name, Field\ObjectField $field)
-    {
-    }
 }
