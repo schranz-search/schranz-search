@@ -19,9 +19,13 @@ class RediSearchConnectionTest extends AbstractConnectionTestCase
 
         parent::setUpBeforeClass();
     }
-
     public function testFindMultipleIndexes(): void
     {
-        $this->markTestSkipped('Not supported by RediSearch: TODO create issue');
+        $this->markTestSkipped('Not supported by RediSearch: https://github.com/schranz-search/schranz-search/issues/93');
+    }
+
+    public function testSaveDeleteIdentifierCondition(): void
+    {
+        $this->markTestSkipped('Not supported by RediSearch: https://github.com/schranz-search/schranz-search/issues/92');
     }
 }
