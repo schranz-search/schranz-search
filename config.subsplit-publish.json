@@ -21,6 +21,11 @@
             "target": "git@github.com:schranz-search/seal-solr-adapter.git"
         },
         {
+            "name": "SEALRediSearchAdapter",
+            "directory": "packages/seal-redisearch-adapter",
+            "target": "git@github.com:schranz-search/seal-redisearch-adapter.git"
+        },
+        {
             "name": "SEALMeilisearchAdapter",
             "directory": "packages/seal-meilisearch-adapter",
             "target": "git@github.com:schranz-search/seal-meilisearch-adapter.git"

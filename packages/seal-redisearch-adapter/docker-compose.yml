@@ -1,0 +1,14 @@
+version: '3'
+services:
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - 6379:6379 # redis server
+      - 8001:8001 # redis insight
+    environment:
+      REDIS_ARGS: --requirepass supersecure
+    volumes:
+        - redisearch-data:/data
+
+volumes:
+  redisearch-data:

@@ -1,0 +1,55 @@
+{
+    "name": "schranz-search/seal-redisearch-adapter",
+    "description": "An adapter to support RediSearch in schranz-search/seal search abstraction.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "schranz-search-adapter",
+        "seal-adapter",
+        "search-client",
+        "redis",
+        "redisearch"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\Tests\\": "Tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-redis": "*",
+        "ext-json": "*",
+        "schranz-search/seal": "^0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.27"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../seal",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev"
+}
