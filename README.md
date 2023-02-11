@@ -38,9 +38,9 @@ At current state collect here different search engines which are around and coul
  - [Meilisearch](#meilisearch) - [schranz-search/seal-meilisearch-adapter](packages/seal-meilisearch-adapter)
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [Solr](#solr) - [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
+ - [RediSearch](#redisearch) - [schranz-search/seal-redisearch-adapter](packages/seal-redisearch-adapter)
  - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
  - [Zinc Labs](#zinc-labs) (work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79))
- - [RediSearch](#redisearch) (work in progress [#89](https://github.com/schranz-search/schranz-search/pull/89))
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
  - [Sonic](#sonic)
@@ -109,6 +109,15 @@ A search engine under the Apache Project based on Lucene written in Java:
 
 Implementation: [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
 
+### RediSearch
+
+A search out of the house of the redis labs.
+
+- Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
+- PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
+
+Implementation: [schranz-search/seal-solr-adapter](packages/seal-redisearch-adapter)
+
 ### Typesense
 
 Describes itself as a alternative to Algolia and Elasticsearch written in C++.
@@ -126,15 +135,6 @@ Zinc search describes itself as a lightweight alternative to Elasticsearch writt
 - PHP Client: No PHP SDK currently: [https://github.com/zinclabs/zinc/issues/12](https://github.com/zinclabs/zinc/issues/12)
 
 Implementation: work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79)
-
-### RediSearch
- 
-A search out of the house of the redis labs.
-
- - Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
- - PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
-
-Implementation: work in progress [#89](https://github.com/schranz-search/schranz-search/pull/89)
 
 ### ZendSearch
 
