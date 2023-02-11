@@ -42,6 +42,7 @@ The following adapters are available:
  - [MeilisearchAdapter](../seal-meilisearch-adapter): `schranz-search/seal-meilisearch-adapter`
  - [AlgoliaAdapter](../seal-algolia-adapter): `schranz-search/seal-algolia-adapter`
  - [SolrAdapter](../seal-solr-adapter): `schranz-search/seal-solr-adapter`
+ - [RediSearchAdapter](../seal-redisearch-adapter): `schranz-search/seal-redisearch-adapter`
  - ... more coming soon
 
 Additional Wrapper adapters:
