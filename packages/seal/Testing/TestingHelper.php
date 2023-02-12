@@ -113,7 +113,6 @@ class TestingHelper
                     [
                         'type' => 'text',
                         'title' => 'Titel 2',
-                        'description' => null,
                     ],
                     [
                         'type' => 'embed',

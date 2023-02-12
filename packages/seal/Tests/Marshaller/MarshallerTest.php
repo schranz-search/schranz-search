@@ -77,7 +77,6 @@ class MarshallerTest extends TestCase
                     [
                         '_originalIndex' => 1,
                         'title' => 'Titel 2',
-                        'description' => null,
                     ],
                     [
                         '_originalIndex' => 3,
