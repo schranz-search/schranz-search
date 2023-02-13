@@ -26,7 +26,9 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
     {
         $searchIndex = $this->client->initIndex($index->name);
 
+        $indexResponses = [];
         $indexResponse = $searchIndex->delete();
+        $indexResponses[] = $indexResponse;
 
         if (\count($index->sortableFields) > 0) {
             // we need to wait for removing of primary index
@@ -40,7 +42,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
                     $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
                 );
 
-                $indexResponse = $searchIndex->delete();
+                $indexResponses[] = $searchIndex->delete();
             }
         }
 
@@ -48,8 +50,10 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponse) {
-            $indexResponse->wait();
+        return new AsyncTask(function() use ($indexResponses) {
+            foreach ($indexResponses as $indexResponse) {
+                $indexResponse->wait();
+            }
         });
     }
 
@@ -70,7 +74,8 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             'replicas' => $replicas,
         ];
 
-        $indexResponse = $searchIndex->setSettings($attributes);
+        $indexResponses = [];
+        $indexResponses[] = $searchIndex->setSettings($attributes);
 
         foreach ($index->sortableFields as $field) {
             foreach (['asc', 'desc'] as $direction) {
@@ -78,7 +83,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
                     $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
                 );
 
-                $searchIndex->setSettings([
+                $indexResponses[] = $searchIndex->setSettings([
                     'ranking' => [
                         $direction . '(' . $field . ')',
                     ],
@@ -90,8 +95,10 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponse) {
-            $indexResponse->wait();
+        return new AsyncTask(function() use ($indexResponses) {
+            foreach ($indexResponses as $indexResponse) {
+                $indexResponse->wait();
+            }
         });
     }
 }
