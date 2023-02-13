@@ -45,7 +45,7 @@ class TestingHelper
             'footer' => new Field\ObjectField('footer', [
                 'title' => new Field\TextField('title'),
             ]),
-            'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
+            'created' => new Field\DateTimeField('created', searchable: false, filterable: true, sortable: true),
             'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
             'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
             'comments' => new Field\ObjectField('comments', [
