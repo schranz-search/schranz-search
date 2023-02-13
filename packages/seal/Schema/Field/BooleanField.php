@@ -18,6 +18,10 @@ final class BooleanField extends AbstractField
         bool $sortable = false,
         array $options = []
     ) {
+        if ($searchable === true) {
+            throw new \InvalidArgumentException('Searchability for BooleanField is not yet implemented: https://github.com/schranz-search/schranz-search/issues/97');
+        }
+
         parent::__construct(
             $name,
             $multiple,

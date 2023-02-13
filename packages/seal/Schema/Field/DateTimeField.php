@@ -13,11 +13,15 @@ final class DateTimeField extends AbstractField
     public function __construct(
         string $name,
         bool $multiple = false,
-        bool $searchable = true,
+        bool $searchable = false,
         bool $filterable = false,
         bool $sortable = false,
         array $options = []
     ) {
+        if ($searchable === true) {
+            throw new \InvalidArgumentException('Searchability for DateTimeField is not yet implemented: https://github.com/schranz-search/schranz-search/issues/97');
+        }
+
         parent::__construct(
             $name,
             $multiple,
