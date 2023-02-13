@@ -121,6 +121,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             ],
             'created' => [
                 'type' => 'date',
+                'index' => false,
             ],
             'footer' => [
                 'properties' => [

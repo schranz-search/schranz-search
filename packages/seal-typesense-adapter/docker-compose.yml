@@ -1,0 +1,18 @@
+services:
+  typesense:
+    image: typesense/typesense:0.24.0
+    ports:
+      - "8108:8108"
+    environment:
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: S3CR3T
+    healthcheck:
+      test: ["CMD-SHELL", "exit 0"] # TODO currently not working as curl not available: https://github.com/typesense/typesense/issues/441#issuecomment-1383157680
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - typesense-data:/data
+
+volumes:
+  typesense-data:

@@ -1,0 +1,64 @@
+{
+    "name": "schranz-search/seal-typesense-adapter",
+    "description": "An adapter to support typesense in schranz-search/seal search abstraction.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "schranz-search",
+        "schranz-search-adapter",
+        "seal-adapter",
+        "search-client",
+        "typesense"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\Tests\\": "Tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "schranz-search/seal": "^0.1",
+        "typesense/typesense-php": "^4.8.1",
+        "symfony/http-client": "6.3.x-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.27",
+        "php-http/curl-client": "^2.0",
+        "php-http/discovery": "^1.14"
+    },
+    "conflict": {
+        "monolog/monolog": "<2.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../seal",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
