@@ -22,6 +22,6 @@ class TypesenseConnectionTest extends AbstractConnectionTestCase
 
     public function testFindMultipleIndexes(): void
     {
-        $this->markTestSkipped('Not supported by Typesense: https://github.com/schranz-search/schranz-search/issues/28');
+        $this->markTestSkipped('Not supported by Typesense: https://github.com/schranz-search/schranz-search/issues/98');
     }
 }

@@ -190,6 +190,9 @@ A more detailed schema definition can be made by defining which fields are
 searchable, filterable and sortable. By default, all fields are `searchable`
 but no fields are `filterable` or `sortable`.
 
+> **Warning**:
+> Not all adapters support searchable non-string fields (e.g. [Typesense](https://github.com/schranz-search/schranz-search/issues/96).
+
 <details>
    <summary>Schema with searchable, filterable, sortable definitions:</summary>
 

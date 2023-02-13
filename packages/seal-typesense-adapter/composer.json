@@ -41,7 +41,7 @@
         "php-http/discovery": "^1.14"
     },
     "conflict": {
-        "monolog/monolog": "<1.0"
+        "monolog/monolog": "<2.0"
     },
     "scripts": {
         "test": "vendor/bin/phpunit"

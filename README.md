@@ -39,7 +39,7 @@ At current state collect here different search engines which are around and coul
  - [Algolia](#algolia) - [schranz-search/seal-algolia-adapter](packages/seal-algolia-adapter)
  - [Solr](#solr) - [schranz-search/seal-solr-adapter](packages/seal-solr-adapter)
  - [RediSearch](#redisearch) - [schranz-search/seal-redisearch-adapter](packages/seal-redisearch-adapter)
- - [Typesense](#typesense) (work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76))
+ - [Typesense](#typesense) - [schranz-search/seal-typesense-adapter](packages/seal-typesense-adapter)
  - [Zinc Labs](#zinc-labs) (work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79))
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
@@ -116,7 +116,7 @@ A search out of the house of the redis labs.
 - Server: [RediSearch Server](https://github.com/RediSearch/RediSearch)
 - PHP Client: [Unofficial RediSearch PHP](https://github.com/MacFJA/php-redisearch)
 
-Implementation: [schranz-search/seal-solr-adapter](packages/seal-redisearch-adapter)
+Implementation: [schranz-search/seal-redisearch-adapter](packages/seal-redisearch-adapter)
 
 ### Typesense
 
@@ -125,7 +125,7 @@ Describes itself as a alternative to Algolia and Elasticsearch written in C++.
  - Server: [Typesense Server](https://github.com/typesense/typesense)
  - PHP Client: [Typesense PHP](https://github.com/typesense/typesense-php)
 
-Implementation: work in progress [#76](https://github.com/schranz-search/schranz-search/pull/76)
+Implementation: [schranz-search/seal-typesense-adapter](packages/seal-typesense-adapter)
 
 ### Zinc Labs
 
