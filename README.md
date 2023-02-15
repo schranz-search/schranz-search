@@ -41,6 +41,7 @@ At current state collect here different search engines which are around and coul
  - [RediSearch](#redisearch) - [schranz-search/seal-redisearch-adapter](packages/seal-redisearch-adapter)
  - [Typesense](#typesense) - [schranz-search/seal-typesense-adapter](packages/seal-typesense-adapter)
  - [Zinc Labs](#zinc-labs) (work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79))
+ - [Manticore Search](#manticore-search) (work in progress [#103](https://github.com/schranz-search/schranz-search/pull/103))
  - [ZendSearch](#zendsearch)
  - [TnTSearch](#tntsearch)
  - [Sonic](#sonic)
@@ -52,7 +53,6 @@ At current state collect here different search engines which are around and coul
  - [PostgreSQL Full Text Search](#postgresql-full-text-search)
  - [MySQL Full Text Search](#mysql-full-text-search)
  - [Sphinx Search](#sphinx-search)
- - [Manticore Search](#manticore-search)
  - [Search.io](#searchio)
  - [Azure Cognitive Search](#azure-cognitive-search)
  - [Google Cloud Search](#google-cloud-search)
@@ -136,6 +136,16 @@ Zinc search describes itself as a lightweight alternative to Elasticsearch writt
 
 Implementation: work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79)
 
+### Manticore Search
+
+Fork of Sphinx 2.3.2 in 2017, describes itself as an easy to use open source fast database for search.
+Good alternative for Elasticsearch.
+
+ - Server: [Manticore Search Server](https://github.com/manticoresoftware/manticoresearch)
+ - PHP Client: [Manticore Search PHP Client](https://github.com/manticoresoftware/manticoresearch-php)
+
+Implementation: work in progress [#103](https://github.com/schranz-search/schranz-search/pull/103)
+
 ### ZendSearch
 
 A complete in PHP written implementation of the Lucene index. Not longer maintained:
@@ -207,14 +217,6 @@ An older search engine written in Python.
 
  - Server: [Sphinx Search Server](http://sphinxsearch.com/downloads/current/)
  - PHP Client: No official client available
-
-### Manticore Search
-
-Fork of Sphinx 2.3.2 in 2017, describes itself as an easy to use open source fast database for search.
-Good alternative for Elasticsearch.
-
- - Server: [Manticore Search Server](https://github.com/manticoresoftware/manticoresearch)
- - PHP Client: [Manticore Search PHP Client](https://github.com/manticoresoftware/manticoresearch-php)
 
 ### Search.io
 
