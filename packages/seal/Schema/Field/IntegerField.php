@@ -8,6 +8,7 @@ namespace Schranz\Search\SEAL\Schema\Field;
 final class IntegerField extends AbstractField
 {
     /**
+     * @param false $searchable
      * @param array<string, mixed> $options
      */
     public function __construct(
