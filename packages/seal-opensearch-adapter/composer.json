@@ -42,7 +42,10 @@
         "php-http/message": "^1.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit"
+        ]
     },
     "repositories": [
         {

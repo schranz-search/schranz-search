@@ -40,7 +40,10 @@
         "phpunit/phpunit": "^9.5"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit"
+        ]
     },
     "minimum-stability": "dev"
 }

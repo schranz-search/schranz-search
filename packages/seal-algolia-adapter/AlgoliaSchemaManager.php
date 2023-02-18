@@ -34,6 +34,10 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             // we need to wait for removing of primary index
             // see also: https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/delete-indices/#delete-multiple-indices
             $indexResponse->wait();
+
+            // wait a little bit until replicas are converted to primary indices
+            // see also: https://support.algolia.com/hc/en-us/requests/540200
+            usleep(10_000_000);
         }
 
         foreach ($index->sortableFields as $field) {
