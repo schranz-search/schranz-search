@@ -55,3 +55,8 @@ $engine = new Engine(
     $schema,
 );
 ```
+
+## Authors
+
+- [Alexander Schranz](https://github.com/alexander-schranz/)
+- [The Community Contributors](https://github.com/schranz-search/schranz-search/graphs/contributors)

@@ -43,6 +43,7 @@ At current state collect here different search engines which are around and coul
  - [Zinc Labs](#zinc-labs) (work in progress [#79](https://github.com/schranz-search/schranz-search/pull/79))
  - [Manticore Search](#manticore-search) (work in progress [#103](https://github.com/schranz-search/schranz-search/pull/103))
  - [ZendSearch](#zendsearch)
+ - [Kailua Labs](#kailua-labs)
  - [TnTSearch](#tntsearch)
  - [Sonic](#sonic)
  - [Vespa](#vespa)
@@ -151,6 +152,12 @@ Implementation: work in progress [#103](https://github.com/schranz-search/schran
 A complete in PHP written implementation of the Lucene index. Not longer maintained:
 
  - Implementation: [Zendsearch Implementation](https://github.com/handcraftedinthealps/zendsearch)
+
+### Kailua Labs
+
+Next-gen search made simple:
+
+ - Server: No server only Saas [https://www.kailualabs.com/](https://www.kailualabs.com/)
 
 ### TnTSearch
 
@@ -299,3 +306,8 @@ Some more links:
 
  - [https://alternativeto.net/software/meilisearch/](https://alternativeto.net/software/meilisearch/)
  - [https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines](https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines)
+
+## Authors
+
+ - [Alexander Schranz](https://github.com/alexander-schranz/)
+ - [The Community Contributors](https://github.com/schranz-search/schranz-search/graphs/contributors)

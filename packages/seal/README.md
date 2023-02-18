@@ -537,3 +537,8 @@ The first parameter is the `field` and the second the `value` which need the fie
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
 > `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+
+## Authors
+
+- [Alexander Schranz](https://github.com/alexander-schranz/)
+- [The Community Contributors](https://github.com/schranz-search/schranz-search/graphs/contributors)

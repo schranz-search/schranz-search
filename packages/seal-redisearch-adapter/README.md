@@ -47,3 +47,8 @@ $engine = new Engine(
 ```
 
 The `ext-redis` and `ext-json` PHP extension is required for this adapter.
+
+## Authors
+
+- [Alexander Schranz](https://github.com/alexander-schranz/)
+- [The Community Contributors](https://github.com/schranz-search/schranz-search/graphs/contributors)
