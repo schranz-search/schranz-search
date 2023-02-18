@@ -57,3 +57,8 @@ $engine = new Engine(
 > when using this adapter, as the read document could already be outdated. So always
 > fully update the document and never do based on read documents.
 > Have a look at the `MultiAdapter` to write into read and write adapter.
+
+## Authors
+
+- [Alexander Schranz](https://github.com/alexander-schranz/)
+- [The Community Contributors](https://github.com/schranz-search/schranz-search/graphs/contributors)
