@@ -41,7 +41,10 @@
         "symfony/event-dispatcher": "^5.4 || ^6.0"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit"
+        ]
     },
     "repositories": [
         {
