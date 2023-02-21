@@ -29,8 +29,6 @@ final class MultiConnection implements ConnectionInterface
         if ($document === null) {
             throw new \LogicException('No connections were available.');
         }
-
-        // return $document;
     }
 
     public function delete(Index $index, string $identifier): void

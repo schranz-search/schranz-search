@@ -44,9 +44,15 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+multi://readAdapter?adapters[]=writeAdapter
+read-write://readAdapter?write=multiAdapter
+```
+
 > **Note**
 > The `MultiAdapter` does not support the `search` method and so the `ReadWriteAdapter` is required.
-
 
 ## Authors
 

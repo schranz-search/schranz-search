@@ -36,6 +36,12 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+opensearch://127.0.0.1:9200
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)

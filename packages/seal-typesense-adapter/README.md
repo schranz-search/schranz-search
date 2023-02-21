@@ -56,6 +56,12 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+typesense://S3CR3T@127.0.0.1:8108
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)

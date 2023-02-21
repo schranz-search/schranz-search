@@ -45,6 +45,12 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+algolia://YourApplicationID:YourAdminAPIKey
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)

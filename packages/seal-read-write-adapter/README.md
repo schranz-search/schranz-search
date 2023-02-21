@@ -52,6 +52,13 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+multi://readAdapter?adapters[]=writeAdapter
+read-write://readAdapter?write=multiAdapter
+```
+
 > **Note**
 > Read a document and partial update it based on the read document should be avoided
 > when using this adapter, as the read document could already be outdated. So always
