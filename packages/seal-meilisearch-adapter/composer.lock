@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b391a3205cdff87c140924af6487120",
+    "content-hash": "2e9b559a499f1c3e8f008eae3e23b663",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -534,6 +534,60 @@
             "time": "2020-07-07T09:29:14+00:00"
         },
         {
+            "name": "psr/container",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/container.git",
+                "reference": "90db7b9ac2a2c5b849fcb69dde58f3ae182c68f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/90db7b9ac2a2c5b849fcb69dde58f3ae182c68f5",
+                "reference": "90db7b9ac2a2c5b849fcb69dde58f3ae182c68f5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common Container Interface (PHP FIG PSR-11)",
+            "homepage": "https://github.com/php-fig/container",
+            "keywords": [
+                "PSR-11",
+                "container",
+                "container-interface",
+                "container-interop",
+                "psr"
+            ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/master"
+            },
+            "time": "2022-07-19T17:36:59+00:00"
+        },
+        {
             "name": "psr/http-client",
             "version": "dev-master",
             "source": {
@@ -702,7 +756,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "108a3f0e62edc899ed5770460f0fae73ff6cffe5"
+                "reference": "8ec1380cbc16ae943a129f74df21ebc739937159"
             },
             "require": {
                 "php": "^8.1"
@@ -724,6 +778,11 @@
                     "Schranz\\Search\\SEAL\\Tests\\": "Tests"
                 }
             },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -734,6 +793,17 @@
                 }
             ],
             "description": "Search Engine Abstraction Layer",
+            "keywords": [
+                "abstraction",
+                "algolia",
+                "elasticsearch",
+                "meilisearch",
+                "opensearch",
+                "schranz-search",
+                "search",
+                "search-abstraction",
+                "search-client"
+            ],
             "transport-options": {
                 "symlink": true,
                 "relative": true

@@ -55,6 +55,13 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+solr://127.0.0.1:8983
+solr://solr:SolrRocks@127.0.0.1:8983
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)

@@ -3,6 +3,7 @@
 namespace Schranz\Search\SEAL\Adapter\Algolia\Tests;
 
 use Algolia\AlgoliaSearch\SearchClient;
+use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 
 final class ClientHelper
 {

@@ -1,0 +1,99 @@
+<?php
+
+namespace Schranz\Search\SEAL\Adapter\Solr;
+
+use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
+use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Solarium\Client;
+use Solarium\Core\Client\Adapter\Curl;
+use Solarium\Core\Client\Adapter\Psr18Adapter;
+use Solarium\Core\Client\Adapter\AdapterInterface as ClientAdapterInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+/**
+ * @experimental
+ */
+class SolrAdapterFactory implements AdapterFactoryInterface
+{
+    public function __construct(
+        private readonly ContainerInterface $container,
+    ) {
+    }
+
+    public function getAdapter(array $dsn): AdapterInterface
+    {
+        $client = $this->createClient($dsn);
+
+        return new SolrAdapter($client);
+    }
+
+    /**
+     * @internal
+     *
+     * @param array{
+     *     host: string,
+     *     port?: int,
+     *     user?: string,
+     *     pass?: string,
+     * } $dsn
+     */
+    public function createClient(array $dsn): Client
+    {
+        if (!isset($dsn['host'])) {
+            $client = $this->container?->get(Client::class);
+
+            if (!$client instanceof Client) {
+                throw new \InvalidArgumentException('Unknown Meilisearch client.');
+            }
+
+            return $client;
+        }
+
+        $adapter = $this->createClientAdapter();
+        $eventDispatcher = $this->createEventDispatcher();
+        $options = [
+            'endpoint' => [
+                'localhost' => \array_filter([
+                    'host' => $dsn['host'],
+                    'port' => $dsn['port'] ?? 8983,
+                    'username' => $dsn['user'] ?? null,
+                    'password' => $dsn['pass'] ?? null,
+                ]),
+            ],
+        ];
+
+        return new Client($adapter, $eventDispatcher, $options);
+    }
+
+    private function createEventDispatcher(): EventDispatcherInterface
+    {
+        if ($this->container->has(EventDispatcherInterface::class)) {
+            return $this->container->get(EventDispatcherInterface::class);
+        }
+
+        return new EventDispatcher();
+    }
+
+    private function createClientAdapter(): ClientAdapterInterface
+    {
+        if ($this->container->has(ClientInterface::class)) {
+            return new Psr18Adapter(
+                $this->container->get(ClientInterface::class),
+                $this->container->get(RequestFactoryInterface::class),
+                $this->container->get(StreamFactoryInterface::class),
+            );
+        }
+
+        return new Curl();
+    }
+
+    public static function getName(): string
+    {
+        return 'solr';
+    }
+}

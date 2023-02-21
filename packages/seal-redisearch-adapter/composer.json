@@ -34,7 +34,8 @@
         "php": "^8.1",
         "ext-redis": "*",
         "ext-json": "*",
-        "schranz-search/seal": "^0.1"
+        "schranz-search/seal": "^0.1",
+        "psr/container": "^1.0 || ^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.27"

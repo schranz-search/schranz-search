@@ -46,7 +46,16 @@ $engine = new Engine(
 );
 ```
 
-The `ext-redis` and `ext-json` PHP extension is required for this adapter.
+Via DSN for your favorite framework:
+
+```env
+redis://127.0.0.1:6379
+redis://supersecure@127.0.0.1:6379
+redis://phpredis:phpredis@127.0.0.1:6379
+```
+
+The `ext-redis` and `ext-json` PHP extension is required for this adapter.  
+The `Redisearch` and `RedisJson` module is required for the Redis Server.
 
 ## Authors
 

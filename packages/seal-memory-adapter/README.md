@@ -41,6 +41,12 @@ $engine = new Engine(
 );
 ```
 
+Via DSN for your favorite framework:
+
+```env
+memory://
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)
