@@ -17,7 +17,7 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $client = $this->createClient($dsn);
 
@@ -47,12 +47,10 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
 
         $apiKey = $dsn['user'] ?? '';
 
-        $client = new Client(
+        return new Client(
             $dsn['host'] . ':' . ($dsn['port'] ?? 7700),
             $apiKey
         );
-
-        return $client->build();
     }
 
     public static function getName(): string

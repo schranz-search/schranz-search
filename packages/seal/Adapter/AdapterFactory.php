@@ -7,23 +7,31 @@ namespace Schranz\Search\SEAL\Adapter;
  */
 final class AdapterFactory
 {
+    private array $adapters;
+
     /**
-     * @param array<string, AdapterFactoryInterface> $adapters
+     * @param iterable<string, AdapterFactoryInterface> $adapters
      */
     public function __construct(
-        private array $adapters
-    ) {}
+        iterable $adapters
+    ) {
+        $this->adapters = [...$adapters];
+    }
 
-    public function getAdapter(string $dsn): AdapterInterface
+    public function createAdapter(string $dsn): AdapterInterface
     {
         $adapterName = \explode(':', $dsn, 2)[0];
 
         if (!$adapterName) {
-            throw new \InvalidArgumentException('Invalid DSN: ' . $dsn);
+            throw new \InvalidArgumentException(
+                'Invalid DSN: "' . $dsn . '".'
+            );
         }
 
         if (!isset($this->adapters[$adapterName])) {
-            throw new \InvalidArgumentException('Unknown adapter: ' . $adapterName);
+            throw new \InvalidArgumentException(
+                'Unknown Search adapter: "' . $adapterName . '" available adapters are "' . \implode('", "', \array_keys($this->adapters)) . '".'
+            );
         }
 
         $parsedDsn = parse_url($dsn);
@@ -40,6 +48,6 @@ final class AdapterFactory
 
         $parsedDsn['query'] = $query;
 
-        return $this->adapters[$adapterName]->getAdapter($parsedDsn);
+        return $this->adapters[$adapterName]->createAdapter($parsedDsn);
     }
 }

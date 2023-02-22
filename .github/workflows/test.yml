@@ -73,3 +73,11 @@ jobs:
             directory: 'packages/seal-solr-adapter'
             docker: true
         secrets: inherit
+
+    symfony-integration-example:
+        name: Symfony Integration Example
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'integrations/_examples/symfony'
+            docker: true
+        secrets: inherit

@@ -12,6 +12,9 @@
         "elasticsearch",
         "opensearch",
         "meilisearch",
+        "typesense",
+        "solr",
+        "redisearch",
         "algolia"
     ],
     "autoload": {

@@ -13,13 +13,18 @@ class ReadWriteAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
         private readonly ContainerInterface $container,
+        private readonly string $prefix = '',
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
-        $readAdapter = $this->container->get($dsn['host']);
-        $writeAdapter = $this->container->get($dsn['query']['write']);
+        if (!isset($dsn['query']['write'])) {
+            throw new \InvalidArgumentException('The "write" parameter is missing in the DSN for "read-write" Adapter Factory.');
+        }
+
+        $readAdapter = $this->container->get($this->prefix . $dsn['host']);
+        $writeAdapter = $this->container->get($this->prefix . $dsn['query']['write']);
 
         return new ReadWriteAdapter($readAdapter, $writeAdapter);
     }

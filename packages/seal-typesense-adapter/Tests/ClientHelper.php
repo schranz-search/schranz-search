@@ -2,8 +2,7 @@
 
 namespace Schranz\Search\SEAL\Adapter\Typesense\Tests;
 
-use Http\Client\Curl\Client as CurlClient;
-use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\HttpClientDiscovery;
 use Typesense\Client;
 
 final class ClientHelper
@@ -25,7 +24,7 @@ final class ClientHelper
                             'protocol' => 'http',
                         ],
                     ],
-                    'client' => new CurlClient(Psr17FactoryDiscovery::findResponseFactory(), Psr17FactoryDiscovery::findStreamFactory()),
+                    'client' => HttpClientDiscovery::find(),
                 ]
             );
         }

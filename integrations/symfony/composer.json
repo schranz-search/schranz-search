@@ -1,0 +1,154 @@
+{
+    "name": "schranz-search/symfony-integration",
+    "description": "An integration of schranz-search search abstraction into Symfony Framework.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "search-client",
+        "search-abstraction",
+        "abstraction",
+        "search",
+        "search-client",
+        "search-abstraction",
+        "schranz-search",
+        "elasticsearch",
+        "opensearch",
+        "meilisearch",
+        "typesense",
+        "solr",
+        "redisearch",
+        "algolia",
+        "integration",
+        "symfony"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\Integration\\Symfony\\": "src"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\Integration\\Symfony\\Tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "schranz-search/seal": "^0.1",
+        "symfony/config": "^6.1",
+        "symfony/dependency-injection": "^6.1",
+        "symfony/http-kernel": "^6.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5.27",
+        "schranz-search/seal-algolia-adapter": "^0.1",
+        "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-meilisearch-adapter": "^0.1",
+        "schranz-search/seal-memory-adapter": "^0.1",
+        "schranz-search/seal-multi-adapter": "^0.1",
+        "schranz-search/seal-opensearch-adapter": "^0.1",
+        "schranz-search/seal-read-write-adapter": "^0.1",
+        "schranz-search/seal-redisearch-adapter": "^0.1",
+        "schranz-search/seal-solr-adapter": "^0.1",
+        "schranz-search/seal-typesense-adapter": "^0.1"
+    },
+    "scripts": {
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit"
+        ]
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../packages/seal",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-algolia-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-elasticsearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-meilisearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-memory-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-multi-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-opensearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-read-write-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-redisearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-solr-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../packages/seal-typesense-adapter",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Schranz\Search\SEAL\Adapter\Redisearch;
+namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
 use Redis;
 use Psr\Container\ContainerInterface;
@@ -10,18 +10,18 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 /**
  * @experimental
  */
-class RedisearchAdapterFactory implements AdapterFactoryInterface
+class RediSearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
         private readonly ?ContainerInterface $container = null
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $client = $this->createClient($dsn);
 
-        return new RedisearchAdapter($client);
+        return new RediSearchAdapter($client);
     }
 
     /**

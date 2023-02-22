@@ -45,11 +45,9 @@ jobs:
                   ini-values: memory_limit=-1
                   coverage: none
 
-            - name: Require @dev packages
-              working-directory: ${{ inputs.directory }}
-              if: ${{ inputs.directory != 'packages/seal' }}
+            - name: Set current branch to 0.1 # avoid problem with composer dependency resolving
               run: |
-                  composer require schranz-search/seal:"@dev"
+                  git checkout -b 0.1
 
             - name: Install composer dependencies
               uses: ramsey/composer-install@v2

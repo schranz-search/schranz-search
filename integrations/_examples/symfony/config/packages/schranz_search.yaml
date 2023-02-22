@@ -1,0 +1,24 @@
+schranz_search:
+    connections:
+        algolia:
+            dsn: 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%'
+        elasticsearch:
+            dsn: 'elasticsearch://127.0.0.1:9200'
+        meilisearch:
+            dsn: 'meilisearch://127.0.0.1:7700'
+        memory:
+            dsn: 'memory://'
+        opensearch:
+            dsn: 'opensearch://127.0.0.1:9200'
+        redisearch:
+            dsn: 'redis://supersecure@127.0.0.1:6379'
+        solr:
+            dsn: 'solr://127.0.0.1:8983'
+        typesense:
+            dsn: 'typesense://S3CR3T@127.0.0.1:8108'
+
+        # ...
+        multi:
+            dsn: 'multi://elasticsearch?opensearch'
+        read-write:
+            dsn: 'read-write://elasticsearch?write=multi'
