@@ -29,7 +29,7 @@ jobs:
 
         steps:
             - name: Checkout project
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Start Docker services
               if: ${{ inputs.docker }}
@@ -45,9 +45,12 @@ jobs:
                   ini-values: memory_limit=-1
                   coverage: none
 
-            - name: Set current branch to 0.1 # avoid problem with composer dependency resolving
+            # avoid problem with composer dependency resolving by using the target branch name
+            #       e.g.: git switch --create 0.1
+            - name: Fix composer dependency resolving
+              if: ${{ github.event_name == 'pull_request' }}
               run: |
-                  git checkout -b 0.1
+                  git switch --create ${{ github.event.pull_request.base.ref }}
 
             - name: Install composer dependencies
               uses: ramsey/composer-install@v2
