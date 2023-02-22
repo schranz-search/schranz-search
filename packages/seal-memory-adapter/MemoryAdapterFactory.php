@@ -10,7 +10,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
  */
 class MemoryAdapterFactory implements AdapterFactoryInterface
 {
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         return new MemoryAdapter();
     }

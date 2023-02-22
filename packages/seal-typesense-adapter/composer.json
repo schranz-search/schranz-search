@@ -33,7 +33,7 @@
         "php": "^8.1",
         "schranz-search/seal": "^0.1",
         "typesense/typesense-php": "^4.8.1",
-        "symfony/http-client": "6.3.x-dev",
+        "symfony/http-client": "^5.4 || ^6.0",
         "psr/container": "^1.0 || ^2.0"
     },
     "require-dev": {

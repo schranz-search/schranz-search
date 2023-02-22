@@ -19,7 +19,7 @@ interface AdapterFactoryInterface
      *     fragment?: string,
      * } $dsn
      */
-    public function getAdapter(array $dsn): AdapterInterface;
+    public function createAdapter(array $dsn): AdapterInterface;
 
     /**
      * Returns the expected DSN scheme for this adapter.

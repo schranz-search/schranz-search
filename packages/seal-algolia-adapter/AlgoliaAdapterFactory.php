@@ -17,7 +17,7 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $client = $this->createClient($dsn);
 
@@ -49,7 +49,7 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
         $adminApiKey = $dsn['pass'] ?? null;
 
         if (!$applicationId || !$adminApiKey) {
-            $client = $this->container?->get(SearchClient::class);
+            $client = $this->container?->has(SearchClient::class) ? $this->container?->get(SearchClient::class) : null;
 
             if (!$client) {
                 throw new \InvalidArgumentException(\sprintf(

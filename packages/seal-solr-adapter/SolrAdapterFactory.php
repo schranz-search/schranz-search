@@ -25,7 +25,7 @@ class SolrAdapterFactory implements AdapterFactoryInterface
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $client = $this->createClient($dsn);
 
@@ -48,7 +48,7 @@ class SolrAdapterFactory implements AdapterFactoryInterface
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {
-                throw new \InvalidArgumentException('Unknown Meilisearch client.');
+                throw new \InvalidArgumentException('Unknown Solr client.');
             }
 
             return $client;

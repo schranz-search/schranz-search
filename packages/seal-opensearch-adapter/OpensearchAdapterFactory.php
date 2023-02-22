@@ -18,7 +18,7 @@ class OpensearchAdapterFactory implements AdapterFactoryInterface
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $client = $this->createClient($dsn);
 

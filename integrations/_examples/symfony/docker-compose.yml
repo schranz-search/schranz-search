@@ -1,0 +1,105 @@
+services:
+  elasticsearch:
+    image: elasticsearch:8.5.3
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: 'false'
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  meilisearch:
+    image: getmeili/meilisearch:v0.30
+    environment:
+      MEILI_ENV: development
+    ports:
+      - "7700:7700"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:7700/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - meilisearch-data:/data.ms
+
+  opensearch:
+    image: opensearchproject/opensearch:2
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: 'true'
+      cluster.routing.allocation.disk.threshold_enabled: 'false'
+    ports:
+      - "9201:9200"
+      - "9601:9600"
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - 6379:6379 # redis server
+      - 8001:8001 # redis insight
+    environment:
+      REDIS_ARGS: --requirepass supersecure
+    volumes:
+        - redisearch-data:/data
+
+  typesense:
+    image: typesense/typesense:0.24.0
+    ports:
+      - "8108:8108"
+    environment:
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: S3CR3T
+    healthcheck:
+      test: ["CMD-SHELL", "exit 0"] # TODO currently not working as curl not available: https://github.com/typesense/typesense/issues/441#issuecomment-1383157680
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - typesense-data:/data
+  solr:
+    image: "solr:9"
+    ports:
+     - "8983:8983"
+     - "9983:9983"
+    command: solr -f -cloud
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail localhost:8983 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
+    volumes:
+      - solr-data:/var/solr
+
+  zookeeper:
+    image: "solr:9"
+    depends_on:
+      - "solr"
+    network_mode: "service:solr"
+    environment:
+      SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
+    command: bash -c "set -x; export; wait-for-solr.sh; solr zk -z localhost:9983 upconfig -n default -d /opt/solr/server/solr/configsets/_default; tail -f /dev/null"
+
+volumes:
+  elasticsearch-data:
+  meilisearch-data:
+  opensearch-data:
+  redisearch-data:
+  solr-data:
+  typesense-data:

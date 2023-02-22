@@ -13,10 +13,11 @@ class MultiAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
         private readonly ContainerInterface $container,
+        private readonly string $prefix = '',
     ) {
     }
 
-    public function getAdapter(array $dsn): AdapterInterface
+    public function createAdapter(array $dsn): AdapterInterface
     {
         $adapters = $this->getAdapters($dsn);
 
@@ -36,9 +37,8 @@ class MultiAdapterFactory implements AdapterFactoryInterface
     public function getAdapters(array $dsn): iterable
     {
         $adapterServices = array_merge(array_filter([$dsn['host'] ?? null]), $dsn['query']['adapters'] ?? []);
-        $adapters = [];
         foreach ($adapterServices as $adapterService) {
-            yield $adapterService => $this->container->get($adapterService);
+            yield $adapterService => $this->container->get($this->prefix . $adapterService);
         }
     }
 

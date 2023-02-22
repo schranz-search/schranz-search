@@ -1,0 +1,171 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "schranz-search/seal": "^0.1",
+        "schranz-search/symfony-integration": "^0.1",
+        "symfony/console": "6.2.*",
+        "symfony/dotenv": "6.2.*",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/http-client": "6.2.*",
+        "symfony/maker-bundle": "^1.48",
+        "symfony/runtime": "6.2.*",
+        "symfony/yaml": "6.2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "schranz-search/seal-algolia-adapter": "^0.1",
+        "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-meilisearch-adapter": "^0.1",
+        "schranz-search/seal-memory-adapter": "^0.1",
+        "schranz-search/seal-multi-adapter": "^0.1",
+        "schranz-search/seal-opensearch-adapter": "^0.1",
+        "schranz-search/seal-read-write-adapter": "^0.1",
+        "schranz-search/seal-redisearch-adapter": "^0.1",
+        "schranz-search/seal-solr-adapter": "^0.1",
+        "schranz-search/seal-typesense-adapter": "^0.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/routing": "<= 6.2.0",
+        "symfony/symfony": "*"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../../packages/seal",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../symfony",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-algolia-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-elasticsearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-meilisearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-memory-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-multi-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-opensearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-read-write-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-redisearch-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-solr-adapter",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../../packages/seal-typesense-adapter",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.2.*"
+        }
+    }
+}
