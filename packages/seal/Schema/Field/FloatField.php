@@ -14,7 +14,7 @@ final class FloatField extends AbstractField
     public function __construct(
         string $name,
         bool $multiple = false,
-        bool $searchable = true,
+        bool $searchable = false,
         bool $filterable = false,
         bool $sortable = false,
         array $options = []
