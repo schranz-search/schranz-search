@@ -69,77 +69,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./../../packages/seal",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-algolia-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-elasticsearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-meilisearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-memory-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-multi-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-opensearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-read-write-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-redisearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-solr-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../packages/seal-typesense-adapter",
+            "url": "./../../packages/*",
             "options": {
                 "symlink": true
             }

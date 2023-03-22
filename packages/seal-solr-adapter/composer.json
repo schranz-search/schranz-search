@@ -49,7 +49,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./../seal",
+            "url": "./../*",
             "options": {
                 "symlink": true
             }

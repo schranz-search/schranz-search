@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd01c6ef3b5fc387163e0cf4c4329577",
+    "content-hash": "e6c24724a3d634793426ff86ccad3b5e",
     "packages": [
         {
             "name": "psr/container",
@@ -66,7 +66,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "8ec1380cbc16ae943a129f74df21ebc739937159"
+                "reference": "92670068374a1c2d7ced08ef653417164164ef9b"
             },
             "require": {
                 "php": "^8.1"
@@ -90,6 +90,7 @@
             },
             "scripts": {
                 "test": [
+                    "Composer\\Config::disableProcessTimeout",
                     "vendor/bin/phpunit"
                 ]
             },
@@ -109,10 +110,13 @@
                 "elasticsearch",
                 "meilisearch",
                 "opensearch",
+                "redisearch",
                 "schranz-search",
                 "search",
                 "search-abstraction",
-                "search-client"
+                "search-client",
+                "solr",
+                "typesense"
             ],
             "transport-options": {
                 "symlink": true,

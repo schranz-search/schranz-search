@@ -45,15 +45,10 @@ jobs:
                   ini-values: memory_limit=-1
                   coverage: none
 
-            # avoid problem with composer dependency resolving by using the target branch name
-            #       e.g.: git switch --create 0.1
-            - name: Fix composer dependency resolving
-              if: ${{ github.event_name == 'pull_request' }}
-              run: |
-                  git switch --create ${{ github.event.pull_request.base.ref }}
-
             - name: Install composer dependencies
               uses: ramsey/composer-install@v2
+              env:
+                  COMPOSER_ROOT_VERSION: 0.1-dev
               with:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: ${{ matrix.dependency-versions }}
