@@ -27,6 +27,7 @@ final class PhpFileLoader implements LoaderInterface
                 \RecursiveIteratorIterator::LEAVES_ONLY,
             );
 
+            $pathIndexes = [];
             foreach ($iterator as $file) {
                 if ($file->getFileInfo()->getExtension() !== 'php') {
                     continue;
@@ -38,6 +39,12 @@ final class PhpFileLoader implements LoaderInterface
                     throw new \RuntimeException(sprintf('File "%s" must return an instance of "%s".', $file->getRealPath(), Index::class));
                 }
 
+                $pathIndexes[$file->getRealPath()] = $index;
+            }
+
+            \ksort($pathIndexes); // make sure to import the files on all system in the same order
+
+            foreach ($pathIndexes as $index) {
                 if(isset($indexes[$index->name])) {
                     $index = new Index($index->name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
                 }
