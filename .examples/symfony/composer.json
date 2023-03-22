@@ -79,85 +79,30 @@
     "repositories": [
         {
             "type": "path",
-            "url": "./../../../packages/seal",
+            "url": "./../../packages/*",
             "options": {
+                "versions": {
+                    "schranz-search/seal": "0.1.x-dev",
+                    "schranz-search/sea-algolia-adapter": "0.1.x-dev",
+                    "schranz-search/sea-elasticsearch-adapter": "0.1.x-dev",
+                    "schranz-search/sea-meilisearch-adapter": "0.1.x-dev",
+                    "schranz-search/sea-memory-adapter": "0.1.x-dev",
+                    "schranz-search/sea-multi-adapter": "0.1.x-dev",
+                    "schranz-search/sea-read-write-adapter": "0.1.x-dev",
+                    "schranz-search/sea-redisearch-adapter": "0.1.x-dev",
+                    "schranz-search/sea-solr-adapter": "0.1.x-dev",
+                    "schranz-search/sea-typesense-adapter": "0.1.x-dev"
+                },
                 "symlink": true
             }
         },
         {
             "type": "path",
-            "url": "./../../symfony",
+            "url": "./../../integrations/*",
             "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-algolia-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-elasticsearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-meilisearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-memory-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-multi-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-opensearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-read-write-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-redisearch-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-solr-adapter",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "./../../../packages/seal-typesense-adapter",
-            "options": {
+                "versions": {
+                    "schranz-search/symfony-integration": "0.1.x-dev"
+                },
                 "symlink": true
             }
         }
