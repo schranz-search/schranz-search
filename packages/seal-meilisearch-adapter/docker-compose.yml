@@ -1,6 +1,6 @@
 services:
   meilisearch:
-    image: getmeili/meilisearch:v0.30
+    image: getmeili/meilisearch:v1.0
     environment:
       MEILI_ENV: development
     ports:
