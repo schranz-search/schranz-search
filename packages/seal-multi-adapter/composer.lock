@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4304cc791b0d903829ceef2e1eda343",
+    "content-hash": "0d266e29a7fd6294116566d5f0b69c7a",
     "packages": [
         {
             "name": "psr/container",
@@ -66,7 +66,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "f4858bd717528f0b774d0aa8728a4b1a080fba17"
+                "reference": "92670068374a1c2d7ced08ef653417164164ef9b"
             },
             "require": {
                 "php": "^8.1"

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a997411d382014e126e3fe3609033272",
+    "content-hash": "f315ffde995ff55710db2e6138ccdbd2",
     "packages": [
         {
             "name": "schranz-search/seal",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "f4858bd717528f0b774d0aa8728a4b1a080fba17"
+                "reference": "92670068374a1c2d7ced08ef653417164164ef9b"
             },
             "require": {
                 "php": "^8.1"

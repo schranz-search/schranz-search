@@ -81,18 +81,6 @@
             "type": "path",
             "url": "./../../packages/*",
             "options": {
-                "versions": {
-                    "schranz-search/seal": "0.1.x-dev",
-                    "schranz-search/sea-algolia-adapter": "0.1.x-dev",
-                    "schranz-search/sea-elasticsearch-adapter": "0.1.x-dev",
-                    "schranz-search/sea-meilisearch-adapter": "0.1.x-dev",
-                    "schranz-search/sea-memory-adapter": "0.1.x-dev",
-                    "schranz-search/sea-multi-adapter": "0.1.x-dev",
-                    "schranz-search/sea-read-write-adapter": "0.1.x-dev",
-                    "schranz-search/sea-redisearch-adapter": "0.1.x-dev",
-                    "schranz-search/sea-solr-adapter": "0.1.x-dev",
-                    "schranz-search/sea-typesense-adapter": "0.1.x-dev"
-                },
                 "symlink": true
             }
         },
@@ -100,9 +88,6 @@
             "type": "path",
             "url": "./../../integrations/*",
             "options": {
-                "versions": {
-                    "schranz-search/symfony-integration": "0.1.x-dev"
-                },
                 "symlink": true
             }
         }

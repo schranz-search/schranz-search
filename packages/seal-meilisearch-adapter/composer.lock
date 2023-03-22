@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c3238860e05c50c33aec355dfad731f",
+    "content-hash": "dd8b72e42d90c51566195a07f318e55d",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -764,7 +764,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "f4858bd717528f0b774d0aa8728a4b1a080fba17"
+                "reference": "92670068374a1c2d7ced08ef653417164164ef9b"
             },
             "require": {
                 "php": "^8.1"

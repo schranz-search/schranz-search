@@ -49,9 +49,6 @@
             "type": "path",
             "url": "./../*",
             "options": {
-                "versions": {
-                    "schranz-search/seal": "0.1.x-dev"
-                },
                 "symlink": true
             }
         }
