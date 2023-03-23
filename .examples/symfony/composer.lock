@@ -424,7 +424,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../integrations/symfony",
-                "reference": "b0893245a535cc07e3adff39dcdf48a0202985b7"
+                "reference": "c00bd4c75e95c42584dc4966250c4494d6c96e1a"
             },
             "require": {
                 "php": "^8.1",
@@ -432,6 +432,18 @@
                 "symfony/config": "^6.1",
                 "symfony/dependency-injection": "^6.1",
                 "symfony/http-kernel": "^6.1"
+            },
+            "conflict": {
+                "schranz-search/seal-algolia-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-elasticsearch-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-meilisearch-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-memory-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-multi-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-opensearch-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-read-write-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-redisearch-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-solr-adapter": "<0.1, >=0.2",
+                "schranz-search/seal-typesense-adapter": "<0.1, >=0.2"
             },
             "require-dev": {
                 "phpunit/phpunit": "^9.5.27",
@@ -479,6 +491,7 @@
             "keywords": [
                 "abstraction",
                 "algolia",
+                "bundle",
                 "elasticsearch",
                 "integration",
                 "meilisearch",
