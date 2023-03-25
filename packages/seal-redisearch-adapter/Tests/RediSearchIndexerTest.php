@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\RediSearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractIndexerTestCase;
 
-class RediSearchAdapterTest extends AbstractAdapterTestCase
+class RediSearchIndexerTest extends AbstractIndexerTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -13,5 +13,10 @@ class RediSearchAdapterTest extends AbstractAdapterTestCase
         self::$adapter = new RediSearchAdapter($client);
 
         parent::setUpBeforeClass();
+    }
+
+    public function testSaveDeleteIdentifierCondition(): void
+    {
+        $this->markTestSkipped('Not supported by RediSearch: https://github.com/schranz-search/schranz-search/issues/92');
     }
 }
