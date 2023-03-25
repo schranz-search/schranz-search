@@ -3,11 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter;
 
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Result;
-use Schranz\Search\SEAL\Search\Search;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-interface ConnectionInterface
+interface IndexerInterface
 {
     /**
      * @template T of bool
@@ -26,6 +24,4 @@ interface ConnectionInterface
      * @return (T is true ? TaskInterface : null)
      */
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface;
-
-    public function search(Search $search): Result;
 }

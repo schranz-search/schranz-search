@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Algolia\Tests;
 
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractSearcherTestCase;
 
-class AlgoliaAdapterTest extends AbstractAdapterTestCase
+class AlgoliaSearcherTest extends AbstractSearcherTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -13,5 +13,10 @@ class AlgoliaAdapterTest extends AbstractAdapterTestCase
         self::$adapter = new AlgoliaAdapter($client);
 
         parent::setUpBeforeClass();
+    }
+
+    public function testFindMultipleIndexes(): void
+    {
+        $this->markTestSkipped('Not supported by Algolia: https://github.com/schranz-search/schranz-search/issues/41');
     }
 }

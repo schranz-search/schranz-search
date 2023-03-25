@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Typesense\Tests;
 
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractIndexerTestCase;
 
-class TypesenseAdapterTest extends AbstractAdapterTestCase
+class TypesenseIndexerTest extends AbstractIndexerTestCase
 {
     public static function setUpBeforeClass(): void
     {

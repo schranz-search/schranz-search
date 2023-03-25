@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Algolia\Tests;
 
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractIndexerTestCase;
 
-class AlgoliaAdapterTest extends AbstractAdapterTestCase
+class AlgoliaIndexerTest extends AbstractIndexerTestCase
 {
     public static function setUpBeforeClass(): void
     {

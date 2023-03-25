@@ -2,7 +2,7 @@
 
 namespace Schranz\Search\SEAL\Search;
 
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Schema\Schema;
 
@@ -29,7 +29,7 @@ final class SearchBuilder
 
     public function __construct(
         readonly private Schema $schema,
-        readonly private ConnectionInterface $connection,
+        readonly private SearcherInterface $searcher,
     ) {}
 
     public function addIndex(string $name): static
@@ -69,7 +69,7 @@ final class SearchBuilder
 
     public function getResult(): Result
     {
-        return $this->connection->search(new Search(
+        return $this->searcher->search(new Search(
             $this->indexes,
             $this->filters,
             $this->sortBys,

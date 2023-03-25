@@ -3,17 +3,23 @@
 namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
 
-abstract class AbstractConnectionTestCase extends TestCase
+abstract class AbstractSearcherTestCase extends TestCase
 {
-    protected static ConnectionInterface $connection;
+    protected static AdapterInterface $adapter;
 
     protected static SchemaManagerInterface $schemaManager;
+
+    protected static IndexerInterface $indexer;
+
+    protected static SearcherInterface $searcher;
 
     protected static Schema $schema;
 
@@ -26,6 +32,10 @@ abstract class AbstractConnectionTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
+        self::$schemaManager = self::$adapter->getSchemaManager();
+        self::$indexer = self::$adapter->getIndexer();
+        self::$searcher = self::$adapter->getSearcher();
+
         self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
             if (self::$schemaManager->existIndex($index)) {
@@ -58,79 +68,19 @@ abstract class AbstractConnectionTestCase extends TestCase
         return self::$schema;
     }
 
-    public function testSaveDeleteIdentifierCondition(): void
-    {
-        $documents = TestingHelper::createComplexFixtures();
-
-        $schema = self::getSchema();
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
-                $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                $document,
-                ['return_slow_promise_result' => true]
-            );
-        }
-        self::$taskHelper->waitForAll();
-
-        $loadedDocuments = [];
-        foreach ($documents as $document) {
-            $search = new SearchBuilder($schema, self::$connection);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
-
-            $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
-
-            if ($resultDocument) {
-                $loadedDocuments[] = $resultDocument;
-            }
-        }
-
-        $this->assertSame(
-            count($documents),
-            count($loadedDocuments),
-        );
-
-        foreach ($loadedDocuments as $key => $loadedDocument) {
-            $expectedDocument = $documents[$key];
-
-            $this->assertSame($expectedDocument, $loadedDocument);
-        }
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
-                $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                $document['uuid'],
-                ['return_slow_promise_result' => true]
-            );
-        }
-
-        self::$taskHelper->waitForAll();
-
-        foreach ($documents as $document) {
-            $search = new SearchBuilder($schema, self::$connection);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
-            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
-
-            $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
-
-            $this->assertNull($resultDocument, 'Expected document with uuid "' . $document['uuid'] . '" to be deleted.');
-        }
-    }
-
     public function testFindMultipleIndexes(): void
     {
         $document = TestingHelper::createSimpleFixtures()[0];
 
         $schema = self::getSchema();
 
-        self::$connection->save(
+        self::$indexer->save(
             $schema->indexes[TestingHelper::INDEX_SIMPLE],
             $document,
             ['return_slow_promise_result' => true]
         )->wait();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addIndex(TestingHelper::INDEX_SIMPLE);
         $search->addFilter(new Condition\IdentifierCondition($document['id']));
@@ -140,7 +90,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $this->assertSame($expectedDocument, $loadedDocument);
 
-        self::$connection->delete(
+        self::$indexer->delete(
             $schema->indexes[TestingHelper::INDEX_SIMPLE],
             $document['id'],
             ['return_slow_promise_result' => true],
@@ -154,7 +104,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -162,7 +112,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('Blog'));
 
@@ -184,14 +134,14 @@ abstract class AbstractConnectionTestCase extends TestCase
             'Not correct documents where found.',
         );
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('Thing'));
 
         $this->assertSame([$documents[2]], [...$search->getResult()]);
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -206,7 +156,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -214,7 +164,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('admin.nonesearchablefield@localhost'));
 
@@ -228,7 +178,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -236,7 +186,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = (new SearchBuilder($schema, self::$connection))
+        $search = (new SearchBuilder($schema, self::$searcher))
             ->addIndex(TestingHelper::INDEX_COMPLEX)
             ->addFilter(new Condition\SearchCondition('Blog'))
             ->limit(1);
@@ -252,7 +202,7 @@ abstract class AbstractConnectionTestCase extends TestCase
 
         $isFirstDocumentOnPage1 = [$documents[0]] === $loadedDocuments;
 
-        $search = (new SearchBuilder($schema, self::$connection))
+        $search = (new SearchBuilder($schema, self::$searcher))
             ->addIndex(TestingHelper::INDEX_COMPLEX)
             ->addFilter(new Condition\SearchCondition('Blog'))
             ->offset(1)
@@ -266,7 +216,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         );
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -281,7 +231,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -289,7 +239,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
 
@@ -312,7 +262,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         );
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -327,7 +277,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -335,7 +285,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
         $search->addFilter(new Condition\EqualCondition('tags', 'UX'));
@@ -349,7 +299,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         );
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -364,7 +314,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -372,7 +322,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\NotEqualCondition('tags', 'UI'));
 
@@ -395,7 +345,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         );
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -410,7 +360,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -418,7 +368,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 2.5));
 
@@ -430,7 +380,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -445,7 +395,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -453,7 +403,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
 
@@ -470,7 +420,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -485,7 +435,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -493,7 +443,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\LessThanCondition('rating', 3.5));
 
@@ -510,7 +460,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -525,7 +475,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -533,7 +483,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\LessThanEqualCondition('rating', 3.5));
 
@@ -550,7 +500,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -565,7 +515,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -573,7 +523,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
         $search->addSortBy('rating', 'asc');
@@ -582,7 +532,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $this->assertGreaterThan(1, count($loadedDocuments));
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],
@@ -604,7 +554,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->save(
+            self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
                 ['return_slow_promise_result' => true],
@@ -612,7 +562,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         }
         self::$taskHelper->waitForAll();
 
-        $search = new SearchBuilder($schema, self::$connection);
+        $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
         $search->addSortBy('rating', 'desc');
@@ -621,7 +571,7 @@ abstract class AbstractConnectionTestCase extends TestCase
         $this->assertGreaterThan(1, count($loadedDocuments));
 
         foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$connection->delete(
+            self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
                 ['return_slow_promise_result' => true],

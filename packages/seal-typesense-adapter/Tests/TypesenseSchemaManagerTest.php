@@ -7,12 +7,11 @@ use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 
 class TypesenseSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
-
     public static function setUpBeforeClass(): void
     {
-        self::$client = ClientHelper::getClient();
+        $client = ClientHelper::getClient();
+        self::$schemaManager = new TypesenseSchemaManager($client);
 
-        self::$schemaManager = new TypesenseSchemaManager(self::$client);
+        parent::setUpBeforeClass();
     }
 }

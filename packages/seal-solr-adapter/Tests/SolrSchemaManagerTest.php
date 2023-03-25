@@ -7,12 +7,9 @@ use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 
 class SolrSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
-
     public static function setUpBeforeClass(): void
     {
-        self::$client = ClientHelper::getClient();
-
-        self::$schemaManager = new SolrSchemaManager(self::$client);
+        $client = ClientHelper::getClient();
+        self::$schemaManager = new SolrSchemaManager($client);
     }
 }

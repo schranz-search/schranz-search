@@ -3,13 +3,12 @@
 namespace Schranz\Search\SEAL\Adapter\ReadWrite;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class ReadWriteAdapter implements AdapterInterface
 {
-    private ?ConnectionInterface $connection = null;
-
     public function __construct(
         private readonly AdapterInterface $readAdapter,
         private readonly AdapterInterface $writeAdapter,
@@ -20,15 +19,13 @@ final class ReadWriteAdapter implements AdapterInterface
         return $this->writeAdapter->getSchemaManager();
     }
 
-    public function getConnection(): ConnectionInterface
+    public function getIndexer(): IndexerInterface
     {
-        if ($this->connection === null) {
-            $this->connection = new ReadWriteConnection(
-                $this->readAdapter->getConnection(),
-                $this->writeAdapter->getConnection(),
-            );
-        }
+        return $this->writeAdapter->getIndexer();
+    }
 
-        return $this->connection;
+    public function getSearcher(): SearcherInterface
+    {
+        return $this->readAdapter->getSearcher();
     }
 }

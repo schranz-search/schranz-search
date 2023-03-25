@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e269b4ecb13255a2a15652040cace8e",
+    "content-hash": "8bed668fb7c69e87bd939afb5d1d693d",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -2067,12 +2067,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "435644812b8f905ab7d2808fe26fdf9331ba4fe9"
+                "reference": "75426870e2c4be6751886751f3e452ec1329adc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/435644812b8f905ab7d2808fe26fdf9331ba4fe9",
-                "reference": "435644812b8f905ab7d2808fe26fdf9331ba4fe9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/75426870e2c4be6751886751f3e452ec1329adc4",
+                "reference": "75426870e2c4be6751886751f3e452ec1329adc4",
                 "shasum": ""
             },
             "require": {
@@ -2162,7 +2162,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-22T08:13:29+00:00"
+            "time": "2023-03-23T14:30:08+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -3014,12 +3014,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/resource-operations.git",
-                "reference": "e1157eac767e4dc4ae40dd9aab7fb4de6e56bd32"
+                "reference": "20bdda85c7c585ab265c0c37ec052a019bae29c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/resource-operations/zipball/e1157eac767e4dc4ae40dd9aab7fb4de6e56bd32",
-                "reference": "e1157eac767e4dc4ae40dd9aab7fb4de6e56bd32",
+                "url": "https://api.github.com/repos/sebastianbergmann/resource-operations/zipball/20bdda85c7c585ab265c0c37ec052a019bae29c4",
+                "reference": "20bdda85c7c585ab265c0c37ec052a019bae29c4",
                 "shasum": ""
             },
             "require": {
@@ -3061,7 +3061,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-08T06:53:39+00:00"
+            "time": "2023-03-25T08:11:39+00:00"
         },
         {
             "name": "sebastian/type",

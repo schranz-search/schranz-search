@@ -3,16 +3,21 @@
 namespace Schranz\Search\SEAL\Adapter\Multi;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
-use Schranz\Search\SEAL\Adapter\ReadWrite\MultiConnection;
+use Schranz\Search\SEAL\Adapter\IndexerInterface;
+use Schranz\Search\SEAL\Adapter\ReadWrite\MultiIndexer;
+use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSearcher;
 use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSchemaManager;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MultiAdapter implements AdapterInterface
 {
-    private ?ConnectionInterface $connection = null;
 
     private ?SchemaManagerInterface $schemaManager = null;
+
+    private ?IndexerInterface $indexer = null;
+
+    private SearcherInterface $searcher;
 
     /**
      * @param iterable<AdapterInterface> $adapters
@@ -35,17 +40,31 @@ final class MultiAdapter implements AdapterInterface
         return $this->schemaManager;
     }
 
-    public function getConnection(): ConnectionInterface
+    public function getIndexer(): IndexerInterface
     {
-        if ($this->connection === null) {
-            $connections = [];
+        if ($this->indexer === null) {
+            $indexers = [];
             foreach ($this->adapters as $adapter) {
-                $connections[] = $adapter->getConnection();
+                $indexers[] = $adapter->getIndexer();
             }
 
-            $this->connection = new MultiConnection($connections);
+            $this->indexer = new MultiIndexer($indexers);
         }
 
-        return $this->connection;
+        return $this->indexer;
+    }
+
+    public function getSearcher(): SearcherInterface
+    {
+        if ($this->indexer === null) {
+            $searchers = [];
+            foreach ($this->adapters as $adapter) {
+                $searchers[] = $adapter->getSearcher();
+            }
+
+            $this->searcher = new MultiSearcher($searchers);
+        }
+
+        return $this->searcher;
     }
 }

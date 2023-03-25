@@ -3,18 +3,14 @@
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
 use Redis;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
-use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
-use Schranz\Search\SEAL\Task\SyncTask;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
-use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
-use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class RediSearchConnection implements ConnectionInterface
+final class RediSearchSearcher implements SearcherInterface
 {
     private Marshaller $marshaller;
 
@@ -22,51 +18,6 @@ final class RediSearchConnection implements ConnectionInterface
         private readonly Redis $client,
     ) {
         $this->marshaller = new Marshaller();
-    }
-
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
-    {
-        $identifierField = $index->getIdentifierField();
-
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
-
-        $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
-
-        $jsonSet = $this->client->rawCommand(
-            'JSON.SET',
-            $index->name . ':' . $identifier,
-            '$',
-            json_encode($marshalledDocument),
-        );
-
-        if ($jsonSet === false) {
-            throw $this->createRedisLastErrorException();
-        }
-
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
-            return null;
-        }
-
-        return new SyncTask(null);
-    }
-
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
-    {
-        $jsonDel = $this->client->rawCommand(
-            'JSON.DEL',
-            $index->name . ':' . $identifier,
-        );
-
-        if ($jsonDel === false) {
-            throw $this->createRedisLastErrorException();
-        }
-
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
-            return null;
-        }
-
-        return new SyncTask(null);
     }
 
     public function search(Search $search): Result
@@ -98,7 +49,7 @@ final class RediSearchConnection implements ConnectionInterface
         }
 
         if (count($search->indexes) !== 1) {
-            throw new \RuntimeException('Solr does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/86');
+            throw new \RuntimeException('RediSearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/93');
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];

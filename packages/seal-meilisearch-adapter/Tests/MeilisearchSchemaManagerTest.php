@@ -7,12 +7,11 @@ use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 
 class MeilisearchSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
-
     public static function setUpBeforeClass(): void
     {
-        self::$client = ClientHelper::getClient();
+        $client = ClientHelper::getClient();
+        self::$schemaManager = new MeilisearchSchemaManager($client);
 
-        self::$schemaManager = new MeilisearchSchemaManager(self::$client);
+        parent::setUpBeforeClass();
     }
 }

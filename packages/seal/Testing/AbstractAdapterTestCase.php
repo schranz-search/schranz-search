@@ -129,8 +129,12 @@ abstract class AbstractAdapterTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $task = self::getEngine()->dropSchema(['return_slow_promise_result' => true]);
-        $task->wait();
+        try {
+            $task = self::getEngine()->dropSchema(['return_slow_promise_result' => true]);
+            $task->wait();
+        } catch (\Exception $e) {
+            // ignore eventuell not existing indexes to drop
+        }
     }
 
     public static function tearDownAfterClass(): void

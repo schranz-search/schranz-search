@@ -4,16 +4,14 @@ namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
 use Algolia\AlgoliaSearch\SearchClient;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
-use Schranz\Search\SEAL\Task\AsyncTask;
-use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class AlgoliaConnection implements ConnectionInterface
+final class AlgoliaSearcher implements SearcherInterface
 {
     private Marshaller $marshaller;
 
@@ -21,43 +19,6 @@ final class AlgoliaConnection implements ConnectionInterface
         private readonly SearchClient $client,
     ) {
         $this->marshaller = new Marshaller();
-    }
-
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
-    {
-        $identifierField = $index->getIdentifierField();
-
-        $searchIndex = $this->client->initIndex($index->name);
-
-        $batchIndexingResponse = $searchIndex->saveObject(
-            $this->marshaller->marshall($index->fields, $document),
-            ['objectIDKey' => $identifierField->name]
-        );
-
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
-            return null;
-        }
-
-        return new AsyncTask(function() use ($batchIndexingResponse, $document) {
-            $batchIndexingResponse->wait();
-
-            return $document;
-        });
-    }
-
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
-    {
-        $searchIndex = $this->client->initIndex($index->name);
-
-        $batchIndexingResponse = $searchIndex->deleteObject($identifier);
-
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
-            return null;
-        }
-
-        return new AsyncTask(function() use ($batchIndexingResponse) {
-            $batchIndexingResponse->wait();
-        });
     }
 
     public function search(Search $search): Result

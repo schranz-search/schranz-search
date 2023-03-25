@@ -7,12 +7,11 @@ use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 
 class AlgoliaSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
-
     public static function setUpBeforeClass(): void
     {
-        self::$client = ClientHelper::getClient();
+        $client = ClientHelper::getClient();
+        self::$schemaManager = new AlgoliaSchemaManager($client);
 
-        self::$schemaManager = new AlgoliaSchemaManager(self::$client);
+        parent::setUpBeforeClass();
     }
 }

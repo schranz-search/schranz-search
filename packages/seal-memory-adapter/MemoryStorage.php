@@ -67,6 +67,7 @@ final class MemoryStorage
     public static function createIndex(Index $index): void
     {
         MemoryStorage::$indexes[$index->name] = $index;
+        MemoryStorage::$documents[$index->name] = [];
     }
 
     public static function existIndex(Index $index): bool

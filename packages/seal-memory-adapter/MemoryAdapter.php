@@ -3,21 +3,26 @@
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
+use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MemoryAdapter implements AdapterInterface
 {
-    private readonly ConnectionInterface $connection;
-
     private readonly SchemaManagerInterface $schemaManager;
 
+    private readonly IndexerInterface $indexer;
+
+    private readonly SearcherInterface $searcher;
+
     public function __construct(
-        ?ConnectionInterface $connection = null,
         ?SchemaManagerInterface $schemaManager = null,
+        ?IndexerInterface $indexer = null,
+        ?SearcherInterface $searcher = null,
     ) {
-        $this->connection = $connection ?? new MemoryConnection();
         $this->schemaManager = $schemaManager ?? new MemorySchemaManager();
+        $this->indexer = $indexer ?? new MemoryIndexer();
+        $this->searcher = $searcher ?? new MemorySearcher();
     }
 
     public function getSchemaManager(): SchemaManagerInterface
@@ -25,8 +30,13 @@ final class MemoryAdapter implements AdapterInterface
         return $this->schemaManager;
     }
 
-    public function getConnection(): ConnectionInterface
+    public function getIndexer(): IndexerInterface
     {
-        return $this->connection;
+        return $this->indexer;
+    }
+
+    public function getSearcher(): SearcherInterface
+    {
+        return $this->searcher;
     }
 }
