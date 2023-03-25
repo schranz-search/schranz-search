@@ -2,3 +2,6 @@
 .gitignore export-ignore
 composer.lock export-ignore
 /Tests export-ignore
+.php-cs-fixer.dist.php export-ignore
+phpstan.neon export-ignore
+rector.php export-ignore

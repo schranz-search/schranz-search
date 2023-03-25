@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
@@ -9,7 +11,6 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MemorySchemaManager implements SchemaManagerInterface
 {
-
     public function existIndex(Index $index): bool
     {
         return MemoryStorage::existIndex($index);

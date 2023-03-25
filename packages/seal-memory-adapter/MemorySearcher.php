@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
@@ -12,7 +14,7 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class MemorySearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct()
     {
@@ -28,7 +30,7 @@ final class MemorySearcher implements SearcherInterface
             foreach (MemoryStorage::getDocuments($index) as $identifier => $document) {
                 $identifier = (string) $identifier;
 
-                if (count($search->filters) === 0) {
+                if ([] === $search->filters) {
                     $documents[] = $document;
 
                     continue;
@@ -42,7 +44,7 @@ final class MemorySearcher implements SearcherInterface
                     } elseif ($filter instanceof Condition\SearchCondition) {
                         $searchableDocument = $this->getSearchableDocument($index->fields, $document);
 
-                        $text = \json_encode($searchableDocument, JSON_THROW_ON_ERROR);
+                        $text = \json_encode($searchableDocument, \JSON_THROW_ON_ERROR);
                         $terms = \explode(' ', $filter->query);
 
                         foreach ($terms as $term) {
@@ -77,7 +79,7 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if (count($values) === 0) {
+                        if ([] === $values) {
                             continue 2;
                         }
 
@@ -93,7 +95,7 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if (count($values) === 0) {
+                        if ([] === $values) {
                             continue 2;
                         }
 
@@ -109,7 +111,7 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if (count($values) === 0) {
+                        if ([] === $values) {
                             continue 2;
                         }
 
@@ -125,7 +127,7 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if (count($values) === 0) {
+                        if ([] === $values) {
                             continue 2;
                         }
 
@@ -145,8 +147,8 @@ final class MemorySearcher implements SearcherInterface
 
         $sortBys = \array_reverse($search->sortBys);
         foreach ($sortBys as $field => $direction) {
-            \usort($documents, function($docA, $docB) use ($field, $direction) {
-                if ($direction === 'desc') {
+            \usort($documents, function ($docA, $docB) use ($field, $direction) {
+                if ('desc' === $direction) {
                     return $docB[$field] <=> $docA[$field];
                 }
 
@@ -156,7 +158,7 @@ final class MemorySearcher implements SearcherInterface
 
         $documents = \array_slice($documents, $search->offset, $search->limit);
 
-        $generator = (function() use ($documents): \Generator {
+        $generator = (function () use ($documents): \Generator {
             foreach ($documents as $document) {
                 yield $document;
             }
@@ -164,7 +166,7 @@ final class MemorySearcher implements SearcherInterface
 
         return new Result(
             $generator(),
-            count($documents),
+            \count($documents),
         );
     }
 
@@ -187,9 +189,9 @@ final class MemorySearcher implements SearcherInterface
                 continue;
             }
 
-            match(true) {
-                $field instanceof Field\ObjectField => $document[$field->name] = $this->getSearchableObjectFields($field, $document[$field->name]),
-                $field instanceof Field\TypedField => $document[$field->name] = $this->getSearchableTypedFields($field, $document[$field->name]),
+            match (true) {
+                $field instanceof Field\ObjectField => $document[$field->name] = $this->getSearchableObjectFields($field, $document[$field->name]), // @phpstan-ignore-line
+                $field instanceof Field\TypedField => $document[$field->name] = $this->getSearchableTypedFields($field, $document[$field->name]), // @phpstan-ignore-line
                 default => null,
             };
         }
@@ -198,10 +200,9 @@ final class MemorySearcher implements SearcherInterface
     }
 
     /**
-     * @param Field\AbstractField[] $fields
-     * @param array<string, mixed> $document
+     * @param array<string, mixed>|array<array<string, mixed>> $data
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed>|array<array<string, mixed>>
      */
     private function getSearchableObjectFields(Field\ObjectField $field, array $data)
     {
@@ -209,7 +210,10 @@ final class MemorySearcher implements SearcherInterface
             return $this->getSearchableDocument($field->fields, $data);
         }
 
+        /** @var array<array<string, mixed>> $documents */
         $documents = [];
+
+        /** @var array<string, mixed> $sub */
         foreach ($data as $sub) {
             $documents[] = $this->getSearchableDocument($field->fields, $sub);
         }
@@ -218,8 +222,7 @@ final class MemorySearcher implements SearcherInterface
     }
 
     /**
-     * @param Field\AbstractField[] $fields
-     * @param array<string, mixed> $document
+     * @param array<string, mixed> $data
      *
      * @return array<string, mixed>
      */
@@ -231,6 +234,7 @@ final class MemorySearcher implements SearcherInterface
                 $sub = [$sub];
             }
 
+            /** @var array<array<string, mixed>> $sub */
             $typeFields = $field->types[$type];
             foreach ($sub as $item) {
                 $subDocument = $this->getSearchableDocument($typeFields, $item);

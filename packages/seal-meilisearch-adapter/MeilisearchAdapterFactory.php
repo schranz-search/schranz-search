@@ -37,7 +37,7 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
      */
     public function createClient(array $dsn): Client
     {
-        if ('' !== $dsn['host']) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {

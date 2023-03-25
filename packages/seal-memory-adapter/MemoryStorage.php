@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Schema\Index;
 
 /**
- * @internal This class is not part of the public API and may change or remove without notice.
+ * @internal this class is not part of the public API and may change or remove without notice
  */
 final class MemoryStorage
 {
@@ -15,13 +17,16 @@ final class MemoryStorage
     private static array $indexes = [];
 
     /**
-     * @var mixed[]
+     * @var array<string, array<string, array<string, mixed>>>
      */
     private static array $documents = [];
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function getDocuments(Index $index): array
     {
-        if (!array_key_exists($index->name, self::$indexes)) {
+        if (!\array_key_exists($index->name, self::$indexes)) {
             throw new \RuntimeException('Index "' . $index->name . '" does not exist.');
         }
 
@@ -35,23 +40,23 @@ final class MemoryStorage
      */
     public static function save(Index $index, array $document): array
     {
-        if (!array_key_exists($index->name, self::$indexes)) {
+        if (!\array_key_exists($index->name, self::$indexes)) {
             throw new \RuntimeException('Index "' . $index->name . '" does not exist.');
         }
 
         $identifierField = $index->getIdentifierField();
 
-        $document[$identifierField->name] = (string) $document[$identifierField->name]
-            ?? uniqid('id-', true);
+        /** @var string|int $identifier */
+        $identifier = $document[$identifierField->name];
 
-        self::$documents[$index->name][$document[$identifierField->name]] = $document;
+        self::$documents[$index->name][(string) $identifier] = $document;
 
         return $document;
     }
 
     public static function delete(Index $index, string $identifier): void
     {
-        if (!array_key_exists($index->name, self::$indexes)) {
+        if (!\array_key_exists($index->name, self::$indexes)) {
             throw new \RuntimeException('Index "' . $index->name . '" does not exist.');
         }
 
@@ -60,18 +65,18 @@ final class MemoryStorage
 
     public static function dropIndex(Index $index): void
     {
-        unset(MemoryStorage::$indexes[$index->name]);
-        unset(MemoryStorage::$documents[$index->name]);
+        unset(self::$indexes[$index->name]);
+        unset(self::$documents[$index->name]);
     }
 
     public static function createIndex(Index $index): void
     {
-        MemoryStorage::$indexes[$index->name] = $index;
-        MemoryStorage::$documents[$index->name] = [];
+        self::$indexes[$index->name] = $index;
+        self::$documents[$index->name] = [];
     }
 
     public static function existIndex(Index $index): bool
     {
-        return array_key_exists($index->name, MemoryStorage::$indexes);
+        return \array_key_exists($index->name, self::$indexes);
     }
 }
