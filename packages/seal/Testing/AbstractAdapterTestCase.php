@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
@@ -18,7 +20,7 @@ abstract class AbstractAdapterTestCase extends TestCase
 
     private static TaskHelper $taskHelper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::$taskHelper = new TaskHelper();
     }
@@ -63,14 +65,14 @@ abstract class AbstractAdapterTestCase extends TestCase
         $task = $engine->createSchema(['return_slow_promise_result' => true]);
         $task->wait();
 
-        foreach (array_keys($indexes) as $index) {
+        foreach (\array_keys($indexes) as $index) {
             $this->assertTrue($engine->existIndex($index));
         }
 
         $task = $engine->dropSchema(['return_slow_promise_result' => true]);
         $task->wait();
 
-        foreach (array_keys($indexes) as $index) {
+        foreach (\array_keys($indexes) as $index) {
             $this->assertFalse($engine->existIndex($index));
         }
     }
@@ -94,9 +96,9 @@ abstract class AbstractAdapterTestCase extends TestCase
             $loadedDocuments[] = $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['uuid']);
         }
 
-        $this->assertSame(
-            count($documents),
-            count($loadedDocuments),
+        $this->assertCount(
+            \count($documents),
+            $loadedDocuments,
         );
 
         foreach ($loadedDocuments as $key => $loadedDocument) {
@@ -116,13 +118,13 @@ abstract class AbstractAdapterTestCase extends TestCase
 
             try {
                 $engine->getDocument(TestingHelper::INDEX_COMPLEX, $document['uuid']);
-            } catch (DocumentNotFoundException $e) {
+            } catch (DocumentNotFoundException) {
                 $exceptionThrown = true;
             }
 
             $this->assertTrue(
                 $exceptionThrown,
-                'Expected the exception "DocumentNotFoundException" to be thrown.'
+                'Expected the exception "DocumentNotFoundException" to be thrown.',
             );
         }
     }
@@ -132,7 +134,7 @@ abstract class AbstractAdapterTestCase extends TestCase
         try {
             $task = self::getEngine()->dropSchema(['return_slow_promise_result' => true]);
             $task->wait();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // ignore eventuell not existing indexes to drop
         }
     }

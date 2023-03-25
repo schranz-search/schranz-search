@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Tests\Schema\Loader;
 
 use PHPUnit\Framework\TestCase;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 
 class PhpFileLoaderTest extends TestCase
@@ -16,7 +19,7 @@ class PhpFileLoaderTest extends TestCase
                 'news',
                 'blog',
             ],
-            array_keys($schema->indexes),
+            \array_keys($schema->indexes),
         );
     }
 
@@ -24,7 +27,7 @@ class PhpFileLoaderTest extends TestCase
     {
         $schema = (new PhpFileLoader([__DIR__ . '/fixtures/merge']))->load();
 
-        $this->assertSame(['blog'], array_keys($schema->indexes));
+        $this->assertSame(['blog'], \array_keys($schema->indexes));
 
         $this->assertSame(
             [
@@ -34,7 +37,7 @@ class PhpFileLoaderTest extends TestCase
                 'blocks',
                 'footerText',
             ],
-            array_keys($schema->indexes['blog']->fields),
+            \array_keys($schema->indexes['blog']->fields),
         );
 
         $this->assertSame(
@@ -45,13 +48,15 @@ class PhpFileLoaderTest extends TestCase
             $schema->indexes['blog']->fields['description']->options,
         );
 
+        $this->assertInstanceOf(Field\TypedField::class, $schema->indexes['blog']->fields['blocks']);
+
         $this->assertSame(
             [
                 'text',
                 'embed',
                 'gallery',
             ],
-            array_keys($schema->indexes['blog']->fields['blocks']->types),
+            \array_keys($schema->indexes['blog']->fields['blocks']->types),
         );
 
         $this->assertTrue(

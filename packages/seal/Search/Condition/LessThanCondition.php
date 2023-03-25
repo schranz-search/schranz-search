@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Search\Condition;
 
 class LessThanCondition

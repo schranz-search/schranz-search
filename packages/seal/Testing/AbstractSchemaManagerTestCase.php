@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
@@ -12,7 +14,7 @@ abstract class AbstractSchemaManagerTestCase extends TestCase
 
     protected Schema $schema;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->schema = TestingHelper::createSchema();
     }

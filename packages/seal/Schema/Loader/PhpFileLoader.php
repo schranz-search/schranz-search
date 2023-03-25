@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Loader;
 
 use Schranz\Search\SEAL\Schema\Field;
@@ -29,14 +31,18 @@ final class PhpFileLoader implements LoaderInterface
 
             $pathIndexes = [];
             foreach ($iterator as $file) {
-                if ($file->getFileInfo()->getExtension() !== 'php') {
+                if (!$file instanceof \SplFileInfo) {
+                    continue;
+                }
+
+                if ('php' !== $file->getFileInfo()->getExtension()) {
                     continue;
                 }
 
                 $index = require $file->getRealPath();
 
                 if (!$index instanceof Index) {
-                    throw new \RuntimeException(sprintf('File "%s" must return an instance of "%s".', $file->getRealPath(), Index::class));
+                    throw new \RuntimeException(\sprintf('File "%s" must return an instance of "%s".', $file->getRealPath(), Index::class));
                 }
 
                 $pathIndexes[$file->getRealPath()] = $index;
@@ -45,7 +51,7 @@ final class PhpFileLoader implements LoaderInterface
             \ksort($pathIndexes); // make sure to import the files on all system in the same order
 
             foreach ($pathIndexes as $index) {
-                if(isset($indexes[$index->name])) {
+                if (isset($indexes[$index->name])) {
                     $index = new Index($index->name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
                 }
 
@@ -66,8 +72,8 @@ final class PhpFileLoader implements LoaderInterface
     {
         foreach ($newFields as $name => $newField) {
             if (isset($fields[$name])) {
-                if ($newField::class !== $fields[$name]::class) {
-                    throw new \RuntimeException(sprintf('Field "%s" must be of type "%s" but "%s" given.', $name, $fields[$name]::class, $newField::class));
+                if ($fields[$name]::class !== $newField::class) {
+                    throw new \RuntimeException(\sprintf('Field "%s" must be of type "%s" but "%s" given.', $name, $fields[$name]::class, $newField::class));
                 }
 
                 $newField = $this->mergeField($fields[$name], $newField);
@@ -93,7 +99,8 @@ final class PhpFileLoader implements LoaderInterface
             return $newField;
         }
 
-        if ($newField instanceof Field\TextField) {
+        if ($field instanceof Field\TextField && $newField instanceof Field\TextField) {
+            // @phpstan-ignore-next-line
             return new Field\TextField(
                 $newField->name,
                 multiple: $newField->multiple,
@@ -104,7 +111,8 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        if ($newField instanceof Field\IntegerField) {
+        if ($field instanceof Field\IntegerField && $newField instanceof Field\IntegerField) {
+            // @phpstan-ignore-next-line
             return new Field\IntegerField(
                 $newField->name,
                 multiple: $newField->multiple,
@@ -115,7 +123,8 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        if ($newField instanceof Field\FloatField) {
+        if ($field instanceof Field\FloatField && $newField instanceof Field\FloatField) {
+            // @phpstan-ignore-next-line
             return new Field\FloatField(
                 $newField->name,
                 multiple: $newField->multiple,
@@ -126,7 +135,8 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        if ($newField instanceof Field\DateTimeField) {
+        if ($field instanceof Field\DateTimeField && $newField instanceof Field\DateTimeField) {
+            // @phpstan-ignore-next-line
             return new Field\DateTimeField(
                 $newField->name,
                 multiple: $newField->multiple,
@@ -137,7 +147,8 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        if ($newField instanceof Field\ObjectField) {
+        if ($field instanceof Field\ObjectField && $newField instanceof Field\ObjectField) {
+            // @phpstan-ignore-next-line
             return new Field\ObjectField(
                 $newField->name,
                 fields: $this->mergeFields($field->fields, $newField->fields),
@@ -146,7 +157,7 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        if ($newField instanceof Field\TypedField) {
+        if ($field instanceof Field\TypedField && $newField instanceof Field\TypedField) {
             $types = $field->types;
             foreach ($newField->types as $name => $newTypedFields) {
                 if (isset($types[$name])) {
@@ -158,6 +169,7 @@ final class PhpFileLoader implements LoaderInterface
                 $types[$name] = $newTypedFields;
             }
 
+            // @phpstan-ignore-next-line
             return new Field\TypedField(
                 $newField->name,
                 typeField: $newField->typeField,
@@ -167,11 +179,12 @@ final class PhpFileLoader implements LoaderInterface
             );
         }
 
-        throw new \RuntimeException(sprintf(
-            'Field "%s" must be of type "%s" but "%s" given.',
+        throw new \RuntimeException(\sprintf(
+            'Field "%s" must be of type "%s" but "%s" and "%s" given.',
             $field->name,
             Field\AbstractField::class,
-            get_class($field)
+            $field::class,
+            $newField::class,
         ));
     }
 }

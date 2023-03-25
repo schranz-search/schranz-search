@@ -1,0 +1,6 @@
+parameters:
+    paths:
+        - packages
+    level: max
+    excludePaths:
+        - packages/*/vendor/*

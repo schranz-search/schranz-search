@@ -1,23 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Testing;
 
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Schema\Schema;
-use Schranz\Search\SEAL\Schema\Field;
-use Schranz\Search\SEAL\Task\TaskInterface;
 
-class TestingHelper
+final class TestingHelper
 {
     public const INDEX_COMPLEX = 'complex';
 
     public const INDEX_SIMPLE = 'simple';
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
     public static function createSchema(): Schema
     {
-        $prefix = getenv('TEST_INDEX_PREFIX') ?: $_ENV['TEST_INDEX_PREFIX'] ?? 'test_';
+        $prefix = \getenv('TEST_INDEX_PREFIX') ?: $_ENV['TEST_INDEX_PREFIX'] ?? 'test_';
 
         $complexFields = [
             'uuid' => new Field\IdentifierField('uuid'),
@@ -72,24 +75,24 @@ class TestingHelper
 
     /**
      * @return array<array{
-     *     id: string,
+     *     uuid: string,
      *     title?: string|null,
      *     article?: string|null,
      *     blocks?: array<array{
      *          type: string,
      *          title?: string|null,
-     *          description?: string|null
+     *          description?: string|null,
      *          media?: int[]|string,
      *     }>,
-     *     created?: \string|null,
+     *     created?: string|null,
      *     commentsCount?: int|null,
-     *     rating?: int|null,
+     *     rating?: float|null,
      *     comments?: array<array{
      *         email?: string|null,
      *         text?: string|null,
      *     }>|null,
      *     tags?: string[]|null,
-     *     categoryIds?: string[]|null,
+     *     categoryIds?: int[]|null,
      * }>
      */
     public static function createComplexFixtures(): array
@@ -180,21 +183,6 @@ class TestingHelper
                 'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5318cd',
             ],
         ];
-    }
-
-    /**
-     * @param \Closure(TaskInterface[]: $tasks) $callback
-     */
-    public static function waitForTasks(\Closure $callback): void
-    {
-        /** @var TaskInterface[] $tasks */
-        $tasks = [];
-
-        ($callback)($tasks);
-
-        foreach ($tasks as $task) {
-            $task->wait();
-        }
     }
 
     /**

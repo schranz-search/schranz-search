@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Field;
 
 abstract class AbstractField
@@ -14,5 +16,6 @@ abstract class AbstractField
         public readonly bool $filterable,
         public readonly bool $sortable,
         public readonly array $options,
-    ) {}
+    ) {
+    }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Field;
 
 /**
@@ -14,9 +16,9 @@ final class TypedField extends AbstractField
     public function __construct(
         string $name,
         public readonly string $typeField,
-        public readonly iterable $types,
+        public readonly array $types,
         bool $multiple = false,
-        array $options = []
+        array $options = [],
     ) {
         $searchable = false;
         $filterable = false;
@@ -44,7 +46,7 @@ final class TypedField extends AbstractField
             $searchable,
             $filterable,
             $sortable,
-            $options
+            $options,
         );
     }
 }

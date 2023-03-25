@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
@@ -25,7 +27,7 @@ abstract class AbstractSearcherTestCase extends TestCase
 
     private static TaskHelper $taskHelper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::$taskHelper = new TaskHelper();
     }
@@ -39,10 +41,10 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
             if (self::$schemaManager->existIndex($index)) {
-                self::$schemaManager->dropIndex($index);
+                self::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true])->wait();
             }
 
-            static::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
+            self::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         }
 
         self::$taskHelper->waitForAll();
@@ -77,7 +79,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$indexer->save(
             $schema->indexes[TestingHelper::INDEX_SIMPLE],
             $document,
-            ['return_slow_promise_result' => true]
+            ['return_slow_promise_result' => true],
         )->wait();
 
         $search = new SearchBuilder($schema, self::$searcher);
@@ -86,7 +88,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\IdentifierCondition($document['id']));
 
         $expectedDocument = $document;
-        $loadedDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
+        $loadedDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
 
         $this->assertSame($expectedDocument, $loadedDocument);
 
@@ -212,7 +214,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $this->assertCount(1, $loadedDocuments);
         $this->assertSame(
             $isFirstDocumentOnPage1 ? [$documents[1]] : [$documents[0]],
-            $loadedDocuments
+            $loadedDocuments,
         );
 
         foreach ($documents as $document) {
@@ -373,7 +375,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\GreaterThanCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThanOrEqual(1, count($loadedDocuments));
+        $this->assertGreaterThanOrEqual(1, \count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertGreaterThan(2.5, $loadedDocument['rating']);
@@ -408,12 +410,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThan(1, count($loadedDocuments));
+        $this->assertGreaterThan(1, \count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
                 $loadedDocument['rating'] ?? null,
-                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertGreaterThanOrEqual(2.5, $loadedDocument['rating']);
@@ -448,12 +450,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\LessThanCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThanOrEqual(1, count($loadedDocuments));
+        $this->assertGreaterThanOrEqual(1, \count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
                 $loadedDocument['rating'] ?? null,
-                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertLessThan(3.5, $loadedDocument['rating']);
@@ -488,12 +490,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\LessThanEqualCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThan(1, count($loadedDocuments));
+        $this->assertGreaterThan(1, \count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
                 $loadedDocument['rating'] ?? null,
-                'Expected only documents with rating document "' . $document['uuid'] . '" without rating returned.'
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertLessThanOrEqual(3.5, $loadedDocument['rating']);
@@ -529,7 +531,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addSortBy('rating', 'asc');
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThan(1, count($loadedDocuments));
+        $this->assertGreaterThan(1, \count($loadedDocuments));
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
@@ -568,7 +570,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addSortBy('rating', 'desc');
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertGreaterThan(1, count($loadedDocuments));
+        $this->assertGreaterThan(1, \count($loadedDocuments));
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(

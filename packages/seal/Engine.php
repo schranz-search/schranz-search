@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -15,12 +17,14 @@ final class Engine
     public function __construct(
         readonly private AdapterInterface $adapter,
         readonly private Schema $schema,
-    ) {}
+    ) {
+    }
 
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array<string, mixed> $document
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<array<string, mixed>> : null)
      */
@@ -36,7 +40,7 @@ final class Engine
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<null> : null)
      */
@@ -50,9 +54,9 @@ final class Engine
     }
 
     /**
-     * @return array<string, mixed>
-     *
      * @throws DocumentNotFoundException
+     *
+     * @return array<string, mixed>
      */
     public function getDocument(string $index, string $identifier): array
     {
@@ -62,13 +66,14 @@ final class Engine
             ->limit(1)
             ->getResult()];
 
+        /** @var array<string, mixed>|null $document */
         $document = $documents[0] ?? null;
 
-        if ($document === null) {
+        if (null === $document) {
             throw new DocumentNotFoundException(\sprintf(
                 'Document with the identifier "%s" not found in index "%s".',
                 $identifier,
-                $index
+                $index,
             ));
         }
 
@@ -79,14 +84,14 @@ final class Engine
     {
         return new SearchBuilder(
             $this->schema,
-            $this->adapter->getSearcher()
+            $this->adapter->getSearcher(),
         );
     }
 
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<null> : null)
      */
@@ -98,7 +103,7 @@ final class Engine
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<null> : null)
      */
@@ -115,7 +120,7 @@ final class Engine
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<null> : null)
      */
@@ -130,13 +135,13 @@ final class Engine
             return null;
         }
 
-        return new MultiTask($tasks);
+        return new MultiTask($tasks); // @phpstan-ignore-line
     }
 
     /**
      * @template T of bool
      *
-     * @param array{return_slow_promise_result: T} $options
+     * @param array{return_slow_promise_result?: T} $options
      *
      * @return (T is true ? TaskInterface<null> : null)
      */
@@ -151,6 +156,6 @@ final class Engine
             return null;
         }
 
-        return new MultiTask($tasks);
+        return new MultiTask($tasks); // @phpstan-ignore-line
     }
 }

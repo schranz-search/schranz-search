@@ -1,0 +1,29 @@
+{
+    "name": "schranz-search/schranz-search",
+    "description": "The monorepository with tools for the schranz-search packages.",
+    "type": "library",
+    "license": "MIT",
+    "require-dev": {
+        "rector/rector": "^0.15.23",
+        "phpstan/phpstan": "^1.10",
+        "php-cs-fixer/shim": "^3.15"
+    },
+    "scripts": {
+        "phpstan": "@php vendor/bin/phpstan analyze",
+        "rector": "@php vendor/bin/rector process",
+        "lint-rector": "@php vendor/bin/rector process --dry-run",
+        "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
+        "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+        "lint": [
+            "@phpstan",
+            "@lint-php-cs",
+            "@lint-rector"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ]
+}

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 
