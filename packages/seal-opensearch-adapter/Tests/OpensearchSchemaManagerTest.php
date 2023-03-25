@@ -13,8 +13,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
     public static function setUpBeforeClass(): void
     {
         self::$client = ClientHelper::getClient();
-
         self::$schemaManager = new OpensearchSchemaManager(self::$client);
+
+        parent::setUpBeforeClass();
     }
 
     public function testSimpleOpensearchMapping(): void

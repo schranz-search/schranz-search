@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Opensearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractSearcherTestCase;
 
-class OpensearchAdapterTest extends AbstractAdapterTestCase
+class OpensearchSearcherTest extends AbstractSearcherTestCase
 {
     public static function setUpBeforeClass(): void
     {
