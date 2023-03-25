@@ -59,8 +59,8 @@
         "rector": "@php vendor/bin/rector process",
         "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
         "fix": [
-            "@php-cs-fix",
-            "@rector"
+            "@rector",
+            "@php-cs-fix"
         ]
     },
     "repositories": [

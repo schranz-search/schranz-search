@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
@@ -18,11 +21,12 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
 
     public function existIndex(Index $index): bool
     {
+        /** @var Elasticsearch $response */
         $response = $this->client->indices()->exists([
             'index' => $index->name,
         ]);
 
-        return $response->getStatusCode() !== 404;
+        return 404 !== $response->getStatusCode();
     }
 
     public function dropIndex(Index $index, array $options = []): ?TaskInterface
@@ -73,7 +77,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                 $field instanceof Field\IdentifierField => $properties[$name] = [
                     'type' => 'keyword',
                     'index' => $field->searchable,
-                    'doc_values' => $field->filterable || $field->sortable,
+                    'doc_values' => $field->filterable || $field->sortable, // @phpstan-ignore-line
                 ],
                 $field instanceof Field\TextField => $properties[$name] = \array_replace([
                     'type' => 'text',
@@ -108,7 +112,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                     'properties' => $this->createPropertiesMapping($field->fields),
                 ],
                 $field instanceof Field\TypedField => $properties = \array_replace($properties, $this->createTypedFieldMapping($name, $field)),
-                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
         }
 
@@ -125,7 +129,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
         foreach ($field->types as $type => $fields) {
             $typedProperties[$type] = [
                 'type' => 'object',
-                'properties' => $this->createPropertiesMapping($fields)
+                'properties' => $this->createPropertiesMapping($fields),
             ];
 
             if ($field->multiple) {

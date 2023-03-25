@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch\Tests;
 
 use Elastic\Elasticsearch\Client;
@@ -11,9 +13,9 @@ final class ClientHelper
 
     public static function getClient(): Client
     {
-        if (self::$client === null) {
+        if (!self::$client instanceof \Elastic\Elasticsearch\Client) {
             self::$client = ClientBuilder::create()->setHosts([
-                $_ENV['ELASTICSEARCH_HOST'] ?? '127.0.0.1:9200'
+                $_ENV['ELASTICSEARCH_HOST'] ?? '127.0.0.1:9200',
             ])->build();
         }
 

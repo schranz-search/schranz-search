@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
 use Elastic\Elasticsearch\Client;
@@ -17,11 +19,15 @@ final class ElasticsearchAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly Client $client,
+        Client $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,
     ) {
+        if ($client->getAsync()) {
+            throw new \RuntimeException('Currently only synchronous client is supported.');
+        }
+
         $this->schemaManager = $schemaManager ?? new ElasticsearchSchemaManager($client);
         $this->indexer = $indexer ?? new ElasticsearchIndexer($client);
         $this->searcher = $searcher ?? new ElasticsearchSearcher($client);

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
@@ -15,7 +18,7 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class ElasticsearchSearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -27,32 +30,36 @@ final class ElasticsearchSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             try {
-                $searchResult = $this->client->get([
+                /** @var Elasticsearch $response */
+                $response = $this->client->get([
                     'index' => $search->indexes[\array_key_first($search->indexes)]->name,
                     'id' => $search->filters[0]->identifier,
-                ])->asArray();
+                ]);
+
+                /** @var array<string, mixed> $searchResult */
+                $searchResult = $response->asArray();
             } catch (ClientResponseException $e) {
                 $response = $e->getResponse();
-                if ($response->getStatusCode() !== 404) {
+                if (404 !== $response->getStatusCode()) {
                     throw $e;
                 }
 
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [$searchResult]),
-                1
+                1,
             );
         }
 
@@ -76,7 +83,7 @@ final class ElasticsearchSearcher implements SearcherInterface
             };
         }
 
-        if (count($query) === 0) {
+        if ([] === $query) {
             $query['match_all'] = new \stdClass();
         }
 
@@ -90,7 +97,7 @@ final class ElasticsearchSearcher implements SearcherInterface
             'query' => $query,
         ];
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $body['from'] = $search->offset;
         }
 
@@ -98,10 +105,23 @@ final class ElasticsearchSearcher implements SearcherInterface
             $body['size'] = $search->limit;
         }
 
-        $searchResult = $this->client->search([
-            'index' => implode(',', $indexesNames),
+        /** @var Elasticsearch $response */
+        $response = $this->client->search([
+            'index' => \implode(',', $indexesNames),
             'body' => $body,
-        ])->asArray();
+        ]);
+
+        /**
+         * @var array{
+         *     hits: array{
+         *         hits: array<array<string, mixed>>,
+         *         total: array{
+         *            value: int
+         *         }
+         *     }
+         * } $searchResult
+         */
+        $searchResult = $response->asArray();
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $searchResult['hits']['hits']),
@@ -111,9 +131,9 @@ final class ElasticsearchSearcher implements SearcherInterface
 
     /**
      * @param Index[] $indexes
-     * @param array<string, mixed> $searchResult
+     * @param array<array<string, mixed>> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, array $hits): \Generator
     {
@@ -122,9 +142,10 @@ final class ElasticsearchSearcher implements SearcherInterface
             $indexesByInternalName[$index->name] = $index;
         }
 
+        /** @var array{_index: string, _source: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
             $index = $indexesByInternalName[$hit['_index']] ?? null;
-            if ($index === null) {
+            if (!$index instanceof Index) {
                 throw new \RuntimeException('SchemaMetadata for Index "' . $hit['_index'] . '" not found.');
             }
 
@@ -132,6 +153,9 @@ final class ElasticsearchSearcher implements SearcherInterface
         }
     }
 
+    /**
+     * @param Index[] $indexes
+     */
     private function getFilterField(array $indexes, string $name): string
     {
         foreach ($indexes as $index) {
@@ -143,7 +167,7 @@ final class ElasticsearchSearcher implements SearcherInterface
                 }
 
                 return $name;
-            } catch (FieldByPathNotFoundException $e) {
+            } catch (FieldByPathNotFoundException) {
                 // ignore when field is not found and use go to next index instead
             }
         }
