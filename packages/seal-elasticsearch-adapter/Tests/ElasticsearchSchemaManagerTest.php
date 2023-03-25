@@ -13,8 +13,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
     public static function setUpBeforeClass(): void
     {
         self::$client = ClientHelper::getClient();
-
         self::$schemaManager = new ElasticsearchSchemaManager(self::$client);
+
+        parent::setUpBeforeClass();
     }
 
     public function testSimpleElasticsearchMapping(): void

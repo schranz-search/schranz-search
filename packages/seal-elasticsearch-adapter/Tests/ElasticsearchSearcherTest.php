@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractSearcherTestCase;
 
-class ElasticsearchAdapterTest extends AbstractAdapterTestCase
+class ElasticsearcSearcherTest extends AbstractSearcherTestCase
 {
     public static function setUpBeforeClass(): void
     {
