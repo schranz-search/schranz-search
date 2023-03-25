@@ -23,7 +23,7 @@ Use [composer](https://getcomposer.org/) for install the package:
 composer require schranz-search/seal schranz-search/seal-algolia-adapter
 ```
 
-## Usage.
+## Usage
 
 The following code shows how to create an Engine using this Adapter:
 
