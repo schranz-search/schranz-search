@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapter;

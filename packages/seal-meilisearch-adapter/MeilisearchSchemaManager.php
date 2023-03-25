@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
@@ -21,7 +23,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         try {
             $this->client->getRawIndex($index->name);
         } catch (ApiException $e) {
-            if ($e->httpStatus !== 404) {
+            if (404 !== $e->httpStatus) {
                 throw $e;
             }
 
@@ -39,7 +41,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($deleteIndexResponse) {
+        return new AsyncTask(function () use ($deleteIndexResponse) {
             $this->client->waitForTask($deleteIndexResponse['taskUid']);
         });
     }
@@ -50,7 +52,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             $index->name,
             [
                 'primaryKey' => $index->getIdentifierField()->name,
-            ]
+            ],
         );
 
         $attributes = [
@@ -66,7 +68,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($updateIndexResponse) {
+        return new AsyncTask(function () use ($updateIndexResponse) {
             $this->client->waitForTask($updateIndexResponse['taskUid']);
         });
     }
