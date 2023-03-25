@@ -187,7 +187,7 @@ $schema = new Schema([
 
 The schema is serializable, so it can be stored in any cache and loaded fast.
 
-A more detailed schema definition can be made by defining which fields are 
+A more detailed schema definition can be made by defining which fields are
 searchable, filterable and sortable. By default, all fields are `searchable`
 but no fields are `filterable` or `sortable`.
 
@@ -315,10 +315,10 @@ $engine->getDocument('news', '1');
 
 The library provides different `Condition` classes to build a query for the search engines.
 
-> Condition is what in Elasticsearch are Queries and Filters.  
+> Condition is what in Elasticsearch are Queries and Filters.
 
 > **Warning**:
-> Not all conditions are supported by all adapters.  
+> Not all conditions are supported by all adapters.
 
 ###### SearchCondition
 
@@ -364,7 +364,7 @@ $documents = $engine->createSearchBuilder()
 
 ###### Multi Index
 
-To search in multiple indexes you can use the `addIndex` method multiple times.  
+To search in multiple indexes you can use the `addIndex` method multiple times.
 
 ```php
 use Schranz\Search\SEAL\Search\Condition;
@@ -413,7 +413,7 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need to match.  
+The first parameter is the `field` and the second the `value` which need to match.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
@@ -436,15 +436,15 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need not match.  
+The first parameter is the `field` and the second the `value` which need not match.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('header.media', 1)`.  
+> `new Condition\NotEqualCondition('header.media', 1)`.
 
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ###### GreaterThanCondition
 
@@ -459,15 +459,15 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need the field need to greater than.  
+The first parameter is the `field` and the second the `value` which need the field need to greater than.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('header.media', 1)`.  
+> `new Condition\NotEqualCondition('header.media', 1)`.
 
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ###### GreaterThanEqualCondition
 
@@ -482,15 +482,15 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need the field need to greater than or equal.  
+The first parameter is the `field` and the second the `value` which need the field need to greater than or equal.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('header.media', 1)`.  
+> `new Condition\NotEqualCondition('header.media', 1)`.
 
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ###### LessThanCondition
 
@@ -505,15 +505,15 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need the field need to less than.  
+The first parameter is the `field` and the second the `value` which need the field need to less than.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('header.media', 1)`.  
+> `new Condition\NotEqualCondition('header.media', 1)`.
 
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ###### LessThanEqualCondition
 
@@ -528,15 +528,15 @@ $documents = $engine->createSearchBuilder()
     ->getResult();
 ```
 
-The first parameter is the `field` and the second the `value` which need the field need to less than or equal.  
+The first parameter is the `field` and the second the `value` which need the field need to less than or equal.
 
 > **Note**:  
 > For filtering by `ObjectField`s use `<object_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('header.media', 1)`.  
+> `new Condition\NotEqualCondition('header.media', 1)`.
 
 > **Note**:  
 > For filtering by `TypedField`s use `<typed_name>.<type_name>.<field_name>` as field e.g.:  
-> `new Condition\NotEqualCondition('blocks.text.media', 1)`.  
+> `new Condition\NotEqualCondition('blocks.text.media', 1)`.
 
 ## Authors
 
