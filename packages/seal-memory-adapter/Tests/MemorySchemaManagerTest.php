@@ -10,5 +10,7 @@ class MemorySchemaManagerTest extends AbstractSchemaManagerTestCase
     public static function setUpBeforeClass(): void
     {
         self::$schemaManager = new MemorySchemaManager();
+
+        parent::setUpBeforeClass();
     }
 }

@@ -6,5 +6,7 @@ interface AdapterInterface
 {
     public function getSchemaManager(): SchemaManagerInterface;
 
-    public function getConnection(): ConnectionInterface;
+    public function getSearcher(): SearcherInterface;
+
+    public function getIndexer(): IndexerInterface;
 }
