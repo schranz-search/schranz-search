@@ -7,12 +7,11 @@ use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
 
 class SolrAdapterTest extends AbstractAdapterTestCase
 {
-    private static $client;
-
     public static function setUpBeforeClass(): void
     {
-        self::$client = ClientHelper::getClient();
+        $client = ClientHelper::getClient();
+        self::$adapter = new SolrAdapter($client);
 
-        self::$adapter = new SolrAdapter(self::$client);
+        parent::setUpBeforeClass();
     }
 }

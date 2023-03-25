@@ -2,24 +2,29 @@
 
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
+use Schranz\Search\SEAL\Adapter\IndexerInterface;
+use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 
 final class SolrAdapter implements AdapterInterface
 {
-    private readonly ConnectionInterface $connection;
-
     private readonly SchemaManagerInterface $schemaManager;
+
+    private readonly IndexerInterface $indexer;
+
+    private readonly SearcherInterface $searcher;
 
     public function __construct(
         private readonly Client $client,
-        ?ConnectionInterface $connection = null,
         ?SchemaManagerInterface $schemaManager = null,
+        ?IndexerInterface $indexer = null,
+        ?SearcherInterface $searcher = null,
     ) {
-        $this->connection = $connection ?? new SolrConnection($client);
         $this->schemaManager = $schemaManager ?? new SolrSchemaManager($client);
+        $this->indexer = $indexer ?? new SolrIndexer($client);
+        $this->searcher = $searcher ?? new SolrSearcher($client);
     }
 
     public function getSchemaManager(): SchemaManagerInterface
@@ -27,8 +32,13 @@ final class SolrAdapter implements AdapterInterface
         return $this->schemaManager;
     }
 
-    public function getConnection(): ConnectionInterface
+    public function getIndexer(): IndexerInterface
     {
-        return $this->connection;
+        return $this->indexer;
+    }
+
+    public function getSearcher(): SearcherInterface
+    {
+        return $this->searcher;
     }
 }

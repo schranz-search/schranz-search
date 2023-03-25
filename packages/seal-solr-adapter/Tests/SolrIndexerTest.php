@@ -3,9 +3,9 @@
 namespace Schranz\Search\SEAL\Adapter\Solr\Tests;
 
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapter;
-use Schranz\Search\SEAL\Testing\AbstractSearcherTestCase;
+use Schranz\Search\SEAL\Testing\AbstractIndexerTestCase;
 
-class SolrSearcherTest extends AbstractSearcherTestCase
+class SolrIndexerTest extends AbstractIndexerTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -13,10 +13,5 @@ class SolrSearcherTest extends AbstractSearcherTestCase
         self::$adapter = new SolrAdapter($client);
 
         parent::setUpBeforeClass();
-    }
-
-    public function testFindMultipleIndexes(): void
-    {
-        $this->markTestSkipped('Not supported by Solr: TODO create issue');
     }
 }
