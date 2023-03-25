@@ -3,11 +3,10 @@
 namespace Schranz\Search\SEAL\Adapter\Meilisearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapter;
-use Schranz\Search\SEAL\Testing\AbstractAdapterTestCase;
+use Schranz\Search\SEAL\Testing\AbstractIndexerTestCase;
 
-class MeilisearchAdapterTest extends AbstractAdapterTestCase
+class MeilisearchIndexerTest extends AbstractIndexerTestCase
 {
-
     public static function setUpBeforeClass(): void
     {
         $client = ClientHelper::getClient();
