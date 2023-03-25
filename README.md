@@ -485,11 +485,9 @@ $schema = new Schema([
 The schema is serializable, so it can be stored in any cache and loaded fast.
 
 A more detailed schema definition can be made by defining which fields are
-searchable, filterable and sortable. By default, all fields are `searchable`
-but no fields are `filterable` or `sortable`.
-
-> **Warning**:
-> Not all adapters support searchable non-string fields (e.g. [Typesense](https://github.com/schranz-search/schranz-search/issues/96).
+searchable, filterable and sortable. By default, all text fields are `searchable`
+but no fields are `filterable` or `sortable`. At current state only text fields
+can be `searchable`.
 
 <details>
    <summary>Schema with searchable, filterable, sortable definitions:</summary>
@@ -500,7 +498,7 @@ $fields = [
     'title' => new Field\TextField('title'),
     'header' => new Field\TypedField('header', 'type', [
         'image' => [
-            'media' => new Field\IntegerField('media', searchable: false),
+            'media' => new Field\IntegerField('media'),
         ],
         'video' => [
             'media' => new Field\TextField('media', searchable: false),
@@ -511,7 +509,7 @@ $fields = [
         'text' => [
             'title' => new Field\TextField('title'),
             'description' => new Field\TextField('description'),
-            'media' => new Field\IntegerField('media', multiple: true, searchable: false),
+            'media' => new Field\IntegerField('media', multiple: true),
         ],
         'embed' => [
             'title' => new Field\TextField('title'),
@@ -522,14 +520,14 @@ $fields = [
         'title' => new Field\TextField('title'),
     ]),
     'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
-    'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
-    'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
+    'commentsCount' => new Field\IntegerField('commentsCount', filterable: true, sortable: true),
+    'rating' => new Field\FloatField('rating', filterable: true, sortable: true),
     'comments' => new Field\ObjectField('comments', [
         'email' => new Field\TextField('email', searchable: false),
         'text' => new Field\TextField('text'),
     ], multiple: true),
     'tags' => new Field\TextField('tags', multiple: true, filterable: true),
-    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
+    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
 ];
 ```
 
