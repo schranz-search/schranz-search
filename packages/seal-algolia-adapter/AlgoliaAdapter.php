@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\SearchClient;
@@ -17,7 +19,7 @@ final class AlgoliaAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly SearchClient $client,
+        SearchClient $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,

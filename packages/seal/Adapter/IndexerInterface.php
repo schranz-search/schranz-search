@@ -24,7 +24,7 @@ interface IndexerInterface
      *
      * @param array{return_slow_promise_result?: T} $options
      *
-     * @return (T is true ? TaskInterface<null> : null)
+     * @return (T is true ? TaskInterface<null|void> : null)
      */
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface;
 }

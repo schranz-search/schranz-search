@@ -3,3 +3,7 @@
 composer.lock export-ignore
 /bin/drop_all_indexes.php export-ignore
 /Tests export-ignore
+phpunit.xml.dist export-ignore
+.php-cs-fixer.dist.php export-ignore
+phpstan.neon export-ignore
+rector.php export-ignore

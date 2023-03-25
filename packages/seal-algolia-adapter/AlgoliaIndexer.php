@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\SearchClient;
@@ -11,7 +13,7 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class AlgoliaIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly SearchClient $client,
@@ -27,14 +29,14 @@ final class AlgoliaIndexer implements IndexerInterface
 
         $batchIndexingResponse = $searchIndex->saveObject(
             $this->marshaller->marshall($index->fields, $document),
-            ['objectIDKey' => $identifierField->name]
+            ['objectIDKey' => $identifierField->name],
         );
 
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function() use ($batchIndexingResponse, $document) {
+        return new AsyncTask(function () use ($batchIndexingResponse, $document) {
             $batchIndexingResponse->wait();
 
             return $document;
@@ -51,7 +53,7 @@ final class AlgoliaIndexer implements IndexerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($batchIndexingResponse) {
+        return new AsyncTask(function () use ($batchIndexingResponse) {
             $batchIndexingResponse->wait();
         });
     }

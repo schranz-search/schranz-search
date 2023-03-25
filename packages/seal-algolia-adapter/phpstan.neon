@@ -1,0 +1,7 @@
+parameters:
+    paths:
+        - .
+    level: max
+    excludePaths:
+        - vendor/*
+        - bin/drop_all_indexes.php

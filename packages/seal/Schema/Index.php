@@ -17,17 +17,17 @@ final class Index
     /**
      * @var string[]
      */
-    public array $searchableFields;
+    public readonly array $searchableFields;
 
     /**
      * @var string[]
      */
-    public array $sortableFields;
+    public readonly array $sortableFields;
 
     /**
      * @var string[]
      */
-    public array $filterableFields;
+    public readonly array $filterableFields;
 
     /**
      * @param array<string, AbstractField> $fields
