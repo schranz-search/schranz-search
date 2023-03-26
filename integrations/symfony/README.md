@@ -74,7 +74,7 @@ schranz_search:
 
         # ...
         multi:
-            dsn: 'multi://elasticsearch?opensearch'
+            dsn: 'multi://elasticsearch?adapters[]=opensearch'
         read-write:
             dsn: 'read-write://elasticsearch?write=multi'
 ```
