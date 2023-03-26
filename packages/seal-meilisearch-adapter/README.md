@@ -12,8 +12,8 @@ The `MeilisearchAdapter` write the documents into a [Meilisearch](https://github
 > **Note**:
 > This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
 
-> **Warning**:
-> This project is heavily under development and not ready for production.
+> **Note**:
+> This project is heavily under development and any feedback is greatly appreciated.
 
 ## Installation
 
