@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 use App\Controller\SearchController;
@@ -17,7 +19,7 @@ class SearchControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('title', 'Search Engines');
 
-        $crawler->filter('a')->each(function ($node) use($client) {
+        $crawler->filter('a')->each(function ($node) use ($client) {
             $crawler = $client->request('GET', $node->link()->getUri());
             $this->assertResponseIsSuccessful();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -12,7 +14,7 @@ class SearchController
     public function index(): Response
     {
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -44,7 +46,7 @@ HTML
         $class = $algoliaAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -84,7 +86,7 @@ HTML
         $class = $elasticsearchAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -104,7 +106,7 @@ HTML
         $class = $memoryAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -124,7 +126,7 @@ HTML
         $class = $opensearchAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -144,7 +146,7 @@ HTML
         $class = $solrAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -164,7 +166,7 @@ HTML
         $class = $redisearchAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -184,7 +186,7 @@ HTML
         $class = $typesenseAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -204,7 +206,7 @@ HTML
         $class = $multiAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -224,7 +226,7 @@ HTML
         $class = $readWriteAdapter::class;
 
         return new Response(
-<<<HTML
+            <<<HTML
             <!doctype html>
             <html>
                 <head>

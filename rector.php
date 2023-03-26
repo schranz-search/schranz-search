@@ -8,7 +8,7 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-return static function (RectorConfig $rectorConfig, $directory): void {
+return static function (RectorConfig $rectorConfig, string $directory): void {
     $rectorConfig->paths([
         $directory,
     ]);
