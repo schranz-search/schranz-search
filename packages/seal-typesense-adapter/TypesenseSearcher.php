@@ -1,56 +1,58 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
-use Typesense\Client;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
+use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
 
 final class TypesenseSearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
     ) {
         $this->marshaller = new Marshaller(dateAsInteger: true);
     }
+
     public function search(Search $search): Result
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             try {
                 $data = $this->client->collections[$search->indexes[\array_key_first($search->indexes)]->name]->documents[$search->filters[0]->identifier]->retrieve();
-            } catch (ObjectNotFound $e) {
+            } catch (ObjectNotFound) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [['document' => $data]]),
-                1
+                1,
             );
         }
 
-        if (count($search->indexes) !== 1) {
+        if (1 !== \count($search->indexes)) {
             throw new \RuntimeException('Typesense does not yet support search multiple indexes: TODO');
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];
-
 
         $searchParams = [
             'q' => '',
@@ -72,11 +74,11 @@ final class TypesenseSearcher implements SearcherInterface
             };
         }
 
-        if (\count($filters) !== 0) {
+        if ([] !== $filters) {
             $searchParams['filter_by'] = \implode(' && ', $filters);
         }
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $searchParams['page'] = ($search->offset / $search->limit) + 1;
         }
 
@@ -89,7 +91,7 @@ final class TypesenseSearcher implements SearcherInterface
             $sortBys[] = $field . ':' . $direction;
         }
 
-        if (count($sortBys) > 0) {
+        if ([] !== $sortBys) {
             $searchParams['sort_by'] = \implode(',', $sortBys);
         }
 
@@ -105,12 +107,13 @@ final class TypesenseSearcher implements SearcherInterface
      * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {
         $index = $indexes[\array_key_first($indexes)];
 
+        /** @var array{document: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit['document']);
         }

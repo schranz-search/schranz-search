@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
-use Schranz\Search\SEAL\Task\SyncTask;
-use Typesense\Client;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
+use Typesense\Client;
 
 final class TypesenseIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -24,7 +26,7 @@ final class TypesenseIndexer implements IndexerInterface
         $identifierField = $index->getIdentifierField();
 
         /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        $identifier = ((string) $document[$identifierField->name]) ?? null; // @phpstan-ignore-line
 
         $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
         $marshalledDocument['id'] = $identifier;
@@ -35,7 +37,7 @@ final class TypesenseIndexer implements IndexerInterface
             return null;
         }
 
-        return new SyncTask(null);
+        return new SyncTask($document);
     }
 
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface

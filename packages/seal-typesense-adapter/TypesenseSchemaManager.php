@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
-use Schranz\Search\SEAL\Task\SyncTask;
-use Typesense\Client;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
+use Typesense\Client;
 use Typesense\Exceptions\ObjectNotFound;
 
 final class TypesenseSchemaManager implements SchemaManagerInterface
@@ -21,7 +23,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
     {
         try {
             $this->client->collections[$index->name]->retrieve();
-        } catch (ObjectNotFound $e) {
+        } catch (ObjectNotFound) {
             return false;
         }
 
@@ -57,12 +59,27 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
     }
 
     /**
-     * @param Field\AbstractField[] $fields
+     * @param Field\AbstractField[] $indexFields
      *
-     * @return array<string, mixed>
+     * @return array<int, array{
+     *     name: string,
+     *     type: string,
+     *     optional?: bool,
+     *     index?: bool,
+     *     facet?: bool,
+     * }>
      */
     private function createFields(array $indexFields): array
     {
+        /**
+         * @var array<int, array{
+         *     name: string,
+         *     type: string,
+         *     optional?: bool,
+         *     index?: bool,
+         *     facet?: bool,
+         * }> $fields
+         */
         $fields = [];
 
         foreach ($indexFields as $name => $field) {
@@ -70,7 +87,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
                 $field instanceof Field\IdentifierField => $fields[] = [
                     'name' => $name,
                     'type' => 'string',
-                    'index' => $field->searchable || $field->filterable,
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line
                     'facet' => $field->filterable,
                 ],
                 $field instanceof Field\TextField => $fields[] = [
@@ -84,33 +101,33 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
                     'name' => $name,
                     'type' => $field->multiple ? 'bool[]' : 'bool',
                     'optional' => true,
-                    'index' => $field->searchable || $field->filterable,
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line
                     'facet' => $field->filterable,
                 ],
-                $field instanceof Field\IntegerField  => $fields[] = [
+                $field instanceof Field\IntegerField => $fields[] = [
                     'name' => $name,
                     'type' => $field->multiple ? 'int64[]' : 'int64',
                     'optional' => true,
-                    'index' => $field->searchable || $field->filterable,
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line
                     'facet' => $field->filterable,
                 ],
                 $field instanceof Field\DateTimeField => $fields[] = [
                     'name' => $name,
                     'type' => $field->multiple ? 'int64[]' : 'int64',
                     'optional' => true,
-                    'index' => $field->searchable || $field->filterable,
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line
                     'facet' => $field->filterable,
                 ],
                 $field instanceof Field\FloatField => $fields[] = [
                     'name' => $name,
                     'type' => $field->multiple ? 'float[]' : 'float',
                     'optional' => true,
-                    'index' => $field->searchable || $field->filterable,
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line
                     'facet' => $field->filterable,
                 ],
                 $field instanceof Field\ObjectField => $fields = [...$fields, ...$this->createObjectFields($name, $field)],
                 $field instanceof Field\TypedField => $fields = [...$fields, ...$this->createTypedFields($name, $field)],
-                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
         }
 
@@ -118,7 +135,13 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
     }
 
     /**
-     * @return array<array<{name: string, type: string}>>
+     * @return array<int, array{
+     *     name: string,
+     *     type: string,
+     *     optional?: bool,
+     *     index?: bool,
+     *     facet?: bool,
+     * }>
      */
     private function createObjectFields(string $name, Field\ObjectField $field): array
     {
@@ -134,7 +157,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
         foreach ($nestedFields as $nestedField) {
             $nestedField['name'] = $name . '.' . $nestedField['name'];
             $nestedField['type'] = $field->multiple
-                ? (str_contains($nestedField['type'], '[]') ? $nestedField['type'] : ($nestedField['type'] . '[]'))
+                ? (\str_contains($nestedField['type'], '[]') ? $nestedField['type'] : $nestedField['type'] . '[]')
                 : $nestedField['type'];
             $fields[] = $nestedField;
         }
@@ -143,7 +166,13 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
     }
 
     /**
-     * @return array<array<{name: string, type: string}>>
+     * @return array<int, array{
+     *     name: string,
+     *     type: string,
+     *     optional?: bool,
+     *     index?: bool,
+     *     facet?: bool,
+     * }>
      */
     private function createTypedFields(string $name, Field\TypedField $field): array
     {
@@ -173,8 +202,8 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
             $nestedFields = $this->createFields($typeFields);
             foreach ($nestedFields as $nestedField) {
                 $nestedField['name'] = $name . '.' . $type . '.' . $nestedField['name'];
-                $nestedField['type'] =  $field->multiple
-                    ? (str_contains($nestedField['type'], '[]') ? $nestedField['type'] : ($nestedField['type'] . '[]'))
+                $nestedField['type'] = $field->multiple
+                    ? (\str_contains($nestedField['type'], '[]') ? $nestedField['type'] : $nestedField['type'] . '[]')
                     : $nestedField['type'];
                 $fields[] = $nestedField;
             }
