@@ -20,8 +20,8 @@ It provides a common interface to interact with different search engines.
 
 This package was highly inspired by [Doctrine DBAL](https://github.com/doctrine/dbal) and [Flysystem](https://github.com/thephpleague/flysystem).
 
-> **Warning**:
-> This project is heavily under development and not ready for production.
+> **Note**:
+> This project is heavily under development and any feedback is greatly appreciated.
 
 ## Installation
 
@@ -405,7 +405,7 @@ $document = [
 ];
 ```
 
-> **Info**:
+> **Note**:
 > Currently, you can use some kind of normalizer like symfony/serializer to convert an object to an array
 > and back to an object at current state a Document Mapper or ODM package does not yet exist. If provided in future
 > it will be part of an own package which make usage of SEAL. Example like doctrine/orm using doctrine/dbal.
