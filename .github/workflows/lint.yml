@@ -73,3 +73,9 @@ jobs:
         uses: ./.github/workflows/callable-lint.yml
         with:
             directory: 'packages/seal-solr-adapter'
+
+    symfony-integration:
+        name: Symfony Integration Example
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'integrations/symfony'
