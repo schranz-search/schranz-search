@@ -12,13 +12,6 @@ jobs:
         name: "Lint"
         runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - php-version: '8.1'
-                      dependency-versions: 'highest'
-
         steps:
             - name: Checkout project
               uses: actions/checkout@v3
@@ -26,7 +19,7 @@ jobs:
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: ${{ matrix.php-version }}
+                  php-version: '8.1'
                   tools: 'composer:v2'
                   ini-values: memory_limit=-1
                   coverage: none
@@ -37,7 +30,7 @@ jobs:
                   COMPOSER_ROOT_VERSION: 0.1-dev
               with:
                   working-directory: ${{ inputs.directory }}
-                  dependency-versions: ${{ matrix.dependency-versions }}
+                  dependency-versions: 'highest'
 
             - name: Run lints
               run: composer lint
