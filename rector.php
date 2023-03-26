@@ -8,16 +8,19 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-return static function (RectorConfig $rectorConfig): void {
+return static function (RectorConfig $rectorConfig, $directory): void {
     $rectorConfig->paths([
-        __DIR__ . '/integrations',
-        __DIR__ . '/packages',
+        $directory,
     ]);
 
-    $rectorConfig->phpstanConfig(__DIR__ . '/phpstan.neon');
+    $rectorConfig->skip([
+        $directory . '/vendor',
+    ]);
 
-    $rectorConfig->importNames();
-    $rectorConfig->importShortClasses(false);
+    $rectorConfig->phpstanConfig($directory . '/phpstan.neon');
+
+    // $rectorConfig->importNames();
+    // $rectorConfig->importShortClasses(false);
 
     $rectorConfig->sets([
         SetList::CODE_QUALITY,
@@ -25,7 +28,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->sets([
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_100,
+        PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
         PHPUnitSetList::PHPUNIT_91,
     ]);
 };
