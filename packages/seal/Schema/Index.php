@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema;
 
 use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
@@ -15,24 +17,24 @@ final class Index
     /**
      * @var string[]
      */
-    public array $searchableFields;
+    public readonly array $searchableFields;
 
     /**
      * @var string[]
      */
-    public array $sortableFields;
+    public readonly array $sortableFields;
 
     /**
      * @var string[]
      */
-    public array $filterableFields;
+    public readonly array $filterableFields;
 
     /**
      * @param array<string, AbstractField> $fields
      */
     public function __construct(
         public readonly string $name,
-        public readonly array $fields
+        public readonly array $fields,
     ) {
         $attributes = $this->getAttributes($fields);
         $this->searchableFields = $attributes['searchableFields'];
@@ -42,7 +44,7 @@ final class Index
 
     public function getIdentifierField(): IdentifierField
     {
-        if ($this->identifierField === null) {
+        if (!$this->identifierField instanceof Field\IdentifierField) {
             $identifierField = null;
             foreach ($this->fields as $field) {
                 if ($field instanceof IdentifierField) {
@@ -51,9 +53,9 @@ final class Index
                 }
             }
 
-            if ($identifierField === null) {
+            if (!$identifierField instanceof Field\IdentifierField) {
                 throw new \LogicException(
-                    'No "IdentifierField" found for index "' . $this->name . '"'
+                    'No "IdentifierField" found for index "' . $this->name . '"',
                 );
             }
 
@@ -68,7 +70,7 @@ final class Index
         $pathParts = \explode('.', $path);
         $fields = $this->fields;
 
-        do {
+        while (true) {
             $field = $fields[\current($pathParts)] ?? null;
 
             if ($field instanceof TypedField) {
@@ -80,7 +82,7 @@ final class Index
             } else {
                 throw new FieldByPathNotFoundException($this->name, $path);
             }
-        } while (true);
+        }
     }
 
     /**

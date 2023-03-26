@@ -14,3 +14,11 @@
 .phpunit.result.cache
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+
+###> php-cs-fixer/shim ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< php-cs-fixer/shim ###

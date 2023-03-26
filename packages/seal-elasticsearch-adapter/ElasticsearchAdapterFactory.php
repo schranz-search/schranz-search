@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\ClientInterface;
 use Psr\Container\ContainerInterface;
@@ -14,7 +17,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 class ElasticsearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -30,17 +33,17 @@ class ElasticsearchAdapterFactory implements AdapterFactoryInterface
      *
      * @param array{
      *     host: string,
-     *     port: ?int,
-     *     user: ?string,
-     *     pass: ?string,
+     *     port?: int,
+     *     user?: string,
+     *     pass?: string,
      * } $dsn
      */
-    public function createClient(array $dsn): ClientInterface
+    public function createClient(array $dsn): Client
     {
-        if (!isset($dsn['host'])) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(ClientInterface::class);
 
-            if (!$client instanceof ClientInterface) {
+            if (!$client instanceof Client) {
                 throw new \InvalidArgumentException('Unknown Elasticsearch client.');
             }
 

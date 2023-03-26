@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
 use Psr\Container\ContainerInterface;
@@ -10,9 +12,9 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Solarium\Client;
+use Solarium\Core\Client\Adapter\AdapterInterface as ClientAdapterInterface;
 use Solarium\Core\Client\Adapter\Curl;
 use Solarium\Core\Client\Adapter\Psr18Adapter;
-use Solarium\Core\Client\Adapter\AdapterInterface as ClientAdapterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -21,7 +23,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class SolrAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ContainerInterface $container,
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -44,7 +46,7 @@ class SolrAdapterFactory implements AdapterFactoryInterface
      */
     public function createClient(array $dsn): Client
     {
-        if (!isset($dsn['host'])) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {
@@ -72,7 +74,8 @@ class SolrAdapterFactory implements AdapterFactoryInterface
 
     private function createEventDispatcher(): EventDispatcherInterface
     {
-        if ($this->container->has(EventDispatcherInterface::class)) {
+        if ($this->container?->has(EventDispatcherInterface::class)) {
+            /** @var EventDispatcherInterface */
             return $this->container->get(EventDispatcherInterface::class);
         }
 
@@ -81,11 +84,11 @@ class SolrAdapterFactory implements AdapterFactoryInterface
 
     private function createClientAdapter(): ClientAdapterInterface
     {
-        if ($this->container->has(ClientInterface::class)) {
+        if ($this->container?->has(ClientInterface::class)) {
             return new Psr18Adapter(
-                $this->container->get(ClientInterface::class),
-                $this->container->get(RequestFactoryInterface::class),
-                $this->container->get(StreamFactoryInterface::class),
+                $this->container->get(ClientInterface::class), // @phpstan-ignore-line
+                $this->container->get(RequestFactoryInterface::class), // @phpstan-ignore-line
+                $this->container->get(StreamFactoryInterface::class), // @phpstan-ignore-line
             );
         }
 

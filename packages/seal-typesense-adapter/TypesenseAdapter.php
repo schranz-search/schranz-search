@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
+use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
+use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Typesense\Client;
-use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 
 final class TypesenseAdapter implements AdapterInterface
 {
@@ -17,7 +19,7 @@ final class TypesenseAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly Client $client,
+        Client $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
@@ -11,7 +13,7 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class OpensearchIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -24,13 +26,13 @@ final class OpensearchIndexer implements IndexerInterface
         $identifierField = $index->getIdentifierField();
 
         /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        $identifier = $document[$identifierField->name] ?? null;
 
         $document = $this->marshaller->marshall($index->fields, $document);
 
         $data = $this->client->index([
             'index' => $index->name,
-            'id' => $identifier,
+            'id' => (string) $identifier,
             'body' => $document,
             // TODO refresh should be refactored with async tasks
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
@@ -54,7 +56,7 @@ final class OpensearchIndexer implements IndexerInterface
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is no longer available in the `/_search` api directly
         ]);
 
-        if ($data['result'] !== 'deleted') {
+        if ('deleted' !== $data['result']) {
             throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
         }
 

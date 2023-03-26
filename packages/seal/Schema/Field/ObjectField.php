@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Field;
 
 /**
@@ -15,7 +17,7 @@ final class ObjectField extends AbstractField
         string $name,
         readonly public array $fields,
         bool $multiple = false,
-        array $options = []
+        array $options = [],
     ) {
         $searchable = false;
         $filterable = false;
@@ -41,7 +43,7 @@ final class ObjectField extends AbstractField
             $searchable,
             $filterable,
             $sortable,
-            $options
+            $options,
         );
     }
 }

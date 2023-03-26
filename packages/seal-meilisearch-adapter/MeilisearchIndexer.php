@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
@@ -11,7 +13,7 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class MeilisearchIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -23,14 +25,14 @@ final class MeilisearchIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        /** @var string|int|null $identifier */
+        $identifier = $document[$identifierField->name] ?? null;
 
         $indexResponse = $this->client->index($index->name)->addDocuments([
             $this->marshaller->marshall($index->fields, $document),
         ], $identifierField->name);
 
-        if ($indexResponse['status'] !== 'enqueued') {
+        if ('enqueued' !== $indexResponse['status']) {
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
         }
 
@@ -38,8 +40,10 @@ final class MeilisearchIndexer implements IndexerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponse) {
+        return new AsyncTask(function () use ($indexResponse, $document) {
             $this->client->waitForTask($indexResponse['taskUid']);
+
+            return $document;
         });
     }
 
@@ -47,7 +51,7 @@ final class MeilisearchIndexer implements IndexerInterface
     {
         $deleteResponse = $this->client->index($index->name)->deleteDocument($identifier);
 
-        if ($deleteResponse['status'] !== 'enqueued') {
+        if ('enqueued' !== $deleteResponse['status']) {
             throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
         }
 
@@ -55,7 +59,7 @@ final class MeilisearchIndexer implements IndexerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($deleteResponse) {
+        return new AsyncTask(function () use ($deleteResponse) {
             $this->client->waitForTask($deleteResponse['taskUid']);
         });
     }

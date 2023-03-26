@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Field;
 
 /**
  * Type to store date and date times.
+ *
+ * @property false $searchable
  */
 final class DateTimeField extends AbstractField
 {
@@ -17,9 +21,9 @@ final class DateTimeField extends AbstractField
         bool $searchable = false,
         bool $filterable = false,
         bool $sortable = false,
-        array $options = []
+        array $options = [],
     ) {
-        if ($searchable === true) {
+        if ($searchable) { // @phpstan-ignore-line
             throw new \InvalidArgumentException('Searchability for DateTimeField is not yet implemented: https://github.com/schranz-search/schranz-search/issues/97');
         }
 
@@ -29,7 +33,7 @@ final class DateTimeField extends AbstractField
             $searchable,
             $filterable,
             $sortable,
-            $options
+            $options,
         );
     }
 }

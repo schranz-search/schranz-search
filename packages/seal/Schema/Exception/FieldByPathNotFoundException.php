@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Schema\Exception;
 
 final class FieldByPathNotFoundException extends \Exception
@@ -9,7 +11,7 @@ final class FieldByPathNotFoundException extends \Exception
         parent::__construct(
             'Field path "' . $path . '" not found in index "' . $indexName . '"',
             0,
-            $previous
+            $previous,
         );
     }
 }

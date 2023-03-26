@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Task;
 
 /**
@@ -16,7 +18,8 @@ final class SyncTask implements TaskInterface
      */
     public function __construct(
         private readonly mixed $result,
-    ) {}
+    ) {
+    }
 
     public function wait(): mixed
     {

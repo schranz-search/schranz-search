@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\SearchClient;
@@ -13,7 +15,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 final class AlgoliaAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -29,16 +31,16 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
      *
      * @param array{
      *     host: string,
-     *     user: ?string,
-     *     pass: ?string,
+     *     user?: string,
+     *     pass?: string,
      * } $dsn
      */
     public function createClient(array $dsn): SearchClient
     {
-        if ($dsn['host'] !== 'algolia') {
+        if ('algolia' !== $dsn['host']) {
             $client = $this->container?->get($dsn['host']);
 
-            if (!$client) {
+            if (!$client instanceof SearchClient) {
                 throw new \InvalidArgumentException('Unknown Algolia client: ' . $dsn['host']);
             }
 
@@ -49,12 +51,12 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
         $adminApiKey = $dsn['pass'] ?? null;
 
         if (!$applicationId || !$adminApiKey) {
-            $client = $this->container?->has(SearchClient::class) ? $this->container?->get(SearchClient::class) : null;
+            $client = $this->container?->has(SearchClient::class) ? $this->container->get(SearchClient::class) : null;
 
-            if (!$client) {
+            if (!$client instanceof SearchClient) {
                 throw new \InvalidArgumentException(\sprintf(
                     'Unknown Algolia client: Could not find service "%s" or no APPLICATION_ID or ADMIN_API_KEY provided.',
-                    SearchClient::class
+                    SearchClient::class,
                 ));
             }
 
@@ -62,8 +64,8 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
         }
 
         return SearchClient::create(
-            $dsn['user'],
-            $dsn['pass'],
+            $applicationId,
+            $adminApiKey,
         );
     }
 

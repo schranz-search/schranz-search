@@ -1,20 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
-use Solarium\Client;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
+use Solarium\Client;
+use Solarium\Core\Query\DocumentInterface;
 
 final class SolrSearcher implements SearcherInterface
 {
-    private FlattenMarshaller $marshaller;
+    private readonly FlattenMarshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -26,11 +29,11 @@ final class SolrSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             $this->client->getEndpoint()
                 ->setCollection($search->indexes[\array_key_first($search->indexes)]->name);
@@ -42,17 +45,17 @@ final class SolrSearcher implements SearcherInterface
             if (!$result->getNumFound()) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [$result->getDocument()]),
-                1
+                1,
             );
         }
 
-        if (count($search->indexes) !== 1) {
+        if (1 !== \count($search->indexes)) {
             throw new \RuntimeException('Solr does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/86');
         }
 
@@ -69,20 +72,20 @@ final class SolrSearcher implements SearcherInterface
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $helper->escapeTerm($filter->identifier),
-                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($helper->escapeTerm($filter->value)),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $helper->escapeTerm($filter->value) . ' TO *}',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $helper->escapeTerm($filter->value) . ' TO *]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $helper->escapeTerm($filter->value) . '}',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $helper->escapeTerm($filter->value) . ']',
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $helper->escapeTerm((string) $filter->identifier),
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm((string) $filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($helper->escapeTerm((string) $filter->value)),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $helper->escapeTerm((string) $filter->value) . ' TO *}',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $helper->escapeTerm((string) $filter->value) . ' TO *]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $helper->escapeTerm((string) $filter->value) . '}',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $helper->escapeTerm((string) $filter->value) . ']',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
 
-        if ($queryText !== null) {
+        if (null !== $queryText) {
             $dismax = $query->getDisMax();
-            $dismax->setQueryFields(implode(' ', $index->searchableFields));
+            $dismax->setQueryFields(\implode(' ', $index->searchableFields));
 
             $query->setQuery($queryText);
         }
@@ -91,7 +94,7 @@ final class SolrSearcher implements SearcherInterface
             $query->createFilterQuery('filter_' . $key)->setQuery($filter);
         }
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $query->setStart($search->offset);
         }
 
@@ -107,26 +110,27 @@ final class SolrSearcher implements SearcherInterface
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $result->getDocuments()),
-            $result->getNumFound()
+            (int) $result->getNumFound(),
         );
     }
 
     /**
      * @param Index[] $indexes
-     * @param iterable<\Solarium\QueryType\Select\Result\Document> $hits
+     * @param iterable<DocumentInterface> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {
         $index = $indexes[\array_key_first($indexes)];
 
         foreach ($hits as $hit) {
+            /** @var array<string, mixed> $hit */
             $hit = $hit->getFields();
 
             unset($hit['_version_']);
 
-            if ($index->getIdentifierField()->name !== 'id') {
+            if ('id' !== $index->getIdentifierField()->name) {
                 // Solr currently does not support set another identifier then id: https://github.com/schranz-search/schranz-search/issues/87
                 $id = $hit['id'];
                 unset($hit['id']);
@@ -138,6 +142,9 @@ final class SolrSearcher implements SearcherInterface
         }
     }
 
+    /**
+     * @param Index[] $indexes
+     */
     private function getFilterField(array $indexes, string $name): string
     {
         foreach ($indexes as $index) {
@@ -149,7 +156,7 @@ final class SolrSearcher implements SearcherInterface
                 }
 
                 return $name;
-            } catch (FieldByPathNotFoundException $e) {
+            } catch (FieldByPathNotFoundException) {
                 // ignore when field is not found and use go to next index instead
             }
         }

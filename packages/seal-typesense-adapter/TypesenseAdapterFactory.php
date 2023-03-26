@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
-use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
@@ -16,7 +17,7 @@ use Typesense\Client;
 class TypesenseAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -32,17 +33,17 @@ class TypesenseAdapterFactory implements AdapterFactoryInterface
      *
      * @param array{
      *     host: string,
-     *     port: ?int,
-     *     user: ?string,
+     *     port?: int,
+     *     user?: string,
      * } $dsn
      */
     public function createClient(array $dsn): Client
     {
-        if (!isset($dsn['host'])) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {
-                throw new \InvalidArgumentException('Unknown Meilisearch client.');
+                throw new \InvalidArgumentException('Unknown Typesense client.');
             }
 
             return $client;
@@ -50,22 +51,23 @@ class TypesenseAdapterFactory implements AdapterFactoryInterface
 
         return new Client(
             [
-                'api_key' => $dsn['user'],
+                'api_key' => $dsn['user'] ?? null,
                 'nodes' => [
                     [
                         'host' => $dsn['host'],
-                        'port' => $dsn['port'],
+                        'port' => $dsn['port'] ?? 8108,
                         'protocol' => 'http',
                     ],
                 ],
                 'client' => $this->createClientClient(),
-            ]
+            ],
         );
     }
 
-    private function createClientClient(): HttpClient
+    private function createClientClient(): HttpClientInterface
     {
-        if ($this->container->has(HttpClientInterface::class)) {
+        if ($this->container?->has(HttpClientInterface::class)) {
+            /** @var HttpClientInterface */
             return $this->container->get(HttpClientInterface::class);
         }
 

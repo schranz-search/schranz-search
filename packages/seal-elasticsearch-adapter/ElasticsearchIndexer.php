@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -12,7 +15,7 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class ElasticsearchIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -24,24 +27,27 @@ final class ElasticsearchIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        /** @var string|int|null $identifier */
+        $identifier = $document[$identifierField->name] ?? null;
 
         $document = $this->marshaller->marshall($index->fields, $document);
 
+        /** @var Elasticsearch $response */
         $response = $this->client->index([
             'index' => $index->name,
-            'id' => $identifier,
+            'id' => (string) $identifier,
             'body' => $document,
             // TODO refresh should be refactored with async tasks
             'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is available in the `/_search` api directly
         ]);
 
+        if (200 !== $response->getStatusCode() && 201 !== $response->getStatusCode()) {
+            throw new \RuntimeException('Unexpected error while indexing document with identifier "' . $identifier . '".');
+        }
+
         if (true !== ($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
-
-        $document[$identifierField->name] = $response->asArray()['_id'];
 
         return new SyncTask($document);
     }
@@ -49,6 +55,7 @@ final class ElasticsearchIndexer implements IndexerInterface
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
     {
         try {
+            /** @var Elasticsearch $response */
             $response = $this->client->delete([
                 'index' => $index->name,
                 'id' => $identifier,
@@ -56,11 +63,11 @@ final class ElasticsearchIndexer implements IndexerInterface
                 'refresh' => $options['return_slow_promise_result'] ?? false, // update document immediately, so it is no longer available in the `/_search` api directly
             ]);
 
-            if ($response->getStatusCode() !== 200 && ($response->asArray()['deleted'] ?? false) === false) {
+            if (200 !== $response->getStatusCode() && ($response->asArray()['deleted'] ?? false) === false) {
                 throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '".');
             }
         } catch (ClientResponseException $e) {
-            if ($e->getResponse()->getStatusCode() !== 404) {
+            if (404 !== $e->getResponse()->getStatusCode()) {
                 throw $e;
             }
         }

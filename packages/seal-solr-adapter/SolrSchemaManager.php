@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
-use Schranz\Search\SEAL\Task\SyncTask;
-use Solarium\Client;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
+use Solarium\Client;
 use Solarium\Core\Client\Request;
 use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
 
@@ -81,9 +83,9 @@ final class SolrSchemaManager implements SchemaManagerInterface
         foreach ($indexFields as $indexField) {
             $query = $this->client->createApi([
                 'version' => Request::API_V1,
-                'handler' => $index->name.'/schema',
+                'handler' => $index->name . '/schema',
                 'method' => Request::METHOD_POST,
-                'rawdata' => json_encode([
+                'rawdata' => \json_encode([
                     'add-field' => $indexField,
                 ], \JSON_THROW_ON_ERROR),
             ]);
@@ -101,10 +103,29 @@ final class SolrSchemaManager implements SchemaManagerInterface
     /**
      * @param Field\AbstractField[] $fields
      *
-     * @return array<string, mixed>
+     * @return array<string, array{
+     *     name: string,
+     *     type: string,
+     *     indexed: boolean,
+     *     docValues: boolean,
+     *     stored: boolean,
+     *     useDocValuesAsStored?: boolean,
+     *     multiValued: boolean,
+     * }>
      */
     private function createIndexFields(array $fields, string $prefix = '', bool $isParentMultiple = false): array
     {
+        /**
+         * @var array<string, array{
+         *     name: string,
+         *     type: string,
+         *     indexed: boolean,
+         *     docValues: boolean,
+         *     stored: boolean,
+         *     useDocValuesAsStored: boolean,
+         *     multiValued: boolean,
+         * }> $indexFields
+         */
         $indexFields = [];
 
         foreach ($fields as $name => $field) {
@@ -155,13 +176,14 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
+                    'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
                 $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createIndexFields($field->fields, $name . '.', $isMultiple)),
-                $field instanceof Field\TypedField => array_map(function($fields, $type) use ($name, &$indexFields, $isMultiple) {
+                $field instanceof Field\TypedField => \array_map(function ($fields, $type) use ($name, &$indexFields, $isMultiple) {
                     $indexFields = \array_replace($indexFields, $this->createIndexFields($fields, $name . '.' . $type . '.', $isMultiple));
-                }, $field->types, array_keys($field->types)),
-                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                }, $field->types, \array_keys($field->types)),
+                default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
 
             if ($field instanceof Field\TextField && $field->searchable && ($field->filterable || $field->sortable)) {
@@ -176,13 +198,14 @@ final class SolrSchemaManager implements SchemaManagerInterface
             }
         }
 
-        if ($prefix === '') {
+        if ('' === $prefix) {
             $indexFields['_source'] = [
                 'name' => '_source',
                 'type' => 'string',
                 'indexed' => false,
                 'docValues' => false,
                 'stored' => true,
+                'useDocValuesAsStored' => false,
                 'multiValued' => false,
             ];
         }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Tests\Marshaller;
 
 use PHPUnit\Framework\TestCase;
@@ -55,7 +57,7 @@ class MarshallerTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    private function getRawDocument($dateAsInteger = false): array
+    private function getRawDocument(bool $dateAsInteger = false): array
     {
         return [
             'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
@@ -96,7 +98,7 @@ class MarshallerTest extends TestCase
             'footer' => [
                 'title' => 'New Footer',
             ],
-            'created' => $dateAsInteger ? 1643022000 : '2022-01-24T12:00:00+01:00',
+            'created' => $dateAsInteger ? 1_643_022_000 : '2022-01-24T12:00:00+01:00',
             'commentsCount' => 2,
             'rating' => 3.5,
             'comments' => [

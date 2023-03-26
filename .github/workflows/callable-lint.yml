@@ -1,0 +1,44 @@
+name: Callable Lint
+
+on:
+    workflow_call:
+        inputs:
+            directory:
+                required: true
+                type: string
+
+jobs:
+    lint:
+        name: "Lint"
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - php-version: '8.1'
+                      dependency-versions: 'highest'
+
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v3
+
+            - name: Install and configure PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  tools: 'composer:v2'
+                  ini-values: memory_limit=-1
+                  coverage: none
+
+            - name: Install composer dependencies
+              uses: ramsey/composer-install@v2
+              env:
+                  COMPOSER_ROOT_VERSION: 0.1-dev
+              with:
+                  working-directory: ${{ inputs.directory }}
+                  dependency-versions: ${{ matrix.dependency-versions }}
+
+            - name: Run lints
+              run: composer lint
+              working-directory: ${{ inputs.directory }}

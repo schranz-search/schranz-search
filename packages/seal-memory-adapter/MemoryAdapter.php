@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -9,20 +11,11 @@ use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MemoryAdapter implements AdapterInterface
 {
-    private readonly SchemaManagerInterface $schemaManager;
-
-    private readonly IndexerInterface $indexer;
-
-    private readonly SearcherInterface $searcher;
-
     public function __construct(
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        private readonly SchemaManagerInterface $schemaManager = new MemorySchemaManager(),
+        private readonly IndexerInterface $indexer = new MemoryIndexer(),
+        private readonly SearcherInterface $searcher = new MemorySearcher(),
     ) {
-        $this->schemaManager = $schemaManager ?? new MemorySchemaManager();
-        $this->indexer = $indexer ?? new MemoryIndexer();
-        $this->searcher = $searcher ?? new MemorySearcher();
     }
 
     public function getSchemaManager(): SchemaManagerInterface

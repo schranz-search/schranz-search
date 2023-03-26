@@ -37,9 +37,14 @@
         "psr/container": "^1.0 || ^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.27",
         "php-http/curl-client": "^2.0",
-        "php-http/discovery": "^1.14"
+        "php-http/discovery": "^1.14",
+        "php-cs-fixer/shim": "^3.15",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^9.5.27",
+        "rector/rector": "^0.15.23"
     },
     "conflict": {
         "monolog/monolog": "<2.0"
@@ -48,6 +53,20 @@
         "test": [
             "Composer\\Config::disableProcessTimeout",
             "vendor/bin/phpunit"
+        ],
+        "phpstan": "@php vendor/bin/phpstan analyze",
+        "lint-rector": "@php vendor/bin/rector process --dry-run",
+        "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+        "lint": [
+            "@phpstan",
+            "@lint-php-cs",
+            "@lint-rector"
+        ],
+        "rector": "@php vendor/bin/rector process",
+        "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
+        "fix": [
+            "@rector",
+            "@php-cs-fix"
         ]
     },
     "repositories": [
@@ -62,7 +81,8 @@
     "minimum-stability": "dev",
     "config": {
         "allow-plugins": {
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
         }
     }
 }

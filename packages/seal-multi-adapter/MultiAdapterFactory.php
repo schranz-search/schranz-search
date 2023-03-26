@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Multi;
 
 use Psr\Container\ContainerInterface;
@@ -36,9 +38,15 @@ class MultiAdapterFactory implements AdapterFactoryInterface
      */
     public function getAdapters(array $dsn): iterable
     {
-        $adapterServices = array_merge(array_filter([$dsn['host'] ?? null]), $dsn['query']['adapters'] ?? []);
-        foreach ($adapterServices as $adapterService) {
-            yield $adapterService => $this->container->get($this->prefix . $adapterService);
+        /** @var string[] $adapterNames */
+        $adapterNames = $dsn['query']['adapters'] ?? [];
+
+        $adapterNames = \array_merge(\array_filter([$dsn['host']]), $adapterNames);
+        foreach ($adapterNames as $adapterName) {
+            /** @var AdapterInterface $adapter */
+            $adapter = $this->container->get($this->prefix . $adapterName);
+
+            yield $adapterName => $adapter;
         }
     }
 

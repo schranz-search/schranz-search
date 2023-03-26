@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
@@ -17,7 +19,7 @@ final class OpensearchAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly Client $client,
+        Client $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,

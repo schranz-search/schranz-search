@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
-use Redis;
 use Psr\Container\ContainerInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -13,7 +14,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 class RediSearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -34,12 +35,12 @@ class RediSearchAdapterFactory implements AdapterFactoryInterface
      *     pass?: string,
      * } $dsn
      */
-    public function createClient(array $dsn): Redis
+    public function createClient(array $dsn): \Redis
     {
-        if (!isset($dsn['host'])) {
-            $client = $this->container?->get(Redis::class);
+        if ('' === $dsn['host']) {
+            $client = $this->container?->get(\Redis::class);
 
-            if (!$client instanceof Redis) {
+            if (!$client instanceof \Redis) {
                 throw new \InvalidArgumentException('Unknown Redis client.');
             }
 
@@ -48,11 +49,11 @@ class RediSearchAdapterFactory implements AdapterFactoryInterface
 
         $user = $dsn['user'] ?? '';
         $password = $dsn['pass'] ?? '';
-        if ($password) {
+        if ('' !== $password) {
             $password = [$user, $password];
         }
 
-        $client = new Redis();
+        $client = new \Redis();
         $client->pconnect($dsn['host'], $dsn['port'] ?? 6379);
 
         if ($password) {

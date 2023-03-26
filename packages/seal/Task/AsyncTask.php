@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Task;
 
 /**
@@ -17,7 +19,7 @@ final class AsyncTask implements TaskInterface
      * @param \Closure(): T $callback
      */
     public function __construct(
-        private \Closure $callback,
+        private readonly \Closure $callback,
     ) {
         // TODO check if async library (e.g. react-php) should call callback method already here
         //      for Agolia this is currently not required or possible as they use a blocking usleep

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
@@ -10,7 +12,6 @@ use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MeilisearchAdapter implements AdapterInterface
 {
-
     private readonly SchemaManagerInterface $schemaManager;
 
     private readonly IndexerInterface $indexer;
@@ -18,7 +19,7 @@ final class MeilisearchAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly Client $client,
+        Client $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,

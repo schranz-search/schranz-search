@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter;
 
 use Schranz\Search\SEAL\Search\Result;

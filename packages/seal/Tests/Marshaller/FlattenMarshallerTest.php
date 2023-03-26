@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Tests\Marshaller;
 
 use PHPUnit\Framework\TestCase;
@@ -9,7 +11,9 @@ use Schranz\Search\SEAL\Schema\Field;
 class FlattenMarshallerTest extends TestCase
 {
     /**
+     * @param array<string, mixed> $document
      * @param array<string, mixed> $flattenDocument
+     * @param Field\AbstractField[] $fields
      *
      * @dataProvider provideData
      */
@@ -23,7 +27,9 @@ class FlattenMarshallerTest extends TestCase
     }
 
     /**
+     * @param array<string, mixed> $document
      * @param array<string, mixed> $flattenDocument
+     * @param Field\AbstractField[] $fields
      *
      * @dataProvider provideData
      */
@@ -38,13 +44,13 @@ class FlattenMarshallerTest extends TestCase
     }
 
     /**
-     * @return \Generator<array{
+     * @return \Generator<string, array{
      *     0: array<string, mixed>,
      *     1: array<string, mixed>,
      *     2: Field\AbstractField[],
      * }>
      */
-    private function provideData(): \Generator
+    protected function provideData(): \Generator
     {
         yield 'complex_object' => [
             [
@@ -181,7 +187,7 @@ class FlattenMarshallerTest extends TestCase
                 'object.secondaryObject.tertiaryObject.title' => 'Tertiary Title',
                 'object.secondaryObject.tertiaryObject.media' => [1, 2],
                 'object.secondaryObject.tertiaryObject.quaternaryObject.title' => 'Quaternary Title',
-                'object.secondaryObject.tertiaryObject.quaternaryObject.media' => [3,4],
+                'object.secondaryObject.tertiaryObject.quaternaryObject.media' => [3, 4],
             ],
             [
                 'uuid' => new Field\IdentifierField('uuid'),

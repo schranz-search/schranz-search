@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
@@ -14,11 +16,10 @@ use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 
-/**
+/*
  * @internal
  */
-return static function (ContainerConfigurator $container)
-{
+return static function (ContainerConfigurator $container) {
     $container->services()
         ->set('schranz_search.adapter_factory', AdapterFactory::class)
             ->args([

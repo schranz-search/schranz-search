@@ -1,14 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch\Tests;
 
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Response\Elasticsearch;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchSchemaManager;
 use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 use Schranz\Search\SEAL\Testing\TestingHelper;
 
 class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
+    private static Client $client;
 
     public static function setUpBeforeClass(): void
     {
@@ -24,9 +28,12 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $mapping = self::$client->indices()->getMapping([
+        /** @var Elasticsearch $response */
+        $response = self::$client->indices()->getMapping([
             'index' => $index->name,
-        ])->asArray();
+        ]);
+
+        $mapping = $response->asArray();
 
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
@@ -50,9 +57,12 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $mapping = self::$client->indices()->getMapping([
+        /** @var Elasticsearch $response */
+        $response = self::$client->indices()->getMapping([
             'index' => $index->name,
-        ])->asArray();
+        ]);
+
+        $mapping = $response->asArray();
 
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
@@ -13,43 +15,44 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class MeilisearchSearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
     ) {
         $this->marshaller = new Marshaller();
     }
+
     public function search(Search $search): Result
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             try {
                 $data = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name)->getDocument($search->filters[0]->identifier);
             } catch (ApiException $e) {
-                if ($e->httpStatus !== 404) {
+                if (404 !== $e->httpStatus) {
                     throw $e;
                 }
 
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [$data]),
-                1
+                1,
             );
         }
 
-        if (count($search->indexes) !== 1) {
+        if (1 !== \count($search->indexes)) {
             throw new \RuntimeException('Meilisearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
         }
 
@@ -73,11 +76,11 @@ final class MeilisearchSearcher implements SearcherInterface
         }
 
         $searchParams = [];
-        if (\count($filters) !== 0) {
+        if ([] !== $filters) {
             $searchParams = ['filter' => \implode(' AND ', $filters)];
         }
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $searchParams['offset'] = $search->offset;
         }
 
@@ -101,7 +104,7 @@ final class MeilisearchSearcher implements SearcherInterface
      * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {

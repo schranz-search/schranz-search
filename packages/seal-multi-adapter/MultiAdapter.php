@@ -1,18 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Multi;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\ReadWrite\MultiIndexer;
-use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSearcher;
 use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSchemaManager;
+use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSearcher;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MultiAdapter implements AdapterInterface
 {
-
     private ?SchemaManagerInterface $schemaManager = null;
 
     private ?IndexerInterface $indexer = null;
@@ -24,11 +25,12 @@ final class MultiAdapter implements AdapterInterface
      */
     public function __construct(
         private readonly iterable $adapters,
-    ) {}
+    ) {
+    }
 
     public function getSchemaManager(): SchemaManagerInterface
     {
-        if ($this->schemaManager === null) {
+        if (!$this->schemaManager instanceof SchemaManagerInterface) {
             $schemaManagers = [];
             foreach ($this->adapters as $adapter) {
                 $schemaManagers[] = $adapter->getSchemaManager();
@@ -42,7 +44,7 @@ final class MultiAdapter implements AdapterInterface
 
     public function getIndexer(): IndexerInterface
     {
-        if ($this->indexer === null) {
+        if (!$this->indexer instanceof IndexerInterface) {
             $indexers = [];
             foreach ($this->adapters as $adapter) {
                 $indexers[] = $adapter->getIndexer();
@@ -56,7 +58,7 @@ final class MultiAdapter implements AdapterInterface
 
     public function getSearcher(): SearcherInterface
     {
-        if ($this->indexer === null) {
+        if (!$this->indexer instanceof IndexerInterface) {
             $searchers = [];
             foreach ($this->adapters as $adapter) {
                 $searchers[] = $adapter->getSearcher();

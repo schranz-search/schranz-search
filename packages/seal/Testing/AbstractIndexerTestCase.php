@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
@@ -25,7 +27,7 @@ abstract class AbstractIndexerTestCase extends TestCase
 
     private static TaskHelper $taskHelper;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         self::$taskHelper = new TaskHelper();
     }
@@ -39,10 +41,10 @@ abstract class AbstractIndexerTestCase extends TestCase
         self::$taskHelper = new TaskHelper();
         foreach (self::getSchema()->indexes as $index) {
             if (self::$schemaManager->existIndex($index)) {
-                self::$schemaManager->dropIndex($index);
+                self::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true])->wait();
             }
 
-            static::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
+            self::$taskHelper->tasks[] = self::$schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
         }
 
         self::$taskHelper->waitForAll();
@@ -78,7 +80,7 @@ abstract class AbstractIndexerTestCase extends TestCase
             self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
-                ['return_slow_promise_result' => true]
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -89,16 +91,16 @@ abstract class AbstractIndexerTestCase extends TestCase
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
 
-            $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
+            $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
 
             if ($resultDocument) {
                 $loadedDocuments[] = $resultDocument;
             }
         }
 
-        $this->assertSame(
-            count($documents),
-            count($loadedDocuments),
+        $this->assertCount(
+            \count($documents),
+            $loadedDocuments,
         );
 
         foreach ($loadedDocuments as $key => $loadedDocument) {
@@ -111,7 +113,7 @@ abstract class AbstractIndexerTestCase extends TestCase
             self::$taskHelper->tasks[] = self::$indexer->delete(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document['uuid'],
-                ['return_slow_promise_result' => true]
+                ['return_slow_promise_result' => true],
             );
         }
 
@@ -122,7 +124,7 @@ abstract class AbstractIndexerTestCase extends TestCase
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
 
-            $resultDocument = iterator_to_array($search->getResult(), false)[0] ?? null;
+            $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
 
             $this->assertNull($resultDocument, 'Expected document with uuid "' . $document['uuid'] . '" to be deleted.');
         }

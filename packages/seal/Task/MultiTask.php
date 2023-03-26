@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Task;
 
 /**
@@ -9,8 +11,11 @@ namespace Schranz\Search\SEAL\Task;
  */
 final class MultiTask implements TaskInterface
 {
+    /**
+     * @param TaskInterface<mixed>[] $tasks
+     */
     public function __construct(
-        private array $tasks,
+        private readonly array $tasks,
     ) {
     }
 

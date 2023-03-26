@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Search;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
@@ -30,7 +32,8 @@ final class SearchBuilder
     public function __construct(
         readonly private Schema $schema,
         readonly private SearcherInterface $searcher,
-    ) {}
+    ) {
+    }
 
     public function addIndex(string $name): static
     {
@@ -46,6 +49,9 @@ final class SearchBuilder
         return $this;
     }
 
+    /**
+     * @param 'asc'|'desc' $direction
+     */
     public function addSortBy(string $field, string $direction): static
     {
         $this->sortBys[$field] = $direction;

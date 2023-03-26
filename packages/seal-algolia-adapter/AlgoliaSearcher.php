@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
@@ -13,7 +15,7 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class AlgoliaSearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly SearchClient $client,
@@ -25,11 +27,11 @@ final class AlgoliaSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             $index = $search->indexes[\array_key_first($search->indexes)];
             $identifierField = $index->getIdentifierField();
@@ -38,24 +40,24 @@ final class AlgoliaSearcher implements SearcherInterface
 
             try {
                 $data = $searchIndex->getObject($search->filters[0]->identifier, ['objectIDKey' => $identifierField->name]);
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [$data]),
-                1
+                1,
             );
         }
 
-        if (count($search->indexes) !== 1) {
+        if (1 !== \count($search->indexes)) {
             throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
-        if (count($search->sortBys) > 1) {
+        if (\count($search->sortBys) > 1) {
             throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
@@ -81,22 +83,22 @@ final class AlgoliaSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $filter->value, // TODO escape?
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $filter->value, // TODO escape?
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $filter->value, // TODO escape?
-                default =>  throw new \LogicException($filter::class . ' filter not implemented.'),
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
 
         $searchParams = [];
-        if (\count($filters) !== 0) {
+        if ([] !== $filters) {
             $searchParams = ['filters' => \implode(' AND ', $filters)];
         }
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $searchParams['offset'] = $search->offset;
         }
 
         if ($search->limit) {
             $searchParams['length'] = $search->limit;
-            $searchParams['offset'] = $searchParams['offset'] ?? 0; // length would be ignored without offset see: https://www.algolia.com/doc/api-reference/api-parameters/length/
+            $searchParams['offset'] ??= 0; // length would be ignored without offset see: https://www.algolia.com/doc/api-reference/api-parameters/length/
         }
 
         $data = $searchIndex->search($query, $searchParams);
@@ -111,7 +113,7 @@ final class AlgoliaSearcher implements SearcherInterface
      * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, iterable $hits): \Generator
     {

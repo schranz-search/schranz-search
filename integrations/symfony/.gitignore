@@ -5,3 +5,5 @@
 /.phpunit.cache/
 /tests/var
 /docker-compose.override.yml
+/.php-cs-fixer.php
+/.php-cs-fixer.cache

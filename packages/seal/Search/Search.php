@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Search;
 
 use Schranz\Search\SEAL\Schema\Index;
@@ -17,5 +19,6 @@ final class Search
         public readonly array $sortBys = [],
         public readonly ?int $limit = null,
         public readonly int $offset = 0,
-    ) {}
+    ) {
+    }
 }

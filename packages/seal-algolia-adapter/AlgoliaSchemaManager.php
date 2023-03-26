@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\SearchClient;
@@ -30,20 +32,20 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         $indexResponse = $searchIndex->delete();
         $indexResponses[] = $indexResponse;
 
-        if (\count($index->sortableFields) > 0) {
+        if ([] !== $index->sortableFields) {
             // we need to wait for removing of primary index
             // see also: https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/delete-indices/#delete-multiple-indices
             $indexResponse->wait();
 
-            // wait a little bit until replicas are converted to primary indices
+            // wait a little until replicas are converted to primary indices
             // see also: https://support.algolia.com/hc/en-us/requests/540200
-            usleep(10_000_000);
+            \usleep(10_000_000);
         }
 
         foreach ($index->sortableFields as $field) {
             foreach (['asc', 'desc'] as $direction) {
                 $searchIndex = $this->client->initIndex(
-                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
+                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction,
                 );
 
                 $indexResponses[] = $searchIndex->delete();
@@ -54,7 +56,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponses) {
+        return new AsyncTask(function () use ($indexResponses) {
             foreach ($indexResponses as $indexResponse) {
                 $indexResponse->wait();
             }
@@ -84,7 +86,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         foreach ($index->sortableFields as $field) {
             foreach (['asc', 'desc'] as $direction) {
                 $searchIndex = $this->client->initIndex(
-                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction
+                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction,
                 );
 
                 $indexResponses[] = $searchIndex->setSettings([
@@ -99,7 +101,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function() use ($indexResponses) {
+        return new AsyncTask(function () use ($indexResponses) {
             foreach ($indexResponses as $indexResponse) {
                 $indexResponse->wait();
             }

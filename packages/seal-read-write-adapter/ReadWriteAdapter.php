@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\ReadWrite;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -12,7 +14,8 @@ final class ReadWriteAdapter implements AdapterInterface
     public function __construct(
         private readonly AdapterInterface $readAdapter,
         private readonly AdapterInterface $writeAdapter,
-    ) {}
+    ) {
+    }
 
     public function getSchemaManager(): SchemaManagerInterface
     {

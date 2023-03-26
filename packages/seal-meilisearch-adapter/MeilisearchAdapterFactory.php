@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
@@ -13,7 +15,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 class MeilisearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -29,13 +31,13 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
      *
      * @param array{
      *     host: string,
-     *     port: ?int,
-     *     user: ?string,
+     *     port?: int,
+     *     user?: string,
      * } $dsn
      */
     public function createClient(array $dsn): Client
     {
-        if (!isset($dsn['host'])) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {
@@ -49,7 +51,7 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
 
         return new Client(
             $dsn['host'] . ':' . ($dsn['port'] ?? 7700),
-            $apiKey
+            $apiKey,
         );
     }
 
