@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
-use Schranz\Search\SEAL\Task\SyncTask;
-use Solarium\Client;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
+use Solarium\Client;
 
 final class SolrIndexer implements IndexerInterface
 {
-    private FlattenMarshaller $marshaller;
+    private readonly FlattenMarshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
@@ -23,11 +25,11 @@ final class SolrIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        /** @var string|int|null $identifier */
+        $identifier = $document[$identifierField->name] ?? null;
 
         $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
-        $marshalledDocument['id'] = $identifier; // Solr currently does not support set another identifier then id: https://github.com/schranz-search/schranz-search/issues/87
+        $marshalledDocument['id'] = (string) $identifier; // Solr currently does not support set another identifier then id: https://github.com/schranz-search/schranz-search/issues/87
 
         $update = $this->client->createUpdate();
         $indexDocument = $update->createDocument($marshalledDocument);
@@ -44,7 +46,7 @@ final class SolrIndexer implements IndexerInterface
             return null;
         }
 
-        return new SyncTask(null);
+        return new SyncTask($document);
     }
 
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
