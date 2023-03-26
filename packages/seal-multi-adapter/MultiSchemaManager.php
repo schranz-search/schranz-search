@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\ReadWrite;
 
-use Schranz\Search\SEAL\Adapter\ConnectionInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Index;
-use Schranz\Search\SEAL\Search\Result;
-use Schranz\Search\SEAL\Search\Search;
+use Schranz\Search\SEAL\Task\AsyncTask;
+use Schranz\Search\SEAL\Task\MultiTask;
+use Schranz\Search\SEAL\Task\TaskInterface;
 
 /**
- * @internal This class should never be needed to be instanced manually.
+ * @internal this class should never be needed to be instanced manually
  */
 final class MultiSchemaManager implements SchemaManagerInterface
 {
@@ -18,7 +20,8 @@ final class MultiSchemaManager implements SchemaManagerInterface
      */
     public function __construct(
         public readonly iterable $schemaManagers,
-    ) {}
+    ) {
+    }
 
     public function existIndex(Index $index): bool
     {
@@ -30,17 +33,46 @@ final class MultiSchemaManager implements SchemaManagerInterface
         return $existIndex;
     }
 
-    public function dropIndex(Index $index): void
+    public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
+        $tasks = [];
+
         foreach ($this->schemaManagers as $schemaManager) {
-            $schemaManager->dropIndex($index);
+            $task = $schemaManager->dropIndex($index, $options);
+
+            if ($task instanceof TaskInterface) {
+                $tasks[] = $task;
+            }
         }
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new AsyncTask(function () use ($tasks): void {
+            $multiTask = new MultiTask($tasks);
+            $multiTask->wait();
+        });
     }
 
-    public function createIndex(Index $index): void
+    public function createIndex(Index $index, array $options = []): ?TaskInterface
     {
+        $tasks = [];
         foreach ($this->schemaManagers as $schemaManager) {
-            $schemaManager->createIndex($index);
+            $task = $schemaManager->createIndex($index, $options);
+
+            if ($task instanceof TaskInterface) {
+                $tasks[] = $task;
+            }
         }
+
+        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new AsyncTask(function () use ($tasks): void {
+            $multiTask = new MultiTask($tasks);
+            $multiTask->wait();
+        });
     }
 }
