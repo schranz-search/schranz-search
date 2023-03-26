@@ -14,7 +14,7 @@ final class MemoryAdapter implements AdapterInterface
     public function __construct(
         private readonly SchemaManagerInterface $schemaManager = new MemorySchemaManager(),
         private readonly IndexerInterface $indexer = new MemoryIndexer(),
-        private readonly SearcherInterface $searcher = new MemorySearcher()
+        private readonly SearcherInterface $searcher = new MemorySearcher(),
     ) {
     }
 
