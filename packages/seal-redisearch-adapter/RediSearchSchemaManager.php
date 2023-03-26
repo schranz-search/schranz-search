@@ -1,20 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
-use Redis;
-use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
-use Solarium\Core\Client\Request;
-use Solarium\QueryType\Server\Collections\Result\ClusterStatusResult;
 
 final class RediSearchSchemaManager implements SchemaManagerInterface
 {
     public function __construct(
-        private readonly Redis $client,
+        private readonly \Redis $client,
     ) {
     }
 
@@ -23,7 +22,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         try {
             $indexInfo = $this->client->rawCommand('FT.INFO', $index->name);
         } catch (\RedisException $e) {
-            if ($e->getMessage() !== 'Unknown Index name') {
+            if ('Unknown Index name' !== $e->getMessage()) {
                 throw $e;
             }
 
@@ -36,7 +35,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
     public function dropIndex(Index $index, array $options = []): ?TaskInterface
     {
         $dropIndex = $this->client->rawCommand('FT.DROPINDEX', $index->name);
-        if ($dropIndex === false) {
+        if (false === $dropIndex) {
             throw $this->createRedisLastErrorException();
         }
 
@@ -55,7 +54,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         foreach ($indexFields as $name => $indexField) {
             $properties[] = $indexField['jsonPath'];
             $properties[] = 'AS';
-            $properties[] = str_replace('.', '__', $name);
+            $properties[] = \str_replace('.', '__', $name);
             $properties[] = $indexField['type'];
 
             if (!$indexField['searchable'] && !$indexField['filterable']) { // TODO check if we can make something filterable but not searchable
@@ -79,7 +78,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
             ...$properties,
         );
 
-        if ($createIndex === false) {
+        if (false === $createIndex) {
             throw $this->createRedisLastErrorException();
         }
 
@@ -93,7 +92,13 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
     /**
      * @param Field\AbstractField[] $fields
      *
-     * @return array<string, mixed>
+     * @return array<string, array{
+     *     jsonPath: string,
+     *     type: string,
+     *     searchable: bool,
+     *     sortable: bool,
+     *     filterable: bool,
+     * }>
      */
     private function createJsonFields(array $fields, string $prefix = '', string $jsonPathPrefix = '$.'): array
     {
@@ -141,15 +146,15 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
                     'filterable' => $field->filterable,
                 ],
                 $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createJsonFields($field->fields, $name . '.', $jsonPath . '.')),
-                $field instanceof Field\TypedField => array_map(function($fields, $type) use ($name, &$indexFields, $jsonPath, $field) {
+                $field instanceof Field\TypedField => \array_map(function ($fields, $type) use ($name, &$indexFields, $jsonPath, $field) {
                     $newJsonPath = $jsonPath . '.' . $type;
                     if ($field->multiple) {
-                        $newJsonPath = substr($jsonPath, 0, -3) . '.' . $type . '[*]';
+                        $newJsonPath = \substr($jsonPath, 0, -3) . '.' . $type . '[*]';
                     }
 
                     $indexFields = \array_replace($indexFields, $this->createJsonFields($fields, $name . '.' . $type . '.', $newJsonPath . '.'));
                 }, $field->types, \array_keys($field->types)),
-                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
         }
 
@@ -161,6 +166,6 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         $lastError = $this->client->getLastError();
         $this->client->clearLastError();
 
-        return new \RuntimeException('Redis: ' . $lastError);
+        return new \RedisException('Redis: ' . $lastError);
     }
 }

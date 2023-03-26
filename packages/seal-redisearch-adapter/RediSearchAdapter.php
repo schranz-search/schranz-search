@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
-use Redis;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
@@ -10,7 +11,6 @@ use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class RediSearchAdapter implements AdapterInterface
 {
-
     private readonly SchemaManagerInterface $schemaManager;
 
     private readonly IndexerInterface $indexer;
@@ -18,7 +18,7 @@ final class RediSearchAdapter implements AdapterInterface
     private readonly SearcherInterface $searcher;
 
     public function __construct(
-        private readonly Redis $client,
+        \Redis $client,
         ?SchemaManagerInterface $schemaManager = null,
         ?IndexerInterface $indexer = null,
         ?SearcherInterface $searcher = null,

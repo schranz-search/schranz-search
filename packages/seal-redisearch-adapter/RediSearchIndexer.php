@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
-use Redis;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
-use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
 final class RediSearchIndexer implements IndexerInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
-        private readonly Redis $client,
+        private readonly \Redis $client,
     ) {
         $this->marshaller = new Marshaller();
     }
@@ -23,19 +24,19 @@ final class RediSearchIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        /** @var string|null $identifier */
-        $identifier = ((string) $document[$identifierField->name]) ?? null;
+        /** @var string|int|null $identifier */
+        $identifier = $document[$identifierField->name] ?? null;
 
         $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
 
         $jsonSet = $this->client->rawCommand(
             'JSON.SET',
-            $index->name . ':' . $identifier,
+            $index->name . ':' . ((string) $identifier),
             '$',
-            json_encode($marshalledDocument),
+            \json_encode($marshalledDocument, \JSON_THROW_ON_ERROR),
         );
 
-        if ($jsonSet === false) {
+        if (false === $jsonSet) {
             throw $this->createRedisLastErrorException();
         }
 
@@ -43,7 +44,7 @@ final class RediSearchIndexer implements IndexerInterface
             return null;
         }
 
-        return new SyncTask(null);
+        return new SyncTask($document);
     }
 
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
@@ -53,7 +54,7 @@ final class RediSearchIndexer implements IndexerInterface
             $index->name . ':' . $identifier,
         );
 
-        if ($jsonDel === false) {
+        if (false === $jsonDel) {
             throw $this->createRedisLastErrorException();
         }
 

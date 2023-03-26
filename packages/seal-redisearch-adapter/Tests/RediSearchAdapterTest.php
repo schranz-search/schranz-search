@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\RediSearch\Tests;
 
 use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapter;
