@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch\Tests;
 
+use OpenSearch\Client;
 use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchSchemaManager;
 use Schranz\Search\SEAL\Testing\AbstractSchemaManagerTestCase;
 use Schranz\Search\SEAL\Testing\TestingHelper;
 
 class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
 {
-    private static $client;
+    private static Client $client;
 
     public static function setUpBeforeClass(): void
     {
@@ -91,7 +94,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                             'media' => [
                                 'type' => 'integer',
                                 'index' => false,
-                                'doc_values' => false
+                                'doc_values' => false,
                             ],
                             'title' => [
                                 'type' => 'text',

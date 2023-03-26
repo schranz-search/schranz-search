@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
-use OpenSearch\ClientBuilder;
 use OpenSearch\Client;
+use OpenSearch\ClientBuilder;
 use Psr\Container\ContainerInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -14,7 +16,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 class OpensearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null
+        private readonly ?ContainerInterface $container = null,
     ) {
     }
 
@@ -30,14 +32,14 @@ class OpensearchAdapterFactory implements AdapterFactoryInterface
      *
      * @param array{
      *     host: string,
-     *     port: ?int,
-     *     user: ?string,
-     *     pass: ?string,
+     *     port?: int,
+     *     user?: string,
+     *     pass?: string,
      * } $dsn
      */
     public function createClient(array $dsn): Client
     {
-        if (!isset($dsn['host'])) {
+        if ('' === $dsn['host']) {
             $client = $this->container?->get(Client::class);
 
             if (!$client instanceof Client) {

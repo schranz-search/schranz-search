@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
@@ -15,38 +17,39 @@ use Schranz\Search\SEAL\Search\Search;
 
 final class OpensearchSearcher implements SearcherInterface
 {
-    private Marshaller $marshaller;
+    private readonly Marshaller $marshaller;
 
     public function __construct(
         private readonly Client $client,
     ) {
         $this->marshaller = new Marshaller();
     }
+
     public function search(Search $search): Result
     {
         // optimized single document query
         if (
-            count($search->indexes) === 1
-            && count($search->filters) === 1
+            1 === \count($search->indexes)
+            && 1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
-            && $search->offset === 0
-            && $search->limit === 1
+            && 0 === $search->offset
+            && 1 === $search->limit
         ) {
             try {
                 $searchResult = $this->client->get([
                     'index' => $search->indexes[\array_key_first($search->indexes)]->name,
                     'id' => $search->filters[0]->identifier,
                 ]);
-            } catch (Missing404Exception $e) {
+            } catch (Missing404Exception) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
-                    0
+                    0,
                 );
             }
 
             return new Result(
                 $this->hitsToDocuments($search->indexes, [$searchResult]),
-                1
+                1,
             );
         }
 
@@ -70,7 +73,7 @@ final class OpensearchSearcher implements SearcherInterface
             };
         }
 
-        if (count($query) === 0) {
+        if ([] === $query) {
             $query['match_all'] = new \stdClass();
         }
 
@@ -84,7 +87,7 @@ final class OpensearchSearcher implements SearcherInterface
             'query' => $query,
         ];
 
-        if ($search->offset) {
+        if (0 !== $search->offset) {
             $body['from'] = $search->offset;
         }
 
@@ -93,7 +96,7 @@ final class OpensearchSearcher implements SearcherInterface
         }
 
         $searchResult = $this->client->search([
-            'index' => implode(',', $indexesNames),
+            'index' => \implode(',', $indexesNames),
             'body' => $body,
         ]);
 
@@ -105,9 +108,9 @@ final class OpensearchSearcher implements SearcherInterface
 
     /**
      * @param Index[] $indexes
-     * @param array<string, mixed> $searchResult
+     * @param array<array<string, mixed>> $hits
      *
-     * @return \Generator<array<string, mixed>>
+     * @return \Generator<int, array<string, mixed>>
      */
     private function hitsToDocuments(array $indexes, array $hits): \Generator
     {
@@ -116,9 +119,10 @@ final class OpensearchSearcher implements SearcherInterface
             $indexesByInternalName[$index->name] = $index;
         }
 
+        /** @var array{_index: string, _source: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
             $index = $indexesByInternalName[$hit['_index']] ?? null;
-            if ($index === null) {
+            if (!$index instanceof Index) {
                 throw new \RuntimeException('SchemaMetadata for Index "' . $hit['_index'] . '" not found.');
             }
 
@@ -126,6 +130,9 @@ final class OpensearchSearcher implements SearcherInterface
         }
     }
 
+    /**
+     * @param Index[] $indexes
+     */
     private function getFilterField(array $indexes, string $name): string
     {
         foreach ($indexes as $index) {
@@ -137,7 +144,7 @@ final class OpensearchSearcher implements SearcherInterface
                 }
 
                 return $name;
-            } catch (FieldByPathNotFoundException $e) {
+            } catch (FieldByPathNotFoundException) {
                 // ignore when field is not found and use go to next index instead
             }
         }

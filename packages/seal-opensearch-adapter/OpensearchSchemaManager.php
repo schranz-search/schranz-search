@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
@@ -70,7 +72,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
             match (true) {
                 $field instanceof Field\IdentifierField => $properties[$name] = [
                     'type' => 'keyword',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\TextField => $properties[$name] = \array_replace([
@@ -87,22 +89,22 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                 ] : []),
                 $field instanceof Field\BooleanField => $properties[$name] = [
                     'type' => 'boolean',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\DateTimeField => $properties[$name] = [
                     'type' => 'date',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\IntegerField => $properties[$name] = [
                     'type' => 'integer',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\FloatField => $properties[$name] = [
                     'type' => 'float',
-                    'index' => $field->searchable || $field->filterable, // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
+                    'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
@@ -110,7 +112,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                     'properties' => $this->createPropertiesMapping($field->fields),
                 ],
                 $field instanceof Field\TypedField => $properties = \array_replace($properties, $this->createTypedFieldMapping($name, $field)),
-                default => throw new \RuntimeException(sprintf('Field type "%s" is not supported.', get_class($field))),
+                default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
         }
 
@@ -127,7 +129,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         foreach ($field->types as $type => $fields) {
             $typedProperties[$type] = [
                 'type' => 'object',
-                'properties' => $this->createPropertiesMapping($fields)
+                'properties' => $this->createPropertiesMapping($fields),
             ];
 
             if ($field->multiple) {
