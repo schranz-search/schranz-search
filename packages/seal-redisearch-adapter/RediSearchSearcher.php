@@ -11,6 +11,9 @@ use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 
+/**
+ * @experimental
+ */
 final class RediSearchSearcher implements SearcherInterface
 {
     private readonly Marshaller $marshaller;

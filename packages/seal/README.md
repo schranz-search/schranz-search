@@ -42,7 +42,7 @@ The following adapters are available:
  - [MeilisearchAdapter](../seal-meilisearch-adapter): `schranz-search/seal-meilisearch-adapter`
  - [AlgoliaAdapter](../seal-algolia-adapter): `schranz-search/seal-algolia-adapter`
  - [SolrAdapter](../seal-solr-adapter): `schranz-search/seal-solr-adapter`
- - [RediSearchAdapter](../seal-redisearch-adapter): `schranz-search/seal-redisearch-adapter`
+ - [RediSearchAdapter](../seal-redisearch-adapter): `schranz-search/seal-redisearch-adapter` (experimental)
  - [TypesenseAdapter](../seal-typesense-adapter): `schranz-search/seal-typesense-adapter`
  - ... more coming soon
 
