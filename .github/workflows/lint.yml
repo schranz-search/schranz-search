@@ -1,0 +1,75 @@
+name: Lint
+
+on:
+    pull_request:
+    push:
+        branches:
+            - '[0-9]+.x'
+            - '[0-9]+.[0-9]+'
+
+jobs:
+    seal-core:
+        name: SEAL Core
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal'
+
+    memory-adapter:
+        name: Memory Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-memory-adapter'
+
+    read-write-adapter:
+        name: Read Write Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-read-write-adapter'
+
+    multi-adapter:
+        name: Read Write Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-multi-adapter'
+
+    elasticsearch-adapter:
+        name: Elasticsearch Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-elasticsearch-adapter'
+
+    opensearch-adapter:
+        name: Opensearch Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-opensearch-adapter'
+
+    meilisearch-adapter:
+        name: Meilisearch Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-meilisearch-adapter'
+
+    algolia-adapter:
+        name: Algolia Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-algolia-adapter'
+
+    redisearch-adapter:
+        name: RediSearch Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-redisearch-adapter'
+
+    typesense-adapter:
+        name: Typesense Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-typesense-adapter'
+
+    solr-adapter:
+        name: Solr Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-solr-adapter'

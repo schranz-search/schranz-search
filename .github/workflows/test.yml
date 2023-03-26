@@ -43,13 +43,6 @@ jobs:
             directory: 'packages/seal-meilisearch-adapter'
             docker: true
 
-    typesense-adapter:
-        name: Typesense Adapter
-        uses: ./.github/workflows/callable-test.yml
-        with:
-            directory: 'packages/seal-typesense-adapter'
-            docker: true
-
     algolia-adapter:
         name: Algolia Adapter
         uses: ./.github/workflows/callable-test.yml
@@ -73,6 +66,13 @@ jobs:
             directory: 'packages/seal-solr-adapter'
             docker: true
         secrets: inherit
+
+    typesense-adapter:
+        name: Typesense Adapter
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: 'packages/seal-typesense-adapter'
+            docker: true
 
     symfony-integration-example:
         name: Symfony Integration Example
