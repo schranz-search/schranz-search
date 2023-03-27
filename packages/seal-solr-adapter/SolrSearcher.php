@@ -22,7 +22,7 @@ final class SolrSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new FlattenMarshaller();
+        $this->marshaller = new FlattenMarshaller(addRawTextField: true);
     }
 
     public function search(Search $search): Result
