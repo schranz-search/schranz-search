@@ -16,12 +16,4 @@ class RediSearchIndexerTest extends AbstractIndexerTestCase
 
         parent::setUpBeforeClass();
     }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testSaveDeleteIdentifierCondition(): void
-    {
-        $this->markTestSkipped('Not supported by RediSearch: https://github.com/schranz-search/schranz-search/issues/92');
-    }
 }

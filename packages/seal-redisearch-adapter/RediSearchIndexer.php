@@ -10,9 +10,6 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-/**
- * @experimental
- */
 final class RediSearchIndexer implements IndexerInterface
 {
     private readonly Marshaller $marshaller;
@@ -20,7 +17,9 @@ final class RediSearchIndexer implements IndexerInterface
     public function __construct(
         private readonly \Redis $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            addRawFilterTextField: true,
+        );
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface
