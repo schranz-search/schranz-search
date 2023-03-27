@@ -10,9 +10,6 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-/**
- * @experimental
- */
 final class RediSearchIndexer implements IndexerInterface
 {
     private readonly Marshaller $marshaller;

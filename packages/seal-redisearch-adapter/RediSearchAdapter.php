@@ -9,9 +9,6 @@ use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
-/**
- * @experimental
- */
 final class RediSearchAdapter implements AdapterInterface
 {
     private readonly SchemaManagerInterface $schemaManager;

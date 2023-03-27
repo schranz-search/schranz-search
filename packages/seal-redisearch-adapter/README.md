@@ -23,10 +23,6 @@ Use [composer](https://getcomposer.org/) for install the package:
 composer require schranz-search/seal schranz-search/seal-redisearch-adapter
 ```
 
-> **Warning**
-> Because of some [issues](https://github.com/schranz-search/schranz-search/issues/92) on RediSearch side, this Adapter
-> is in a stage which we can not recommend it to use it for production, and so marked as `@experimental`.
-
 ## Usage.
 
 The following code shows how to create an Engine using this Adapter:
