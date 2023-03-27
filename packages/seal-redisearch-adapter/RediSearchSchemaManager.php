@@ -103,14 +103,16 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
      *     filterable: bool,
      * }>
      */
-    private function createJsonFields(array $fields, string $prefix = '', string $jsonPathPrefix = '$.'): array
+    private function createJsonFields(array $fields, string $prefix = '', string $jsonPathPrefix = '$'): array
     {
         $indexFields = [];
 
         foreach ($fields as $name => $field) {
-            $jsonPath = $jsonPathPrefix . $name;
+            $jsonPath = $jsonPathPrefix . '[\'' . $name . '\']';
+            $jsonPathRaw = $jsonPathPrefix . '[\'' . $name . '.raw\']';
             if ($field->multiple) {
                 $jsonPath .= '[*]';
+                $jsonPathRaw .= '[*]';
             }
             $name = $prefix . $name;
 
@@ -122,18 +124,28 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
             match (true) {
                 $field instanceof Field\IdentifierField => $indexFields[$name] = [
                     'jsonPath' => $jsonPath,
-                    'type' => 'TEXT',
+                    'type' => 'TAG',
                     'searchable' => $field->searchable,
                     'sortable' => $field->sortable,
                     'filterable' => $field->filterable,
                 ],
-                $field instanceof Field\TextField, $field instanceof Field\DateTimeField => $indexFields[$name] = [
-                    'jsonPath' => $jsonPath,
-                    'type' => 'TEXT',
-                    'searchable' => $field->searchable,
-                    'sortable' => $field->sortable,
-                    'filterable' => $field->filterable,
-                ],
+                $field instanceof Field\TextField, $field instanceof Field\DateTimeField => $indexFields = \array_replace($indexFields, $field->searchable ? [
+                    $name => [
+                        'jsonPath' => $jsonPath,
+                        'type' => 'TEXT',
+                        'searchable' => $field->searchable,
+                        'sortable' => false,
+                        'filterable' => false,
+                    ],
+                ] : [], $field->filterable || $field->sortable ? [
+                    $name . '.raw' => [
+                        'jsonPath' => $jsonPathRaw,
+                        'type' => 'TAG',
+                        'searchable' => false,
+                        'sortable' => $field->sortable,
+                        'filterable' => $field->filterable,
+                    ],
+                ] : []),
                 $field instanceof Field\BooleanField => $indexFields[$name] = [
                     'jsonPath' => $jsonPath,
                     'type' => 'TAG',
@@ -148,14 +160,14 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
                     'sortable' => $field->sortable,
                     'filterable' => $field->filterable,
                 ],
-                $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createJsonFields($field->fields, $name . '.', $jsonPath . '.')),
+                $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createJsonFields($field->fields, $name, $jsonPath)),
                 $field instanceof Field\TypedField => \array_map(function ($fields, $type) use ($name, &$indexFields, $jsonPath, $field) {
-                    $newJsonPath = $jsonPath . '.' . $type;
+                    $newJsonPath = $jsonPath . '[\'' . $type . '\']';
                     if ($field->multiple) {
-                        $newJsonPath = \substr($jsonPath, 0, -3) . '.' . $type . '[*]';
+                        $newJsonPath = \substr($jsonPath, 0, -3) . '[\'' . $type . '\'][*]';
                     }
 
-                    $indexFields = \array_replace($indexFields, $this->createJsonFields($fields, $name . '.' . $type . '.', $newJsonPath . '.'));
+                    $indexFields = \array_replace($indexFields, $this->createJsonFields($fields, $name . '.' . $type . '.', $newJsonPath));
                 }, $field->types, \array_keys($field->types)),
                 default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };

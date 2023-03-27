@@ -6,6 +6,8 @@ namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
+use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\Result;
@@ -21,7 +23,7 @@ final class RediSearchSearcher implements SearcherInterface
     public function __construct(
         private readonly \Redis $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(addRawTextField: true);
     }
 
     public function search(Search $search): Result
@@ -65,10 +67,10 @@ final class RediSearchSearcher implements SearcherInterface
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\SearchCondition => $filters[] = $this->escape($filter->query),
-                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':(' . $this->escape($filter->identifier) . ')',
-                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':(' . $this->escape($filter->value) . ')',
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($search->indexes, $filter->field) . ':(' . $this->escape($filter->value) . ')',
+                $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escape($filter->query))) . '%%', // levenshtein of 2 per word
+                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escape($filter->identifier) . '}',
+                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escape($filter->value) . '}',
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escape($filter->value) . '}',
                 $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[(' . $this->escape($filter->value, true) . ' inf]',
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escape($filter->value, true) . ' inf]',
                 $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf (' . $this->escape($filter->value, true) . ']',
@@ -158,6 +160,20 @@ final class RediSearchSearcher implements SearcherInterface
      */
     private function getFilterField(array $indexes, string $name): string
     {
+        foreach ($indexes as $index) {
+            try {
+                $field = $index->getFieldByPath($name);
+
+                if ($field instanceof Field\TextField) {
+                    $name .= '__raw';
+                }
+
+                break;
+            } catch (FieldByPathNotFoundException) {
+                // ignore when field is not found and use go to next index instead
+            }
+        }
+
         return \str_replace('.', '__', $name);
     }
 
