@@ -15,7 +15,7 @@ final class Marshaller
 {
     public function __construct(
         private readonly bool $dateAsInteger = false,
-        private readonly bool $addRawTextField = false,
+        private readonly bool $addRawFilterTextField = false,
     ) {
     }
 
@@ -45,7 +45,7 @@ final class Marshaller
                 default => $rawDocument[$name] = $document[$field->name],
             };
 
-            if ($this->addRawTextField &&
+            if ($this->addRawFilterTextField &&
                 $field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)
             ) {
                 $rawDocument[$name . '.raw'] = $rawDocument[$name];

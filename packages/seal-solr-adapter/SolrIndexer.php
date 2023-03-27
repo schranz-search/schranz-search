@@ -18,7 +18,7 @@ final class SolrIndexer implements IndexerInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new FlattenMarshaller(addRawTextField: true);
+        $this->marshaller = new FlattenMarshaller(addRawFilterTextField: true);
     }
 
     public function save(Index $index, array $document, array $options = []): ?TaskInterface

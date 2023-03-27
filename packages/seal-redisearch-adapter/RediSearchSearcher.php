@@ -20,7 +20,7 @@ final class RediSearchSearcher implements SearcherInterface
     public function __construct(
         private readonly \Redis $client,
     ) {
-        $this->marshaller = new Marshaller(addRawTextField: true);
+        $this->marshaller = new Marshaller(addRawFilterTextField: true);
     }
 
     public function search(Search $search): Result

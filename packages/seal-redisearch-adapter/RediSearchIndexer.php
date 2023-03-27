@@ -18,7 +18,7 @@ final class RediSearchIndexer implements IndexerInterface
         private readonly \Redis $client,
     ) {
         $this->marshaller = new Marshaller(
-            addRawTextField: true,
+            addRawFilterTextField: true,
         );
     }
 

@@ -19,7 +19,7 @@ class FlattenMarshallerTest extends TestCase
      */
     public function testMarshall(array $document, array $flattenDocument, array $fields): void
     {
-        $marshaller = new FlattenMarshaller(addRawTextField: true);
+        $marshaller = new FlattenMarshaller(addRawFilterTextField: true);
 
         $marshalledDocument = $marshaller->marshall($fields, $document);
 
@@ -35,7 +35,7 @@ class FlattenMarshallerTest extends TestCase
      */
     public function testUnmarshall(array $document, array $flattenDocument, array $fields): void
     {
-        $marshaller = new FlattenMarshaller(addRawTextField: true);
+        $marshaller = new FlattenMarshaller(addRawFilterTextField: true);
 
         $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
         $unmarshalledDocument = $marshaller->unmarshall($fields, $flattenDocument);

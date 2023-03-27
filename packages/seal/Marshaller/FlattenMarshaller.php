@@ -16,7 +16,7 @@ use Schranz\Search\SEAL\Schema\Field;
 final class FlattenMarshaller
 {
     public function __construct(
-        private readonly bool $addRawTextField = false,
+        private readonly bool $addRawFilterTextField = false,
     ) {
     }
 
@@ -65,7 +65,7 @@ final class FlattenMarshaller
                 default => null,
             };
 
-            if ($this->addRawTextField
+            if ($this->addRawFilterTextField
                 && $field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)
             ) {
                 $raw[$name . '.raw'] = $raw[$name];
