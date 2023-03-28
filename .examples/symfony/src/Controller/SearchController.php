@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Schranz\Search\SEAL\Engine;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,9 +42,9 @@ HTML
     }
 
     #[Route('/algolia', name: 'algolia')]
-    public function algolia(AdapterInterface $algoliaAdapter): Response
+    public function algolia(Engine $algoliaEngine): Response
     {
-        $class = $algoliaAdapter::class;
+        $class = $this->getAdapterClass($algoliaEngine);
 
         return new Response(
             <<<HTML
@@ -61,9 +62,9 @@ HTML
     }
 
     #[Route('/meilisearch', name: 'meilisearch')]
-    public function meilisearch(AdapterInterface $meilisearchAdapter): Response
+    public function meilisearch(Engine $meilisearchEngine): Response
     {
-        $class = $meilisearchAdapter::class;
+        $class = $this->getAdapterClass($meilisearchEngine);
 
         return new Response(
             <<<HTML
@@ -81,9 +82,9 @@ HTML
     }
 
     #[Route('/elasticsearch', name: 'elasticsearch')]
-    public function elasticsearch(AdapterInterface $elasticsearchAdapter): Response
+    public function elasticsearch(Engine $elasticsearchEngine): Response
     {
-        $class = $elasticsearchAdapter::class;
+        $class = $this->getAdapterClass($elasticsearchEngine);
 
         return new Response(
             <<<HTML
@@ -101,9 +102,9 @@ HTML
     }
 
     #[Route('/memory', name: 'memory')]
-    public function memory(AdapterInterface $memoryAdapter): Response
+    public function memory(Engine $memoryEngine): Response
     {
-        $class = $memoryAdapter::class;
+        $class = $this->getAdapterClass($memoryEngine);
 
         return new Response(
             <<<HTML
@@ -121,9 +122,9 @@ HTML
     }
 
     #[Route('/opensearch', name: 'opensearch')]
-    public function opensearch(AdapterInterface $opensearchAdapter): Response
+    public function opensearch(Engine $opensearchEngine): Response
     {
-        $class = $opensearchAdapter::class;
+        $class = $this->getAdapterClass($opensearchEngine);
 
         return new Response(
             <<<HTML
@@ -141,9 +142,9 @@ HTML
     }
 
     #[Route('/solr', name: 'solr')]
-    public function solr(AdapterInterface $solrAdapter): Response
+    public function solr(Engine $solrEngine): Response
     {
-        $class = $solrAdapter::class;
+        $class = $this->getAdapterClass($solrEngine);
 
         return new Response(
             <<<HTML
@@ -161,9 +162,9 @@ HTML
     }
 
     #[Route('/redisearch', name: 'redisearch')]
-    public function redisearch(AdapterInterface $redisearchAdapter): Response
+    public function redisearch(Engine $redisearchEngine): Response
     {
-        $class = $redisearchAdapter::class;
+        $class = $this->getAdapterClass($redisearchEngine);
 
         return new Response(
             <<<HTML
@@ -181,9 +182,9 @@ HTML
     }
 
     #[Route('/typesense', name: 'typesense')]
-    public function typesense(AdapterInterface $typesenseAdapter): Response
+    public function typesense(Engine $typesenseEngine): Response
     {
-        $class = $typesenseAdapter::class;
+        $class = $this->getAdapterClass($typesenseEngine);
 
         return new Response(
             <<<HTML
@@ -201,9 +202,9 @@ HTML
     }
 
     #[Route('/multi', name: 'multi')]
-    public function multi(AdapterInterface $multiAdapter): Response
+    public function multi(Engine $multiEngine): Response
     {
-        $class = $multiAdapter::class;
+        $class = $this->getAdapterClass($multiEngine);
 
         return new Response(
             <<<HTML
@@ -220,10 +221,10 @@ HTML
         );
     }
 
-    #[Route('/read-write', name: 'read_write')]
-    public function readWrite(AdapterInterface $readWriteAdapter): Response
+    #[Route('/read-write', name: 'read-write')]
+    public function readWrite(Engine $readWriteEngine): Response
     {
-        $class = $readWriteAdapter::class;
+        $class = $this->getAdapterClass($readWriteEngine);
 
         return new Response(
             <<<HTML
@@ -238,5 +239,17 @@ HTML
             </html>
 HTML
         );
+    }
+
+    private function getAdapterClass(Engine $engine): string
+    {
+        $reflection = new \ReflectionClass($engine);
+        $propertyReflection = $reflection->getProperty('adapter');
+        $propertyReflection->setAccessible(true);
+
+        /** @var AdapterInterface $object */
+        $object = $propertyReflection->getValue($engine);
+
+        return $object::class;
     }
 }

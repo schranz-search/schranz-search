@@ -105,7 +105,7 @@ return static function (ContainerConfigurator $container) {
             ->set('schranz_search.read_write.adapter_factory', ReadWriteAdapterFactory::class)
             ->args([
                 service('service_container'),
-                'schranz_search.connection.',
+                'schranz_search.adapter.',
             ])
             ->tag('schranz_search.adapter_factory', ['name' => ReadWriteAdapterFactory::getName()]);
     }
@@ -115,7 +115,7 @@ return static function (ContainerConfigurator $container) {
             ->set('schranz_search.multi.adapter_factory', MultiAdapterFactory::class)
             ->args([
                 service('service_container'),
-                'schranz_search.connection.',
+                'schranz_search.adapter.',
             ])
             ->tag('schranz_search.adapter_factory', ['name' => MultiAdapterFactory::getName()]);
     }

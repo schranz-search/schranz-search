@@ -54,29 +54,50 @@ The following code shows how to configure the package:
 # config/packages/schranz_search.yaml
 
 schranz_search:
-    connections:
+    schemas:
+        app:
+            dir: '%kernel.project_dir%/config/schemas'
+            # engine: 'default'
+    engines:
+        default:
+            adapter: '%env(ENGINE_URL)%'
+```
+
+A more complex configuration can be here found:
+
+```yaml
+# config/packages/schranz_search.yaml
+
+schranz_search:
+    schemas:
+        app:
+            dir: '%kernel.project_dir%/config/schemas/app'
+        other:
+            dir: '%kernel.project_dir%/config/schemas/other'
+            engine: algolia
+    engines:
         algolia:
-            dsn: 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%'
+            adapter: 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%'
         elasticsearch:
-            dsn: 'elasticsearch://127.0.0.1:9200'
+            adapter: 'elasticsearch://127.0.0.1:9200'
         meilisearch:
-            dsn: 'meilisearch://127.0.0.1:7700'
+            adapter: 'meilisearch://127.0.0.1:7700'
         memory:
-            dsn: 'memory://'
+            adapter: 'memory://'
         opensearch:
-            dsn: 'opensearch://127.0.0.1:9200'
+            adapter: 'opensearch://127.0.0.1:9200'
         redisearch:
-            dsn: 'redis://supersecure@127.0.0.1:6379'
+            adapter: 'redis://supersecure@127.0.0.1:6379'
         solr:
-            dsn: 'solr://127.0.0.1:8983'
+            adapter: 'solr://127.0.0.1:8983'
         typesense:
-            dsn: 'typesense://S3CR3T@127.0.0.1:8108'
+            adapter: 'typesense://S3CR3T@127.0.0.1:8108'
 
         # ...
         multi:
-            dsn: 'multi://elasticsearch?adapters[]=opensearch'
+            adapter: 'multi://elasticsearch?adapters[]=opensearch'
         read-write:
-            dsn: 'read-write://elasticsearch?write=multi'
+            adapter: 'read-write://elasticsearch?write=multi'
 ```
 
 ## Authors
