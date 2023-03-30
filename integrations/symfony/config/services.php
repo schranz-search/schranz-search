@@ -15,11 +15,19 @@ use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
+use Schranz\Search\SEAL\EngineRegistry;
 
 /*
  * @internal
  */
 return static function (ContainerConfigurator $container) {
+    $container->services()
+        ->set('schranz_search.enginy_registry', EngineRegistry::class)
+        ->args([
+            tagged_iterator('schranz_search.engine', 'name'),
+        ])
+        ->alias(EngineRegistry::class, 'schranz_search.enginy_registry');
+
     $container->services()
         ->set('schranz_search.adapter_factory', AdapterFactory::class)
             ->args([
