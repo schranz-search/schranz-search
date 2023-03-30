@@ -9,6 +9,7 @@ use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
 use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
+use Schranz\Search\SEAL\Schema\Schema;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -84,7 +85,7 @@ class SearchBundle extends AbstractBundle
             $builder->register($schemaLoaderServiceId, PhpFileLoader::class)
                 ->setArguments([$dirs]);
 
-            $builder->register($schemaId, AdapterInterface::class)
+            $builder->register($schemaId, Schema::class)
                 ->setFactory([new Reference($schemaLoaderServiceId), 'load']);
 
             $builder->register($engineServiceId, Engine::class)

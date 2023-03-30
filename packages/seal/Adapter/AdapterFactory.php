@@ -12,15 +12,15 @@ final class AdapterFactory
     /**
      * @var array<string, AdapterFactoryInterface>
      */
-    private array $adapters;
+    private array $factories;
 
     /**
-     * @param iterable<string, AdapterFactoryInterface> $adapters
+     * @param iterable<string, AdapterFactoryInterface> $factories
      */
     public function __construct(
-        iterable $adapters,
+        iterable $factories,
     ) {
-        $this->adapters = [...$adapters];
+        $this->factories = [...$factories];
     }
 
     public function createAdapter(string $dsn): AdapterInterface
@@ -34,9 +34,9 @@ final class AdapterFactory
             );
         }
 
-        if (!isset($this->adapters[$adapterName])) {
+        if (!isset($this->factories[$adapterName])) {
             throw new \InvalidArgumentException(
-                'Unknown Search adapter: "' . $adapterName . '" available adapters are "' . \implode('", "', \array_keys($this->adapters)) . '".',
+                'Unknown Search adapter: "' . $adapterName . '" available adapters are "' . \implode('", "', \array_keys($this->factories)) . '".',
             );
         }
 
@@ -92,6 +92,6 @@ final class AdapterFactory
          * } $parsedDsn
          */
 
-        return $this->adapters[$adapterName]->createAdapter($parsedDsn);
+        return $this->factories[$adapterName]->createAdapter($parsedDsn);
     }
 }

@@ -22,11 +22,11 @@ use Schranz\Search\SEAL\EngineRegistry;
  */
 return static function (ContainerConfigurator $container) {
     $container->services()
-        ->set('schranz_search.enginy_registry', EngineRegistry::class)
+        ->set('schranz_search.engine_registry', EngineRegistry::class)
         ->args([
             tagged_iterator('schranz_search.engine', 'name'),
         ])
-        ->alias(EngineRegistry::class, 'schranz_search.enginy_registry');
+        ->alias(EngineRegistry::class, 'schranz_search.engine_registry');
 
     $container->services()
         ->set('schranz_search.adapter_factory', AdapterFactory::class)
@@ -106,6 +106,7 @@ return static function (ContainerConfigurator $container) {
             ])
             ->tag('schranz_search.adapter_factory', ['name' => TypesenseAdapterFactory::getName()]);
     }
+
     // ...
 
     if (\class_exists(ReadWriteAdapterFactory::class)) {

@@ -46,7 +46,7 @@ Additional Wrapper adapters:
 
 Creating your own adapter? Add the [`seal-php-adapter`](https://github.com/topics/seal-php-adapter) Topic to your Github Repository.
 
-## Usage.
+## Configuration
 
 The following code shows how to configure the package:
 
@@ -99,6 +99,43 @@ schranz_search:
         read-write:
             adapter: 'read-write://elasticsearch?write=multi'
 ```
+
+## Usage
+
+The default engine is available as `Engine`:
+
+```php
+class Some {
+    public function __construct(
+        private readonly \Schranz\Search\SEAL\Engine $engine,
+    ) {
+    }
+}
+```
+
+A specific engine is available under the config key prefix with `Engine`:
+
+```php
+class Some {
+    public function __construct(
+        private readonly \Schranz\Search\SEAL\Engine $algoliaEngine,
+    ) {
+    }
+}
+```
+
+Multiple engines can be accessed via the `EngineRegistry`:
+
+```php
+class Some {
+    public function __construct(
+        private readonly \Schranz\Search\SEAL\EngineRegistry $engineRegistry,
+    ) {
+    }
+}
+```
+
+How to create a `Schema` file and use your `Engine` can be found [SEAL Documentation](../../README.md#usage).
 
 ## Authors
 

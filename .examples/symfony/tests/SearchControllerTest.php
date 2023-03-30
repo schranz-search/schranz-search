@@ -26,6 +26,9 @@ class SearchControllerTest extends WebTestCase
             $this->assertSelectorTextContains('title', $node->text());
 
             $this->assertCount(1, $crawler->filter('h1'));
+            $h1 = $crawler->filter('h1')->first();
+
+            $this->assertStringContainsString(\str_replace('-', '', (string) $node->text()), $h1->text());
         });
     }
 }

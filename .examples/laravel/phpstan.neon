@@ -1,0 +1,6 @@
+parameters:
+    paths:
+        - app
+    level: max
+    excludePaths:
+        - vendor/*

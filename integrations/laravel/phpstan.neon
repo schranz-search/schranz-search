@@ -1,0 +1,9 @@
+parameters:
+    paths:
+        - .
+    level: max
+    excludePaths:
+        - vendor/*
+    ignoreErrors:
+        - '#Function resource_path not found#'
+        - '#Function config_path not found#'
