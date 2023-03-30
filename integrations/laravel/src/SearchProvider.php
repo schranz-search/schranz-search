@@ -106,7 +106,7 @@ class SearchProvider extends ServiceProvider
         }
 
         $this->app->singleton('schranz_search.engine_factory', function ($app) use ($engineServices) {
-            $engines = [];
+            $engines = []; // TODO use tagged like in adapter factories
             foreach ($engineServices as $name => $engineServiceId) {
                 $engines[$name] = $app->get($engineServiceId);
             }
