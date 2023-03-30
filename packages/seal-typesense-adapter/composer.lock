@@ -1086,12 +1086,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "f389d99cd45555648f3629195e0c5cd3328d3656"
+                "reference": "f312fd7fbd89ced06dfc79a5f5f88ac18b6040e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/f389d99cd45555648f3629195e0c5cd3328d3656",
-                "reference": "f389d99cd45555648f3629195e0c5cd3328d3656",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/f312fd7fbd89ced06dfc79a5f5f88ac18b6040e1",
+                "reference": "f312fd7fbd89ced06dfc79a5f5f88ac18b6040e1",
                 "shasum": ""
             },
             "require": {
@@ -1169,7 +1169,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-20T18:59:08+00:00"
+            "time": "2023-03-28T09:11:57+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -2042,12 +2042,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
+                "reference": "141f0fd9bad6885c3c892280237eacd59827e149"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/141f0fd9bad6885c3c892280237eacd59827e149",
+                "reference": "141f0fd9bad6885c3c892280237eacd59827e149",
                 "shasum": ""
             },
             "require": {
@@ -2097,7 +2097,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-24T10:28:16+00:00"
+            "time": "2023-03-28T14:23:17+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2476,12 +2476,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "75426870e2c4be6751886751f3e452ec1329adc4"
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/75426870e2c4be6751886751f3e452ec1329adc4",
-                "reference": "75426870e2c4be6751886751f3e452ec1329adc4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b65d59a059d3004a040c16a82e07bbdf6cfdd115",
+                "reference": "b65d59a059d3004a040c16a82e07bbdf6cfdd115",
                 "shasum": ""
             },
             "require": {
@@ -2555,7 +2555,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.6"
             },
             "funding": [
                 {
@@ -2571,7 +2571,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-23T14:30:08+00:00"
+            "time": "2023-03-27T11:43:46+00:00"
         },
         {
             "name": "rector/rector",
@@ -2579,12 +2579,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "093f3c06416dfcd803c2cfb9ab9dff8013a446d3"
+                "reference": "2b57174b3382ee65b2c22b6533e525fa3809b2d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/093f3c06416dfcd803c2cfb9ab9dff8013a446d3",
-                "reference": "093f3c06416dfcd803c2cfb9ab9dff8013a446d3",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/2b57174b3382ee65b2c22b6533e525fa3809b2d1",
+                "reference": "2b57174b3382ee65b2c22b6533e525fa3809b2d1",
                 "shasum": ""
             },
             "require": {
@@ -2633,7 +2633,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-26T00:33:56+00:00"
+            "time": "2023-03-28T19:24:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",

@@ -81,3 +81,11 @@ jobs:
             directory: '.examples/symfony'
             docker: true
         secrets: inherit
+
+    laravel-integration-example:
+        name: Laravel Integration Example
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: '.examples/symfony'
+            docker: true
+        secrets: inherit

@@ -80,6 +80,12 @@ jobs:
         with:
             directory: 'integrations/symfony'
 
+    laravel-integration:
+        name: Laravel Integration
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'integrations/laravel'
+
     symfony-integration-example:
         name: Symfony Integration Example
         uses: ./.github/workflows/callable-lint.yml

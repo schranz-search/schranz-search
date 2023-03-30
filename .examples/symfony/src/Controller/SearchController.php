@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class SearchController
 {
     #[Route('/', name: 'home')]
-    public function index(EngineRegistry $engineRegistry): Response
+    public function home(EngineRegistry $engineRegistry): Response
     {
-        $engineNames = implode(', ', \array_keys([...$engineRegistry->getEngines()]));
+        $engineNames = \implode(', ', \array_keys([...$engineRegistry->getEngines()]));
 
         return new Response(
             <<<HTML
@@ -25,6 +25,7 @@ class SearchController
                     <title>Search Engines</title>
                 </head>
                 <body>
+                    <h1>Adapters</h1>
                     <ul>
                         <li><a href="/algolia">Algolia</a></li>
                         <li><a href="/elasticsearch">Elasticsearch</a></li>
@@ -38,7 +39,7 @@ class SearchController
                         <li><a href="/multi">Multi</a></li>
                         <li><a href="/read-write">Read-Write</a></li>
                     </ul>
-                    
+
                     <div>
                         <strong>Registred Engines</strong>: $engineNames
                     </div>
