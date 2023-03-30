@@ -6,14 +6,17 @@ namespace App\Controller;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController
 {
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(EngineRegistry $engineRegistry): Response
     {
+        $engineNames = implode(', ', \array_keys([...$engineRegistry->getEngines()]));
+
         return new Response(
             <<<HTML
             <!doctype html>
@@ -35,9 +38,13 @@ class SearchController
                         <li><a href="/multi">Multi</a></li>
                         <li><a href="/read-write">Read-Write</a></li>
                     </ul>
+                    
+                    <div>
+                        <strong>Registred Engines</strong>: $engineNames
+                    </div>
                 </body>
             </html>
-HTML
+            HTML
         );
     }
 

@@ -91,7 +91,8 @@ class SearchBundle extends AbstractBundle
                 ->setArguments([
                     new Reference($adapterServiceId),
                     new Reference($schemaId),
-                ]);
+                ])
+                ->addTag('schranz_search.engine', ['name' => $name]);
 
             if ('default' === $name) {
                 $builder->setAlias(Engine::class, $engineServiceId);
@@ -104,6 +105,6 @@ class SearchBundle extends AbstractBundle
             );
         }
 
-        $container->import('../config/services.php');
+        $container->import(\dirname(__DIR__) . '/config/services.php');
     }
 }
