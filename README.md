@@ -97,7 +97,7 @@ Here we collect different search engines which are around and could be interesti
 - [OpenAI](#openai)
 - [Jina](#jina)
 
-Some more research links:
+#### Some more research links:
 
 - [https://alternativeto.net/software/meilisearch/](https://alternativeto.net/software/meilisearch/)
 - [https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines](https://github.com/awesome-selfhosted/awesome-selfhosted#search-engines)
@@ -113,9 +113,15 @@ Some more research links:
 - [https://solr.apache.org/guide/solr/latest/query-guide/dense-vector-search.html](https://solr.apache.org/guide/solr/latest/query-guide/dense-vector-search.html)
 - [https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)
 
-UI/UX related links:
+#### UI/UX related links:
 
 - [https://design4users.com/design-search-in-user-interfaces/](https://design4users.com/design-search-in-user-interfaces/)
+
+#### Optimization links:
+
+- [https://sites.google.com/site/kevinbouge/stopwords-lists](https://sites.google.com/site/kevinbouge/stopwords-lists)
+- [https://github.com/uschindler/german-decompounder](https://github.com/uschindler/german-decompounder)
+- [https://symfony.com/blog/migrating-symfony-com-search-engine-to-meilisearch](https://symfony.com/blog/migrating-symfony-com-search-engine-to-meilisearch)
 
 ### Elasticsearch
 
