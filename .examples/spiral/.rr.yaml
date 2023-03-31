@@ -1,0 +1,25 @@
+version: '2.7'
+rpc:
+    listen: 'tcp://127.0.0.1:6001'
+http:
+    address: '0.0.0.0:8080'
+    middleware:
+        - gzip
+        - static
+    static:
+        dir: public
+        forbid:
+            - .php
+            - .htaccess
+    pool:
+        num_workers: 1
+        supervisor:
+            max_worker_memory: 100
+server:
+    command: 'php app.php'
+    relay: pipes
+kv:
+    local:
+        driver: memory
+        config:
+            interval: 60
