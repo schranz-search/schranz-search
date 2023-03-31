@@ -1,3 +1,6 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
     paths:
         - app
@@ -5,5 +8,3 @@ parameters:
     level: max
     excludePaths:
         - vendor/*
-    ignoreErrors:
-        - '#Undefined variable: \$this#'

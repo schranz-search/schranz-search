@@ -7,10 +7,9 @@ namespace App\Endpoint\Web;
 use Exception;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineRegistry;
 use Spiral\Prototype\Traits\PrototypeTrait;
 use Spiral\Router\Annotation\Route;
-use Schranz\Search\SEAL\EngineRegistry;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Simple home page controller. It renders home page template and also provides
@@ -19,8 +18,9 @@ use Symfony\Component\HttpFoundation\Response;
 final class SearchController
 {
     /**
-     * Read more about Prototyping:
-     * @link https://spiral.dev/docs/basics-prototype/#installation
+     * Read more about Prototyping:.
+     *
+     * @see https://spiral.dev/docs/basics-prototype/#installation
      */
     use PrototypeTrait;
 
@@ -49,7 +49,6 @@ final class SearchController
         $this->multiEngine = $this->engineRegistry->getEngine('multi');
         $this->readWriteEngine = $this->engineRegistry->getEngine('read-write');
     }
-
 
     #[Route(route: '/', name: 'index')]
     public function index(): string
@@ -285,6 +284,6 @@ final class SearchController
     #[Route(route: '/exception', name: 'exception')]
     public function exception(): never
     {
-        throw new Exception('This is a test exception.');
+        throw new \Exception('This is a test exception.');
     }
 }

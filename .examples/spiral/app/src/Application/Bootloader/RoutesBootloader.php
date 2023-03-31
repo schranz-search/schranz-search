@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Bootloader;
 
+use App\Endpoint\Web\Middleware\LocaleSelector;
 use Spiral\Bootloader\Http\RoutesBootloader as BaseRoutesBootloader;
 use Spiral\Cookies\Middleware\CookiesMiddleware;
 use Spiral\Csrf\Middleware\CsrfMiddleware;
@@ -13,12 +14,11 @@ use Spiral\Http\Middleware\JsonPayloadMiddleware;
 use Spiral\Router\Bootloader\AnnotatedRoutesBootloader;
 use Spiral\Router\Loader\Configurator\RoutingConfigurator;
 use Spiral\Session\Middleware\SessionMiddleware;
-use App\Endpoint\Web\Middleware\LocaleSelector;
 
 /**
  * A bootloader that configures the application's routes and middleware.
  *
- * @link https://spiral.dev/docs/http-routing
+ * @see https://spiral.dev/docs/http-routing
  */
 final class RoutesBootloader extends BaseRoutesBootloader
 {

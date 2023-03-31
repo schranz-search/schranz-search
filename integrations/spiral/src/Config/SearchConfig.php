@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Schranz\Search\Integration\Spiral\Config;
 
 use Spiral\Core\InjectableConfig;
@@ -10,17 +12,13 @@ final class SearchConfig extends InjectableConfig
 
     /**
      * @var array{
-     *     schemas: array{
-     *         string: array{
-     *             dir: string,
-     *             engine?: string,
-     *         },
-     *     },
-     *     engines: array{
-     *         string: array{
-     *             adapter: string,
-     *         },
-     *     },
+     *     schemas: array<string, array{
+     *         dir: string,
+     *         engine?: string,
+     *     }>,
+     *     engines: array<string, array{
+     *         adapter: string,
+     *     }>,
      * }
      */
     protected array $config = [
@@ -29,12 +27,10 @@ final class SearchConfig extends InjectableConfig
     ];
 
     /**
-     * @return array{
-     *     string: array{
-     *         dir: string,
-     *         engine?: string,
-     *     },
-     * }
+     * @return array<string, array{
+     *     dir: string,
+     *     engine?: string,
+     * }>
      */
     public function getSchemas(): array
     {
@@ -42,11 +38,9 @@ final class SearchConfig extends InjectableConfig
     }
 
     /**
-     * @return array{
-     *     string: array{
-     *         adapter: string,
-     *     },
-     * }
+     * @return array<string, array{
+     *     adapter: string,
+     * }>
      */
     public function getEngines(): array
     {

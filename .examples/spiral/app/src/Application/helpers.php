@@ -18,16 +18,16 @@ if (!\function_exists('dumprr')) {
         unset($_SERVER['VAR_DUMPER_FORMAT']);
 
         if (!\defined('STDERR')) {
-            \define('STDERR', \fopen('php://stderr', 'wb'));
+            \define('STDERR', \fopen('php://stderr', 'w'));
         }
-        static $dumper = new CliDumper(STDERR);
+        static $dumper = new CliDumper(\STDERR);
 
         //
         // Output modifiers
         //
         $cloner = new VarCloner();
         // remove File and Line definitions from a custom closure dump
-        /** @psalm-suppress InvalidArgument */
+        /* @psalm-suppress InvalidArgument */
         $cloner->addCasters(ReflectionCaster::UNSET_CLOSURE_FILE_INFO);
 
         // Set new handler and store previous one

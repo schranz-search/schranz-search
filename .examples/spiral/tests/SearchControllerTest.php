@@ -28,7 +28,6 @@ class SearchControllerTest extends TestCase
         $crawler = $this->crawler($response->__toString());
 
         $crawler->filter('a')->each(function ($node) {
-
             $response = $this->http
                 ->get($node->attr('href'))
                 ->assertOk();

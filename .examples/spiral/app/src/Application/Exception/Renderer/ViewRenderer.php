@@ -19,7 +19,7 @@ use Spiral\Views\ViewsInterface;
  * This renderer is intended to be used exclusively by the {@see \Spiral\Http\Middleware\ErrorHandlerMiddleware}
  * middleware and will only be active if the DEBUG environment variable is set to false.
  *
- * @link https://spiral.dev/docs/http-errors
+ * @see https://spiral.dev/docs/http-errors
  */
 final class ViewRenderer implements RendererInterface
 {
@@ -37,7 +37,7 @@ final class ViewRenderer implements RendererInterface
     {
         // If request accepts json, we will render as a json response
         $acceptItems = AcceptHeader::fromString($request->getHeaderLine('Accept'))->getAll();
-        if ($acceptItems && $acceptItems[0]->getValue() === 'application/json') {
+        if ($acceptItems && 'application/json' === $acceptItems[0]->getValue()) {
             return $this->renderJson($code, $exception);
         }
 
@@ -59,7 +59,7 @@ final class ViewRenderer implements RendererInterface
             $payload['stacktrace'] = $exception->getTraceAsString();
         }
 
-        $response->getBody()->write(\json_encode($payload));
+        $response->getBody()->write(\json_encode($payload, \JSON_THROW_ON_ERROR));
 
         return $response;
     }

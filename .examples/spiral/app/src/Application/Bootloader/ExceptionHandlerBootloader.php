@@ -19,7 +19,7 @@ use Spiral\Http\Middleware\ErrorHandlerMiddleware\SuppressErrorsInterface;
 /**
  * The exception handler bootloader is responsible for registering the exception renderers and reporters.
  *
- * @link https://spiral.dev/docs/basics-errors
+ * @see https://spiral.dev/docs/basics-errors
  */
 final class ExceptionHandlerBootloader extends Bootloader
 {

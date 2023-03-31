@@ -14,7 +14,7 @@ use Spiral\Monolog\Config\MonologConfig;
 /**
  * The bootloader is responsible for configuring the application specific loggers.
  *
- * @link https://spiral.dev/docs/basics-logging
+ * @see https://spiral.dev/docs/basics-logging
  */
 final class LoggingBootloader extends Bootloader
 {

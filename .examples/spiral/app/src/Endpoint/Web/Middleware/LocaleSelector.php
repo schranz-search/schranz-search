@@ -17,7 +17,7 @@ use Spiral\Translator\Translator;
 final class LocaleSelector implements MiddlewareInterface
 {
     /** @var string[] */
-    private array $availableLocales;
+    private readonly array $availableLocales;
 
     public function __construct(
         private readonly Translator $translator,
@@ -31,7 +31,7 @@ final class LocaleSelector implements MiddlewareInterface
 
         try {
             foreach ($this->fetchLocales($request) as $locale) {
-                if ($locale !== '' && \in_array($locale, $this->availableLocales, true)) {
+                if ('' !== $locale && \in_array($locale, $this->availableLocales, true)) {
                     $this->translator->setLocale($locale);
                     break;
                 }
@@ -49,7 +49,7 @@ final class LocaleSelector implements MiddlewareInterface
         $header = $request->getHeaderLine('accept-language');
         foreach (\explode(',', $header) as $value) {
             $pos = \strpos($value, ';');
-            if ($pos !== false) {
+            if (false !== $pos) {
                 yield \substr($value, 0, $pos);
             }
 
