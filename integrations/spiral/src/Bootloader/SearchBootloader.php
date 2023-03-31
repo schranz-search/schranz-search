@@ -42,11 +42,13 @@ class SearchBootloader extends Bootloader
         $this->config->setDefaults(
             SearchConfig::CONFIG,
             [
+                'prefix' => '',
                 'schemas' => [
                     'app' => [
                         'dir' => 'app/schemas',
                     ],
                 ],
+                'engines' => [],
             ],
         );
     }

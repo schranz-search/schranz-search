@@ -63,4 +63,13 @@ class PhpFileLoaderTest extends TestCase
             $schema->indexes['blog']->fields['blocks']->types['gallery']['media']->multiple,
         );
     }
+
+    public function testMergeWithPrefix(): void
+    {
+        $schema = (new PhpFileLoader([__DIR__ . '/fixtures/merge'], 'prefix_'))->load();
+
+        $this->assertSame(['blog'], \array_keys($schema->indexes));
+
+        $this->assertSame('prefix_blog', $schema->indexes['blog']->name);
+    }
 }
