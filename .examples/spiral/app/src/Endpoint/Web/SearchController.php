@@ -2,15 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Endpoint\Web;
 
+use Exception;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
+use Spiral\Prototype\Traits\PrototypeTrait;
+use Spiral\Router\Annotation\Route;
 use Schranz\Search\SEAL\EngineRegistry;
 use Symfony\Component\HttpFoundation\Response;
 
-class SearchController extends Controller
+/**
+ * Simple home page controller. It renders home page template and also provides
+ * an example of exception page.
+ */
+final class SearchController
 {
+    /**
+     * Read more about Prototyping:
+     * @link https://spiral.dev/docs/basics-prototype/#installation
+     */
+    use PrototypeTrait;
+
     private readonly Engine $algoliaEngine;
     private readonly Engine $meilisearchEngine;
     private readonly Engine $elasticsearchEngine;
@@ -37,7 +50,9 @@ class SearchController extends Controller
         $this->readWriteEngine = $this->engineRegistry->getEngine('read-write');
     }
 
-    public function home(): string
+
+    #[Route(route: '/', name: 'index')]
+    public function index(): string
     {
         $engineNames = \implode(', ', \array_keys([...$this->engineRegistry->getEngines()]));
 
@@ -72,12 +87,12 @@ class SearchController extends Controller
             HTML;
     }
 
-    public function algolia(): Response
+    #[Route(route: '/algolia', name: 'algolia')]
+    public function algolia(): string
     {
         $class = $this->getAdapterClass($this->algoliaEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -87,16 +102,15 @@ class SearchController extends Controller
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function meilisearch(): Response
+    #[Route(route: '/meilisearch', name: 'meilisearch')]
+    public function meilisearch(): string
     {
         $class = $this->getAdapterClass($this->meilisearchEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -106,16 +120,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function elasticsearch(): Response
+    #[Route(route: '/elasticsearch', name: 'elasticsearch')]
+    public function elasticsearch(): string
     {
         $class = $this->getAdapterClass($this->elasticsearchEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -125,16 +138,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function memory(): Response
+    #[Route(route: '/memory', name: 'memory')]
+    public function memory(): string
     {
         $class = $this->getAdapterClass($this->memoryEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -144,16 +156,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function opensearch(): Response
+    #[Route(route: '/opensearch', name: 'opensearch')]
+    public function opensearch(): string
     {
         $class = $this->getAdapterClass($this->opensearchEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -163,16 +174,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function solr(): Response
+    #[Route(route: '/solr', name: 'solr')]
+    public function solr(): string
     {
         $class = $this->getAdapterClass($this->solrEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -182,16 +192,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function redisearch(): Response
+    #[Route(route: '/redisearch', name: 'redisearch')]
+    public function redisearch(): string
     {
         $class = $this->getAdapterClass($this->redisearchEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -201,16 +210,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function typesense(): Response
+    #[Route(route: '/typesense', name: 'typesense')]
+    public function typesense(): string
     {
         $class = $this->getAdapterClass($this->typesenseEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -220,16 +228,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function multi(): Response
+    #[Route(route: '/multi', name: 'multi')]
+    public function multi(): string
     {
         $class = $this->getAdapterClass($this->multiEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -239,16 +246,15 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
-    public function readWrite(): Response
+    #[Route(route: '/read-write', name: 'read-write')]
+    public function readWrite(): string
     {
         $class = $this->getAdapterClass($this->readWriteEngine);
 
-        return new Response(
-            <<<HTML
+        return <<<HTML
             <!doctype html>
             <html>
                 <head>
@@ -258,8 +264,7 @@ HTML
                     <h1>$class</h1>
                 </body>
             </html>
-HTML
-        );
+            HTML;
     }
 
     private function getAdapterClass(Engine $engine): string
@@ -272,5 +277,14 @@ HTML
         $object = $propertyReflection->getValue($engine);
 
         return $object::class;
+    }
+
+    /**
+     * Example of exception page.
+     */
+    #[Route(route: '/exception', name: 'exception')]
+    public function exception(): never
+    {
+        throw new Exception('This is a test exception.');
     }
 }

@@ -69,7 +69,7 @@ class SearchBootloader extends Bootloader
 
             $container->bindSingleton($adapterServiceId, function (Container $container) use ($adapterDsn) {
                 /** @var AdapterFactory $factory */
-                $factory = $container->get('schranz_search.adapter_factory');
+                $factory = $container->get(AdapterFactory::class);
 
                 return $factory->createAdapter($adapterDsn);
             });
@@ -100,9 +100,9 @@ class SearchBootloader extends Bootloader
             }
         }
 
-
         $container->bindSingleton(EngineRegistry::class, function (Container $container) use ($engineServices) {
             $engines = [];
+
             foreach ($engineServices as $name => $engineServiceId) {
                 $engines[$name] = $container->get($engineServiceId);
             }

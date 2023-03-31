@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application;
 
+use Schranz\Search\Integration\Spiral\Bootloader\SearchBootloader;
 use Spiral\Boot\Bootloader\CoreBootloader;
 use Spiral\Bootloader as Framework;
 use Spiral\Bootloader\Views\TranslatedCacheBootloader;
@@ -86,6 +87,9 @@ class Kernel extends \Spiral\Framework\Kernel
 
         // Fast code prototyping
         PrototypeBootloader::class,
+
+        // Custom
+        SearchBootloader::class,
     ];
 
     protected const APP = [];
