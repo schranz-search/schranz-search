@@ -15,6 +15,7 @@ final class PhpFileLoader implements LoaderInterface
      */
     public function __construct(
         private readonly array $directories,
+        private readonly string $prefix = '',
     ) {
     }
 
@@ -51,11 +52,12 @@ final class PhpFileLoader implements LoaderInterface
             \ksort($pathIndexes); // make sure to import the files on all system in the same order
 
             foreach ($pathIndexes as $index) {
-                if (isset($indexes[$index->name])) {
-                    $index = new Index($index->name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
+                $name = $index->name;
+                if (isset($indexes[$name])) {
+                    $index = new Index($this->prefix . $name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
                 }
 
-                $indexes[$index->name] = $index;
+                $indexes[$name] = $index;
             }
         }
 

@@ -12,6 +12,7 @@ final class SearchConfig extends InjectableConfig
 
     /**
      * @var array{
+     *     prefix: string,
      *     schemas: array<string, array{
      *         dir: string,
      *         engine?: string,
@@ -22,9 +23,15 @@ final class SearchConfig extends InjectableConfig
      * }
      */
     protected array $config = [
+        'prefix' => '',
         'schemas' => [],
         'engines' => [],
     ];
+
+    public function getPrefix(): string
+    {
+        return $this->config['prefix'];
+    }
 
     /**
      * @return array<string, array{
