@@ -2,12 +2,12 @@
     <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
 </div>
 
-<h1 align="center">Schranz Search SEAL <br /> Laravel Integration</h1>
+<h1 align="center">Schranz Search SEAL <br /> Spiral Integration</h1>
 
 <br />
 <br />
 
-Integration of the Schranz Search — Search Engine Abstraction Layer (SEAL) into Laravel.
+Integration of the Schranz Search — Search Engine Abstraction Layer (SEAL) into Spiral.
 
 > **Note**:
 > This is part of the `schranz-search/schranz-search` project create issues in the [main repository](https://github.com/schranz-search/schranz-search).
@@ -20,7 +20,7 @@ Integration of the Schranz Search — Search Engine Abstraction Layer (SEAL) int
 Use [composer](https://getcomposer.org/) for install the package:
 
 ```bash
-composer require schranz-search/laravel-integration
+composer require schranz-search/spiral-integration
 ```
 
 Also install one of the listed adapters.
@@ -53,35 +53,17 @@ The following code shows how to configure the package:
 ```php
 <?php
 
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | Schema configs
-    |--------------------------------------------------------------------------
-    |
-    | Define different directories for the schema loader.
-    */
+// app/config/schranz_search.php
 
+return [
     'schemas' => [
         'app' => [
-            'dir' => resource_path('schemas'),
+            'dir' => 'app/schemas',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | engines
-    |--------------------------------------------------------------------------
-    |
-    | Directory where the latte templates can be found.
-    */
-
     'engines' => [
         'default' => [
-            'adapter' => env(
-                'ENGINE_URL',
-                'meilisearch://127.0.0.1:7700',
-            ),
+            'adapter' => 'meilisearch://127.0.0.1:7700',
         ],
     ],
 ];
@@ -92,37 +74,22 @@ A more complex configuration can be here found:
 ```php
 <?php
 
-return [
-    /*
-    |--------------------------------------------------------------------------
-    | Schema configs
-    |--------------------------------------------------------------------------
-    |
-    | Define different directories for the schema loader.
-    */
+// app/config/schranz_search.php
 
+return [
     'schemas' => [
         'app' => [
-            'dir' => resource_path('schemas') . '/app',
+            'dir' => 'app/schemas/app',
             'engine' => 'meilisearch',
         ],
         'other' => [
-            'dir' => resource_path('schemas') . '/other',
+            'dir' => 'app/schemas/other',
             'engine' => 'algolia',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | engines
-    |--------------------------------------------------------------------------
-    |
-    | Directory where the latte templates can be found.
-    */
-
     'engines' => [
         'algolia' => [
-            'adapter' => 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%',
+            'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
         ],
         'elasticsearch' => [
             'adapter' => 'elasticsearch://127.0.0.1:9200',

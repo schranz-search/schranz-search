@@ -53,6 +53,8 @@ The following code shows how to configure the package:
 ```php
 <?php
 
+// config/schranz_search.php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -92,6 +94,8 @@ A more complex configuration can be here found:
 ```php
 <?php
 
+// config/schranz_search.php
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +126,7 @@ return [
 
     'engines' => [
         'algolia' => [
-            'adapter' => 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%',
+            'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
         ],
         'elasticsearch' => [
             'adapter' => 'elasticsearch://127.0.0.1:9200',

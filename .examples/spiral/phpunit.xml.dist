@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    verbose="false"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    stopOnError="false"
+    stderr="true">
+    <php>
+        <env name="ALGOLIA_APPLICATION_ID" value=""/>
+        <env name="ALGOLIA_ADMIN_API_KEY" value=""/>
+        <env name="TEST_INDEX_PREFIX" value="local_" />
+    </php>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">app/src</directory>
+        </include>
+    </coverage>
+    <testsuites>
+        <testsuite name="Project">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
