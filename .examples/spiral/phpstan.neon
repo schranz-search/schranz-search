@@ -1,0 +1,10 @@
+includes:
+    - phpstan-baseline.neon
+
+parameters:
+    paths:
+        - app
+        - tests
+    level: max
+    excludePaths:
+        - vendor/*

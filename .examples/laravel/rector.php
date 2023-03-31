@@ -9,7 +9,7 @@ return static function (RectorConfig $rectorConfig): void {
     $config($rectorConfig, __DIR__);
 
     $rectorConfig->paths([
-        __DIR__ . '/src',
+        __DIR__ . '/app',
         __DIR__ . '/config',
         __DIR__ . '/tests',
     ]);

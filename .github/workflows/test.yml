@@ -86,6 +86,14 @@ jobs:
         name: Laravel Integration Example
         uses: ./.github/workflows/callable-test.yml
         with:
-            directory: '.examples/symfony'
+            directory: '.examples/laravel'
+            docker: true
+        secrets: inherit
+
+    spiral-integration-example:
+        name: Spiral Integration Example
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: '.examples/spiral'
             docker: true
         secrets: inherit

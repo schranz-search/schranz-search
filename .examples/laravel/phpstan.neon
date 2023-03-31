@@ -1,6 +1,9 @@
 parameters:
     paths:
         - app
+        - tests
     level: max
     excludePaths:
         - vendor/*
+    ignoreErrors:
+        - '#Undefined variable: \$this#'

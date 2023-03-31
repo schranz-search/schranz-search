@@ -54,7 +54,7 @@ jobs:
                   dependency-versions: ${{ matrix.dependency-versions }}
 
             - name: Run tests
-              run: vendor/bin/phpunit
+              run: composer test
               working-directory: ${{ inputs.directory }}
               env:
                   TEST_INDEX_PREFIX: 'test_${{ github.run_number }}_${{ strategy.job-index }}_'

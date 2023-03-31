@@ -86,8 +86,26 @@ jobs:
         with:
             directory: 'integrations/laravel'
 
+    spiral-integration:
+        name: Spiral Integration
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'integrations/spiral'
+
     symfony-integration-example:
         name: Symfony Integration Example
         uses: ./.github/workflows/callable-lint.yml
         with:
             directory: '.examples/symfony'
+
+    laravel-integration-example:
+        name: Laravel Integration Example
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: '.examples/laravel'
+
+    spiral-integration-example:
+        name: Spiral Integration Example
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: '.examples/spiral'

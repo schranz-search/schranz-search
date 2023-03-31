@@ -1,0 +1,61 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 2
+			path: app/config/session.php
+
+		-
+			message: "#^Method App\\\\Application\\\\Bootloader\\\\LoggingBootloader\\:\\:__construct\\(\\) has parameter \\$config with generic interface Spiral\\\\Config\\\\ConfiguratorInterface but does not specify its types\\: TClass$#"
+			count: 1
+			path: app/src/Application/Bootloader/LoggingBootloader.php
+
+		-
+			message: "#^Property App\\\\Application\\\\Bootloader\\\\LoggingBootloader\\:\\:\\$config is never read, only written\\.$#"
+			count: 1
+			path: app/src/Application/Bootloader/LoggingBootloader.php
+
+		-
+			message: "#^Parameter \\#1 \\$output of class Symfony\\\\Component\\\\VarDumper\\\\Dumper\\\\CliDumper constructor expects \\(callable\\(\\)\\: mixed\\)\\|resource\\|string\\|null, resource\\|false given\\.$#"
+			count: 1
+			path: app/src/Application/helpers.php
+
+		-
+			message: "#^Class App\\\\Endpoint\\\\Console\\\\DoNothing has an uninitialized readonly property \\$name\\. Assign it in the constructor\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Argument is not an Attribute class\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\AsCommand is not an Attribute class\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Option is not an Attribute class\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Question is not an Attribute class\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Property App\\\\Endpoint\\\\Console\\\\DoNothing\\:\\:\\$name is never written, only read\\.$#"
+			count: 1
+			path: app/src/Endpoint/Console/DoNothing.php
+
+		-
+			message: "#^Class Spiral\\\\Router\\\\Annotation\\\\Route is not an Attribute class\\.$#"
+			count: 12
+			path: app/src/Endpoint/Web/SearchController.php
+
+		-
+			message: "#^Cannot call method setLocale\\(\\) on mixed\\.$#"
+			count: 1
+			path: tests/TestCase.php

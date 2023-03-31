@@ -39,7 +39,11 @@
         "schranz-search/seal-solr-adapter": "^0.1",
         "schranz-search/seal-typesense-adapter": "^0.1",
         "spatie/laravel-ignition": "^2.0",
+        "symfony/css-selector": "^6.2",
         "symfony/dom-crawler": "^6.2"
+    },
+    "conflict": {
+        "react/promise": "<2.2.0"
     },
     "repositories": [
         {
@@ -75,12 +79,18 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate --ansi"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "post-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi"
         ],
         "test": [

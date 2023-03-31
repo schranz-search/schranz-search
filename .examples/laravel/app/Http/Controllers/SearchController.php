@@ -11,16 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
 {
-    private Engine $algoliaEngine;
-    private Engine $meilisearchEngine;
-    private Engine $elasticsearchEngine;
-    private Engine $memoryEngine;
-    private Engine $opensearchEngine;
-    private Engine $solrEngine;
-    private Engine $redisearchEngine;
-    private Engine $typesenseEngine;
-    private Engine $multiEngine;
-    private Engine $readWriteEngine;
+    private readonly Engine $algoliaEngine;
+    private readonly Engine $meilisearchEngine;
+    private readonly Engine $elasticsearchEngine;
+    private readonly Engine $memoryEngine;
+    private readonly Engine $opensearchEngine;
+    private readonly Engine $solrEngine;
+    private readonly Engine $redisearchEngine;
+    private readonly Engine $typesenseEngine;
+    private readonly Engine $multiEngine;
+    private readonly Engine $readWriteEngine;
 
     public function __construct(
         private readonly EngineRegistry $engineRegistry,
