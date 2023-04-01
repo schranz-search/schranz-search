@@ -10,21 +10,17 @@ use Schranz\Search\SEAL\Task\TaskInterface;
 interface IndexerInterface
 {
     /**
-     * @template T of bool
-     *
      * @param array<string, mixed> $document
-     * @param array{return_slow_promise_result?: T} $options
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @return (T is true ? TaskInterface<array<string, mixed>> : null)
+     * @return ($options is non-empty-array ? TaskInterface<array<string, mixed>> : null)
      */
     public function save(Index $index, array $document, array $options = []): ?TaskInterface;
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
      */
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface;
 }
