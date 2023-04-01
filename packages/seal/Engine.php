@@ -21,12 +21,10 @@ final class Engine
     }
 
     /**
-     * @template T of bool
-     *
      * @param array<string, mixed> $document
-     * @param array{return_slow_promise_result?: T} $options
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @return (T is true ? TaskInterface<array<string, mixed>> : null)
+     * @return ($options is non-empty-array ? TaskInterface<array<string, mixed>> : null)
      */
     public function saveDocument(string $index, array $document, array $options = []): ?TaskInterface
     {
@@ -38,11 +36,9 @@ final class Engine
     }
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
      */
     public function deleteDocument(string $index, string $identifier, array $options = []): ?TaskInterface
     {
@@ -89,11 +85,9 @@ final class Engine
     }
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
      */
     public function createIndex(string $index, array $options = []): ?TaskInterface
     {
@@ -101,11 +95,9 @@ final class Engine
     }
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: true} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
      */
     public function dropIndex(string $index, array $options = []): ?TaskInterface
     {
@@ -118,11 +110,9 @@ final class Engine
     }
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: bool} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null> : null)
      */
     public function createSchema(array $options = []): ?TaskInterface
     {
@@ -139,11 +129,9 @@ final class Engine
     }
 
     /**
-     * @template T of bool
+     * @param array{return_slow_promise_result?: bool} $options
      *
-     * @param array{return_slow_promise_result?: T} $options
-     *
-     * @return (T is true ? TaskInterface<null> : null)
+     * @return ($options is non-empty-array ? TaskInterface<null> : null)
      */
     public function dropSchema(array $options = []): ?TaskInterface
     {
