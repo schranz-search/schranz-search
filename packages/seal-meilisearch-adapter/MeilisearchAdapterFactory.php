@@ -33,6 +33,7 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
      *     host: string,
      *     port?: int,
      *     user?: string,
+     *     query: array<string, string>,
      * } $dsn
      */
     public function createClient(array $dsn): Client
@@ -47,10 +48,11 @@ class MeilisearchAdapterFactory implements AdapterFactoryInterface
             return $client;
         }
 
-        $apiKey = $dsn['user'] ?? '';
+        $apiKey = $dsn['user'] ?? null;
+        $tls = $dsn['query']['tls'] ?? false;
 
         return new Client(
-            $dsn['host'] . ':' . ($dsn['port'] ?? 7700),
+            ($tls ? 'https' : 'http') . '://' . $dsn['host'] . ':' . ($dsn['port'] ?? 7700),
             $apiKey,
         );
     }
