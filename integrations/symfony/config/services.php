@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use Schranz\Search\Integration\Symfony\Command\IndexCreateCommand;
+use Schranz\Search\Integration\Symfony\Command\IndexDropCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
@@ -21,6 +23,26 @@ use Schranz\Search\SEAL\EngineRegistry;
  * @internal
  */
 return static function (ContainerConfigurator $container) {
+    // -------------------------------------------------------------------//
+    // Commands                                                           //
+    // -------------------------------------------------------------------//
+    $container->services()
+        ->set('schranz_search.index_create_command', IndexCreateCommand::class)
+        ->args([
+            service('schranz_search.engine_registry'),
+        ])
+        ->tag('console.command');
+
+    $container->services()
+        ->set('schranz_search.index_drop_command', IndexDropCommand::class)
+        ->args([
+            service('schranz_search.engine_registry'),
+        ])
+        ->tag('console.command');
+
+    // -------------------------------------------------------------------//
+    // Services                                                           //
+    // -------------------------------------------------------------------//
     $container->services()
         ->set('schranz_search.engine_registry', EngineRegistry::class)
         ->args([

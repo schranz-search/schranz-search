@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Spiral\Bootloader;
 
 use Schranz\Search\Integration\Spiral\Config\SearchConfig;
+use Schranz\Search\Integration\Spiral\Console\IndexCreateCommand;
+use Schranz\Search\Integration\Spiral\Console\IndexDropCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -25,10 +27,18 @@ use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Config\ConfiguratorInterface;
+use Spiral\Console\Bootloader\ConsoleBootloader;
 use Spiral\Core\Container;
 
-class SearchBootloader extends Bootloader
+/**
+ * @experimental
+ */
+final class SearchBootloader extends Bootloader
 {
+    protected const DEPENDENCIES = [
+        ConsoleBootloader::class,
+    ];
+
     /**
      * @param ConfiguratorInterface<SearchConfig> $config
      */
@@ -53,8 +63,11 @@ class SearchBootloader extends Bootloader
         );
     }
 
-    public function boot(Container $container): void
+    public function boot(ConsoleBootloader $console, Container $container): void
     {
+        $console->addCommand(IndexCreateCommand::class);
+        $console->addCommand(IndexDropCommand::class);
+
         $this->createAdapterFactories($container);
 
         /** @var SearchConfig $config */
@@ -85,7 +98,7 @@ class SearchBootloader extends Bootloader
                 return $factory->createAdapter($adapterDsn);
             });
 
-            $container->bindSingleton($schemaLoaderServiceId, fn (Container $container) => new PhpFileLoader($dirs));
+            $container->bindSingleton($schemaLoaderServiceId, fn (Container $container) => new PhpFileLoader($dirs, $config->getPrefix()));
 
             $container->bindSingleton($schemaId, function (Container $container) use ($schemaLoaderServiceId) {
                 /** @var LoaderInterface $loader */

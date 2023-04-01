@@ -7,7 +7,7 @@ namespace Tests;
 use Spiral\Testing\Http\FakeHttp;
 use Symfony\Component\DomCrawler\Crawler;
 
-class SearchControllerTest extends TestCase
+final class SearchControllerTest extends TestCase
 {
     private FakeHttp $http;
 

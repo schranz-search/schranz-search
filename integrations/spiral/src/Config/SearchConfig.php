@@ -6,6 +6,9 @@ namespace Schranz\Search\Integration\Spiral\Config;
 
 use Spiral\Core\InjectableConfig;
 
+/**
+ * @experimental
+ */
 final class SearchConfig extends InjectableConfig
 {
     public const CONFIG = 'schranz_search';

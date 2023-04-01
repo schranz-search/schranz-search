@@ -1,7 +1,29 @@
 schranz_search:
     schemas:
-        app:
+        algolia:
             dir: '%kernel.project_dir%/config/schemas'
+            engine: algolia
+        elasticsearch:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: elasticsearch
+        meilisearch:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: meilisearch
+        memory:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: memory
+        opensearch:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: opensearch
+        redisearch:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: redisearch
+        solr:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: solr
+        typesense:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: typesense
     engines:
         algolia:
             adapter: 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%'
@@ -12,7 +34,7 @@ schranz_search:
         memory:
             adapter: 'memory://'
         opensearch:
-            adapter: 'opensearch://127.0.0.1:9200'
+            adapter: 'opensearch://127.0.0.1:9201'
         redisearch:
             adapter: 'redis://supersecure@127.0.0.1:6379'
         solr:

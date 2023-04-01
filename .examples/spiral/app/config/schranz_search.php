@@ -4,8 +4,37 @@ declare(strict_types=1);
 
 return [
     'schemas' => [
-        'app' => [
+        'algolia' => [
             'dir' => 'app/schemas',
+            'engine' => 'algolia',
+        ],
+        'elasticsearch' => [
+            'dir' => 'app/schemas',
+            'engine' => 'elasticsearch',
+        ],
+        'meilisearch' => [
+            'dir' => 'app/schemas',
+            'engine' => 'meilisearch',
+        ],
+        'memory' => [
+            'dir' => 'app/schemas',
+            'engine' => 'memory',
+        ],
+        'opensearch' => [
+            'dir' => 'app/schemas',
+            'engine' => 'opensearch',
+        ],
+        'redisearch' => [
+            'dir' => 'app/schemas',
+            'engine' => 'redisearch',
+        ],
+        'solr' => [
+            'dir' => 'app/schemas',
+            'engine' => 'solr',
+        ],
+        'typesense' => [
+            'dir' => 'app/schemas',
+            'engine' => 'typesense',
         ],
     ],
     'engines' => [
@@ -22,7 +51,7 @@ return [
             'adapter' => 'memory://',
         ],
         'opensearch' => [
-            'adapter' => 'opensearch://127.0.0.1:9200',
+            'adapter' => 'opensearch://127.0.0.1:9201',
         ],
         'redisearch' => [
             'adapter' => 'redis://supersecure@127.0.0.1:6379',

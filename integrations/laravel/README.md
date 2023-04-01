@@ -46,7 +46,7 @@ Additional Wrapper adapters:
 
 Creating your own adapter? Add the [`seal-php-adapter`](https://github.com/topics/seal-php-adapter) Topic to your Github Repository.
 
-## Usage.
+## Usage
 
 The following code shows how to configure the package:
 
@@ -184,6 +184,22 @@ class Some {
 ```
 
 How to create a `Schema` file and use your `Engine` can be found [SEAL Documentation](../../README.md#usage).
+
+### Commands
+
+The package provides the following commands:
+
+**Create configured indexes**
+
+```bash
+php artisan schranz:search:index-create --help
+```
+
+**Drop configured indexes**
+
+```bash
+php artisan schranz:search:index-drop --help
+```
 
 ## Authors
 
