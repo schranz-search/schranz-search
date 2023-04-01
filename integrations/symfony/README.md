@@ -137,6 +137,22 @@ class Some {
 
 How to create a `Schema` file and use your `Engine` can be found [SEAL Documentation](../../README.md#usage).
 
+### Commands
+
+The bundle provides the following commands:
+
+**Create configured indexes**
+
+```bash
+bin/console schranz:search:index-create --help
+```
+
+**Drop configured indexes**
+
+```bash
+bin/console schranz:search:index-drop --help
+```
+
 ## Authors
 
 - [Alexander Schranz](https://github.com/alexander-schranz/)

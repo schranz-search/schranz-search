@@ -10,7 +10,6 @@ $finder = (new PhpCsFixer\Finder())
         __DIR__ . '/config',
         __DIR__ . '/database',
         __DIR__ . '/routes',
-        __DIR__ . '/schemas',
         __DIR__ . '/tests',
     ])
     ->ignoreVCSIgnored(true);

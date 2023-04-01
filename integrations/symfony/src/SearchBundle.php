@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 /**
  * @experimental
  */
-class SearchBundle extends AbstractBundle
+final class SearchBundle extends AbstractBundle
 {
     protected string $extensionAlias = 'schranz_search';
 

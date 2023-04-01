@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Laravel;
 
 use Illuminate\Support\ServiceProvider;
+use Schranz\Search\Integration\Laravel\Console\IndexCreateCommand;
+use Schranz\Search\Integration\Laravel\Console\IndexDropCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -24,7 +26,10 @@ use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 
-class SearchProvider extends ServiceProvider
+/**
+ * @experimental
+ */
+final class SearchProvider extends ServiceProvider
 {
     /**
      * @internal
@@ -43,6 +48,11 @@ class SearchProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->commands([
+            IndexCreateCommand::class,
+            IndexDropCommand::class,
+        ]);
+
         /** @var array{schranz_search: mixed[]} $globalConfig */
         $globalConfig = $this->app->get('config');
 
