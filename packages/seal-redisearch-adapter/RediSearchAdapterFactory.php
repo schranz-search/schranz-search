@@ -49,9 +49,7 @@ class RediSearchAdapterFactory implements AdapterFactoryInterface
 
         $user = $dsn['user'] ?? '';
         $password = $dsn['pass'] ?? '';
-        if ('' !== $password) {
-            $password = [$user, $password];
-        }
+        $password = '' !== $password ? [$user, $password] : $user;
 
         $client = new \Redis();
         $client->pconnect($dsn['host'], $dsn['port'] ?? 6379);
