@@ -37,7 +37,7 @@ Also install one of the listed adapters.
 
 The following framework integrations are available:
 
-- [Laravel Module](integrations/laravel): `schranz-search/laravel-package`
+- [Laravel Package](integrations/laravel): `schranz-search/laravel-package`
 - [Spiral Bridge](integrations/spiral): `schranz-search/spiral-bridge`
 - [Symfony Bundle](integrations/symfony): `schranz-search/symfony-bundle`
 

@@ -20,7 +20,7 @@ Integration of the Schranz Search — Search Engine Abstraction Layer (SEAL) int
 Use [composer](https://getcomposer.org/) for install the package:
 
 ```bash
-composer require schranz-search/schranz-search-symfony-bundle
+composer require schranz-search/symfony-bundle
 ```
 
 Also install one of the listed adapters.
