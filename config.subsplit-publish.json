@@ -54,6 +54,21 @@
             "name": "SEALMultiAdapter",
             "directory": "packages/seal-multi-adapter",
             "target": "git@github.com:schranz-search/seal-multi-adapter.git"
+        },
+        {
+            "name": "SEALSymfonyIntegration",
+            "directory": "integrations/symfony",
+            "target": "git@github.com:schranz-search/symfony-bundle.git"
+        },
+        {
+            "name": "SEALSpiralIntegration",
+            "directory": "integrations/spiral",
+            "target": "git@github.com:schranz-search/spiral-bundle.git"
+        },
+        {
+            "name": "SEALLaravelIntegration",
+            "directory": "integrations/laravel",
+            "target": "git@github.com:schranz-search/laravel-package.git"
         }
     ]
 }

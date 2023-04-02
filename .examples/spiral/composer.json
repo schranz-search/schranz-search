@@ -21,7 +21,7 @@
         "spiral/stempler-bridge": "^3.2",
         "spiral-packages/league-event": "^1.0",
         "schranz-search/seal": "^0.1",
-        "schranz-search/spiral-integration": "^0.1"
+        "schranz-search/spiral-bridge": "^0.1"
     },
     "require-dev": {
         "php-cs-fixer/shim": "^3.15",

@@ -1,5 +1,5 @@
 {
-    "name": "schranz-search/laravel-integration",
+    "name": "schranz-search/laravel-package",
     "description": "An integration of schranz-search search abstraction into Laravel Framework.",
     "type": "library",
     "license": "MIT",
@@ -19,6 +19,9 @@
         "redisearch",
         "algolia",
         "integration",
+        "bridge",
+        "laravel-package",
+        "package",
         "module",
         "laravel"
     ],
