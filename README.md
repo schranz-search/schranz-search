@@ -33,6 +33,14 @@ composer require schranz-search/seal
 
 Also install one of the listed adapters.
 
+### Framework Integrations
+
+The following framework integrations are available:
+
+- [Laravel Module](integrations/laravel): `schranz-search/laravel-package`
+- [Spiral Bridge](integrations/spiral): `schranz-search/spiral-bridge`
+- [Symfony Bundle](integrations/symfony): `schranz-search/symfony-bundle`
+
 ### List of adapters
 
 The following adapters are available:

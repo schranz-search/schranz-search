@@ -1,7 +1,7 @@
 {
-    "name": "schranz-search/symfony-integration",
-    "description": "An integration of schranz-search search abstraction into Symfony Framework.",
-    "type": "library",
+    "name": "schranz-search/symfony-bundle",
+    "description": "An integration of schranz-search search abstraction via a Bundle into the Symfony Framework.",
+    "type": "symfony-bundle",
     "license": "MIT",
     "keywords": [
         "search-client",
@@ -19,6 +19,8 @@
         "redisearch",
         "algolia",
         "integration",
+        "bridge",
+        "symfony-bundle",
         "bundle",
         "symfony"
     ],

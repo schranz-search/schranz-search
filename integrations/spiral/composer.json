@@ -1,5 +1,5 @@
 {
-    "name": "schranz-search/spiral-integration",
+    "name": "schranz-search/spiral-bridge",
     "description": "An integration of schranz-search search abstraction into Spiral Framework.",
     "type": "library",
     "license": "MIT",
@@ -20,6 +20,8 @@
         "algolia",
         "integration",
         "module",
+        "spiral-bridge",
+        "bridge",
         "sprial"
     ],
     "autoload": {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a25acb63dd50c0ba40b9d632fd6923c",
+    "content-hash": "f3bf60e97ebdd8db7b089b82800fa55f",
     "packages": [
         {
             "name": "brick/math",
@@ -2944,14 +2944,15 @@
             "time": "2023-03-27T22:05:11+00:00"
         },
         {
-            "name": "schranz-search/laravel-integration",
+            "name": "schranz-search/laravel-package",
             "version": "0.1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../integrations/laravel",
-                "reference": "749325339f45e8c95d5c0b0d115343648f9b11d7"
+                "reference": "00818661d21e33710693a48a68fcc1c61f1ad33a"
             },
             "require": {
+                "illuminate/console": "^8.0 || ^9.0 || ^10.0",
                 "illuminate/support": "^8.0 || ^9.0 || ^10.0",
                 "illuminate/view": "^8.0 || ^9.0 || ^10.0",
                 "php": "^8.1",
@@ -3051,12 +3052,15 @@
             "keywords": [
                 "abstraction",
                 "algolia",
+                "bridge",
                 "elasticsearch",
                 "integration",
                 "laravel",
+                "laravel-package",
                 "meilisearch",
                 "module",
                 "opensearch",
+                "package",
                 "redisearch",
                 "schranz-search",
                 "search",

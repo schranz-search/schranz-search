@@ -8,7 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "schranz-search/seal": "^0.1",
-        "schranz-search/symfony-integration": "^0.1",
+        "schranz-search/symfony-bundle": "^0.1",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/flex": "^2",

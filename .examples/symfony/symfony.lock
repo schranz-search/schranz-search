@@ -187,9 +187,6 @@
     "schranz-search/seal-typesense-adapter": {
         "version": "0.1.x-dev"
     },
-    "schranz-search/symfony-integration": {
-        "version": "0.1.x-dev"
-    },
     "sebastian/cli-parser": {
         "version": "2.0.0"
     },

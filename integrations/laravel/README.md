@@ -20,7 +20,7 @@ Integration of the Schranz Search — Search Engine Abstraction Layer (SEAL) int
 Use [composer](https://getcomposer.org/) for install the package:
 
 ```bash
-composer require schranz-search/laravel-integration
+composer require schranz-search/laravel-package
 ```
 
 Also install one of the listed adapters.
@@ -176,9 +176,12 @@ Multiple engines can be accessed via the `EngineRegistry`:
 
 ```php
 class Some {
+    private Engine $engine;
+
     public function __construct(
         private readonly \Schranz\Search\SEAL\EngineRegistry $engineRegistry,
     ) {
+        $this->engine = $this->engineRegistry->get('algolia');
     }
 }
 ```
