@@ -63,7 +63,7 @@
         {
             "name": "SEALSpiralIntegration",
             "directory": "integrations/spiral",
-            "target": "git@github.com:schranz-search/spiral-bundle.git"
+            "target": "git@github.com:schranz-search/spiral-bridge.git"
         },
         {
             "name": "SEALLaravelIntegration",
