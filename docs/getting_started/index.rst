@@ -1,2 +1,1244 @@
 Getting Started
 ===============
+
+Installation
+------------
+
+To install the package you need to use `Composer <https://getcomposer.org>`_ as the packages are registered there.
+Depending on your project you can decide to use already existing ``Framework``
+integration of the package or the ``Standalone`` version.
+
+.. tabs::
+
+    .. group-tab:: Standalone use
+
+        If you want to use standalone version use the following package:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal
+
+    .. group-tab:: Laravel
+
+        If you are using `Laravel <https://laravel.com/>`_ use the following packages:
+
+        .. code-block:: bash
+
+             composer require schranz-search/laravel-package
+
+    .. group-tab:: Symfony
+
+        If you are using `Symfony <https://symfony.com/>`_ use the following packages:
+
+        .. code-block:: bash
+
+             composer require schranz-search/symfony-bundle
+
+    .. group-tab:: Spiral
+
+        If you are using `Spiral <https://spiral.dev/>`_ use the following packages:
+
+        .. code-block:: bash
+
+             composer require schranz-search/spiral-bridge
+
+
+The project provides adapters to different search engines.
+Choice the one which fits your needs best:
+
+.. tabs::
+
+    .. group-tab:: Meilisearch
+
+        Install the `Meilisearch <https://www.meilisearch.com/>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-meilisearch-adapter
+
+    .. group-tab:: Algolia
+
+        Install the `Algolia <https://www.algolia.com/>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-algolia-adapter
+
+    .. group-tab:: Elasticsearch
+
+        Install the `Elasticsearch <https://www.elastic.co/what-is/elasticsearch>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-elasticsearch-adapter
+
+    .. group-tab:: Opensearch
+
+        Install the `Opensearch <https://opensearch.org/adapter>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-opensearch-adapter
+
+    .. group-tab:: Redisearch
+
+        Install the `Redisearch <https://redis.io/docs/stack/search/>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-redisearch-adapter
+
+    .. group-tab:: Solr
+
+        Install the `Solr <https://solr.apache.org/>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-solr-adapter
+
+    .. group-tab:: Typesense
+
+        Install the `Typesense <https://typesense.org/>`_ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-typesense-adapter
+
+Configure Schema
+----------------
+
+In this section we will create a first schema for our search index.
+
+.. tabs::
+
+    .. group-tab:: Standalone use
+
+        When using the ``Standalone`` version you need to create a new ``Index``
+        instance as part of the ``Schema``:
+
+        .. code-block:: php
+
+            <?php
+
+            use Schranz\Search\SEAL\Schema\Field;
+            use Schranz\Search\SEAL\Schema\Index;
+            use Schranz\Search\SEAL\Schema\Schema;
+
+            $schema = new Schema([
+                'blog' => new Index('blog', [
+                    'id' => new Field\IdentifierField('id'),
+                    'title' => new Field\TextField('title'),
+                    'description' => new Field\TextField('description'),
+                    'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+                ]),
+            ]);
+
+    .. group-tab:: Laravel
+
+        If you are using Laravel create a new ``Index`` in the ``resources/schemas`` directory:
+
+        .. code-block:: php
+
+            <?php // resources/schemas/blog.php
+
+            use Schranz\Search\SEAL\Schema\Field;
+            use Schranz\Search\SEAL\Schema\Index;
+
+            return new Index('blog', [
+                'id' => new Field\IdentifierField('id'),
+                'title' => new Field\TextField('title'),
+                'description' => new Field\TextField('description'),
+                'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            ]);
+
+    .. group-tab:: Symfony
+
+        If you are using Symfony create a new ``Index`` in the ``resources/schemas`` directory:´
+
+        .. code-block:: php
+
+            <?php // config/schemas/blog.php
+
+            use Schranz\Search\SEAL\Schema\Field;
+            use Schranz\Search\SEAL\Schema\Index;
+
+            return new Index('blog', [
+                'id' => new Field\IdentifierField('id'),
+                'title' => new Field\TextField('title'),
+                'description' => new Field\TextField('description'),
+                'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            ]);
+
+    .. group-tab:: Spiral
+
+        If you are using Spiral create a new ``Index`` in the ``resources/schemas`` directory:´
+
+        .. code-block:: php
+
+            <?php // app/schemas/blog.php
+
+            use Schranz\Search\SEAL\Schema\Field;
+            use Schranz\Search\SEAL\Schema\Index;
+
+            return new Index('blog', [
+                'id' => new Field\IdentifierField('id'),
+                'title' => new Field\TextField('title'),
+                'description' => new Field\TextField('description'),
+                'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            ]);
+
+Configure Engine
+----------------
+
+In the next step we will create the engine which will be use our created ``Schema``.
+The ``Engine`` is the main class which will be used to communicate with the search engine.
+It requires an instance of the ``Adapter`` which we did install before.
+
+.. tabs::
+
+    .. group-tab:: Standalone use
+
+        When using the ``Standalone`` version we need to create a new instance of ``Engine``
+        class to create it. The ``Engine`` requires beside the already created ``Schema`` also
+        an instance of ``Adapter`` which will be used to communicate with the search engine.
+
+        .. tabs::
+
+            .. group-tab:: Meilisearch
+
+                Use the following code to create a new ``Engine`` using the ``Meilisearch`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Meilisearch\Client;
+                    use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapter;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $client = new Client('http://127.0.0.1:7700');
+
+                    $engine = new Engine(
+                        new MeilisearchAdapter($client),
+                        $schema,
+                    );
+
+            .. group-tab:: Algolia
+
+                Use the following code to create a new ``Engine`` using the ``Algolia`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Algolia\AlgoliaSearch\SearchClient;
+                    use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapter;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $client = Algolia\AlgoliaSearch\SearchClient::create(
+                        'YourApplicationID',
+                        'YourAdminAPIKey',
+                    );
+
+                    $engine = new Engine(
+                        new AlgoliaAdapter($client),
+                        $schema,
+                    );
+
+            .. group-tab:: Elasticsearch
+
+                Use the following code to create a new ``Engine`` using the ``Elasticsearch`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Elastic\Elasticsearch\ClientBuilder;
+                    use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapter;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $client = ClientBuilder::create()->setHosts([
+                        '127.0.0.1:9200'
+                    ])->build()
+
+                    $engine = new Engine(
+                        new ElasticsearchAdapter($client),
+                        $schema,
+                    );
+
+            .. group-tab:: Opensearch
+
+                Use the following code to create a new ``Engine`` using the ``Opensearch`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use OpenSearch\ClientBuilder;
+                    use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchAdapter;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $client = ClientBuilder::create()->setHosts([
+                        '127.0.0.1:9200'
+                    ])->build()
+
+                    $engine = new Engine(
+                        new OpensearchAdapter($client),
+                        $schema,
+                    );
+
+            .. group-tab:: Redisearch
+
+                Use the following code to create a new ``Engine`` using the ``Redisearch`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Redis;
+                    use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapter;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $redis = new Redis([
+                        'host' => '127.0.0.1',
+                        'port' => 6379,
+                        'auth' => ['phpredis', 'phpredis'],
+                    ]);
+
+                    $engine = new Engine(
+                        new RediSearchAdapter($redis),
+                        $schema,
+                    );
+
+            .. group-tab:: Solr
+
+                Use the following code to create a new ``Engine`` using the ``Solr`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Solr\Client;
+                    use Solarium\Core\Client\Adapter\Curl;
+                    use Schranz\Search\SEAL\Adapter\Solr\SolrAdapter;
+                    use Schranz\Search\SEAL\Engine;
+                    use Symfony\Component\EventDispatcher\EventDispatcher;
+
+                    $client = new Client(new Curl(), new EventDispatcher(), [
+                        'endpoint' => [
+                            'localhost' => [
+                                'host' => '127.0.0.1',
+                                'port' => '8983',
+                                // authenticated required for configset api https://solr.apache.org/guide/8_9/configsets-api.html
+                                // alternative set solr.disableConfigSetsCreateAuthChecks=true in your server setup
+                                'username' => 'solr',
+                                'password' => 'SolrRocks',
+                            ],
+                        ]
+                    ]);
+
+                    $engine = new Engine(
+                        new SolrAdapter($client),
+                        $schema,
+                    );
+
+            .. group-tab:: Typesense
+
+                Use the following code to create a new ``Engine`` using the ``Typesense`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Http\Client\Curl\Client as CurlClient;
+                    use Http\Discovery\Psr17FactoryDiscovery;
+                    use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapter;
+                    use Schranz\Search\SEAL\Engine;
+                    use Typesense\Client;
+
+                    $client = new Client(
+                         [
+                            'api_key' => 'S3CR3T',
+                            'nodes' => [
+                                [
+                                    'host' => '127.0.0.1',
+                                    'port' => '8108',
+                                    'protocol' => 'http',
+                                ],
+                            ],
+                            'client' => new CurlClient(Psr17FactoryDiscovery::findResponseFactory(), Psr17FactoryDiscovery::findStreamFactory()),
+                         ]
+                    );
+
+                    $engine = new Engine(
+                        new TypesenseAdapter($client),
+                        $schema,
+                    );
+
+    .. group-tab:: Laravel
+
+        When we are using the Laravel integration package we just need to configure our ``Engine``
+        in the ``config/schranz_search.php`` file. The ``Adapter`` is configured via a ``DSN`` like string.
+
+        .. tabs::
+
+            .. group-tab:: Meilisearch
+
+                Use the following configuration to use ``Meilisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'meilisearch://127.0.0.1:7700',
+                            ],
+                        ],
+                    ];
+
+
+            .. group-tab:: Algolia
+
+                Use the following configuration to use ``Algolia`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Elasticsearch
+
+                Use the following configuration to use ``Elasticsearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'elasticsearch://127.0.0.1:9200',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Opensearch
+
+                Use the following configuration to use ``Opensearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'opensearch://127.0.0.1:9200',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Redisearch
+
+                Use the following configuration to use ``Redisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'redis://127.0.0.1:6379',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Solr
+
+                Use the following configuration to use ``Solr`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'solr://127.0.0.1:8983',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Typesense
+
+                Use the following configuration to use ``Typesense`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
+                            ],
+                        ],
+                    ];
+
+    .. group-tab:: Symfony
+
+        When we are using the Symfony Bundle we just need to configure our ``Engine``
+        in the ``config/packages/schranz_search.yaml`` file. The ``Adapter`` is configured
+        via a ``DSN`` like string.
+
+        .. tabs::
+
+            .. group-tab:: Meilisearch
+
+                Use the following configuration to use ``Meilisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'meilisearch://127.0.0.1:7700'
+
+
+            .. group-tab:: Algolia
+
+                Use the following configuration to use ``Algolia`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'algolia://%env(ALGOLIA_APPLICATION_ID)%:%env(ALGOLIA_ADMIN_API_KEY)%'
+
+            .. group-tab:: Elasticsearch
+
+                Use the following configuration to use ``Elasticsearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'elasticsearch://127.0.0.1:9200'
+
+            .. group-tab:: Opensearch
+
+                Use the following configuration to use ``Opensearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'opensearch://127.0.0.1:9200'
+
+            .. group-tab:: Redisearch
+
+                Use the following configuration to use ``Redisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'redis://127.0.0.1:6379'
+
+            .. group-tab:: Solr
+
+                Use the following configuration to use ``Solr`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'solr://127.0.0.1:8983'
+
+            .. group-tab:: Typesense
+
+                Use the following configuration to use ``Typesense`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'typesense://S3CR3T@127.0.0.1:8108'
+
+    .. group-tab:: Spiral
+
+        When we are using the Spiral integration package we just need to configure our ``Engine``
+        in the ``app/config/schranz_search.php`` file. The ``Adapter`` is configured via a ``DSN`` like string.
+
+        .. tabs::
+
+            .. group-tab:: Meilisearch
+
+                Use the following configuration to use ``Meilisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'meilisearch://127.0.0.1:7700',
+                            ],
+                        ],
+                    ];
+
+
+            .. group-tab:: Algolia
+
+                Use the following configuration to use ``Algolia`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Elasticsearch
+
+                Use the following configuration to use ``Elasticsearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'elasticsearch://127.0.0.1:9200',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Opensearch
+
+                Use the following configuration to use ``Opensearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'opensearch://127.0.0.1:9200',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Redisearch
+
+                Use the following configuration to use ``Redisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'redis://127.0.0.1:6379',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Solr
+
+                Use the following configuration to use ``Solr`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'solr://127.0.0.1:8983',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Typesense
+
+                Use the following configuration to use ``Typesense`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
+                            ],
+                        ],
+                    ];
+
+Prepare Search Engine
+----------------------
+
+If you already have your search engine running you can skip this step. Still we want to
+provide here different `docker-compose <https://www.docker.com/products/docker-desktop/>`_ files to get you started quickly with your favorite
+search engine.
+
+.. tabs::
+
+    .. group-tab:: Meilisearch
+
+        A instance of Meilisearch can be started with the following docker-compose file:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              meilisearch:
+                image: getmeili/meilisearch:v1.0
+                environment:
+                  MEILI_ENV: development
+                ports:
+                  - "7700:7700"
+                healthcheck:
+                  test: ["CMD-SHELL", "curl --silent --fail localhost:7700/health || exit 1"]
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+                volumes:
+                  - meilisearch-data:/data.ms
+
+            volumes:
+              meilisearch-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+    .. group-tab:: Algolia
+
+        As Algolia is SaaS, there is nothing to run it required. You can create a free account
+        at `https://www.algolia.com/users/sign_up <https://www.algolia.com/users/sign_up>`_.
+        After Signup you will get an ``ALGOLIA_APPLICATION_ID`` and an ``ALGOLIA_ADMIN_API_KEY``.
+        Which you need to configure that your engine adapter configuration will then use them like
+        above.
+
+    .. group-tab:: Elasticsearch
+
+        A instance of Elasticsearch can be started with the following docker-compose file:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              elasticsearch:
+                image: elasticsearch:8.5.3
+                environment:
+                  discovery.type: single-node
+                  xpack.security.enabled: 'false'
+                  cluster.routing.allocation.disk.threshold_enabled: 'false'
+                ports:
+                  - "9200:9200"
+                healthcheck:
+                  test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+                volumes:
+                  - elasticsearch-data:/usr/share/elasticsearch/data
+
+            volumes:
+                elasticsearch-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+    .. group-tab:: Opensearch
+
+        A instance of Opensearch can be started with the following docker-compose file:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              opensearch:
+                image: opensearchproject/opensearch:2
+                environment:
+                  discovery.type: single-node
+                  plugins.security.disabled: 'true'
+                  cluster.routing.allocation.disk.threshold_enabled: 'false'
+                ports:
+                  - "9200:9200"
+                  - "9600:9600"
+                healthcheck:
+                  test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+                volumes:
+                  - opensearch-data:/usr/share/opensearch/data
+
+            volumes:
+              opensearch-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+    .. group-tab:: Redisearch
+
+        A instance of Redisearch can be started with the following docker-compose file.
+        The here used `redis/redis-stack` image contains the required ``Redisearch``
+        and ``JSON`` modules to run the search engine:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              redis:
+                image: redis/redis-stack:latest
+                ports:
+                  - 6379:6379 # redis server
+                  - 8001:8001 # redis insight
+                environment:
+                  REDIS_ARGS: --requirepass supersecure
+                volumes:
+                    - redisearch-data:/data
+
+            volumes:
+              redisearch-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+    .. group-tab:: Solr
+
+        A instance of Solr can be started with the following docker-compose file.
+        It uses the required cloud mode to run the search engine. Running it
+        without cloud mode is not supported yet:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              solr:
+                image: "solr:9"
+                ports:
+                 - "8983:8983"
+                 - "9983:9983"
+                command: solr -f -cloud
+                healthcheck:
+                  test: ["CMD-SHELL", "curl --silent --fail localhost:8983 || exit 1"]
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+                environment:
+                  SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
+                volumes:
+                  - solr-data:/var/solr
+
+              zookeeper:
+                image: "solr:9"
+                depends_on:
+                  - "solr"
+                network_mode: "service:solr"
+                environment:
+                  SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
+                command: bash -c "set -x; export; wait-for-solr.sh; solr zk -z localhost:9983 upconfig -n default -d /opt/solr/server/solr/configsets/_default; tail -f /dev/null"
+
+            volumes:
+              solr-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+    .. group-tab:: Typesense
+
+        A instance of Typesense can be started with the following docker-compose file:
+
+        .. code-block:: yaml
+
+            # docker-compose.yml
+
+            services:
+              typesense:
+                image: typesense/typesense:0.24.0
+                ports:
+                  - "8108:8108"
+                environment:
+                  TYPESENSE_DATA_DIR: /data
+                  TYPESENSE_API_KEY: S3CR3T
+                healthcheck:
+                  test: ["CMD-SHELL", "exit 0"] # TODO currently not working as curl not available: https://github.com/typesense/typesense/issues/441#issuecomment-1383157680
+                  interval: 5s
+                  timeout: 5s
+                  retries: 10
+                volumes:
+                  - typesense-data:/data
+
+            volumes:
+              typesense-data:
+
+        To start the search engine run the following command:
+
+        .. code-block:: bash
+
+            docker-compose up
+
+        Depending on the service after a few seconds up to a minute the service is ready to use.
+        And you can continue with the next step.
+
+Create Indexes
+--------------
+
+Before you can use the search engine you need to create the indexes.
+
+.. tabs::
+
+    .. group-tab:: Standalone use
+
+        When using the ``Standalone`` version you need to create the ``Indexes``
+        in your search engines via the ``Engine`` instance which was created before:
+
+        .. code-block:: php
+
+            <?php
+
+            // create all indexes
+            $engine->createSchema();
+
+            // create specific index
+            $engine->createIndex('blog');
+
+    .. group-tab:: Laravel
+
+        To create the indexes in Laravel the following artisan command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            php artisan schranz:search:index-create
+
+            # create specific index
+            php artisan schranz:search:index-create --index=blog
+
+    .. group-tab:: Symfony
+
+        To create the indexes in Symfony the following console command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            bin/console schranz:search:index-create
+
+            # create specific index
+            bin/console schranz:search:index-create --index=blog
+
+    .. group-tab:: Spiral
+
+        To create the indexes in Spiral the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            php app.php schranz:search:index-create
+
+            # create specific index
+            php app.php schranz:search:index-create --index=blog
+
+Add Documents
+-------------
+
+To add documents to the search engine you need to use the ``Engine`` instance.
+With the following code we can add our first documents to the list our created index:
+
+.. code-block:: php
+
+    <?php
+
+    class YourService {
+        public function __construct(
+            private readonly \Schranz\Search\Engine $engine
+        ) {
+        }
+
+        public function someMethod()
+        {
+            $this->engine->saveDocument('blog', [
+                'id' => 1,
+                'title' => 'My first blog post',
+                'description' => 'This is the description of my first blog post',
+                'tags' => ['UI', 'UX'],
+            ]);
+
+            $this->engine->saveDocument('blog', [
+                'id' => 3,
+                'title' => 'My seconds blog post',
+                'content' => 'This is the description of my second blog post',
+                'tags' => ['Tech', 'UX'],
+            ]);
+
+            $this->engine->saveDocument('blog', [
+                'id' => 3,
+                'title' => 'My third blog post',
+                'content' => 'This is the description of my third blog post',
+                'tags' => ['Tech', 'UI'],
+            ]);
+        }
+    }
+
+Search Documents
+----------------
+
+In this step we will now search for our documents via a search term. This way we
+are calling a basic search with a given term to the configured search engine. And
+get a result of all documents which match the search term (``first``) and a total count how
+many exists in the given index.
+
+.. code-block:: php
+
+    <?php
+
+    class YourService {
+        public function __construct(
+            private readonly \Schranz\Search\Engine $engine
+        ) {
+        }
+
+        public function someMethod()
+        {
+            $result = $this->engine->createSearchBuilder()
+                ->addIndex('blog')
+                ->addFilter(new \Schranz\Search\SEAL\Search\Condition\SearchCondition('first')
+                ->getResult();
+
+            foreach ($result as $document) {
+                // do something with the document
+            }
+
+            $total = $result->total();
+        }
+    }
+
+Filter Documents
+----------------
+
+Not even searching but also filtering the documents are possible. In the following example
+we will filter by the ``tags`` field and get all documents which have the tag ``UI``.
+
+.. code-block:: php
+
+    <?php
+
+    class YourService {
+        public function __construct(
+            private readonly \Schranz\Search\Engine $engine
+        ) {
+        }
+
+        public function someMethod()
+        {
+            $result = $this->engine->createSearchBuilder()
+                ->addIndex('blog')
+                ->addFilter(new \Schranz\Search\SEAL\Search\Condition\EqualCondition('tags', 'UI'));
+                ->getResult();
+
+            foreach ($result as $document) {
+                // do something with the document
+            }
+
+            $total = $result->total();
+        }
+    }
+
+Help needed?
+------------
+
+If you need any help or run into any error feel free to use the
+`Github Discussions <https://github.com/schranz-search/schranz-search/discussions/categories/q-a>`_
+of the main repository to ask any questions. Or check there if
+somebody already solved the same problem.
+
+Next Steps
+----------
+
+These were the basic steps to get started with the Search Engine Abstraction Layer (**SEAL**).
+In the next part of the documentation, we will delve deeper into the :doc:`../schema/index`
+and explore the various field definitions. After that, we will examine the different conditions of
+:doc:`../search_and_filters/index` the abstraction provides.

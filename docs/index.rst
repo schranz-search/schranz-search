@@ -1,10 +1,65 @@
-Search Documentation
-====================
+Welcome to Schranz Search's documentation!
+==========================================
 
-Getting Started
----------------
+Introduction
+------------
+
+**SEAL** stands for: **S** earch **E** ngine **A** bstraction **L** ayer
+
+The SEAL project is a PHP library designed to simplify the process of interacting
+with different search engines. It provides a straightforward interface that enables users
+to communicate with various search engines, including:
+
+- ``Meilisearch``
+- ``Opensearch``
+- ``Elasticsearch``
+- ``Algolia``
+- ``Redisearch``
+- ``Solr``
+- ``Typesense``
+
+It also provides integration packages for the ``Laravel``, ``Symfony`` and ``Spiral`` PHP frameworks.
+
+It is worth noting that the project draws inspiration from the
+``Doctrine`` and ``Flysystem`` projects. These two projects have been a great inspiration
+in the development of SEAL, as they provide excellent examples of how to create consistent
+and user-friendly APIs for complex systems.
+
+Contents
+--------
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     getting_started/index
+    schema/index
+    search_and_filters/index
+
+..
+  * :ref:`search`
+
+-----------
+
+Packages
+--------
+
+Full list of packages provided by the SEAL project:
+
+- ``schranz-search/seal`` - The core package of the SEAL project.
+- ``schranz-search/seal-algolia-adapter`` - Adapter for the Algolia search engine.
+- ``schranz-search/seal-elasticsearch-adapter`` - Adapter for the Elasticsearch search engine.
+- ``schranz-search/seal-opensearch-adapter`` - Adapter for the Opensearch search engine.
+- ``schranz-search/seal-meilisearch-adapter`` - Adapter for the Meilisearch search engine.
+- ``schranz-search/seal-redisearch-adapter`` - Adapter for the Redisearch search engine.
+- ``schranz-search/seal-solr-adapter`` - Adapter for the Solr search engine.
+- ``schranz-search/seal-typesense-adapter`` - Adapter for the Typesense search engine.
+- ``schranz-search/seal-read-write-adapter`` - Adapter to split read and write operations.
+- ``schranz-search/seal-multi-adapter`` - Adapter to write into multiple search engines.
+- ``schranz-search/laravel-package`` - Integrates SEAL into the Laravel framework.
+- ``schranz-search/symfony-bundle`` - Integrates SEAL into the Symfony framework.
+- ``schranz-search/spiral-bridge`` - Integrates SEAL into the Spiral framework.
+
+Have also a look at the following tags:
+
+- `https://packagist.org/search/?tags=seal-adapter <https://packagist.org/search/?tags=seal-adapter>`_
+- `https://github.com/topics/seal-php-adapter <https://github.com/topics/seal-php-adapter>`_
