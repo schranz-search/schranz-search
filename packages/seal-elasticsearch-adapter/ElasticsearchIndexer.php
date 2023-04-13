@@ -45,7 +45,7 @@ final class ElasticsearchIndexer implements IndexerInterface
             throw new \RuntimeException('Unexpected error while indexing document with identifier "' . $identifier . '".');
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -72,7 +72,7 @@ final class ElasticsearchIndexer implements IndexerInterface
             }
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

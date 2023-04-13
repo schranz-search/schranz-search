@@ -49,7 +49,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
         $configsetQuery->setAction($action);
         $this->client->configsets($configsetQuery);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -93,7 +93,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
             $this->client->execute($query);
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

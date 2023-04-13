@@ -36,7 +36,7 @@ final class MeilisearchIndexer implements IndexerInterface
             throw new \RuntimeException('Unexpected error while save document with identifier "' . $identifier . '" into Index "' . $index->name . '".');
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -55,7 +55,7 @@ final class MeilisearchIndexer implements IndexerInterface
             throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

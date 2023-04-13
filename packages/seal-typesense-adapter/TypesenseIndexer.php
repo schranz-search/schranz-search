@@ -33,7 +33,7 @@ final class TypesenseIndexer implements IndexerInterface
 
         $this->client->collections[$index->name]->documents->upsert($marshalledDocument);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -44,7 +44,7 @@ final class TypesenseIndexer implements IndexerInterface
     {
         $this->client->collections[$index->name]->documents[$identifier]->delete();
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

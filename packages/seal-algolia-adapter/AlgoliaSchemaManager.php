@@ -52,7 +52,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             }
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -97,7 +97,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             }
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

@@ -42,7 +42,7 @@ final class SolrIndexer implements IndexerInterface
 
         $this->client->update($update);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -60,7 +60,7 @@ final class SolrIndexer implements IndexerInterface
 
         $this->client->update($update);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

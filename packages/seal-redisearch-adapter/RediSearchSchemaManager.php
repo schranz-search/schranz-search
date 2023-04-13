@@ -39,7 +39,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
             throw $this->createRedisLastErrorException();
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -82,7 +82,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
             throw $this->createRedisLastErrorException();
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

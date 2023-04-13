@@ -37,7 +37,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
     {
         $deleteIndexResponse = $this->client->deleteIndex($index->name);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -64,7 +64,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         $updateIndexResponse = $this->client->index($index->name)
             ->updateSettings($attributes);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

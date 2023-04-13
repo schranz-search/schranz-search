@@ -35,7 +35,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
             'index' => $index->name,
         ]);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -56,7 +56,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
             ],
         ]);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

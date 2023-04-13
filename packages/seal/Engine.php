@@ -121,7 +121,7 @@ final class Engine
             $tasks[] = $this->adapter->getSchemaManager()->createIndex($index, $options);
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -140,7 +140,7 @@ final class Engine
             $tasks[] = $this->adapter->getSchemaManager()->dropIndex($index, $options);
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

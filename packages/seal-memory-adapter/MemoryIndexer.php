@@ -23,7 +23,7 @@ final class MemoryIndexer implements IndexerInterface
     {
         $document = MemoryStorage::save($index, $this->marshaller->marshall($index->fields, $document));
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -34,7 +34,7 @@ final class MemoryIndexer implements IndexerInterface
     {
         MemoryStorage::delete($index, $identifier);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
