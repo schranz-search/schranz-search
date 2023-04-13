@@ -1,7 +1,7 @@
 Getting Started
 ===============
 
-Welcome to the Documentation about the SEAL, the **Search Engine Abstraction Layer** library for PHP.
+Lets get started with the **Search Engine Abstraction Layer** library for PHP.
 
 In this part we will show how you can start using SEAL in your project and its basic functions.
 

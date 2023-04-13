@@ -10,6 +10,8 @@ project = 'SEAL'
 copyright = '2023, Alexander Schranz'
 author = 'Alexander Schranz'
 release = '0.1'
+html_title = 'SEAL Documentation'
+html_favicon = '_static/icons/favicon.ico'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -1,5 +1,5 @@
-Welcome to Schranz Search's documentation!
-==========================================
+Welcome to SEAL's documentation!
+================================
 
 Introduction
 ------------
