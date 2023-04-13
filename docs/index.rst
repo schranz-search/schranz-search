@@ -33,7 +33,9 @@ Contents
 
     getting_started/index
     schema/index
+    indexing/index
     search_and_filters/index
+    cookbooks/index
 
 ..
   * :ref:`search`

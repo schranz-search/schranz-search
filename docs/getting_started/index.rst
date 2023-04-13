@@ -1,6 +1,10 @@
 Getting Started
 ===============
 
+Welcome to the Documentation about the SEAL, the **Search Engine Abstraction Layer** library for PHP.
+
+In this part we will show how you can start using SEAL in your project and its basic functions.
+
 Installation
 ------------
 
@@ -1240,5 +1244,5 @@ Next Steps
 
 These were the basic steps to get started with the Search Engine Abstraction Layer (**SEAL**).
 In the next part of the documentation, we will delve deeper into the :doc:`../schema/index`
-and explore the various field definitions. After that, we will examine the different conditions of
-:doc:`../search_and_filters/index` the abstraction provides.
+and explore the various field definitions. After that, we will a short look at the :doc:`../indexing/index` and then
+examine the different conditions of :doc:`../search_and_filters/index` the abstraction provides.
