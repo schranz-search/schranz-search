@@ -1,0 +1,48 @@
+html {
+    scroll-behavior: auto;
+}
+
+body[data-theme="dark"] .sphinx-tabs-panel {
+    background: none !important;
+    border: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    body[data-theme="auto"] .sphinx-tabs-panel {
+        background: none !important;
+        border: none !important;
+    }
+}
+
+.sphinx-tabs {
+    margin-top: 2rem;
+}
+
+.sphinx-tabs-panel {
+    background: none !important;
+    border: none !important;
+    padding: 1rem 0;
+}
+
+.sphinx-tabs-tab {
+    padding: 0.25rem 0.75rem;
+}
+
+[role="tablist"] {
+    display: flex;
+    overflow: auto;
+    padding: 1px;
+}
+
+[role="tablist"] > * {
+    white-space: nowrap;
+}
+
+article table.align-default {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+article table th {
+    text-align: left;
+}
