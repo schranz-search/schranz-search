@@ -464,16 +464,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.15.1",
+            "version": "v3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "3fc23b110a41a7462878e45d9fa58048565224b6"
+                "reference": "5a4bce3d6ea7d90211bb83a245ff5fe4cbc04fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/3fc23b110a41a7462878e45d9fa58048565224b6",
-                "reference": "3fc23b110a41a7462878e45d9fa58048565224b6",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/5a4bce3d6ea7d90211bb83a245ff5fe4cbc04fce",
+                "reference": "5a4bce3d6ea7d90211bb83a245ff5fe4cbc04fce",
                 "shasum": ""
             },
             "require": {
@@ -510,9 +510,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.15.1"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.16.0"
             },
-            "time": "2023-03-13T23:27:20+00:00"
+            "time": "2023-04-02T19:30:55+00:00"
         },
         {
             "name": "phpstan/extension-installer",
@@ -561,16 +561,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.x-dev",
+            "version": "1.11.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9"
+                "reference": "8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0166aef76e066f0dd2adc2799bdadfa1635711e9",
-                "reference": "0166aef76e066f0dd2adc2799bdadfa1635711e9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1",
+                "reference": "8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +620,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-24T10:28:16+00:00"
+            "time": "2023-04-13T18:41:44+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -680,12 +680,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "539546376eccd3b120076a905a8bf1160ee5cd23"
+                "reference": "db887088b40ae43d17b9913886df860a7035145d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/539546376eccd3b120076a905a8bf1160ee5cd23",
-                "reference": "539546376eccd3b120076a905a8bf1160ee5cd23",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/db887088b40ae43d17b9913886df860a7035145d",
+                "reference": "db887088b40ae43d17b9913886df860a7035145d",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +750,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-22T08:12:13+00:00"
+            "time": "2023-04-04T09:22:25+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -999,12 +999,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "75426870e2c4be6751886751f3e452ec1329adc4"
+                "reference": "0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/75426870e2c4be6751886751f3e452ec1329adc4",
-                "reference": "75426870e2c4be6751886751f3e452ec1329adc4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b",
+                "reference": "0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b",
                 "shasum": ""
             },
             "require": {
@@ -1094,7 +1094,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-23T14:30:08+00:00"
+            "time": "2023-04-13T07:43:14+00:00"
         },
         {
             "name": "rector/rector",
@@ -1102,17 +1102,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "093f3c06416dfcd803c2cfb9ab9dff8013a446d3"
+                "reference": "52b2dda9f2f55947136b4b6acdf3f58c950f1763"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/093f3c06416dfcd803c2cfb9ab9dff8013a446d3",
-                "reference": "093f3c06416dfcd803c2cfb9ab9dff8013a446d3",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/52b2dda9f2f55947136b4b6acdf3f58c950f1763",
+                "reference": "52b2dda9f2f55947136b4b6acdf3f58c950f1763",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.1"
+                "phpstan/phpstan": "^1.10.13"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -1156,7 +1156,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-26T00:33:56+00:00"
+            "time": "2023-04-13T14:10:48+00:00"
         },
         {
             "name": "sebastian/cli-parser",

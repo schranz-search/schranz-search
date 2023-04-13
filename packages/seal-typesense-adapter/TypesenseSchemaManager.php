@@ -34,7 +34,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
     {
         $this->client->collections[$index->name]->delete();
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -51,7 +51,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
             'fields' => $fields,
         ]);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

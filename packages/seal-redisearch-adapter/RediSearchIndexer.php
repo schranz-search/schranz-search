@@ -42,7 +42,7 @@ final class RediSearchIndexer implements IndexerInterface
             throw $this->createRedisLastErrorException();
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -60,7 +60,7 @@ final class RediSearchIndexer implements IndexerInterface
             throw $this->createRedisLastErrorException();
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

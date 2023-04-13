@@ -34,7 +34,7 @@ final class MultiIndexer implements IndexerInterface
             }
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -57,7 +57,7 @@ final class MultiIndexer implements IndexerInterface
             }
         }
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

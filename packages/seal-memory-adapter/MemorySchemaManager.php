@@ -20,7 +20,7 @@ final class MemorySchemaManager implements SchemaManagerInterface
     {
         MemoryStorage::dropIndex($index);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -31,7 +31,7 @@ final class MemorySchemaManager implements SchemaManagerInterface
     {
         MemoryStorage::createIndex($index);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 

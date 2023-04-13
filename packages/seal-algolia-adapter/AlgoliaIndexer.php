@@ -32,7 +32,7 @@ final class AlgoliaIndexer implements IndexerInterface
             ['objectIDKey' => $identifierField->name],
         );
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
@@ -49,7 +49,7 @@ final class AlgoliaIndexer implements IndexerInterface
 
         $batchIndexingResponse = $searchIndex->deleteObject($identifier);
 
-        if (true !== ($options['return_slow_promise_result'] ?? false)) {
+        if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
