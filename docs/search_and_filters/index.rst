@@ -183,6 +183,67 @@ the given value.
 
 The field is required to be marked as ``filterable`` in the index configuration.
 
+Filter on Objects and Typed Fields
+----------------------------------
+
+To filter on ``Objects`` and ``Typed`` fields you need to use the ``.`` symbol
+as a separator between the object and the field.
+
+For example for a document like this where the rating value is filterable:
+
+.. code-block:: php
+
+    <?php
+
+    $document = [
+        'rating' => [
+            'value' => '1.5'
+        ],
+    ];
+
+Need to be queried this way `<object>.<field>`:
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('blog')
+        ->addFilter(new Condition\LessThanEqualCondition('rating.value', 2.5))
+        ->getResult();
+
+To filter on ``Typed`` objects also the `.` symbol is used but the type name need to be included as well.
+
+For example for a document like this where header media is filterable:
+
+.. code-block:: php
+
+    <?php
+
+    $document = [
+        'header' => [
+            'type' => 'image',
+            'media' => 1
+        ],
+    ];
+
+Need to be queried this way `<object>.<type>.<field>`:
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('blog')
+        ->addFilter(new Condition\EqualCondition('header.image.media', 21))
+        ->getResult();
+
+Also nested objects and types can be queried the same way.
+
 --------------
 
 Pagination
