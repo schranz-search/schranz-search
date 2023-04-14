@@ -54,7 +54,7 @@ The condition does only search on fields which are marked as ``searchable`` in t
 EqualCondition
 --------------
 
-The ``EqualCondition`` is used to filter the result by a specific given value.
+The ``EqualCondition`` is used to filter the result by a specific field value matching a given value.
 
 .. code-block:: php
 
@@ -73,7 +73,7 @@ used on fields which are not marked as ``multiple``.
 NotEqualCondition
 -----------------
 
-The ``NotEqualCondition`` is used to filter the result by a specific given value not matching.
+The ``NotEqualCondition`` is used to filter the result by a specific field value not matching a given value.
 
 .. code-block:: php
 
@@ -110,7 +110,7 @@ then using a ``EqualCondition``.
 GreaterThanCondition
 --------------------
 
-The ``GreaterThanCondition`` is used to filter the result by a specific given value be greater than (`>`)
+The ``GreaterThanCondition`` is used to filter the result by a specific field value be greater than (``>``)
 the given value.
 
 .. code-block:: php
@@ -129,7 +129,7 @@ The field is required to be marked as ``filterable`` in the index configuration.
 GreaterThanEqualCondition
 -------------------------
 
-The ``GreaterThanEqualCondition`` is used to filter the result by a specific given value be greater than equal (`>=`)
+The ``GreaterThanEqualCondition`` is used to filter the result by a specific field value be greater than equal (``>=``)
 the given value.
 
 .. code-block:: php
@@ -148,7 +148,7 @@ The field is required to be marked as ``filterable`` in the index configuration.
 LessThanCondition
 -----------------
 
-The ``LessThanCondition`` is used to filter the result by a specific given value be less than equal (`<`)
+The ``LessThanCondition`` is used to filter the result by a specific field value be less than equal (``<``)
 the given value.
 
 .. code-block:: php
@@ -167,7 +167,7 @@ The field is required to be marked as ``filterable`` in the index configuration.
 LessThanEqualCondition
 ----------------------
 
-The ``LessThanEqualCondition`` is used to filter the result by a specific given value be less than equal (`<=`)
+The ``LessThanEqualCondition`` is used to filter the result by a specific field value be less than equal (``<=``)
 the given value.
 
 .. code-block:: php
