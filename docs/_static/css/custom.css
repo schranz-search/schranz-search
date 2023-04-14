@@ -46,3 +46,7 @@ article table.align-default {
 article table th {
     text-align: left;
 }
+
+.sidebar-drawer {
+    max-width: 15em;
+}
