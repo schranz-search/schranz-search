@@ -13,6 +13,14 @@ release = '0.1'
 html_title = 'SEAL Documentation'
 html_favicon = '_static/icons/favicon.ico'
 
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "schranz-search", # Username
+    "github_repo": "schranz-search", # Repo name
+    "github_version": "0.1", # Version
+    "conf_py_path": "/docs/", # Path in the checkout to the docs root
+}
+
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
