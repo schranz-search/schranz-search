@@ -46,9 +46,8 @@ integration of the package or the ``Standalone`` version.
 
              composer require schranz-search/spiral-bridge
 
-
-The project provides adapters to different search engines.
-Choice the one which fits your needs best:
+| The project provides adapters to different search engines, atleast one is required.
+| Choose the one which fits your needs best:
 
 .. tabs::
 
