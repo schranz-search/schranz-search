@@ -8,6 +8,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
  * Type to store date and date times.
  *
  * @property false $searchable
+ *
+ * @readonly
  */
 final class DateTimeField extends AbstractField
 {

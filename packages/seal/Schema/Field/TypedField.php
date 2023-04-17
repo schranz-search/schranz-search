@@ -12,6 +12,8 @@ final class TypedField extends AbstractField
     /**
      * @param array<string, array<string, AbstractField>> $types
      * @param array<string, mixed> $options
+     *
+     * @readonly
      */
     public function __construct(
         string $name,

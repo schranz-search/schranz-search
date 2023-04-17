@@ -11,6 +11,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
  * @property false $searchable
  * @property true $filterable
  * @property true $sortable
+ *
+ * @readonly
  */
 final class IdentifierField extends AbstractField
 {

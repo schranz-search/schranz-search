@@ -8,6 +8,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
  * Type to store any PHP int value.
  *
  * @property false $searchable
+ *
+ * @readonly
  */
 final class IntegerField extends AbstractField
 {
