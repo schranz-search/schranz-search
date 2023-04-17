@@ -834,7 +834,7 @@ search engine.
 
     .. group-tab:: Meilisearch
 
-        A instance of Meilisearch can be started with the following docker-compose file:
+        A instance of `Meilisearch <https://www.meilisearch.com/>`_ can be started with the following docker-compose file:
 
         .. code-block:: yaml
 
@@ -869,7 +869,7 @@ search engine.
 
     .. group-tab:: Algolia
 
-        As Algolia is SaaS, there is nothing to run it required. You can create a free account
+        As `Algolia <https://www.algolia.com/>`_ is SaaS, there is nothing to run it required. You can create a free account
         at `https://www.algolia.com/users/sign_up <https://www.algolia.com/users/sign_up>`_.
         After Signup you will get an ``ALGOLIA_APPLICATION_ID`` and an ``ALGOLIA_ADMIN_API_KEY``.
         Which you need to configure that your engine adapter configuration will then use them like
@@ -877,7 +877,7 @@ search engine.
 
     .. group-tab:: Elasticsearch
 
-        A instance of Elasticsearch can be started with the following docker-compose file:
+        A instance of `Elasticsearch <https://www.elastic.co/what-is/elasticsearch>`_ can be started with the following docker-compose file:
 
         .. code-block:: yaml
 
@@ -914,7 +914,7 @@ search engine.
 
     .. group-tab:: Opensearch
 
-        A instance of Opensearch can be started with the following docker-compose file:
+        A instance of `Opensearch <https://opensearch.org/adapter>`_ can be started with the following docker-compose file:
 
         .. code-block:: yaml
 
@@ -952,7 +952,7 @@ search engine.
 
     .. group-tab:: Redisearch
 
-        A instance of Redisearch can be started with the following docker-compose file.
+        A instance of `Redisearch <https://redis.io/docs/stack/search/>`_ can be started with the following docker-compose file.
         The here used `redis/redis-stack` image contains the required ``Redisearch``
         and ``JSON`` modules to run the search engine:
 
@@ -985,7 +985,7 @@ search engine.
 
     .. group-tab:: Solr
 
-        A instance of Solr can be started with the following docker-compose file.
+        A instance of `Solr <https://solr.apache.org/>`_ can be started with the following docker-compose file.
         It uses the required cloud mode to run the search engine. Running it
         without cloud mode is not supported yet:
 
@@ -1033,7 +1033,7 @@ search engine.
 
     .. group-tab:: Typesense
 
-        A instance of Typesense can be started with the following docker-compose file:
+        A instance of `Typesense <https://typesense.org/>`_ can be started with the following docker-compose file:
 
         .. code-block:: yaml
 
