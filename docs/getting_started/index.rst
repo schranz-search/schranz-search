@@ -46,7 +46,7 @@ integration of the package or the ``Standalone`` version.
 
              composer require schranz-search/spiral-bridge
 
-| The project provides adapters to different search engines, atleast one is required.
+| The project provides adapters to different search services, atleast one is required.
 | Choose the one which fits your needs best:
 
 .. tabs::
@@ -194,7 +194,7 @@ Configure Engine
 ----------------
 
 In the next step we will create the engine which will be use our created ``Schema``.
-The ``Engine`` is the main class which will be used to communicate with the search engine.
+The ``Engine`` is the main class which will be used to communicate with the search service.
 It requires an instance of the ``Adapter`` which we did install before.
 
 .. tabs::
@@ -203,7 +203,7 @@ It requires an instance of the ``Adapter`` which we did install before.
 
         When using the ``Standalone`` version we need to create a new instance of ``Engine``
         class to create it. The ``Engine`` requires beside the already created ``Schema`` also
-        an instance of ``Adapter`` which will be used to communicate with the search engine.
+        an instance of ``Adapter`` which will be used to communicate with the search service.
 
         .. tabs::
 
@@ -823,12 +823,12 @@ It requires an instance of the ``Adapter`` which we did install before.
                         ],
                     ];
 
-Prepare Search Engine
+Prepare Search Service
 ----------------------
 
-If you already have your search engine running you can skip this step. Still we want to
+If you already have your search service running you can skip this step. Still we want to
 provide here different `docker-compose <https://www.docker.com/products/docker-desktop/>`_ files to get you started quickly with your favorite
-search engine.
+search service.
 
 .. tabs::
 
@@ -858,7 +858,7 @@ search engine.
             volumes:
               meilisearch-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -903,7 +903,7 @@ search engine.
             volumes:
                 elasticsearch-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -941,7 +941,7 @@ search engine.
             volumes:
               opensearch-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -954,7 +954,7 @@ search engine.
 
         A instance of `Redisearch <https://redis.io/docs/stack/search/>`_ can be started with the following docker-compose file.
         The here used `redis/redis-stack` image contains the required ``Redisearch``
-        and ``JSON`` modules to run the search engine:
+        and ``JSON`` modules to run the search service:
 
         .. code-block:: yaml
 
@@ -974,7 +974,7 @@ search engine.
             volumes:
               redisearch-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -986,7 +986,7 @@ search engine.
     .. group-tab:: Solr
 
         A instance of `Solr <https://solr.apache.org/>`_ can be started with the following docker-compose file.
-        It uses the required cloud mode to run the search engine. Running it
+        It uses the required cloud mode to run the search service. Running it
         without cloud mode is not supported yet:
 
         .. code-block:: yaml
@@ -1022,7 +1022,7 @@ search engine.
             volumes:
               solr-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -1058,7 +1058,7 @@ search engine.
             volumes:
               typesense-data:
 
-        To start the search engine run the following command:
+        To start the search service run the following command:
 
         .. code-block:: bash
 
@@ -1070,14 +1070,14 @@ search engine.
 Create Indexes
 --------------
 
-Before you can use the search engine you need to create the indexes.
+Before you can use the search service you need to create the indexes.
 
 .. tabs::
 
     .. group-tab:: Standalone use
 
         When using the ``Standalone`` version you need to create the ``Indexes``
-        in your search engines via the ``Engine`` instance which was created before:
+        in your search service via the ``Engine`` instance which was created before:
 
         .. code-block:: php
 
@@ -1128,7 +1128,7 @@ Before you can use the search engine you need to create the indexes.
 Add Documents
 -------------
 
-To add documents to the search engine you need to use the ``Engine`` instance.
+To add documents to the search service you need to use the ``Engine`` instance.
 With the following code we can add our first documents to the list our created index:
 
 .. code-block:: php
@@ -1170,7 +1170,7 @@ Search Documents
 ----------------
 
 In this step we will now search for our documents via a search term. This way we
-are calling a basic search with a given term to the configured search engine. And
+are calling a basic search with a given term to the configured search service. And
 get a result of all documents which match the search term (``first``) and a total count how
 many exists in the given index.
 

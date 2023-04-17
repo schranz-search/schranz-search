@@ -48,15 +48,15 @@ Packages
 Full list of packages provided by the SEAL project:
 
 - ``schranz-search/seal`` - The core package of the SEAL project.
-- ``schranz-search/seal-algolia-adapter`` - Adapter for the Algolia search engine.
-- ``schranz-search/seal-elasticsearch-adapter`` - Adapter for the Elasticsearch search engine.
-- ``schranz-search/seal-opensearch-adapter`` - Adapter for the Opensearch search engine.
-- ``schranz-search/seal-meilisearch-adapter`` - Adapter for the Meilisearch search engine.
-- ``schranz-search/seal-redisearch-adapter`` - Adapter for the Redisearch search engine.
-- ``schranz-search/seal-solr-adapter`` - Adapter for the Solr search engine.
-- ``schranz-search/seal-typesense-adapter`` - Adapter for the Typesense search engine.
+- ``schranz-search/seal-algolia-adapter`` - Adapter for the Algolia search service.
+- ``schranz-search/seal-elasticsearch-adapter`` - Adapter for the Elasticsearch search service.
+- ``schranz-search/seal-opensearch-adapter`` - Adapter for the Opensearch search service.
+- ``schranz-search/seal-meilisearch-adapter`` - Adapter for the Meilisearch search service.
+- ``schranz-search/seal-redisearch-adapter`` - Adapter for the Redisearch search service.
+- ``schranz-search/seal-solr-adapter`` - Adapter for the Solr search service.
+- ``schranz-search/seal-typesense-adapter`` - Adapter for the Typesense search service.
 - ``schranz-search/seal-read-write-adapter`` - Adapter to split read and write operations.
-- ``schranz-search/seal-multi-adapter`` - Adapter to write into multiple search engines.
+- ``schranz-search/seal-multi-adapter`` - Adapter to write into multiple search services.
 - ``schranz-search/laravel-package`` - Integrates SEAL into the Laravel framework.
 - ``schranz-search/symfony-bundle`` - Integrates SEAL into the Symfony framework.
 - ``schranz-search/spiral-bridge`` - Integrates SEAL into the Spiral framework.
