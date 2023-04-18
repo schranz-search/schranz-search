@@ -8,6 +8,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
  * Type to store true or false flags.
  *
  * @property false $searchable
+ *
+ * @readonly
  */
 final class BooleanField extends AbstractField
 {

@@ -11,6 +11,8 @@ final class TextField extends AbstractField
 {
     /**
      * @param array<string, mixed> $options
+     *
+     * @readonly
      */
     public function __construct(
         string $name,

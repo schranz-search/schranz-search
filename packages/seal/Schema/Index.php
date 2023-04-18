@@ -10,9 +10,12 @@ use Schranz\Search\SEAL\Schema\Field\IdentifierField;
 use Schranz\Search\SEAL\Schema\Field\ObjectField;
 use Schranz\Search\SEAL\Schema\Field\TypedField;
 
+/**
+ * @readonly
+ */
 final class Index
 {
-    private ?IdentifierField $identifierField = null;
+    private readonly ?IdentifierField $identifierField;
 
     /**
      * @var string[]
@@ -40,26 +43,15 @@ final class Index
         $this->searchableFields = $attributes['searchableFields'];
         $this->filterableFields = $attributes['filterableFields'];
         $this->sortableFields = $attributes['sortableFields'];
+        $this->identifierField = $attributes['identifierField'];
     }
 
     public function getIdentifierField(): IdentifierField
     {
-        if (!$this->identifierField instanceof Field\IdentifierField) {
-            $identifierField = null;
-            foreach ($this->fields as $field) {
-                if ($field instanceof IdentifierField) {
-                    $identifierField = $field;
-                    break;
-                }
-            }
-
-            if (!$identifierField instanceof Field\IdentifierField) {
-                throw new \LogicException(
-                    'No "IdentifierField" found for index "' . $this->name . '"',
-                );
-            }
-
-            $this->identifierField = $identifierField;
+        if (!$this->identifierField instanceof Field\IdentifierField) { // validating the identifierField here as merged Index configuration could be have no identifier
+            throw new \LogicException(
+                'No "IdentifierField" found for index "' . $this->name . '" but is required.',
+            );
         }
 
         return $this->identifierField;
@@ -88,14 +80,21 @@ final class Index
     /**
      * @param Field\AbstractField[] $fields
      *
-     * @return array{
+     * @return ($withoutIdentifierField is false ? array{
      *     searchableFields: string[],
      *     filterableFields: string[],
      *     sortableFields: string[],
-     * }
+     *     identifierField: IdentifierField|null,
+     * } : array{
+     *     searchableFields: string[],
+     *     filterableFields: string[],
+     *     sortableFields: string[],
+     * })
      */
-    private function getAttributes(array $fields): array
+    private function getAttributes(array $fields, bool $withoutIdentifierField = false): array
     {
+        $identifierField = null;
+
         $attributes = [
             'searchableFields' => [],
             'filterableFields' => [],
@@ -104,7 +103,7 @@ final class Index
 
         foreach ($fields as $name => $field) {
             if ($field instanceof Field\ObjectField) {
-                foreach ($this->getAttributes($field->fields) as $attributeType => $fieldNames) {
+                foreach ($this->getAttributes($field->fields, true) as $attributeType => $fieldNames) {
                     foreach ($fieldNames as $fieldName) {
                         $attributes[$attributeType][] = $name . '.' . $fieldName;
                     }
@@ -113,7 +112,7 @@ final class Index
                 continue;
             } elseif ($field instanceof Field\TypedField) {
                 foreach ($field->types as $type => $fields) {
-                    foreach ($this->getAttributes($fields) as $attributeType => $fieldNames) {
+                    foreach ($this->getAttributes($fields, true) as $attributeType => $fieldNames) {
                         foreach ($fieldNames as $fieldName) {
                             $attributes[$attributeType][] = $name . '.' . $type . '.' . $fieldName;
                         }
@@ -134,7 +133,17 @@ final class Index
             if ($field->sortable) {
                 $attributes['sortableFields'][] = $name;
             }
+
+            if ($field instanceof IdentifierField) {
+                $identifierField = $field;
+            }
         }
+
+        if ($withoutIdentifierField) {
+            return $attributes;
+        }
+
+        $attributes['identifierField'] = $identifierField;
 
         return $attributes;
     }

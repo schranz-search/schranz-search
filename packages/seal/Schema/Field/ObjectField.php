@@ -6,6 +6,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
 
 /**
  * Type to store fields inside a nested object.
+ *
+ * @readonly
  */
 final class ObjectField extends AbstractField
 {

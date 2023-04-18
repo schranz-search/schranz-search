@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Schema\Field;
 
+/**
+ * @readonly
+ */
 abstract class AbstractField
 {
     /**
