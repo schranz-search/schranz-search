@@ -110,7 +110,11 @@ integration of the package or the ``Standalone`` version.
 Configure Schema
 ----------------
 
-In this section we will create a first schema for our search index.
+The ``Schema`` defines the different ``Indexes`` and their ``Fields``.
+The definition of the fields depends on which data you want to store (text, int, float, ...) in the search engine
+and what you want todo with it later (searchable, filterable, sortable, ...).
+
+In this section we will create a first schema for our ``Index``:
 
 .. tabs::
 
@@ -190,12 +194,17 @@ In this section we will create a first schema for our search index.
                 'tags' => new Field\TextField('tags', multiple: true, filterable: true),
             ]);
 
+For a full list of available fields see the :doc:`../schema/index` documentation. The
+only required field is the ``IdentifierField`` which can appear only once per index.
+
 Configure Engine
 ----------------
 
 In the next step we will create the engine which will be use our created ``Schema``.
 The ``Engine`` is the main class which will be used to communicate with the search engine.
-It requires an instance of the ``Adapter`` which we did install before.
+So for all kind of operations like add, remove, search, filter, drop, create, ... we need to use the ``Engine``.
+
+It requires an instance of the ``Adapter`` which we did install before to connect to the correct Search engine.
 
 .. tabs::
 
@@ -1128,6 +1137,8 @@ Before you can use the search engine you need to create the indexes.
 Add Documents
 -------------
 
+A document in SEAL is a associative array following the structure of the defined Schema.
+
 To add documents to the search engine you need to use the ``Engine`` instance.
 With the following code we can add our first documents to the list our created index:
 
@@ -1166,6 +1177,8 @@ With the following code we can add our first documents to the list our created i
         }
     }
 
+For all kind of indexing operations have a look at the :doc:`../indexing/index` documentation.
+
 Search Documents
 ----------------
 
@@ -1199,6 +1212,8 @@ many exists in the given index.
         }
     }
 
+For all kind of search and filters have a look at the :doc:`../search_and_filters/index` documentation.
+
 Filter Documents
 ----------------
 
@@ -1229,6 +1244,8 @@ we will filter by the ``tags`` field and get all documents which have the tag ``
             $total = $result->total();
         }
     }
+
+For all kind of search and filters have a look at the :doc:`../search_and_filters/index` documentation.
 
 Help needed?
 ------------

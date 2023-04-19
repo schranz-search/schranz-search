@@ -50,3 +50,12 @@ article table th {
 .sidebar-drawer {
     max-width: 15em;
 }
+
+.image-reference {
+    display: block;
+}
+
+.image-reference > img {
+    display: block;
+    margin: 0 auto;
+}

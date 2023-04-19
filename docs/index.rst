@@ -25,6 +25,38 @@ It is worth noting that the project draws inspiration from the
 in the development of SEAL, as they provide excellent examples of how to create consistent
 and user-friendly APIs for complex systems.
 
+Structure
+---------
+
+.. image:: _images/overview.svg
+  :width: 600
+  :alt: Basic project overview
+
+SEAL's provides a basic abstraction layer for add, remove and search and filters for documents.
+The main class and service handling this is called ``Engine``, which is responsible for all this things.
+The ``Schema`` which is required defines the different ``Indexes`` and their ``Fields``.
+
+The project provides different ``Adapters`` which the Engine uses to communicate with the different ``Search Engine`` software and services.
+This way it is easy to switch between different search engine software and services.
+
+**Glossar**
+
+.. list-table::
+   :widths: 18 82
+
+   * - **Term**
+     - **Definition**
+   * - ``Engine``
+     - The main class and service responsible to provide the basic interface for add, remove and search and filters for documents.
+   * - ``Schema``
+     - Defines the different ``Indexes`` and their ``Fields``, for every field a specific type need to be defined and what you want todo with them via flags like ``searchable``, ``filterable`` and ``sortable``.
+   * - ``Adapter``
+     - Provides the communication between the Engine and the Search Engine software and services.
+   * - ``Documents``
+     - A structure of data that you want to index need to follow the structure of the fields of the index schema.
+   * - ``Search Engine``
+     - Search Engine software or service where the data will actually be stored currently ``Meilisearch``, ``Opensearch``, ``Elasticsearch``, ``Algolia``, ``Redisearch``, ``Solr`` and ``Typesense`` is supported.
+
 Contents
 --------
 
