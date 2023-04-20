@@ -64,7 +64,7 @@ class ConfigProvider
             'schranz_search' => [
                 'schemas' => [
                     'app' => [
-                        'dir' => 'schemas',
+                        'dir' => 'config/schemas',
                     ],
                 ],
                 'engines' => [
@@ -94,11 +94,11 @@ class ConfigProvider
             'schranz_search' => [
                 'schemas' => [
                     'app' => [
-                        'dir' => 'schemas/app',
+                        'dir' => 'config/schemas/app',
                         'engine' => 'meilisearch',
                     ],
                     'other' => [
-                        'dir' => 'schemas/other',
+                        'dir' => 'config/schemas/other',
                         'engine' => 'algolia',
                     ],
                 ],

@@ -1,5 +1,5 @@
 {
-    "name": "schranz-search/mezzio-package",
+    "name": "schranz-search/mezzio-module",
     "description": "An integration of schranz-search search abstraction into Mezzio Framework.",
     "type": "library",
     "license": "MIT",

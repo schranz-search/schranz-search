@@ -27,12 +27,15 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/package-versions-deprecated": true,
-            "laminas/laminas-component-installer": true
+            "laminas/laminas-component-installer": true,
+            "php-http/discovery": true
         },
         "platform": {
-            "php": "8.0.99"
+            "php": "8.1.16"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "extra": {
         "laminas": {
             "component-whitelist": [
@@ -45,7 +48,9 @@
         }
     },
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "~8.1.0 || ~8.2.0",
+        "schranz-search/seal": "^0.1",
+        "schranz-search/mezzio-module": "^0.1",
         "composer/package-versions-deprecated": "^1.10.99",
         "laminas/laminas-component-installer": "^2.6 || ^3.0",
         "laminas/laminas-config-aggregator": "^1.6",
@@ -61,8 +66,34 @@
         "phpunit/phpunit": "^9.5.11",
         "mezzio/mezzio-tooling": "^2.8",
         "roave/security-advisories": "dev-master",
+        "schranz-search/seal-algolia-adapter": "^0.1",
+        "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-meilisearch-adapter": "^0.1",
+        "schranz-search/seal-memory-adapter": "^0.1",
+        "schranz-search/seal-multi-adapter": "^0.1",
+        "schranz-search/seal-opensearch-adapter": "^0.1",
+        "schranz-search/seal-read-write-adapter": "^0.1",
+        "schranz-search/seal-redisearch-adapter": "^0.1",
+        "schranz-search/seal-solr-adapter": "^0.1",
+        "schranz-search/seal-typesense-adapter": "^0.1",
         "filp/whoops": "^2.7.1"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../integrations/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "src/App/src/"

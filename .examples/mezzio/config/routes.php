@@ -38,6 +38,17 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get('/', App\Handler\HomePageHandler::class, 'home');
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
+
+    $app->get('/', App\Handler\SearchHandler::class, 'home');
+    $app->get('/algolia', App\Handler\SearchAlgoliaHandler::class, 'algolia');
+    $app->get('/elasticsearch', App\Handler\SearchElasticsearchHandler::class, 'elasticsearch');
+    $app->get('/meilisearch', App\Handler\SearchMeilisearchHandler::class, 'meilisearch');
+    $app->get('/memory', App\Handler\SearchMemoryHandler::class, 'memory');
+    $app->get('/multi', App\Handler\SearchMultiHandler::class, 'multi');
+    $app->get('/opensearch', App\Handler\SearchOpensearchHandler::class, 'opensearch');
+    $app->get('/read-write', App\Handler\SearchReadWriteHandler::class, 'read_write');
+    $app->get('/redisearch', App\Handler\SearchRedisearchHandler::class, 'redisearch');
+    $app->get('/solr', App\Handler\SearchSolrHandler::class, 'solr');
+    $app->get('/typesense', App\Handler\SearchTypesenseHandler::class, 'typesense');
 };

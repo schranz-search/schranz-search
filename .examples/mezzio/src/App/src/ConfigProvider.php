@@ -22,6 +22,76 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'schranz_search' => [
+                'schemas' => [
+                    'algolia' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'algolia',
+                    ],
+                    'elasticsearch' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'elasticsearch',
+                    ],
+                    'meilisearch' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'meilisearch',
+                    ],
+                    'memory' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'memory',
+                    ],
+                    'opensearch' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'opensearch',
+                    ],
+                    'redisearch' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'redisearch',
+                    ],
+                    'solr' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'solr',
+                    ],
+                    'typesense' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'typesense',
+                    ],
+                ],
+                'engines' => [
+                    'algolia' => [
+                        'adapter' => 'algolia://%ALGOLIA_APPLICATION_ID%%:%ALGOLIA_ADMIN_API_KEY%', // TODO
+                    ],
+                    'elasticsearch' => [
+                        'adapter' => 'elasticsearch://127.0.0.1:9200',
+                    ],
+                    'meilisearch' => [
+                        'adapter' => 'meilisearch://127.0.0.1:7700',
+                    ],
+                    'memory' => [
+                        'adapter' => 'memory://',
+                    ],
+                    'opensearch' => [
+                        'adapter' => 'opensearch://127.0.0.1:9200',
+                    ],
+                    'redisearch' => [
+                        'adapter' => 'redis://supersecure@127.0.0.1:6379',
+                    ],
+                    'solr' => [
+                        'adapter' => 'solr://127.0.0.1:8983',
+                    ],
+                    'typesense' => [
+                        'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
+                    ],
+
+                    // ...
+                    'multi' => [
+                        'adapter' => 'multi://elasticsearch?adapters[]=opensearch',
+                    ],
+                    'read-write' => [
+                        'adapter' => 'read-write://elasticsearch?write=multi',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -36,6 +106,17 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                Handler\SearchHandler::class => Handler\SearchHandlerFactory::class,
+                Handler\SearchAlgoliaHandler::class => Handler\SearchAlgoliaHandlerFactory::class,
+                Handler\SearchElasticsearchHandler::class => Handler\SearchElasticsearchHandlerFactory::class,
+                Handler\SearchMeilisearchHandler::class => Handler\SearchMeilisearchHandlerFactory::class,
+                Handler\SearchMemoryHandler::class => Handler\SearchMemoryHandlerFactory::class,
+                Handler\SearchMultiHandler::class => Handler\SearchMultiHandlerFactory::class,
+                Handler\SearchOpensearchHandler::class => Handler\SearchOpensearchHandlerFactory::class,
+                Handler\SearchReadWriteHandler::class => Handler\SearchReadWriteHandlerFactory::class,
+                Handler\SearchRedisearchHandler::class => Handler\SearchRedisearchHandlerFactory::class,
+                Handler\SearchSolrHandler::class => Handler\SearchSolrHandlerFactory::class,
+                Handler\SearchTypesenseHandler::class => Handler\SearchTypesenseHandlerFactory::class,
             ],
         ];
     }
