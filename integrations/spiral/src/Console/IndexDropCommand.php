@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Spiral\Console;
 
 use Schranz\Search\SEAL\EngineRegistry;
+use Spiral\Boot\Environment\AppEnvironment;
 use Spiral\Console\Attribute\Argument;
 use Spiral\Console\Attribute\AsCommand;
 use Spiral\Console\Attribute\Option;
@@ -28,10 +29,10 @@ final class IndexDropCommand extends Command
     #[Option(shortcut: 'f', description: 'Force to drop the indexes')]
     private bool $force = false;
 
-    public function __invoke(EngineRegistry $engineRegistry): int
+    public function __invoke(EngineRegistry $engineRegistry, AppEnvironment $env): int
     {
-        if (!$this->force) {
-            $this->error('You need to use the --force option to drop the search indexes.');
+        if ($env->isProduction() && !$this->force) {
+            $this->error('You need to use the --force option to drop the search indexes in production mode.');
 
             return self::FAILURE;
         }
@@ -42,13 +43,13 @@ final class IndexDropCommand extends Command
             }
 
             if ($this->indexName) {
-                $this->line('Drop search index "' . $this->indexName . '" of "' . $name . '" ...');
+                $this->line(\sprintf('Drop search index "%s" of "%s" ...', $this->indexName, $name));
                 $engine->dropIndex($this->indexName);
 
                 continue;
             }
 
-            $this->line('Drop search indexes of "' . $name . '" ...');
+            $this->line(\sprintf('Drop search indexes of "%s" ...', $name));
             $engine->dropSchema();
         }
 
