@@ -71,7 +71,7 @@ schemas and engines. Below you can find an example of a simple configuration fil
 return [
     'schemas' => [
         'app' => [
-            'dir' => directory('app'), 'schemas',
+            'dir' => directory('app') . 'schemas',
         ],
     ],
     'engines' => [
@@ -96,11 +96,11 @@ Here is also an example of more complex configuration:
 return [
     'schemas' => [
         'app' => [
-            'dir' => directory('app'), 'schemas/app',
+            'dir' => directory('app') . 'schemas/app',
             'engine' => 'meilisearch',
         ],
         'other' => [
-            'dir' => directory('app'), 'schemas/other',
+            'dir' => directory('app') . 'schemas/other',
             'engine' => 'algolia',
         ],
     ],
