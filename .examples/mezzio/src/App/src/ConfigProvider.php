@@ -21,7 +21,6 @@ class ConfigProvider
     {
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
             'schranz_search' => [
                 'schemas' => [
                     'algolia' => [
@@ -59,7 +58,7 @@ class ConfigProvider
                 ],
                 'engines' => [
                     'algolia' => [
-                        'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
+                        'adapter' => 'algolia://' . getenv('ALGOLIA_APPLICATION_ID') . ':' . getenv('ALGOLIA_ADMIN_API_KEY'),
                     ],
                     'elasticsearch' => [
                         'adapter' => 'elasticsearch://127.0.0.1:9200',
@@ -119,20 +118,6 @@ class ConfigProvider
                 Handler\SearchRedisearchHandler::class => Handler\SearchRedisearchHandlerFactory::class,
                 Handler\SearchSolrHandler::class => Handler\SearchSolrHandlerFactory::class,
                 Handler\SearchTypesenseHandler::class => Handler\SearchTypesenseHandlerFactory::class,
-            ],
-        ];
-    }
-
-    /**
-     * Returns the templates configuration
-     */
-    public function getTemplates(): array
-    {
-        return [
-            'paths' => [
-                'app'    => [__DIR__ . '/../templates/app'],
-                'error'  => [__DIR__ . '/../templates/error'],
-                'layout' => [__DIR__ . '/../templates/layout'],
             ],
         ];
     }

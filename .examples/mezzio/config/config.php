@@ -33,9 +33,6 @@ $aggregator = new ConfigAggregator([
             return [];
         },
 
-    // Default App module config
-    App\ConfigProvider::class,
-
     // Load application config in a pre-defined order in such a way that local settings
     // overwrite global settings. (Loaded as first to last):
     //   - `global.php`
@@ -46,6 +43,9 @@ $aggregator = new ConfigAggregator([
 
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
+
+    // Default App module config
+    App\ConfigProvider::class,
 ], $cacheConfig['config_cache_path']);
 
 return $aggregator->getMergedConfig();
