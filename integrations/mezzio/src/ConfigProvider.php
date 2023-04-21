@@ -14,6 +14,7 @@ use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Opensearch\OpensearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
@@ -67,6 +68,10 @@ class ConfigProvider
 
         if (\class_exists(MeilisearchAdapterFactory::class)) {
             $adapterFactories[MeilisearchAdapterFactory::getName()] = MeilisearchAdapterFactory::class;
+        }
+
+        if (\class_exists(OpensearchAdapterFactory::class)) {
+            $adapterFactories[OpensearchAdapterFactory::getName()] = OpensearchAdapterFactory::class;
         }
 
         if (\class_exists(MemoryAdapterFactory::class)) {
