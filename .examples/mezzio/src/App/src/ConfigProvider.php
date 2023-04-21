@@ -59,7 +59,7 @@ class ConfigProvider
                 ],
                 'engines' => [
                     'algolia' => [
-                        'adapter' => 'algolia://%ALGOLIA_APPLICATION_ID%%:%ALGOLIA_ADMIN_API_KEY%', // TODO
+                        'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
                     ],
                     'elasticsearch' => [
                         'adapter' => 'elasticsearch://127.0.0.1:9200',
@@ -84,12 +84,14 @@ class ConfigProvider
                     ],
 
                     // ...
+                    /*
                     'multi' => [
                         'adapter' => 'multi://elasticsearch?adapters[]=opensearch',
                     ],
                     'read-write' => [
                         'adapter' => 'read-write://elasticsearch?write=multi',
                     ],
+                    */
                 ],
             ],
         ];
