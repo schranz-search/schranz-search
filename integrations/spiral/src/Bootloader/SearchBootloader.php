@@ -69,7 +69,7 @@ final class SearchBootloader extends Bootloader
                 'prefix' => $environment->get('SEAL_SEARCH_PREFIX', ''),
                 'schemas' => [
                     'app' => [
-                        'dir' => $dirs->get('app').'schemas',
+                        'dir' => $dirs->get('app') . 'schemas',
                     ],
                 ],
                 'engines' => [],
@@ -90,10 +90,10 @@ final class SearchBootloader extends Bootloader
 
         $engineServices = [];
         foreach ($engines as $name => $engineConfig) {
-            $adapterServiceId = 'schranz_search.adapter.'.$name;
-            $engineServiceId = 'schranz_search.engine.'.$name;
-            $schemaLoaderServiceId = 'schranz_search.schema_loader.'.$name;
-            $schemaId = 'schranz_search.schema.'.$name;
+            $adapterServiceId = 'schranz_search.adapter.' . $name;
+            $engineServiceId = 'schranz_search.engine.' . $name;
+            $schemaLoaderServiceId = 'schranz_search.schema_loader.' . $name;
+            $schemaId = 'schranz_search.schema.' . $name;
 
             /** @var string $adapterDsn */
             $adapterDsn = $engineConfig['adapter'];
