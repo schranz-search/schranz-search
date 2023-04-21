@@ -43,13 +43,13 @@ final class IndexDropCommand extends Command
             }
 
             if ($this->indexName) {
-                $this->line(\sprintf('Drop search index "%s" of "%s" ...', $this->indexName, $name));
+                $this->line('Drop search index "' . $this->indexName . '" of "' . $name . '" ...');
                 $engine->dropIndex($this->indexName);
 
                 continue;
             }
 
-            $this->line(\sprintf('Drop search indexes of "%s" ...', $name));
+            $this->line('Drop search indexes of "' . $name . '" ...');
             $engine->dropSchema();
         }
 

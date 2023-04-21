@@ -8,16 +8,6 @@ use Spiral\Core\InjectableConfig;
 
 /**
  * @experimental
- * @psalm-type TEngine = array{
- *     adapter: string,
- * }
- * @psalm-type TEngines = array<string, TEngine>
- * @psalm-type TSchema = array{
- *     dir: string,
- *     engine?: string,
- * }
- *
- * @psalm-type TSchemas = array<non-empty-string, TSchema>
  */
 final class SearchConfig extends InjectableConfig
 {
@@ -26,8 +16,13 @@ final class SearchConfig extends InjectableConfig
     /**
      * @var array{
      *     prefix: string,
-     *     schemas: TSchemas,
-     *     engines: TEngines>,
+     *     schemas: array<string, array{
+     *         dir: string,
+     *         engine?: string,
+     *     }>,
+     *     engines: array<string, array{
+     *         adapter: string,
+     *     }>,
      * }
      */
     protected array $config = [
@@ -42,7 +37,10 @@ final class SearchConfig extends InjectableConfig
     }
 
     /**
-     * @return TSchemas
+     * @return array<string, array{
+     *     dir: string,
+     *     engine?: string,
+     * }>
      */
     public function getSchemas(): array
     {
@@ -50,7 +48,9 @@ final class SearchConfig extends InjectableConfig
     }
 
     /**
-     * @return TEngines
+     * @return array<string, array{
+     *     adapter: string,
+     * }>
      */
     public function getEngines(): array
     {

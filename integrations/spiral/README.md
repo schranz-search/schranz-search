@@ -67,7 +67,6 @@ schemas and engines. Below you can find an example of a simple configuration fil
 ```php
 <?php
 // app/config/schranz_search.php
-declare(strict_types=1);
 
 return [
     'schemas' => [
@@ -93,7 +92,6 @@ Here is also an example of more complex configuration:
 ```php
 <?php
 // app/config/schranz_search.php
-declare(strict_types=1);
 
 return [
     'schemas' => [
@@ -148,25 +146,13 @@ return [
 You can access a default engine via the `Schranz\Search\SEAL\Engine` class:
 
 ```php
-use Schranz\Search\SEAL\Engine;
-
 final class UsersSearchService {
     public function __construct(
-        private readonly Engine $engine,
-        private readonly UserRepository $users,
+        private readonly \Schranz\Search\SEAL\Engine $engine,
     ) {
     }
     
-    public function index(string $userId): void 
-    {
-        $user = $this->users->find($userId);
-        
-        $this->engine->saveDocument('user.'.$userId, [
-            'id' => $user->getId(),
-            'name' => $user->getName(),
-            'email' => $user->getEmail(),
-        ]);
-    }
+    // ...
 }
 ```
 

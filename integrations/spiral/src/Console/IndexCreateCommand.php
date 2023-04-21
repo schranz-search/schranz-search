@@ -32,13 +32,13 @@ final class IndexCreateCommand extends Command
             }
 
             if ($this->indexName) {
-                $this->line(sprintf('Creating search index "%s" of "%s" ...', $this->indexName, $name));
+                $this->line('Creating search index "' . $this->indexName . '" of "' . $name . '" ...');
                 $engine->createIndex($this->indexName);
 
                 continue;
             }
 
-            $this->line(sprintf('Creating search indexes of "%s" ...', $name));
+            $this->line('Creating search indexes of "' . $name . '" ...');
             $engine->createSchema();
         }
 
