@@ -204,7 +204,7 @@ In this section we will create a first schema for our ``Index``:
 
     .. group-tab:: Mezzio
 
-        If you are using Spiral create a new ``Index`` in the ``config/schemas`` directory:´
+        If you are using Mezzio create a new ``Index`` in the ``config/schemas`` directory:´
 
         .. code-block:: php
 
