@@ -83,14 +83,12 @@ class ConfigProvider
                     ],
 
                     // ...
-                    /*
                     'multi' => [
                         'adapter' => 'multi://elasticsearch?adapters[]=opensearch',
                     ],
                     'read-write' => [
                         'adapter' => 'read-write://elasticsearch?write=multi',
                     ],
-                    */
                 ],
             ],
         ];

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Schranz\Search\Integration\Mezzio;
 
-use Schranz\Search\Integration\Mezzio\Service\AdapterFactoryAbstractFactory;
-use Schranz\Search\Integration\Mezzio\Service\AdapterFactoryFactory;
-use Schranz\Search\Integration\Mezzio\Service\EngineFactory;
-use Schranz\Search\Integration\Mezzio\Service\EngineRegistryFactory;
+use Schranz\Search\Integration\Mezzio\Service\SealContainer;
+use Schranz\Search\Integration\Mezzio\Service\SealContainerFactory;
+use Schranz\Search\Integration\Mezzio\Service\SealContainerServiceAbstractFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
+use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
@@ -22,8 +22,11 @@ use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\EngineRegistry;
 
-class ConfigProvider
+final class ConfigProvider
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function __invoke(): array
     {
         return [
@@ -37,24 +40,34 @@ class ConfigProvider
         ];
     }
 
+    /**
+     * @return array{
+     *     factories: array<class-string, class-string>
+     * }
+     */
     public function getDependencies(): array
     {
+        /** @var array<class-string, class-string> $adapterFactories */
         $adapterFactories = [];
         foreach ($this->getAdapterFactories() as $adapterFactoryClass) {
-            $adapterFactories[$adapterFactoryClass] = AdapterFactoryAbstractFactory::class;
+            $adapterFactories[$adapterFactoryClass] = SealContainerServiceAbstractFactory::class;
         }
 
         return [
             'factories' => [
-                EngineRegistry::class => EngineRegistryFactory::class,
-                Engine::class => EngineFactory::class,
-                AdapterFactory::class => AdapterFactoryFactory::class,
+                EngineRegistry::class => SealContainerServiceAbstractFactory::class,
+                Engine::class => SealContainerServiceAbstractFactory::class,
+                AdapterFactory::class => SealContainerServiceAbstractFactory::class,
+                SealContainer::class => SealContainerFactory::class,
                 ...$adapterFactories,
             ],
         ];
     }
 
-    private function getAdapterFactories()
+    /**
+     * @return array<string, class-string<AdapterFactoryInterface>>
+     */
+    private function getAdapterFactories(): array
     {
         $adapterFactories = [];
 
