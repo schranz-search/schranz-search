@@ -37,9 +37,10 @@ Also install one of the listed adapters.
 
 The following framework integrations are available:
 
+- [Symfony Bundle](integrations/symfony): `schranz-search/symfony-bundle`
 - [Laravel Package](integrations/laravel): `schranz-search/laravel-package`
 - [Spiral Bridge](integrations/spiral): `schranz-search/spiral-bridge`
-- [Symfony Bundle](integrations/symfony): `schranz-search/symfony-bundle`
+- [Mezzio Module](integrations/mezzio): `schranz-search/mezzio-module`
 
 ### List of adapters
 

@@ -96,3 +96,11 @@ jobs:
             directory: '.examples/spiral'
             docker: true
         secrets: inherit
+
+    mezzio-integration-example:
+        name: Mezzio Integration Example
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: '.examples/mezzio'
+            docker: true
+        secrets: inherit
