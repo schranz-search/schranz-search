@@ -25,6 +25,9 @@ be provided or can be null.
         'tags' => ['UI', 'UX'],
     ]);
 
+To update a document the same method ``saveDocument`` need to be used with the same ``identifier``
+value.
+
 Delete document
 ---------------
 

@@ -1134,13 +1134,14 @@ Before you can use the search engine you need to create the indexes.
             # create specific index
             php app.php schranz:search:index-create --index=blog
 
-Add Documents
--------------
+Add or Update Documents
+-----------------------
 
 A document in SEAL is a associative array following the structure of the defined Schema.
+The only required field is the ``IdentifierField`` of the Schema.
 
 To add documents to the search engine you need to use the ``Engine`` instance.
-With the following code we can add our first documents to the list our created index:
+With the following code we can add our first documents to our created index:
 
 .. code-block:: php
 
@@ -1176,6 +1177,8 @@ With the following code we can add our first documents to the list our created i
             ]);
         }
     }
+
+To update a document you can use the same ``saveDocument`` method with the same identifier.
 
 For all kind of indexing operations have a look at the :doc:`../indexing/index` documentation.
 
