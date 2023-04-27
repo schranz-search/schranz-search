@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\Integration\Mezzio;
 
+use Schranz\Search\Integration\Mezzio\Service\CommandAbstractFactory;
 use Schranz\Search\Integration\Mezzio\Service\SealContainer;
 use Schranz\Search\Integration\Mezzio\Service\SealContainerFactory;
 use Schranz\Search\Integration\Mezzio\Service\SealContainerServiceAbstractFactory;
@@ -30,12 +31,23 @@ final class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'laminas-cli' => $this->getCliConfig(),
             'dependencies' => $this->getDependencies(),
             'schranz_search' => [
                 'adapter_factories' => $this->getAdapterFactories(), // we are going over a config as there are no tagged services in mezzio
                 'prefix' => '',
                 'schemas' => [],
                 'engines' => [],
+            ],
+        ];
+    }
+
+    public function getCliConfig() : array
+    {
+        return [
+            'commands' => [
+                'schranz:search:index-create' => Command\IndexCreateCommand::class,
+                'schranz:search:index-drop' => Command\IndexDropCommand::class,
             ],
         ];
     }
@@ -59,6 +71,8 @@ final class ConfigProvider
                 Engine::class => SealContainerServiceAbstractFactory::class,
                 AdapterFactory::class => SealContainerServiceAbstractFactory::class,
                 SealContainer::class => SealContainerFactory::class,
+                Command\IndexCreateCommand::class => CommandAbstractFactory::class,
+                Command\IndexDropCommand::class => CommandAbstractFactory::class,
                 ...$adapterFactories,
             ],
         ];

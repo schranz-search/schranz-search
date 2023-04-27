@@ -72,7 +72,7 @@ class ConfigProvider
                         'adapter' => 'memory://',
                     ],
                     'opensearch' => [
-                        'adapter' => 'opensearch://127.0.0.1:9200',
+                        'adapter' => 'opensearch://127.0.0.1:9201',
                     ],
                     'redisearch' => [
                         'adapter' => 'redis://supersecure@127.0.0.1:6379',
