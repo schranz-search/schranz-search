@@ -1,0 +1,41 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class Chubbyphp\\\\Container\\\\MinimalContainer not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class DI\\\\Container not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Mezzio\\\\LaminasView\\\\LaminasViewRenderer not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Mezzio\\\\Plates\\\\PlatesRenderer not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Mezzio\\\\Router\\\\LaminasRouter not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Mezzio\\\\Twig\\\\TwigRenderer not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Pimple\\\\Psr11\\\\Container not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php
+
+		-
+			message: "#^Class Symfony\\\\Component\\\\DependencyInjection\\\\ContainerBuilder not found\\.$#"
+			count: 1
+			path: src/App/src/Handler/HomePageHandler.php

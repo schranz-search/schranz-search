@@ -23,7 +23,7 @@ class HomePageHandlerFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->container = $this->createMock(ContainerInterface::class);
-        $this->router    = $this->createMock(RouterInterface::class);
+        $this->router = $this->createMock(RouterInterface::class);
     }
 
     public function testFactoryWithoutTemplate(): void
@@ -39,7 +39,7 @@ class HomePageHandlerFactoryTest extends TestCase
             ->with(RouterInterface::class)
             ->willReturn($this->router);
 
-        $factory  = new HomePageHandlerFactory();
+        $factory = new HomePageHandlerFactory();
         $homePage = $factory($this->container);
 
         self::assertInstanceOf(HomePageHandler::class, $homePage);
@@ -62,10 +62,10 @@ class HomePageHandlerFactoryTest extends TestCase
             )
             ->willReturnOnConsecutiveCalls(
                 $this->router,
-                $renderer
+                $renderer,
             );
 
-        $factory  = new HomePageHandlerFactory();
+        $factory = new HomePageHandlerFactory();
         $homePage = $factory($this->container);
 
         self::assertInstanceOf(HomePageHandler::class, $homePage);

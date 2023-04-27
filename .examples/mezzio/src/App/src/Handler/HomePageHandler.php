@@ -25,9 +25,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class HomePageHandler implements RequestHandlerInterface
 {
     public function __construct(
-        private string $containerName,
-        private RouterInterface $router,
-        private ?TemplateRendererInterface $template = null
+        private readonly string $containerName,
+        private readonly RouterInterface $router,
+        private readonly ?TemplateRendererInterface $template = null,
     ) {
     }
 
@@ -67,7 +67,7 @@ class HomePageHandler implements RequestHandlerInterface
             $data['routerDocs'] = 'https://docs.laminas.dev/laminas-router/';
         }
 
-        if ($this->template === null) {
+        if (!$this->template instanceof \Mezzio\Template\TemplateRendererInterface) {
             return new JsonResponse([
                 'welcome' => 'Congratulations! You have installed the mezzio skeleton application.',
                 'docsUrl' => 'https://docs.mezzio.dev/mezzio/',

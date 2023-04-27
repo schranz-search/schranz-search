@@ -114,3 +114,9 @@ jobs:
         uses: ./.github/workflows/callable-lint.yml
         with:
             directory: '.examples/spiral'
+
+    mezzio-integration-example:
+        name: Mezzio Integration Example
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: '.examples/mezzio'

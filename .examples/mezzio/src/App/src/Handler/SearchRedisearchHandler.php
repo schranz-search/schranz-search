@@ -21,6 +21,7 @@ class SearchRedisearchHandler implements RequestHandlerInterface
     ) {
         $this->redisearchEngine = $this->engineRegistry->getEngine('redisearch');
     }
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $class = AdapterClassHelper::getAdapterClass($this->redisearchEngine);

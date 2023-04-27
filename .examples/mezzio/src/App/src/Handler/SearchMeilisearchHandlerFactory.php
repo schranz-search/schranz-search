@@ -6,16 +6,14 @@ namespace App\Handler;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
 use Schranz\Search\SEAL\EngineRegistry;
-use function assert;
 
 class SearchMeilisearchHandlerFactory
 {
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
         $engineRegistry = $container->get(EngineRegistry::class);
-        assert($engineRegistry instanceof EngineRegistry);
+        \assert($engineRegistry instanceof EngineRegistry);
 
         return new SearchMeilisearchHandler($engineRegistry);
     }

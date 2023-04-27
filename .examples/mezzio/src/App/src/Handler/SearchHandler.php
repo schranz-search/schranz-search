@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Handler;
 
-use App\Helper\AdapterClassHelper;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\EngineRegistry;
 
 class SearchHandler implements RequestHandlerInterface

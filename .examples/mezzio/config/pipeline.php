@@ -15,7 +15,7 @@ use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Psr\Container\ContainerInterface;
 
-/**
+/*
  * Setup middleware pipeline:
  */
 

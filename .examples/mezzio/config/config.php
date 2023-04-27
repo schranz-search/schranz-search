@@ -27,11 +27,9 @@ $aggregator = new ConfigAggregator([
     \Laminas\Diactoros\ConfigProvider::class,
 
     // Swoole config to overwrite some services (if installed)
-    class_exists(\Mezzio\Swoole\ConfigProvider::class)
+    \class_exists(\Mezzio\Swoole\ConfigProvider::class)
         ? \Mezzio\Swoole\ConfigProvider::class
-        : function (): array {
-            return [];
-        },
+        : fn (): array => [],
 
     // Load application config in a pre-defined order in such a way that local settings
     // overwrite global settings. (Loaded as first to last):
@@ -39,10 +37,10 @@ $aggregator = new ConfigAggregator([
     //   - `*.global.php`
     //   - `local.php`
     //   - `*.local.php`
-    new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
+    new PhpFileProvider(\realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
 
     // Load development config if it exists
-    new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
+    new PhpFileProvider(\realpath(__DIR__) . '/development.config.php'),
 
     // Default App module config
     App\ConfigProvider::class,
