@@ -4,34 +4,17 @@ declare(strict_types=1);
 
 namespace AppTest\Handler;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
+use AppTest\FunctionalTestCase;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-class SearchHandlerTest extends TestCase
+final class SearchHandlerTest extends FunctionalTestCase
 {
-    private \Mezzio\Application $app;
-
-    private ContainerInterface $container;
-
     private ServerRequestFactoryInterface $requestFactory;
 
     protected function setUp(): void
     {
-        /** @var \Laminas\ServiceManager\ServiceManager $container */
-        $container = require __DIR__ . '/../../../config/container.php';
-
-        /** @var \Mezzio\Application $app */
-        $app = $container->get(\Mezzio\Application::class);
-        /** @var \Mezzio\MiddlewareFactory $factory */
-        $factory = $container->get(\Mezzio\MiddlewareFactory::class);
-
-        (require __DIR__ . '/../../../config/pipeline.php')($app, $factory, $container);
-        (require __DIR__ . '/../../../config/routes.php')($app, $factory, $container);
-
-        $this->container = $container;
-        $this->app = $app;
+        parent::setUp();
 
         /** @var ServerRequestFactoryInterface $requestFactory */
         $requestFactory = $this->container->get(ServerRequestFactoryInterface::class);
@@ -39,7 +22,7 @@ class SearchHandlerTest extends TestCase
         $this->requestFactory = $requestFactory;
     }
 
-    public function testResponse(): void
+    public function testSearchHandlers(): void
     {
         $request = $this->requestFactory->createServerRequest('GET', '/');
         $response = $this->app->handle($request);
