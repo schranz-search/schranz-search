@@ -18,7 +18,7 @@ to communicate with various search engines, including:
 - ``Solr``
 - ``Typesense``
 
-It also provides integration packages for the ``Laravel``, ``Symfony`` and ``Spiral`` PHP frameworks.
+It also provides integration packages for the ``Laravel``, ``Symfony``, ``Spiral`` and ``Mezzio`` PHP frameworks.
 
 It is worth noting that the project draws inspiration from the
 ``Doctrine`` and ``Flysystem`` projects. These two projects have been a great inspiration
@@ -92,6 +92,7 @@ Full list of packages provided by the SEAL project:
 - ``schranz-search/laravel-package`` - Integrates SEAL into the Laravel framework.
 - ``schranz-search/symfony-bundle`` - Integrates SEAL into the Symfony framework.
 - ``schranz-search/spiral-bridge`` - Integrates SEAL into the Spiral framework.
+- ``schranz-search/mezzio-module`` - Integrates SEAL into the Mezzio framework.
 
 Have also a look at the following tags:
 

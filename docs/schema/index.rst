@@ -515,6 +515,18 @@ integration the ``Indexes`` over the following way:
             # create specific index
             php app.php schranz:search:index-create --index=blog
 
+    .. group-tab:: Mezzio
+
+        To create the indexes in Mezzio the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            vendor/bin/laminas schranz:search:index-create
+
+            # create specific index
+            vendor/bin/laminas schranz:search:index-create --index=blog
+
 To drop a ``Schema`` or an ``Index`` you can use the following:
 
 .. tabs::
@@ -569,6 +581,18 @@ To drop a ``Schema`` or an ``Index`` you can use the following:
 
             # create specific index
             php app.php schranz:search:index-drop --index=blog
+
+    .. group-tab:: Mezzio
+
+        To drop the indexes in Mezzio the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            vendor/bin/laminas:search:index-drop
+
+            # create specific index
+            vendor/bin/laminas schranz:search:index-drop --index=blog
 
 ----------
 
