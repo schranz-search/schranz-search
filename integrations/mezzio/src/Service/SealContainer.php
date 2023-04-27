@@ -27,7 +27,7 @@ class SealContainer implements ContainerInterface
      *
      * @return ($id is class-string<T> ? T : mixed)
      */
-    public function get(string $id): mixed
+    public function get($id): mixed
     {
         if (!isset($this->services[$id])) {
             if ($this->container->has($id)) {
@@ -54,7 +54,7 @@ class SealContainer implements ContainerInterface
         $this->services[$id] = $service;
     }
 
-    public function has(string $id): bool
+    public function has($id): bool
     {
         return \array_key_exists($id, $this->services) || $this->container->has($id);
     }
