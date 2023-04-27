@@ -47,7 +47,7 @@ final class ConfigProvider
      *     commands: array<string, class-string>
      * }
      */
-    public function getCliConfig() : array
+    public function getCliConfig(): array
     {
         return [
             'commands' => [

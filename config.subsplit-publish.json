@@ -69,6 +69,11 @@
             "name": "SEALLaravelIntegration",
             "directory": "integrations/laravel",
             "target": "git@github.com:schranz-search/laravel-package.git"
+        },
+        {
+            "name": "SEALMezzioIntegration",
+            "directory": "integrations/mezzio",
+            "target": "git@github.com:schranz-search/mezzio-module.git"
         }
     ]
 }
