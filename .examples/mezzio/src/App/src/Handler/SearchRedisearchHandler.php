@@ -31,7 +31,7 @@ class SearchRedisearchHandler implements RequestHandlerInterface
             <!doctype html>
             <html>
                 <head>
-                    <title>Redisearch</title>
+                    <title>RediSearch</title>
                 </head>
                 <body>
                     <h1>$class</h1>

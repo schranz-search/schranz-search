@@ -108,7 +108,6 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories' => [
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 Handler\SearchHandler::class => Handler\SearchHandlerFactory::class,
                 Handler\SearchAlgoliaHandler::class => Handler\SearchAlgoliaHandlerFactory::class,
                 Handler\SearchElasticsearchHandler::class => Handler\SearchElasticsearchHandlerFactory::class,
