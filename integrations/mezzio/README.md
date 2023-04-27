@@ -175,11 +175,15 @@ The package provides the following commands:
 
 **Create configured indexes**
 
-TODO
+```bash
+vendor/bin/laminas schranz:search:index-create --help
+```
 
 **Drop configured indexes**
 
-TODO
+```bash
+vendor/bin/laminas schranz:search:index-drop --help
+```
 
 ## Authors
 
