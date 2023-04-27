@@ -42,6 +42,11 @@ final class ConfigProvider
         ];
     }
 
+    /**
+     * @return array{
+     *     commands: array<string, class-string>
+     * }
+     */
     public function getCliConfig() : array
     {
         return [
