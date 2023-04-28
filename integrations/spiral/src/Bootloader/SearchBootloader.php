@@ -26,6 +26,8 @@ use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 use Spiral\Boot\Bootloader\Bootloader;
+use Spiral\Boot\DirectoriesInterface;
+use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Console\Bootloader\ConsoleBootloader;
 use Spiral\Core\Container;
@@ -35,8 +37,15 @@ use Spiral\Core\Container;
  */
 final class SearchBootloader extends Bootloader
 {
-    protected const DEPENDENCIES = [
-        ConsoleBootloader::class,
+    private const ADAPTER_FACTORIES = [
+        AlgoliaAdapterFactory::class,
+        ElasticsearchAdapterFactory::class,
+        OpensearchAdapterFactory::class,
+        MeilisearchAdapterFactory::class,
+        MemoryAdapterFactory::class,
+        RediSearchAdapterFactory::class,
+        SolrAdapterFactory::class,
+        TypesenseAdapterFactory::class,
     ];
 
     /**
@@ -47,15 +56,21 @@ final class SearchBootloader extends Bootloader
     ) {
     }
 
-    public function init(): void
-    {
+    public function init(
+        ConsoleBootloader $console,
+        DirectoriesInterface $dirs,
+        EnvironmentInterface $environment,
+    ): void {
+        $console->addCommand(IndexCreateCommand::class);
+        $console->addCommand(IndexDropCommand::class);
+
         $this->config->setDefaults(
             SearchConfig::CONFIG,
             [
-                'prefix' => '',
+                'prefix' => $environment->get('SEAL_SEARCH_PREFIX', ''),
                 'schemas' => [
                     'app' => [
-                        'dir' => 'app/schemas',
+                        'dir' => $dirs->get('app') . 'schemas',
                     ],
                 ],
                 'engines' => [],
@@ -63,15 +78,9 @@ final class SearchBootloader extends Bootloader
         );
     }
 
-    public function boot(ConsoleBootloader $console, Container $container): void
+    public function boot(Container $container, SearchConfig $config): void
     {
-        $console->addCommand(IndexCreateCommand::class);
-        $console->addCommand(IndexDropCommand::class);
-
         $this->createAdapterFactories($container);
-
-        /** @var SearchConfig $config */
-        $config = $container->get(SearchConfig::class);
 
         $engineSchemaDirs = [];
         foreach ($config->getSchemas() as $options) {
@@ -91,135 +100,111 @@ final class SearchBootloader extends Bootloader
             $adapterDsn = $engineConfig['adapter'];
             $dirs = $engineSchemaDirs[$name] ?? [];
 
-            $container->bindSingleton($adapterServiceId, function (Container $container) use ($adapterDsn) {
-                /** @var AdapterFactory $factory */
-                $factory = $container->get(AdapterFactory::class);
+            $container->bindSingleton(
+                $adapterServiceId,
+                static fn (AdapterFactory $factory): AdapterInterface => $factory->createAdapter($adapterDsn),
+            );
 
-                return $factory->createAdapter($adapterDsn);
-            });
+            $container->bindSingleton(
+                $schemaLoaderServiceId,
+                static fn (Container $container): PhpFileLoader => new PhpFileLoader($dirs, $config->getPrefix()),
+            );
 
-            $container->bindSingleton($schemaLoaderServiceId, fn (Container $container) => new PhpFileLoader($dirs, $config->getPrefix()));
+            $container->bindSingleton(
+                $schemaId,
+                static function (Container $container) use ($schemaLoaderServiceId): Schema {
+                    /** @var LoaderInterface $loader */
+                    $loader = $container->get($schemaLoaderServiceId);
 
-            $container->bindSingleton($schemaId, function (Container $container) use ($schemaLoaderServiceId) {
-                /** @var LoaderInterface $loader */
-                $loader = $container->get($schemaLoaderServiceId);
-
-                return $loader->load();
-            });
+                    return $loader->load();
+                },
+            );
 
             $engineServices[$name] = $engineServiceId;
-            $container->bindSingleton($engineServiceId, function (Container $container) use ($adapterServiceId, $schemaId) {
-                /** @var AdapterInterface $adapter */
-                $adapter = $container->get($adapterServiceId);
-                /** @var Schema $schema */
-                $schema = $container->get($schemaId);
+            $container->bindSingleton(
+                $engineServiceId,
+                static function (Container $container) use ($adapterServiceId, $schemaId): Engine {
+                    /** @var AdapterInterface $adapter */
+                    $adapter = $container->get($adapterServiceId);
+                    /** @var Schema $schema */
+                    $schema = $container->get($schemaId);
 
-                return new Engine($adapter, $schema);
-            });
+                    return new Engine($adapter, $schema);
+                },
+            );
 
             if ('default' === $name || (!isset($engines['default']) && !$container->has(Engine::class))) {
                 $container->bind(Engine::class, $engineServiceId);
             }
         }
 
-        $container->bindSingleton(EngineRegistry::class, function (Container $container) use ($engineServices) {
-            $engines = [];
+        $container->bindSingleton(
+            EngineRegistry::class,
+            static function (Container $container) use ($engineServices): EngineRegistry {
+                $engines = [];
 
-            foreach ($engineServices as $name => $engineServiceId) {
-                /** @var Engine $engine */
-                $engine = $container->get($engineServiceId);
+                foreach ($engineServices as $name => $engineServiceId) {
+                    /** @var Engine $engine */
+                    $engine = $container->get($engineServiceId);
 
-                $engines[$name] = $engine;
-            }
+                    $engines[$name] = $engine;
+                }
 
-            return new EngineRegistry($engines);
-        });
+                return new EngineRegistry($engines);
+            },
+        );
     }
 
     private function createAdapterFactories(Container $container): void
     {
         $adapterServices = []; // TODO tagged services would make this extensible
 
-        if (\class_exists(AlgoliaAdapterFactory::class)) {
-            $container->bindSingleton(AlgoliaAdapterFactory::class, fn (Container $container) => new AlgoliaAdapterFactory($container));
-
-            $adapterServices[AlgoliaAdapterFactory::getName()] = AlgoliaAdapterFactory::class;
-        }
-
-        if (\class_exists(ElasticsearchAdapterFactory::class)) {
-            $container->bindSingleton(ElasticsearchAdapterFactory::class, fn (Container $container) => new ElasticsearchAdapterFactory($container));
-
-            $adapterServices[ElasticsearchAdapterFactory::getName()] = ElasticsearchAdapterFactory::class;
-        }
-
-        if (\class_exists(OpensearchAdapterFactory::class)) {
-            $container->bindSingleton(OpensearchAdapterFactory::class, fn (Container $container) => new OpensearchAdapterFactory($container));
-
-            $adapterServices[OpensearchAdapterFactory::getName()] = OpensearchAdapterFactory::class;
-        }
-
-        if (\class_exists(MeilisearchAdapterFactory::class)) {
-            $container->bindSingleton(MeilisearchAdapterFactory::class, fn (Container $container) => new MeilisearchAdapterFactory($container));
-
-            $adapterServices[MeilisearchAdapterFactory::getName()] = MeilisearchAdapterFactory::class;
-        }
-
-        if (\class_exists(MemoryAdapterFactory::class)) {
-            $container->bindSingleton(MemoryAdapterFactory::class, fn (Container $container) => new MemoryAdapterFactory());
-
-            $adapterServices[MemoryAdapterFactory::getName()] = MemoryAdapterFactory::class;
-        }
-
-        if (\class_exists(RediSearchAdapterFactory::class)) {
-            $container->bindSingleton(RediSearchAdapterFactory::class, fn (Container $container) => new RediSearchAdapterFactory($container));
-
-            $adapterServices[RediSearchAdapterFactory::getName()] = RediSearchAdapterFactory::class;
-        }
-
-        if (\class_exists(SolrAdapterFactory::class)) {
-            $container->bindSingleton(SolrAdapterFactory::class, fn (Container $container) => new SolrAdapterFactory($container));
-
-            $adapterServices[SolrAdapterFactory::getName()] = SolrAdapterFactory::class;
-        }
-
-        if (\class_exists(TypesenseAdapterFactory::class)) {
-            $container->bindSingleton(TypesenseAdapterFactory::class, fn (Container $container) => new TypesenseAdapterFactory($container));
-
-            $adapterServices[TypesenseAdapterFactory::getName()] = TypesenseAdapterFactory::class;
-        }
-
-        // ...
-
-        if (\class_exists(ReadWriteAdapterFactory::class)) {
-            $container->bindSingleton(ReadWriteAdapterFactory::class, fn (Container $container) => new ReadWriteAdapterFactory(
-                $container,
-                'schranz_search.adapter.',
-            ));
-
-            $adapterServices[ReadWriteAdapterFactory::getName()] = ReadWriteAdapterFactory::class;
-        }
-
-        if (\class_exists(MultiAdapterFactory::class)) {
-            $container->bindSingleton(MultiAdapterFactory::class, fn (Container $container) => new MultiAdapterFactory(
-                $container,
-                'schranz_search.adapter.',
-            ));
-
-            $adapterServices[MultiAdapterFactory::getName()] = MultiAdapterFactory::class;
-        }
-
-        // ...
-
-        $container->bindSingleton(AdapterFactory::class, function (Container $container) use ($adapterServices) {
-            $factories = [];
-            foreach ($adapterServices as $name => $adapterServiceId) {
-                /** @var AdapterFactoryInterface $adapterFactory */
-                $adapterFactory = $container->get($adapterServiceId);
-
-                $factories[$name] = $adapterFactory;
+        foreach (self::ADAPTER_FACTORIES as $adapterClass) {
+            if (!\class_exists($adapterClass)) {
+                continue;
             }
 
-            return new AdapterFactory($factories);
-        });
+            $container->bindSingleton($adapterClass, $adapterClass);
+            $adapterServices[$adapterClass::getName()] = $adapterClass;
+        }
+
+        // ...
+
+        $prefix = 'schranz_search.adapter.';
+
+        $wrapperAdapters = [
+            ReadWriteAdapterFactory::class,
+            MultiAdapterFactory::class,
+        ];
+
+        foreach ($wrapperAdapters as $adapterClass) {
+            if (!\class_exists($adapterClass)) {
+                continue;
+            }
+
+            $container->bindSingleton(
+                $adapterClass,
+                static fn (Container $container): AdapterFactoryInterface => new $adapterClass($container, $prefix),
+            );
+
+            $adapterServices[$adapterClass::getName()] = $adapterClass;
+        }
+
+        // ...
+
+        $container->bindSingleton(
+            AdapterFactory::class,
+            static function (Container $container) use ($adapterServices): AdapterFactory {
+                $factories = [];
+                foreach ($adapterServices as $name => $adapterServiceId) {
+                    /** @var AdapterFactoryInterface $adapterFactory */
+                    $adapterFactory = $container->get($adapterServiceId);
+
+                    $factories[$name] = $adapterFactory;
+                }
+
+                return new AdapterFactory($factories);
+            },
+        );
     }
 }
