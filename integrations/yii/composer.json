@@ -112,5 +112,14 @@
             "php-http/discovery": true,
             "phpstan/extension-installer": true
         }
+    },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params": "params.php",
+            "di": "di.php"
+        }
     }
 }

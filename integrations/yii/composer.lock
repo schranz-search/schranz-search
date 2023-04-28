@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d2d07b1e8d8bafde404c6ec3065848a",
+    "content-hash": "b52b373e2ceb0dc277087711abd1c978",
     "packages": [
         {
             "name": "schranz-search/seal",
@@ -2937,12 +2937,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "5ee794501aa0332cdf5dec26d5313668c1f03353"
+                "reference": "35ce30249e808286ac47b30a1e531534c481826a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/5ee794501aa0332cdf5dec26d5313668c1f03353",
-                "reference": "5ee794501aa0332cdf5dec26d5313668c1f03353",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/35ce30249e808286ac47b30a1e531534c481826a",
+                "reference": "35ce30249e808286ac47b30a1e531534c481826a",
                 "shasum": ""
             },
             "require": {
@@ -2991,7 +2991,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-27T18:53:05+00:00"
+            "time": "2023-04-28T00:57:57+00:00"
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
