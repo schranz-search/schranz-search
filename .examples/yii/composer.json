@@ -117,6 +117,9 @@
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-testing": "dev-master"
     },
+    "conflict": {
+        "react/promise": "<2.2.0"
+    },
     "repositories": [
         {
             "type": "path",

@@ -38,6 +38,3 @@ phpunit.phar
 
 # Codeception
 c3.php
-
-# Composer
-composer.lock
