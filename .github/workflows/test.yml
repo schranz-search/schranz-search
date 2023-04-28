@@ -104,3 +104,12 @@ jobs:
             directory: '.examples/mezzio'
             docker: true
         secrets: inherit
+
+
+    yii-integration-example:
+        name: Yii Integration Example
+        uses: ./.github/workflows/callable-test.yml
+        with:
+            directory: '.examples/yii'
+            docker: true
+        secrets: inherit
