@@ -47,75 +47,55 @@ $diConfig = [];
 $adapterFactories = [];
 
 if (\class_exists(AlgoliaAdapterFactory::class)) {
-    $adapterFactories['schranz_search.algolia.adapter_factory'] = static function (ContainerInterface $container) {
-        return new AlgoliaAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.algolia.adapter_factory'] = static fn (ContainerInterface $container) => new AlgoliaAdapterFactory($container);
 }
 
 if (\class_exists(ElasticsearchAdapterFactory::class)) {
-    $adapterFactories['schranz_search.elasticsearch.adapter_factory'] = static function (ContainerInterface $container) {
-        return new ElasticsearchAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.elasticsearch.adapter_factory'] = static fn (ContainerInterface $container) => new ElasticsearchAdapterFactory($container);
 }
 
 if (\class_exists(OpensearchAdapterFactory::class)) {
-    $adapterFactories['schranz_search.opensearch.adapter_factory'] = static function (ContainerInterface $container) {
-        return new OpensearchAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.opensearch.adapter_factory'] = static fn (ContainerInterface $container) => new OpensearchAdapterFactory($container);
 }
 
 if (\class_exists(MeilisearchAdapterFactory::class)) {
-    $adapterFactories['schranz_search.meilisearch.adapter_factory'] = static function (ContainerInterface $container) {
-        return new MeilisearchAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.meilisearch.adapter_factory'] = static fn (ContainerInterface $container) => new MeilisearchAdapterFactory($container);
 }
 
 if (\class_exists(MemoryAdapterFactory::class)) {
-    $adapterFactories['schranz_search.memory.adapter_factory'] = static function (ContainerInterface $container) {
-        return new MemoryAdapterFactory();
-    };
+    $adapterFactories['schranz_search.memory.adapter_factory'] = static fn (ContainerInterface $container) => new MemoryAdapterFactory();
 }
 
 if (\class_exists(RediSearchAdapterFactory::class)) {
-    $adapterFactories['schranz_search.redis.adapter_factory'] = static function (ContainerInterface $container) {
-        return new RediSearchAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.redis.adapter_factory'] = static fn (ContainerInterface $container) => new RediSearchAdapterFactory($container);
 }
 
 if (\class_exists(SolrAdapterFactory::class)) {
-    $adapterFactories['schranz_search.solr.adapter_factory'] = static function (ContainerInterface $container) {
-        return new SolrAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.solr.adapter_factory'] = static fn (ContainerInterface $container) => new SolrAdapterFactory($container);
 }
 
 if (\class_exists(TypesenseAdapterFactory::class)) {
-    $adapterFactories['schranz_search.typesense.adapter_factory'] = static function (ContainerInterface $container) {
-        return new TypesenseAdapterFactory($container);
-    };
+    $adapterFactories['schranz_search.typesense.adapter_factory'] = static fn (ContainerInterface $container) => new TypesenseAdapterFactory($container);
 }
 
 // ...
 
 if (\class_exists(ReadWriteAdapterFactory::class)) {
-    $adapterFactories['schranz_search.read_write.adapter_factory'] = static function (ContainerInterface $container) {
-        return new ReadWriteAdapterFactory(
-            $container,
-            'schranz_search.adapter.',
-        );
-    };
+    $adapterFactories['schranz_search.read_write.adapter_factory'] = static fn (ContainerInterface $container) => new ReadWriteAdapterFactory(
+        $container,
+        'schranz_search.adapter.',
+    );
 }
 
 if (\class_exists(MultiAdapterFactory::class)) {
-    $adapterFactories['schranz_search.multi.adapter_factory'] = static function (ContainerInterface $container) {
-        return new MultiAdapterFactory(
-            $container,
-            'schranz_search.adapter.',
-        );
-    };
+    $adapterFactories['schranz_search.multi.adapter_factory'] = static fn (ContainerInterface $container) => new MultiAdapterFactory(
+        $container,
+        'schranz_search.adapter.',
+    );
 }
 
 $diConfig = [...$diConfig, ...$adapterFactories];
-$adapterFactoryNames = array_keys($adapterFactories);
+$adapterFactoryNames = \array_keys($adapterFactories);
 
 $diConfig['schranz_search.adapter_factory'] = static function (ContainerInterface $container) use ($adapterFactoryNames) {
     $factories = [];
@@ -150,9 +130,7 @@ foreach ($engines as $name => $engineConfig) {
         return $factory->createAdapter($adapterDsn);
     };
 
-    $diConfig[$schemaLoaderServiceId] = static function (ContainerInterface $container) use ($dirs, $prefix) {
-        return new PhpFileLoader($dirs, $prefix);
-    };
+    $diConfig[$schemaLoaderServiceId] = static fn (ContainerInterface $container) => new PhpFileLoader($dirs, $prefix);
 
     $diConfig[$schemaId] = static function (ContainerInterface $container) use ($schemaLoaderServiceId) {
         /** @var LoaderInterface $loader */
@@ -180,7 +158,10 @@ foreach ($engines as $name => $engineConfig) {
 $diConfig['schranz_search.engine_factory'] = static function (ContainerInterface $container) use ($engineServices) {
     $engines = [];
     foreach ($engineServices as $name => $engineServiceId) {
-        $engines[$name] = $container->get($engineServiceId);
+        /** @var Engine $engine */
+        $engine = $container->get($engineServiceId);
+
+        $engines[$name] = $engine;
     }
 
     return new EngineRegistry($engines);

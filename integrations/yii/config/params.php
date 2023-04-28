@@ -21,7 +21,7 @@ return [
             */
         ],
     ],
-    "yiisoft/yii-console" => [
+    'yiisoft/yii-console' => [
         'commands' => [
             'schranz:search:index-create' => IndexCreateCommand::class,
             'schranz:search:index-drop' => IndexDropCommand::class,
