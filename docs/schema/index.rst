@@ -527,6 +527,18 @@ integration the ``Indexes`` over the following way:
             # create specific index
             vendor/bin/laminas schranz:search:index-create --index=blog
 
+    .. group-tab:: Yii
+
+        To create the indexes in Yii the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            ./yii schranz:search:index-create
+
+            # create specific index
+            ./yii schranz:search:index-create --index=blog
+
 To drop a ``Schema`` or an ``Index`` you can use the following:
 
 .. tabs::
@@ -589,10 +601,22 @@ To drop a ``Schema`` or an ``Index`` you can use the following:
         .. code-block:: bash
 
             # create all indexes
-            vendor/bin/laminas:search:index-drop
+            vendor/bin/laminas schranz:search:index-drop
 
             # create specific index
             vendor/bin/laminas schranz:search:index-drop --index=blog
+
+    .. group-tab:: Yii
+
+        To drop the indexes in Yii the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            ./yii schranz:search:index-drop
+
+            # create specific index
+            ./yii schranz:search:index-drop --index=blog
 
 ----------
 

@@ -54,6 +54,14 @@ integration of the package or the ``Standalone`` version.
 
              composer require schranz-search/mezzio-module
 
+    .. group-tab:: Yii
+
+        If you are using `Yii <https://www.yiiframework.com/>`_ use the following packages:
+
+        .. code-block:: bash
+
+             composer require schranz-search/yii-module
+
 | The project provides adapters to different search engines, atleast one is required.
 | Choose the one which fits your needs best:
 
@@ -205,6 +213,24 @@ In this section we will create a first schema for our ``Index``:
     .. group-tab:: Mezzio
 
         If you are using Mezzio create a new ``Index`` in the ``config/schemas`` directory:´
+
+        .. code-block:: php
+
+            <?php // config/schemas/blog.php
+
+            use Schranz\Search\SEAL\Schema\Field;
+            use Schranz\Search\SEAL\Schema\Index;
+
+            return new Index('blog', [
+                'id' => new Field\IdentifierField('id'),
+                'title' => new Field\TextField('title'),
+                'description' => new Field\TextField('description'),
+                'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+            ]);
+
+    .. group-tab:: Yii
+
+        If you are using Yii create a new ``Index`` in the ``config/schemas`` directory:´
 
         .. code-block:: php
 
@@ -891,7 +917,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'meilisearch://127.0.0.1:7700',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -923,7 +949,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'algolia://' . \getenv('ALGOLIA_APPLICATION_ID') . ':' . \getenv('ALGOLIA_ADMIN_API_KEY'),
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -954,7 +980,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'elasticsearch://127.0.0.1:9200',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -985,7 +1011,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'opensearch://127.0.0.1:9200',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -1016,7 +1042,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'redis://127.0.0.1:6379',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -1047,7 +1073,7 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'solr://127.0.0.1:8983',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
@@ -1078,10 +1104,193 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                                             'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
                                         ],
                                     ],
-                                ];
+                                ],
                             ];
                         }
                     }
+
+    .. group-tab:: Yii
+
+        When we are using the Yii integration package we just need to configure our ``Engine``
+        in the ``config/common/params.php`` file. The ``Adapter`` is configured via a ``DSN`` like string.
+
+        .. tabs::
+
+            .. group-tab:: Meilisearch
+
+                Use the following configuration to use ``Meilisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'meilisearch://127.0.0.1:7700',
+                                ],
+                            ],
+                        ],
+                    ];
+
+
+            .. group-tab:: Algolia
+
+                Use the following configuration to use ``Algolia`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'algolia://' . \getenv('ALGOLIA_APPLICATION_ID') . ':' . \getenv('ALGOLIA_ADMIN_API_KEY'),
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Elasticsearch
+
+                Use the following configuration to use ``Elasticsearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'elasticsearch://127.0.0.1:9200',
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Opensearch
+
+                Use the following configuration to use ``Opensearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'opensearch://127.0.0.1:9200',
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Redisearch
+
+                Use the following configuration to use ``Redisearch`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'redis://127.0.0.1:6379',
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Solr
+
+                Use the following configuration to use ``Solr`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'solr://127.0.0.1:8983',
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Typesense
+
+                Use the following configuration to use ``Typesense`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
+                                ],
+                            ],
+                        ],
+                    ];
 
 Prepare Search Engine
 ----------------------
@@ -1396,6 +1605,18 @@ Before you can use the search engine you need to create the indexes.
 
             # create specific index
             vendor/bin/laminas schranz:search:index-create --index=blog
+
+    .. group-tab:: Yii
+
+        To create the indexes in Yii the following command:
+
+        .. code-block:: bash
+
+            # create all indexes
+            ./yii schranz:search:index-create
+
+            # create specific index
+            ./yii schranz:search:index-create --index=blog
 
 Add or Update Documents
 -----------------------
