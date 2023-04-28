@@ -13,7 +13,10 @@
             "Composer\\Config::disableProcessTimeout",
             "./yii serve"
         ],
-        "phpstan": "@php vendor/bin/phpstan analyze",
+        "phpstan": [
+            "@php vendor/bin/codecept build",
+            "@php vendor/bin/phpstan analyze"
+        ],
         "lint-rector": "@php vendor/bin/rector process --dry-run",
         "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
         "lint": [
