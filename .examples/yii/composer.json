@@ -25,6 +25,8 @@
     },
     "require": {
         "php": "^8.0",
+        "schranz-search/seal": "^0.1",
+        "schranz-search/yii-module": "^0.1",
         "ext-intl": "*",
         "httpsoft/http-message": "^1.0.5",
         "psr/container": "^2.0",
@@ -75,10 +77,36 @@
         "roave/security-advisories": "dev-master",
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.30|^5.4",
+        "schranz-search/seal-algolia-adapter": "^0.1",
+        "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-meilisearch-adapter": "^0.1",
+        "schranz-search/seal-memory-adapter": "^0.1",
+        "schranz-search/seal-multi-adapter": "^0.1",
+        "schranz-search/seal-opensearch-adapter": "^0.1",
+        "schranz-search/seal-read-write-adapter": "^0.1",
+        "schranz-search/seal-redisearch-adapter": "^0.1",
+        "schranz-search/seal-solr-adapter": "^0.1",
+        "schranz-search/seal-typesense-adapter": "^0.1",
         "yiisoft/yii-debug-api": "3.0.x-dev",
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-testing": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "./../../integrations/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "src"
@@ -101,7 +129,8 @@
             "yiisoft/config": true,
             "infection/extension-installer": true,
             "codeception/c3": true,
-            "composer/installers": true
+            "composer/installers": true,
+            "php-http/discovery": true
         }
     }
 }
