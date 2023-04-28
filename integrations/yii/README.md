@@ -164,13 +164,13 @@ The package provides the following commands:
 **Create configured indexes**
 
 ```bash
-# TODO
+./yii schranz:search:index-create
 ```
 
 **Drop configured indexes**
 
 ```bash
-# TODO
+./yii schranz:search:index-drop
 ```
 
 ## Authors

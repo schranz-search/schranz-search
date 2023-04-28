@@ -45,7 +45,10 @@
     ],
     "require": {
         "php": "^8.1",
-        "schranz-search/seal": "^0.1"
+        "schranz-search/seal": "^0.1",
+        "yiisoft/di": "^1.0",
+        "yiisoft/yii-console": "^2.0",
+        "symfony/console": "^6.1"
     },
     "require-dev": {
         "php-cs-fixer/shim": "^3.15",
@@ -119,7 +122,8 @@
         },
         "config-plugin": {
             "params": "params.php",
-            "di": "di.php"
+            "di": "di.php",
+            "di-console": "di-console.php"
         }
     }
 }
