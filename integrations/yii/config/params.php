@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'schranz-search' => [
+    'schranz-search/yii-module' => [
         'prefix' => '',
         'schemas' => [
             'app' => [

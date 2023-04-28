@@ -53,29 +53,23 @@ The following code shows how to configure the package:
 ```php
 <?php
 
-// TODO
+// config/common/params.php
 
-class ConfigProvider
-{
-    public function __invoke(): array
-    {
-        return [
-            // ...
-            'schranz_search' => [
-                'schemas' => [
-                    'app' => [
-                        'dir' => 'config/schemas',
-                    ],
-                ],
-                'engines' => [
-                    'default' => [
-                        'adapter' => 'meilisearch://127.0.0.1:7700',
-                    ],
-                ],
+return [
+    // ...
+    'schranz-search/yii-module' => [
+        'schemas' => [
+            'app' => [
+                'dir' => 'config/schemas',
             ],
-        ];
-    }
-}
+        ],
+        'engines' => [
+            'default' => [
+                'adapter' => 'meilisearch://127.0.0.1:7700',
+            ],
+        ],
+    ],
+];
 ```
 
 A more complex configuration can be here found:
@@ -83,63 +77,57 @@ A more complex configuration can be here found:
 ```php
 <?php
 
-// TODO
+// config/common/params.php
 
-class ConfigProvider
-{
-    public function __invoke(): array
-    {
-        return [
-            // ...
-            'schranz_search' => [
-                'schemas' => [
-                    'app' => [
-                        'dir' => 'config/schemas/app',
-                        'engine' => 'meilisearch',
-                    ],
-                    'other' => [
-                        'dir' => 'config/schemas/other',
-                        'engine' => 'algolia',
-                    ],
-                ],
-                'engines' => [
-                    'algolia' => [
-                        'adapter' => 'algolia://%ALGOLIA_APPLICATION_ID%%:%ALGOLIA_ADMIN_API_KEY%',
-                    ],
-                    'elasticsearch' => [
-                        'adapter' => 'elasticsearch://127.0.0.1:9200',
-                    ],
-                    'meilisearch' => [
-                        'adapter' => 'meilisearch://127.0.0.1:7700',
-                    ],
-                    'memory' => [
-                        'adapter' => 'memory://',
-                    ],
-                    'opensearch' => [
-                        'adapter' => 'opensearch://127.0.0.1:9200',
-                    ],
-                    'redisearch' => [
-                        'adapter' => 'redis://supersecure@127.0.0.1:6379',
-                    ],
-                    'solr' => [
-                        'adapter' => 'solr://127.0.0.1:8983',
-                    ],
-                    'typesense' => [
-                        'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
-                    ],
-                    
-                    // ...
-                    'multi' => [
-                        'adapter' => 'multi://elasticsearch?adapters[]=opensearch',
-                    ],
-                    'read-write' => [
-                        'adapter' => 'read-write://elasticsearch?write=multi',
-                    ],
-                ],
+return [
+    // ...
+    'schranz-search/yii-module' => [
+        'schemas' => [
+            'app' => [
+                'dir' => 'config/schemas/app',
+                'engine' => 'meilisearch',
             ],
-        ];
-    }
-}
+            'other' => [
+                'dir' => 'config/schemas/other',
+                'engine' => 'algolia',
+            ],
+        ],
+        'engines' => [
+            'algolia' => [
+                'adapter' => 'algolia://' . $_ENV['ALGOLIA_APPLICATION_ID'] . ':' . $_ENV['ALGOLIA_ADMIN_API_KEY'],
+            ],
+            'elasticsearch' => [
+                'adapter' => 'elasticsearch://127.0.0.1:9200',
+            ],
+            'meilisearch' => [
+                'adapter' => 'meilisearch://127.0.0.1:7700',
+            ],
+            'memory' => [
+                'adapter' => 'memory://',
+            ],
+            'opensearch' => [
+                'adapter' => 'opensearch://127.0.0.1:9200',
+            ],
+            'redisearch' => [
+                'adapter' => 'redis://supersecure@127.0.0.1:6379',
+            ],
+            'solr' => [
+                'adapter' => 'solr://127.0.0.1:8983',
+            ],
+            'typesense' => [
+                'adapter' => 'typesense://S3CR3T@127.0.0.1:8108',
+            ],
+            
+            // ...
+            'multi' => [
+                'adapter' => 'multi://elasticsearch?adapters[]=opensearch',
+            ],
+            'read-write' => [
+                'adapter' => 'read-write://elasticsearch?write=multi',
+            ],
+        ],
+    ],
+];
 ```
 
 The default engine is available as `Engine`:

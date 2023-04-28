@@ -23,7 +23,7 @@ use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 
 /** @var \Yiisoft\Config\Config $config */
-/** @var array{schranz_search: mixed[]} $params */
+/** @var array{"schranz-search/yii-module": mixed[]} $params */
 
 /**
  * @var array{
@@ -32,7 +32,7 @@ use Schranz\Search\SEAL\Schema\Schema;
  *     schemas: array<string, array{dir: string, engine?: string}>,
  * } $config
  */
-$config = $params['schranz-search'];
+$config = $params['schranz-search/yii-module'];
 $prefix = $config['prefix'];
 $engines = $config['engines'];
 $schemas = $config['schemas'];

@@ -34,7 +34,7 @@ return [
         ],
     ],
 
-    'schranz-search' => [
+    'schranz-search/yii-module' => [
         'schemas' => [
             'algolia' => [
                 'dir' => 'config/schemas',
