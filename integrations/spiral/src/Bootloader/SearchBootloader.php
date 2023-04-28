@@ -22,6 +22,7 @@ use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 use Spiral\Boot\Bootloader\Bootloader;
