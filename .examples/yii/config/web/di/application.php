@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Handler\NotFoundHandler;
+use Yiisoft\Definitions\DynamicReference;
+use Yiisoft\Definitions\Reference;
+use Yiisoft\Injector\Injector;
+use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
+
+/** @var array $params */
+
+return [
+    Yiisoft\Yii\Http\Application::class => [
+        '__construct()' => [
+            'dispatcher' => DynamicReference::to(static fn (Injector $injector) => $injector->make(MiddlewareDispatcher::class)
+                ->withMiddlewares($params['middlewares'])),
+            'fallbackHandler' => Reference::to(NotFoundHandler::class),
+        ],
+    ],
+    \Yiisoft\Yii\Middleware\Locale::class => [
+        '__construct()' => [
+            'locales' => $params['locale']['locales'],
+            'ignoredRequests' => $params['locale']['ignoredRequests'],
+        ],
+        'withEnableSaveLocale()' => [false],
+    ],
+];

@@ -18,7 +18,7 @@ to communicate with various search engines, including:
 - ``Solr``
 - ``Typesense``
 
-It also provides integration packages for the ``Laravel``, ``Symfony``, ``Spiral`` and ``Mezzio`` PHP frameworks.
+It also provides integration packages for the ``Laravel``, ``Symfony``, ``Spiral``, ``Mezzio`` and ``Yii`` PHP frameworks.
 
 It is worth noting that the project draws inspiration from the
 ``Doctrine`` and ``Flysystem`` projects. These two projects have been a great inspiration

@@ -1,0 +1,129 @@
+{
+    "name": "schranz-search/yii-module",
+    "description": "An integration of schranz-search search abstraction via a Module into the Yii Framework.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "search-client",
+        "search-abstraction",
+        "abstraction",
+        "search",
+        "search-client",
+        "search-abstraction",
+        "schranz-search",
+        "elasticsearch",
+        "opensearch",
+        "meilisearch",
+        "typesense",
+        "solr",
+        "redisearch",
+        "algolia",
+        "integration",
+        "bridge",
+        "yii-module",
+        "bundle",
+        "yii"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Schranz\\Search\\Integration\\Yii\\": "src"
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Schranz\\Search\\Integration\\Yii\\Tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "schranz-search/seal": "^0.1",
+        "yiisoft/di": "^1.0",
+        "yiisoft/yii-console": "^2.0",
+        "symfony/console": "^6.1"
+    },
+    "require-dev": {
+        "php-cs-fixer/shim": "^3.15",
+        "phpstan/extension-installer": "^1.2",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpunit/phpunit": "^9.5.27",
+        "rector/rector": "^0.15.23",
+        "schranz-search/seal-algolia-adapter": "^0.1",
+        "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-meilisearch-adapter": "^0.1",
+        "schranz-search/seal-memory-adapter": "^0.1",
+        "schranz-search/seal-multi-adapter": "^0.1",
+        "schranz-search/seal-opensearch-adapter": "^0.1",
+        "schranz-search/seal-read-write-adapter": "^0.1",
+        "schranz-search/seal-redisearch-adapter": "^0.1",
+        "schranz-search/seal-solr-adapter": "^0.1",
+        "schranz-search/seal-typesense-adapter": "^0.1"
+    },
+    "conflict": {
+        "schranz-search/seal-algolia-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-elasticsearch-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-meilisearch-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-memory-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-multi-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-opensearch-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-read-write-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-redisearch-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-solr-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-typesense-adapter": "<0.1, >=0.2"
+    },
+    "scripts": {
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "vendor/bin/phpunit"
+        ],
+        "phpstan": "@php vendor/bin/phpstan analyze",
+        "lint-rector": "@php vendor/bin/rector process --dry-run",
+        "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+        "lint": [
+            "@phpstan",
+            "@lint-php-cs",
+            "@lint-rector"
+        ],
+        "rector": "@php vendor/bin/rector process",
+        "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
+        "fix": [
+            "@rector",
+            "@php-cs-fix"
+        ]
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../../packages/*",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "config-plugin-options": {
+            "source-directory": "config"
+        },
+        "config-plugin": {
+            "params": "params.php",
+            "di": "di.php",
+            "di-console": "di-console.php"
+        }
+    }
+}

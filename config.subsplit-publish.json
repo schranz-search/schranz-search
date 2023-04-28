@@ -74,6 +74,11 @@
             "name": "SEALMezzioIntegration",
             "directory": "integrations/mezzio",
             "target": "git@github.com:schranz-search/mezzio-module.git"
+        },
+        {
+            "name": "SEALYiiIntegration",
+            "directory": "integrations/yii",
+            "target": "git@github.com:schranz-search/yii-module.git"
         }
     ]
 }

@@ -41,6 +41,7 @@ The following framework integrations are available:
 - [Laravel Package](integrations/laravel): `schranz-search/laravel-package`
 - [Spiral Bridge](integrations/spiral): `schranz-search/spiral-bridge`
 - [Mezzio Module](integrations/mezzio): `schranz-search/mezzio-module`
+- [Yii Module](integrations/yii): `schranz-search/yii-module`
 
 ### List of adapters
 

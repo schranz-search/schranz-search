@@ -97,6 +97,12 @@ jobs:
         with:
             directory: 'integrations/mezzio'
 
+    yii-integration:
+        name: Yii Integration
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'integrations/yii'
+
     symfony-integration-example:
         name: Symfony Integration Example
         uses: ./.github/workflows/callable-lint.yml
@@ -120,3 +126,9 @@ jobs:
         uses: ./.github/workflows/callable-lint.yml
         with:
             directory: '.examples/mezzio'
+
+    yii-integration-example:
+        name: Yii Integration Example
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: '.examples/yii'
