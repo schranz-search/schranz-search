@@ -17,7 +17,6 @@ use Yiisoft\I18n\Locale;
  * @var Yiisoft\Router\CurrentRoute $currentRoute
  * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  */
-
 $assetManager->register(AppAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
@@ -26,18 +25,18 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$this->beginPage()
+$this->beginPage();
 ?><!DOCTYPE html>
-<html lang="<?= Html::encode($locale->language()) ?>">
+<html lang="<?php echo Html::encode($locale->language()); ?>">
 <head>
-    <meta charset="<?= Html::encode($applicationParameters->getCharset()) ?>">
+    <meta charset="<?php echo Html::encode($applicationParameters->getCharset()); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= Html::encode($this->getTitle()) ?></title>
-    <?php $this->head() ?>
+    <title><?php echo Html::encode($this->getTitle()); ?></title>
+    <?php $this->head(); ?>
 </head>
 <body>
-<?php $this->beginBody() ?>
+<?php $this->beginBody(); ?>
 
 <div class="header">
     <a href="https://www.yiiframework.com/" target="_blank" rel="noopener">
@@ -70,14 +69,14 @@ $this->beginPage()
 
 <div class="content">
     <div class="content_i">
-        <?= $content ?>
+        <?php echo $content; ?>
     </div>
 </div>
 
 <div class="footer">
     <div class="footer_copyright">
         <a href="https://www.yiiframework.com/" target="_blank" rel="noopener">
-            © <?= date('Y') ?>  <?= Html::encode($applicationParameters->getName()) ?>
+            © <?php echo \date('Y'); ?>  <?php echo Html::encode($applicationParameters->getName()); ?>
         </a>
     </div>
     <div class="footer_icons">
@@ -123,7 +122,7 @@ $this->beginPage()
     </div>
 </div>
 
-<?php $this->endBody() ?>
+<?php $this->endBody(); ?>
 </body>
 </html>
-<?php $this->endPage() ?>
+<?php $this->endPage(); ?>

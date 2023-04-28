@@ -21,12 +21,12 @@ final class SiteControllerTest extends TestCase
         $method = 'GET';
         $url = '/';
 
-        $this->tester->bootstrapApplication(dirname(__DIR__, 2));
+        $this->tester->bootstrapApplication(\dirname(__DIR__, 2));
         $response = $this->tester->doRequest($method, $url);
 
         $this->assertStringContainsString(
             'Don\'t forget to check the guide',
-            $response->getContent()
+            $response->getContent(),
         );
     }
 }

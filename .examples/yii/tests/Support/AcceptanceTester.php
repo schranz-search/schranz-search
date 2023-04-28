@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Support;
 
 /**
- * Inherited Methods
+ * Inherited Methods.
  *
  * @method void wantToTest($text)
  * @method void wantTo($text)
@@ -19,12 +19,12 @@ namespace App\Tests\Support;
  * @method void pause($vars = [])
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
 
-    /**
+    /*
      * Define custom actions here
      */
 }

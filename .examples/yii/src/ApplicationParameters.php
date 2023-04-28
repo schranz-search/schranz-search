@@ -23,6 +23,7 @@ final class ApplicationParameters
     {
         $new = clone $this;
         $new->charset = $value;
+
         return $new;
     }
 
@@ -30,6 +31,7 @@ final class ApplicationParameters
     {
         $new = clone $this;
         $new->name = $value;
+
         return $new;
     }
 }

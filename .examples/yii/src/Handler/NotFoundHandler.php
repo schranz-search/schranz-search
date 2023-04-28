@@ -8,8 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\ViewRenderer;
 
 final class NotFoundHandler implements RequestHandlerInterface
@@ -17,7 +17,7 @@ final class NotFoundHandler implements RequestHandlerInterface
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private CurrentRoute $currentRoute,
-        private ViewRenderer $viewRenderer
+        private ViewRenderer $viewRenderer,
     ) {
         $this->viewRenderer = $viewRenderer->withControllerName('site');
     }

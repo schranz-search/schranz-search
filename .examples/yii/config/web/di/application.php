@@ -13,10 +13,8 @@ use Yiisoft\Middleware\Dispatcher\MiddlewareDispatcher;
 return [
     Yiisoft\Yii\Http\Application::class => [
         '__construct()' => [
-            'dispatcher' => DynamicReference::to(static function (Injector $injector) use ($params) {
-                return $injector->make(MiddlewareDispatcher::class)
-                    ->withMiddlewares($params['middlewares']);
-            }),
+            'dispatcher' => DynamicReference::to(static fn (Injector $injector) => $injector->make(MiddlewareDispatcher::class)
+                ->withMiddlewares($params['middlewares'])),
             'fallbackHandler' => Reference::to(NotFoundHandler::class),
         ],
     ],

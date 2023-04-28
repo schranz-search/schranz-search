@@ -7,8 +7,8 @@ namespace App\ViewInjection;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\I18n\Locale;
-use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Router\CurrentRoute;
+use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\LayoutParametersInjectionInterface;
 
 final class LayoutViewInjection implements LayoutParametersInjectionInterface

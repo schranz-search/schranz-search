@@ -11,10 +11,7 @@ use Symfony\Component\Console\CommandLoader\ContainerCommandLoader;
 use Symfony\Component\Console\Tester\CommandTester;
 use Yiisoft\Config\ConfigInterface;
 use Yiisoft\Yii\Console\ExitCode;
-
 use Yiisoft\Yii\Runner\Console\ConsoleApplicationRunner;
-
-use function dirname;
 
 final class HelloCest
 {
@@ -24,7 +21,7 @@ final class HelloCest
     public function _before(UnitTester $I): void
     {
         $runner = new ConsoleApplicationRunner(
-            rootPath: dirname(__DIR__, 2),
+            rootPath: \dirname(__DIR__, 2),
             debug: false,
             checkEvents: false,
         );
@@ -39,7 +36,7 @@ final class HelloCest
 
         $loader = new ContainerCommandLoader(
             $this->container,
-            $params['yiisoft/yii-console']['commands']
+            $params['yiisoft/yii-console']['commands'],
         );
 
         $app->setCommandLoader($loader);

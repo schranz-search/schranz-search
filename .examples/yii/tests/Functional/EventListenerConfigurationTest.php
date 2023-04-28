@@ -8,14 +8,12 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Yii\Event\ListenerConfigurationChecker;
 use Yiisoft\Yii\Runner\Console\ConsoleApplicationRunner;
 
-use function dirname;
-
 final class EventListenerConfigurationTest extends TestCase
 {
     public function testConsoleListenerConfiguration(): void
     {
         $runner = new ConsoleApplicationRunner(
-            rootPath: dirname(__DIR__, 2),
+            rootPath: \dirname(__DIR__, 2),
             debug: false,
             checkEvents: false,
         );

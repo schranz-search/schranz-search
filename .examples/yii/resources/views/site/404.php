@@ -10,7 +10,6 @@ use Yiisoft\Html\Html;
  * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var Yiisoft\Router\CurrentRoute $currentRoute
  */
-
 $this->setTitle('404');
 ?>
 
@@ -21,9 +20,9 @@ $this->setTitle('404');
 
     <p>
         The page
-        <strong><?= Html::encode($currentRoute
+        <strong><?php echo Html::encode($currentRoute
                 ->getUri()
-                ->getPath()) ?></strong>
+                ->getPath()); ?></strong>
         not found.
     </p>
 
@@ -33,6 +32,6 @@ $this->setTitle('404');
     </p>
 
     <p>
-        <a href="<?= $urlGenerator->generate('home') ?>">Go Back Home</a>
+        <a href="<?php echo $urlGenerator->generate('home'); ?>">Go Back Home</a>
     </p>
 </div>

@@ -21,23 +21,23 @@ final class Installer
 
     private static function chmodRecursive(string $path, int $mode): void
     {
-        chmod($path, $mode);
+        \chmod($path, $mode);
 
         /** @psalm-var iterable<array-key, string> $iterator */
         $iterator = new RIterator(
             new DirIterator($path, FSIterator::SKIP_DOTS | FSIterator::CURRENT_AS_PATHNAME),
-            RIterator::SELF_FIRST
+            RIterator::SELF_FIRST,
         );
 
         foreach ($iterator as $item) {
-            chmod($item, $mode);
+            \chmod($item, $mode);
         }
     }
 
     public static function copyEnvFile(): void
     {
-        if (!file_exists('.env')) {
-            copy('.env.example', '.env');
+        if (!\file_exists('.env')) {
+            \copy('.env.example', '.env');
         }
     }
 }

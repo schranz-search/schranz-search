@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    '@root' => dirname(__DIR__, 2),
+    '@root' => \dirname(__DIR__, 2),
     '@assets' => '@root/public/assets',
     '@assetsUrl' => '@baseUrl/assets',
     '@baseUrl' => '/',

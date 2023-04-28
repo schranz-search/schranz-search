@@ -1,0 +1,8 @@
+parameters:
+    paths:
+        - src
+        - config
+        - tests
+    level: max
+    excludePaths:
+        - vendor/*
