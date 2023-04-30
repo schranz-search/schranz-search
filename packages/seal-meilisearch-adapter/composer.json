@@ -17,7 +17,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\Tests\\": "tests"
         }
     },
     "authors": [
