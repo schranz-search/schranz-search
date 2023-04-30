@@ -6,9 +6,6 @@ namespace Schranz\Search\SEAL\Adapter\Multi;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
-use Schranz\Search\SEAL\Adapter\ReadWrite\MultiIndexer;
-use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSchemaManager;
-use Schranz\Search\SEAL\Adapter\ReadWrite\MultiSearcher;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
