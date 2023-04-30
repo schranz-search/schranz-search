@@ -6,11 +6,11 @@
 
 <div align="center">
 
-<strong>Monorepository</strong> for the **S**earch **E**ngine **A**bstraction **L**ayer with support to different search engines. <br/>
+<strong>Monorepository</strong> for the **S**earch **E**ngine **A**bstraction **L**ayer with support to different search engines<br/>
 <a href="https://schranz-search.github.io/schranz-search/">Documentation</a> | [Packages](#-packages)
 
 Elasticsearch | Opensearch | Meilisearch | Algolia | Solr | Redisearch | Typesense <br/>
-PHP | Symfony | Laravel | Spiral | Mezzio | Yii
+**PHP** | Symfony | Laravel | Spiral | Mezzio | Yii
 
 </div>
 
