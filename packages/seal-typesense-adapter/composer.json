@@ -12,15 +12,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\Typesense\\Tests\\": "tests"
         }
     },
     "authors": [

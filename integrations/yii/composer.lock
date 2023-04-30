@@ -170,7 +170,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal",
-                "reference": "80ecd20f4f8bc09d7ce41d466ce27d87bab47050"
+                "reference": "d3a371f2d76f575cd285499ba3294aab948a1a20"
             },
             "require": {
                 "php": "^8.1"
@@ -186,15 +186,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -214,7 +211,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -262,12 +263,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "614616df03e290fe751a36973d9ba4aa4967aeb7"
+                "reference": "609351c91141cb1afcb0e0ac5fedf7f8c5d5e7c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/614616df03e290fe751a36973d9ba4aa4967aeb7",
-                "reference": "614616df03e290fe751a36973d9ba4aa4967aeb7",
+                "url": "https://api.github.com/repos/symfony/console/zipball/609351c91141cb1afcb0e0ac5fedf7f8c5d5e7c1",
+                "reference": "609351c91141cb1afcb0e0ac5fedf7f8c5d5e7c1",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +345,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-28T13:37:53+00:00"
+            "time": "2023-04-28T15:51:51+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -3093,12 +3094,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "14f56ab18bda6a4c01a2c7b82664a4b6efb5fa47"
+                "reference": "b621ec03070bd237d87baf93c81c82f5e1058ca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/14f56ab18bda6a4c01a2c7b82664a4b6efb5fa47",
-                "reference": "14f56ab18bda6a4c01a2c7b82664a4b6efb5fa47",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b621ec03070bd237d87baf93c81c82f5e1058ca5",
+                "reference": "b621ec03070bd237d87baf93c81c82f5e1058ca5",
                 "shasum": ""
             },
             "require": {
@@ -3148,7 +3149,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-27T09:44:55+00:00"
+            "time": "2023-04-30T14:21:21+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -3964,12 +3965,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "9a8a2a24dd650317b66950330cb77072949d9454"
+                "reference": "d5a112d946d50ed2fbf2ae44eaccdff36b186277"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/9a8a2a24dd650317b66950330cb77072949d9454",
-                "reference": "9a8a2a24dd650317b66950330cb77072949d9454",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d5a112d946d50ed2fbf2ae44eaccdff36b186277",
+                "reference": "d5a112d946d50ed2fbf2ae44eaccdff36b186277",
                 "shasum": ""
             },
             "require": {
@@ -4018,7 +4019,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-28T13:29:51+00:00"
+            "time": "2023-04-30T12:47:54+00:00"
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
@@ -4026,7 +4027,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-algolia-adapter",
-                "reference": "cd64c3dbf7cbb2f1a64618ee3ba8de38327e7978"
+                "reference": "d8a3fd65c642cb23c7e41e7526270eea99e4d4b9"
             },
             "require": {
                 "algolia/algoliasearch-client-php": "^3.3",
@@ -4045,15 +4046,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Algolia\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Algolia\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Algolia\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Algolia\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4073,7 +4071,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4114,7 +4116,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-elasticsearch-adapter",
-                "reference": "6870e4aa64f9ecd4818819353d8ed1c04c571aca"
+                "reference": "1616efad573c4fcdc6da2995933376c033c6c517"
             },
             "require": {
                 "elasticsearch/elasticsearch": "^8.5.3",
@@ -4136,15 +4138,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Elasticsearch\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Elasticsearch\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Elasticsearch\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Elasticsearch\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4164,7 +4163,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4205,7 +4208,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-meilisearch-adapter",
-                "reference": "c67753c9fbbd0f2d948b9b496e8889b0b1b609e4"
+                "reference": "c39b0ebdf3bb0350059baa75813c20364740ef1d"
             },
             "require": {
                 "meilisearch/meilisearch-php": "^1.0",
@@ -4226,11 +4229,8 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
@@ -4254,7 +4254,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4295,7 +4299,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-memory-adapter",
-                "reference": "220350a56f80fbb5d3c3b32be556767f29ef56e7"
+                "reference": "f2c3b8fab183451d3f459643976bde88e125948d"
             },
             "require": {
                 "php": "^8.1",
@@ -4312,15 +4316,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Memory\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Memory\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Memory\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Memory\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4340,7 +4341,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4380,7 +4385,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-multi-adapter",
-                "reference": "474c7beaf98cc68d8f756ab108787542745b110f"
+                "reference": "ce8db4520c88e3687d6c81d7998d3d796cc97d15"
             },
             "require": {
                 "php": "^8.1",
@@ -4398,15 +4403,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Multi\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Multi\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Multi\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Multi\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4426,7 +4428,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4466,7 +4472,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-opensearch-adapter",
-                "reference": "d58d2b6132566f70985f7d8720e6b2d17fab6d25"
+                "reference": "76b9fe54284afd083f80530eb6d47012a16b2f34"
             },
             "require": {
                 "opensearch-project/opensearch-php": "^2.0",
@@ -4488,15 +4494,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Opensearch\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Opensearch\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Opensearch\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Opensearch\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4516,7 +4519,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4557,7 +4564,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-read-write-adapter",
-                "reference": "081b630125942ef5108096fa46de75da68209abc"
+                "reference": "e843751a5d072094c0811d0b5137c608b972dd2a"
             },
             "require": {
                 "php": "^8.1",
@@ -4575,15 +4582,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\ReadWrite\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\ReadWrite\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\ReadWrite\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\ReadWrite\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4603,7 +4607,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4643,7 +4651,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
-                "reference": "ff6301f467e6bad5c3ae9ee892d7f655f7dff231"
+                "reference": "a0ee2248de11c94a79dbc13b1cf50548fc46ab2b"
             },
             "require": {
                 "ext-json": "*",
@@ -4663,15 +4671,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4691,7 +4696,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4733,7 +4742,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-solr-adapter",
-                "reference": "74b1a524d65c4210dab6af396c15774b85b899c1"
+                "reference": "0810d5b4ba44530be26ad67a7a39cfc632ee84f3"
             },
             "require": {
                 "php": "^8.1",
@@ -4753,15 +4762,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Solr\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Solr\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Solr\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Solr\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4781,7 +4787,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -4823,7 +4833,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-typesense-adapter",
-                "reference": "29ee90f017d01e1effbf0fd4faee9ef22f64f199"
+                "reference": "a4cc006d1291e48478df7213af9c64588ff0ba93"
             },
             "require": {
                 "php": "^8.1",
@@ -4848,15 +4858,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Typesense\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\Adapter\\Typesense\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Adapter\\Typesense\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Adapter\\Typesense\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -4876,7 +4883,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -5947,12 +5958,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "08936e14b3c180b2a63f6a6d4c282207bbd484b9"
+                "reference": "e435847c4c5ebbc2ba81273a6bb834cb56f73f49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/08936e14b3c180b2a63f6a6d4c282207bbd484b9",
-                "reference": "08936e14b3c180b2a63f6a6d4c282207bbd484b9",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/e435847c4c5ebbc2ba81273a6bb834cb56f73f49",
+                "reference": "e435847c4c5ebbc2ba81273a6bb834cb56f73f49",
                 "shasum": ""
             },
             "require": {
@@ -6030,7 +6041,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-26T16:18:17+00:00"
+            "time": "2023-04-28T15:57:00+00:00"
         },
         {
             "name": "symfony/http-client-contracts",

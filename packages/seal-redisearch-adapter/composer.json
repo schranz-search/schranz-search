@@ -13,15 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\RediSearch\\Tests\\": "tests"
         }
     },
     "authors": [
