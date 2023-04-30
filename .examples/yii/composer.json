@@ -1,6 +1,7 @@
 {
     "name": "yiisoft/app",
     "type": "project",
+    "license": "proprietary",
     "description": "Yii 3 application template",
     "keywords": [
         "yii3",
