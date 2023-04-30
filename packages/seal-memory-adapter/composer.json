@@ -11,15 +11,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Memory\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Schranz\\Search\\SEAL\\Adapter\\Memory\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Memory\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\Memory\\Tests\\": "tests"
         }
     },
     "authors": [

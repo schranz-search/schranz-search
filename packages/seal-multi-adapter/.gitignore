@@ -2,6 +2,6 @@
 /composer.phar
 /phpunit.xml
 /.phpunit.result.cache
-/Tests/var
+/tests/var
 /.php-cs-fixer.php
 /.php-cs-fixer.cache

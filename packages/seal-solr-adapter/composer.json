@@ -13,15 +13,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Solr\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Schranz\\Search\\SEAL\\Adapter\\Solr\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Solr\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\Solr\\Tests\\": "tests"
         }
     },
     "authors": [

@@ -15,17 +15,13 @@
 
     <testsuites>
         <testsuite name="Test Suite">
-            <directory>Tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
     <coverage processUncoveredFiles="true">
         <include>
-            <directory>.</directory>
+            <directory>src</directory>
         </include>
-
-        <exclude>
-            <directory>./Tests</directory>
-        </exclude>
     </coverage>
 </phpunit>

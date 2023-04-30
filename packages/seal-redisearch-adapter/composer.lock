@@ -66,7 +66,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "80ecd20f4f8bc09d7ce41d466ce27d87bab47050"
+                "reference": "d3a371f2d76f575cd285499ba3294aab948a1a20"
             },
             "require": {
                 "php": "^8.1"
@@ -82,15 +82,12 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
+                    "Schranz\\Search\\SEAL\\": "src"
+                }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Schranz\\Search\\SEAL\\Tests\\": "Tests"
+                    "Schranz\\Search\\SEAL\\Tests\\": "tests"
                 }
             },
             "scripts": {
@@ -110,7 +107,11 @@
                 "lint": [
                     "@phpstan",
                     "@lint-php-cs",
-                    "@lint-rector"
+                    "@lint-rector",
+                    "@lint-composer"
+                ],
+                "lint-composer": [
+                    "@composer validate --strict"
                 ],
                 "rector": [
                     "@php vendor/bin/rector process"
@@ -516,16 +517,16 @@
         },
         {
             "name": "phpstan/extension-installer",
-            "version": "1.2.x-dev",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/extension-installer.git",
-                "reference": "3f3d1ba8417da188b606408dfc6722a5b420e80f"
+                "reference": "f5e02d40f277d28513001976f444d9ff1dc15e9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/extension-installer/zipball/3f3d1ba8417da188b606408dfc6722a5b420e80f",
-                "reference": "3f3d1ba8417da188b606408dfc6722a5b420e80f",
+                "url": "https://api.github.com/repos/phpstan/extension-installer/zipball/f5e02d40f277d28513001976f444d9ff1dc15e9a",
+                "reference": "f5e02d40f277d28513001976f444d9ff1dc15e9a",
                 "shasum": ""
             },
             "require": {
@@ -538,10 +539,14 @@
                 "php-parallel-lint/php-parallel-lint": "^1.2.0",
                 "phpstan/phpstan-strict-rules": "^0.11 || ^0.12 || ^1.0"
             },
-            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
-                "class": "PHPStan\\ExtensionInstaller\\Plugin"
+                "class": "PHPStan\\ExtensionInstaller\\Plugin",
+                "phpstan/extension-installer": {
+                    "ignore": [
+                        "phpstan/phpstan-phpunit"
+                    ]
+                }
             },
             "autoload": {
                 "psr-4": {
@@ -555,9 +560,9 @@
             "description": "Composer plugin for automatic installation of PHPStan extensions",
             "support": {
                 "issues": "https://github.com/phpstan/extension-installer/issues",
-                "source": "https://github.com/phpstan/extension-installer/tree/1.2.x"
+                "source": "https://github.com/phpstan/extension-installer/tree/1.3.0"
             },
-            "time": "2023-03-22T08:45:12+00:00"
+            "time": "2023-04-18T13:08:02+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -565,12 +570,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1"
+                "reference": "b621ec03070bd237d87baf93c81c82f5e1058ca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1",
-                "reference": "8cdb5c916fdf54ecaa07fa67a1c692f76f710cb1",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b621ec03070bd237d87baf93c81c82f5e1058ca5",
+                "reference": "b621ec03070bd237d87baf93c81c82f5e1058ca5",
                 "shasum": ""
             },
             "require": {
@@ -620,7 +625,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-13T18:41:44+00:00"
+            "time": "2023-04-30T14:21:21+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -999,12 +1004,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b"
+                "reference": "c993f0d3b0489ffc42ee2fe0bd645af1538a63b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b",
-                "reference": "0ef4d1f1d0590e1a68707bd4f3fb52d6a1c36b6b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c993f0d3b0489ffc42ee2fe0bd645af1538a63b2",
+                "reference": "c993f0d3b0489ffc42ee2fe0bd645af1538a63b2",
                 "shasum": ""
             },
             "require": {
@@ -1078,7 +1083,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.7"
             },
             "funding": [
                 {
@@ -1094,7 +1099,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-04-13T07:43:14+00:00"
+            "time": "2023-04-14T08:58:40+00:00"
         },
         {
             "name": "rector/rector",
@@ -1102,17 +1107,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "52b2dda9f2f55947136b4b6acdf3f58c950f1763"
+                "reference": "d5a112d946d50ed2fbf2ae44eaccdff36b186277"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/52b2dda9f2f55947136b4b6acdf3f58c950f1763",
-                "reference": "52b2dda9f2f55947136b4b6acdf3f58c950f1763",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d5a112d946d50ed2fbf2ae44eaccdff36b186277",
+                "reference": "d5a112d946d50ed2fbf2ae44eaccdff36b186277",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.13"
+                "phpstan/phpstan": "^1.10.14"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -1156,7 +1161,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-13T14:10:48+00:00"
+            "time": "2023-04-30T12:47:54+00:00"
         },
         {
             "name": "sebastian/cli-parser",

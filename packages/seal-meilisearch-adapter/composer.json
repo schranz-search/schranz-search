@@ -12,15 +12,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\": ""
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\": "src"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\Tests\\": "Tests"
+            "Schranz\\Search\\SEAL\\Adapter\\Meilisearch\\Tests\\": "tests"
         }
     },
     "authors": [
