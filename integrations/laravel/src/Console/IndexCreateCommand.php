@@ -17,7 +17,7 @@ final class IndexCreateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'schranz:search:index-create {engine? : The name of the engine} {index? : The name of the index}';
+    protected $signature = 'schranz:search:index-create {--engine= : The name of the engine} {--index= : The name of the index}';
 
     /**
      * The console command description.
@@ -32,9 +32,9 @@ final class IndexCreateCommand extends Command
     public function handle(EngineRegistry $engineRegistry): int
     {
         /** @var string|null $engineName */
-        $engineName = $this->argument('engine');
+        $engineName = $this->option('engine');
         /** @var string|null $indexName */
-        $indexName = $this->argument('index');
+        $indexName = $this->option('index');
 
         foreach ($engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {

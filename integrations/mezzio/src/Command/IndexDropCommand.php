@@ -25,8 +25,8 @@ final class IndexDropCommand extends Command
     protected function configure()
     {
         $this->setDescription('Drop configured search indexes.');
-        $this->addArgument('engine', InputArgument::OPTIONAL, 'The name of the engine to create the schema for.');
-        $this->addArgument('index', InputArgument::OPTIONAL, 'The name of the index to create the schema for.');
+        $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
+        $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'The name of the index to create the schema for.');
         $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Without force nothing will happen in this command.');
     }
 
@@ -34,9 +34,9 @@ final class IndexDropCommand extends Command
     {
         $ui = new SymfonyStyle($input, $output);
         /** @var string|null $engineName */
-        $engineName = $input->getArgument('engine');
+        $engineName = $input->getOption('engine');
         /** @var string|null $indexName */
-        $indexName = $input->getArgument('index');
+        $indexName = $input->getOption('index');
         $force = $input->getOption('force');
 
         if (!$force) {

@@ -17,7 +17,7 @@ final class IndexDropCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'schranz:search:index-drop {engine? : The name of the engine} {index? : The name of the index} {--force : Force to drop the indexes}';
+    protected $signature = 'schranz:search:index-drop {--engine= : The name of the engine} {--index= : The name of the index} {--force : Force to drop the indexes}';
 
     /**
      * The console command description.
@@ -32,9 +32,9 @@ final class IndexDropCommand extends Command
     public function handle(EngineRegistry $engineRegistry): int
     {
         /** @var string|null $engineName */
-        $engineName = $this->argument('engine');
+        $engineName = $this->option('engine');
         /** @var string|null $indexName */
-        $indexName = $this->argument('index');
+        $indexName = $this->option('index');
         /** @var bool $force */
         $force = $this->option('force') ?: false;
 
