@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Schranz\Search\SEAL\Adapter\ReadWrite;
+namespace Schranz\Search\SEAL\Adapter\Multi;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Search\Search;
