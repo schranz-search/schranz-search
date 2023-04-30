@@ -1,13 +1,13 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Argument is not an Attribute class\\.$#"
-			count: 2
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\AsCommand is not an Attribute class\\.$#"
+			count: 1
 			path: src/Console/IndexCreateCommand.php
 
 		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\AsCommand is not an Attribute class\\.$#"
-			count: 1
+			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Option is not an Attribute class\\.$#"
+			count: 2
 			path: src/Console/IndexCreateCommand.php
 
 		-
@@ -16,18 +16,13 @@ parameters:
 			path: src/Console/IndexCreateCommand.php
 
 		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Argument is not an Attribute class\\.$#"
-			count: 2
-			path: src/Console/IndexDropCommand.php
-
-		-
 			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\AsCommand is not an Attribute class\\.$#"
 			count: 1
 			path: src/Console/IndexDropCommand.php
 
 		-
 			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Option is not an Attribute class\\.$#"
-			count: 1
+			count: 3
 			path: src/Console/IndexDropCommand.php
 
 		-
