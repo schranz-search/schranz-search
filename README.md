@@ -10,7 +10,7 @@
 <a href="https://schranz-search.github.io/schranz-search/">Documentation</a> | [Packages](#-packages)
 
 Elasticsearch | Opensearch | Meilisearch | Algolia | Solr | Redisearch | Typesense <br/>
-Symfony | Laravel | Spiral | Mezzio | Yii
+PHP | Symfony | Laravel | Spiral | Mezzio | Yii
 
 </div>
 
