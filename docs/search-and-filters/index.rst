@@ -1,7 +1,7 @@
 Search & Filter Conditions
 ==========================
 
-In the :doc:`../getting_started/index` documentation we already saw how we can use the ``SearchBuilder`` to
+In the :doc:`../getting-started/index` documentation we already saw how we can use the ``SearchBuilder`` to
 search for different documents in our indexes.
 
 Beside search functionality the abstraction provides also different kind of filter conditions to build
@@ -33,8 +33,11 @@ The following shows the basic usage as already shown in the "Getting Started" do
     multiple indexes at once. The other adapters are not yet supporting to call ``addIndex``
     multiple times and will fail so with an exception if you try to do so.
 
+Conditions
+----------
+
 SearchCondition
----------------
+~~~~~~~~~~~~~~~
 
 The ``SearchCondition`` is the most basic condition and can be used to search for a specific:
 
@@ -52,7 +55,7 @@ The ``SearchCondition`` is the most basic condition and can be used to search fo
 The condition does only search on fields which are marked as ``searchable`` in the index configuration.
 
 EqualCondition
---------------
+~~~~~~~~~~~~~~
 
 The ``EqualCondition`` is used to filter the result by a specific field value matching a given value.
 
@@ -71,7 +74,7 @@ The field is required to be marked as ``filterable`` in the index configuration,
 used on fields which are not marked as ``multiple``.
 
 NotEqualCondition
------------------
+~~~~~~~~~~~~~~~~~
 
 The ``NotEqualCondition`` is used to filter the result by a specific field value not matching a given value.
 
@@ -90,7 +93,7 @@ The field is required to be marked as ``filterable`` in the index configuration,
 used on fields which are not marked as ``multiple``.
 
 IdentifierCondition
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 The ``IdentifierCondition`` is a special kind of ``EqualCondition`` on the identifier field,
 if you want to load a document by its identifier this condition is faster in most search engines
@@ -108,7 +111,7 @@ then using a ``EqualCondition``.
         ->getResult();
 
 GreaterThanCondition
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 The ``GreaterThanCondition`` is used to filter the result by a specific field value be greater than (``>``)
 the given value.
@@ -127,7 +130,7 @@ the given value.
 The field is required to be marked as ``filterable`` in the index configuration.
 
 GreaterThanEqualCondition
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The ``GreaterThanEqualCondition`` is used to filter the result by a specific field value be greater than equal (``>=``)
 the given value.
@@ -146,7 +149,7 @@ the given value.
 The field is required to be marked as ``filterable`` in the index configuration.
 
 LessThanCondition
------------------
+~~~~~~~~~~~~~~~~~
 
 The ``LessThanCondition`` is used to filter the result by a specific field value be less than equal (``<``)
 the given value.
@@ -165,7 +168,7 @@ the given value.
 The field is required to be marked as ``filterable`` in the index configuration.
 
 LessThanEqualCondition
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 The ``LessThanEqualCondition`` is used to filter the result by a specific field value be less than equal (``<=``)
 the given value.

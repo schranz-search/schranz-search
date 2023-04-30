@@ -93,7 +93,7 @@ integration of the package or the ``Standalone`` version.
 
     .. group-tab:: Opensearch
 
-        Install the `Opensearch <https://opensearch.org/adapter>`_ adapter:
+        Install the `Opensearch <https://opensearch.org>`_ adapter:
 
         .. code-block:: bash
 
@@ -1383,7 +1383,7 @@ search engine.
 
     .. group-tab:: Opensearch
 
-        A instance of `Opensearch <https://opensearch.org/adapter>`_ can be started with the following docker-compose file:
+        A instance of `Opensearch <https://opensearch.org/>`_ can be started with the following docker-compose file:
 
         .. code-block:: yaml
 
@@ -1699,7 +1699,7 @@ many exists in the given index.
         }
     }
 
-For all kind of search and filters have a look at the :doc:`../search_and_filters/index` documentation.
+For all kind of search and filters have a look at the :doc:`../search-and-filters/index` documentation.
 
 Filter Documents
 ----------------
@@ -1732,7 +1732,7 @@ we will filter by the ``tags`` field and get all documents which have the tag ``
         }
     }
 
-For all kind of search and filters have a look at the :doc:`../search_and_filters/index` documentation.
+For all kind of search and filters have a look at the :doc:`../search-and-filters/index` documentation.
 
 Help needed?
 ------------
@@ -1748,4 +1748,4 @@ Next Steps
 These were the basic steps to get started with the Search Engine Abstraction Layer (**SEAL**).
 In the next part of the documentation, we will delve deeper into the :doc:`../schema/index`
 and explore the various field definitions. After that, we will a short look at the :doc:`../indexing/index` and then
-examine the different conditions of :doc:`../search_and_filters/index` the abstraction provides.
+examine the different conditions of :doc:`../search-and-filters/index` the abstraction provides.

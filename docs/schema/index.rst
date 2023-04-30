@@ -1,7 +1,7 @@
 Schema
 ======
 
-In the :doc:`../getting_started/index` documentation we already saw how to define a schema for our indexes
+In the :doc:`../getting-started/index` documentation we already saw how to define a schema for our indexes
 and where we have to define them based on our used ``Framework`` or how the create the ``Schema`` instance in
 the ``Standalone`` usage.
 
@@ -9,8 +9,11 @@ A Schema is a collection of one or more ``Index`` definitions. An ``Index`` is d
 Where every field is defined by a name and a type. All fields types with exception from the ``Identifier``
 are possible to be defined as ``filterable``, ``sortable`` and ``multiple``.
 
+Basic Field Types
+-----------------
+
 TextField
----------
+~~~~~~~~~
 
 The ``Text`` field type is the most important field type. It is used to store PHP ``string`` values.
 It is also the only field type that is ``searchable`` via a ``SearchCondition``.
@@ -65,7 +68,7 @@ via ``sortable``, ``multiple``, ``filterable`` and ``searchable`` flags:
     how they are handling different types of data.
 
 IdentifierField
----------------
+~~~~~~~~~~~~~~~
 
 The ``Identifier`` field type is a special ``Text`` field type. It is used to identify a document in the index.
 
@@ -103,7 +106,7 @@ The following field definition will show us how to define our ``Identifier`` fie
 Has no configurable options it is always  ``filterable``, but not ``searchable``, ``sortable`` or ``multiple``.
 
 FloatField
-----------
+~~~~~~~~~~
 
 The ``Float`` field type is used to store numeric values. Unlike the text field type it is
 **not** ``searchable``, but the field can be marked as ``filterable`` and ``sortable``.
@@ -149,7 +152,7 @@ via ``sortable``, ``multiple`` and ``filterable`` flags.
 +-----------------+-----------------+
 
 IntegerField
-------------
+~~~~~~~~~~~~
 
 The ``Integer`` field type is used to store numeric values. Unlike the text field type it is
 **not** ``searchable``, but the field can be marked as ``filterable`` and ``sortable``.
@@ -195,7 +198,7 @@ via ``sortable``, ``multiple`` and ``filterable`` flags.
 +-----------------+-----------------+
 
 BooleanField
-------------
+~~~~~~~~~~~~
 
 The ``Boolean`` field type is used to store flags. Unlike the text field type it is
 **not** ``searchable``, but the field can be marked as ``filterable`` and ``sortable``.
@@ -241,7 +244,7 @@ via ``sortable``, ``multiple`` and ``filterable`` flags.
 +-----------------+-----------------+
 
 DateTimeField
--------------
+~~~~~~~~~~~~~
 
 The ``DateTime`` field type is used to store dates. Unlike the text field type it is
 **not** ``searchable``, but the field can be marked as ``filterable`` and ``sortable``.
@@ -286,8 +289,11 @@ via ``sortable``, ``multiple`` and ``filterable`` flags.
 | ``multiple``    | ``false``       |
 +-----------------+-----------------+
 
+Complex Field Types
+-------------------
+
 ObjectField
------------
+~~~~~~~~~~~
 
 The ``Object`` field type is used to index nested objects. Unlike the other field types it is
 **not** ``searchable``, ``filterable``, ``sortable`` itself, but can contain fields
@@ -347,7 +353,7 @@ via ``multiple`` flags.
 +-----------------+-----------------+
 
 TypedField
-----------
+~~~~~~~~~~
 
 The ``Typed`` field type is a special ``Object`` field type and provides the same functionality.
 It is represented in PHP as an ``associative array``. The difference to the ``Object`` field type
@@ -782,4 +788,4 @@ After this deep dive into the field types, we have now covered all the field typ
 and are able to define complex Indexes via them.
 
 In the next chapter, we will have a look at the :doc:`../indexing/index` before we examine the different conditions of
-:doc:`../search_and_filters/index` the abstraction provides.
+:doc:`../search-and-filters/index` the abstraction provides.
