@@ -39,7 +39,7 @@ The ``Schema`` which is required defines the different ``Indexes`` and their ``F
 The project provides different ``Adapters`` which the Engine uses to communicate with the different ``Search Engine`` software and services.
 This way it is easy to switch between different search engine software and services.
 
-**Glossar**
+**Glossary**
 
 .. list-table::
    :widths: 18 82
@@ -63,11 +63,12 @@ Contents
 .. toctree::
     :maxdepth: 1
 
-    getting_started/index
+    getting-started/index
     schema/index
     indexing/index
-    search_and_filters/index
+    search-and-filters/index
     cookbooks/index
+    research/index
 
 ..
   * :ref:`search`
@@ -93,6 +94,7 @@ Full list of packages provided by the SEAL project:
 - ``schranz-search/symfony-bundle`` - Integrates SEAL into the Symfony framework.
 - ``schranz-search/spiral-bridge`` - Integrates SEAL into the Spiral framework.
 - ``schranz-search/mezzio-module`` - Integrates SEAL into the Mezzio framework.
+- ``schranz-search/yii-module`` - Integrates SEAL into the Yii framework.
 
 Have also a look at the following tags:
 
