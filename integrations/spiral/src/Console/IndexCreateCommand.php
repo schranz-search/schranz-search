@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Spiral\Console;
 
 use Schranz\Search\SEAL\EngineRegistry;
-use Spiral\Console\Attribute\Option;
-use Symfony\Component\Console\Input\InputOption;
 use Spiral\Console\Attribute\AsCommand;
+use Spiral\Console\Attribute\Option;
 use Spiral\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @experimental

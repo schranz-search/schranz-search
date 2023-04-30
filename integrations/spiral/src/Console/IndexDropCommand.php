@@ -6,7 +6,6 @@ namespace Schranz\Search\Integration\Spiral\Console;
 
 use Schranz\Search\SEAL\EngineRegistry;
 use Spiral\Boot\Environment\AppEnvironment;
-use Spiral\Console\Attribute\Argument;
 use Spiral\Console\Attribute\AsCommand;
 use Spiral\Console\Attribute\Option;
 use Spiral\Console\Command;
