@@ -15,5 +15,6 @@ $finder = (new PhpCsFixer\Finder())
     ->ignoreVCSIgnored(true);
 
 $phpCsConfig->setFinder($finder);
+$phpCsConfig->setRules(['header_comment' => false]);
 
 return $phpCsConfig->setFinder($finder);

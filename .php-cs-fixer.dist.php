@@ -2,11 +2,21 @@
 
 declare(strict_types=1);
 
+$fileHeaderComment = <<<'EOF'
+This file is part of the Schranz Search package.
+
+(c) Alexander Schranz <alexander@sulu.io>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+EOF;
+
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        'header_comment' => ['header' => $fileHeaderComment],
         'ordered_imports' => true,
         'concat_space' => ['spacing' => 'one'],
         'array_syntax' => ['syntax' => 'short'],
