@@ -91,8 +91,10 @@
         "lint": [
             "@phpstan",
             "@lint-php-cs",
-            "@lint-rector"
+            "@lint-rector",
+            "@lint-composer"
         ],
+        "lint-composer": "@composer validate --strict",
         "rector": "@php vendor/bin/rector process",
         "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
         "fix": [

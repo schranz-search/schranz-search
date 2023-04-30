@@ -1,6 +1,7 @@
 {
     "name": "yiisoft/app",
     "type": "project",
+    "license": "proprietary",
     "description": "Yii 3 application template",
     "keywords": [
         "yii3",
@@ -22,8 +23,10 @@
         "lint": [
             "@phpstan",
             "@lint-php-cs",
-            "@lint-rector"
+            "@lint-rector",
+            "@lint-composer"
         ],
+        "lint-composer": "@composer validate --strict --no-check-publish",
         "rector": "@php vendor/bin/rector process",
         "php-cs-fix": "@php vendor/bin/php-cs-fixer fix",
         "fix": [
