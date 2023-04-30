@@ -6,8 +6,8 @@ namespace Schranz\Search\Integration\Yii\Command;
 
 use Schranz\Search\SEAL\EngineRegistry;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -24,17 +24,17 @@ final class IndexCreateCommand extends Command
     protected function configure()
     {
         $this->setDescription('Create configured search indexes.');
-        $this->addArgument('engine', InputArgument::OPTIONAL, 'The name of the engine to create the schema for.');
-        $this->addArgument('index', InputArgument::OPTIONAL, 'The name of the index to create the schema for.');
+        $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
+        $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'The name of the index to create the schema for.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ui = new SymfonyStyle($input, $output);
         /** @var string|null $engineName */
-        $engineName = $input->getArgument('engine');
+        $engineName = $input->getOption('engine');
         /** @var string|null $indexName */
-        $indexName = $input->getArgument('index');
+        $indexName = $input->getOption('index');
 
         foreach ($this->engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {

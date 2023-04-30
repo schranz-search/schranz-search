@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Spiral\Console;
 
 use Schranz\Search\SEAL\EngineRegistry;
-use Spiral\Console\Attribute\Argument;
 use Spiral\Console\Attribute\AsCommand;
+use Spiral\Console\Attribute\Option;
 use Spiral\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * @experimental
@@ -18,10 +19,10 @@ use Spiral\Console\Command;
 )]
 final class IndexCreateCommand extends Command
 {
-    #[Argument(name: 'engine', description: 'The name of the engine')]
+    #[Option(name: 'engine', mode: InputOption::VALUE_REQUIRED, description: 'The name of the engine')]
     private string|null $engineName = null;
 
-    #[Argument(name: 'index', description: 'The name of the index')]
+    #[Option(name: 'index', mode: InputOption::VALUE_REQUIRED, description: 'The name of the index')]
     private string|null $indexName = null;
 
     public function __invoke(EngineRegistry $engineRegistry): int
