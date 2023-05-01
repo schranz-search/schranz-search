@@ -30,6 +30,7 @@ use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
@@ -121,8 +122,8 @@ final class SearchProvider extends ServiceProvider
                 return new Engine($adapter, $schema);
             });
 
-            if ('default' === $name || (!isset($engines['default']) && !$this->app->has(Engine::class))) {
-                $this->app->alias($engineServiceId, Engine::class);
+            if ('default' === $name || (!isset($engines['default']) && !$this->app->has(EngineInterface::class))) {
+                $this->app->alias($engineServiceId, EngineInterface::class);
             }
         }
 

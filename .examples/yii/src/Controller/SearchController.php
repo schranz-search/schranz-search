@@ -6,22 +6,22 @@ namespace App\Controller;
 
 use Psr\Http\Message\ResponseInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
 final class SearchController
 {
-    private readonly Engine $algoliaEngine;
-    private readonly Engine $meilisearchEngine;
-    private readonly Engine $elasticsearchEngine;
-    private readonly Engine $memoryEngine;
-    private readonly Engine $opensearchEngine;
-    private readonly Engine $solrEngine;
-    private readonly Engine $redisearchEngine;
-    private readonly Engine $typesenseEngine;
-    private readonly Engine $multiEngine;
-    private readonly Engine $readWriteEngine;
+    private readonly EngineInterface $algoliaEngine;
+    private readonly EngineInterface $meilisearchEngine;
+    private readonly EngineInterface $elasticsearchEngine;
+    private readonly EngineInterface $memoryEngine;
+    private readonly EngineInterface $opensearchEngine;
+    private readonly EngineInterface $solrEngine;
+    private readonly EngineInterface $redisearchEngine;
+    private readonly EngineInterface $typesenseEngine;
+    private readonly EngineInterface $multiEngine;
+    private readonly EngineInterface $readWriteEngine;
 
     public function __construct(
         private readonly DataResponseFactoryInterface $responseFactory,
@@ -265,7 +265,7 @@ HTML
         );
     }
 
-    private function getAdapterClass(Engine $engine): string
+    private function getAdapterClass(EngineInterface $engine): string
     {
         $reflection = new \ReflectionClass($engine);
         $propertyReflection = $reflection->getProperty('adapter');

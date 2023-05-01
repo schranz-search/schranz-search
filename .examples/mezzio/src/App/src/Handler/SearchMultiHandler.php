@@ -9,12 +9,12 @@ use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 
 class SearchMultiHandler implements RequestHandlerInterface
 {
-    private readonly Engine $multiEngine;
+    private readonly EngineInterface $multiEngine;
 
     public function __construct(
         private readonly EngineRegistry $engineRegistry,

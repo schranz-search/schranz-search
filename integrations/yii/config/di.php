@@ -26,6 +26,7 @@ use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
@@ -160,14 +161,14 @@ foreach ($engines as $name => $engineConfig) {
     };
 
     if ('default' === $name || (!isset($engines['default']) && !isset($diConfig[Engine::class]))) {
-        $diConfig[Engine::class] = $engineServiceId;
+        $diConfig[EngineInterface::class] = $engineServiceId;
     }
 }
 
 $diConfig['schranz_search.engine_factory'] = static function (ContainerInterface $container) use ($engineServices) {
     $engines = [];
     foreach ($engineServices as $name => $engineServiceId) {
-        /** @var Engine $engine */
+        /** @var \Schranz\Search\SEAL\EngineInterface $engine */
         $engine = $container->get($engineServiceId);
 
         $engines[$name] = $engine;

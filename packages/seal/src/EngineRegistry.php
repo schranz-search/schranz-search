@@ -16,12 +16,12 @@ namespace Schranz\Search\SEAL;
 final class EngineRegistry
 {
     /**
-     * @var array<string, Engine>
+     * @var array<string, EngineInterface>
      */
     private array $engines;
 
     /**
-     * @param iterable<string, Engine> $engines
+     * @param iterable<string, EngineInterface> $engines
      */
     public function __construct(
         iterable $engines,
@@ -30,14 +30,14 @@ final class EngineRegistry
     }
 
     /**
-     * @return iterable<string, Engine>
+     * @return iterable<string, EngineInterface>
      */
     public function getEngines(): iterable
     {
         return $this->engines;
     }
 
-    public function getEngine(string $name): Engine
+    public function getEngine(string $name): EngineInterface
     {
         if (!isset($this->engines[$name])) {
             throw new \InvalidArgumentException(

@@ -9,12 +9,12 @@ use Laminas\Diactoros\Response\HtmlResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 
 class SearchTypesenseHandler implements RequestHandlerInterface
 {
-    private readonly Engine $typesenseEngine;
+    private readonly EngineInterface $typesenseEngine;
 
     public function __construct(
         private readonly EngineRegistry $engineRegistry,

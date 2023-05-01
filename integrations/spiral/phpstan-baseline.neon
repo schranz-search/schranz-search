@@ -11,7 +11,7 @@ parameters:
 			path: src/Console/IndexCreateCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$index of method Schranz\\\\Search\\\\SEAL\\\\Engine\\:\\:createIndex\\(\\) expects string, string\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$index of method Schranz\\\\Search\\\\SEAL\\\\EngineInterface\\:\\:createIndex\\(\\) expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Console/IndexCreateCommand.php
 
@@ -26,6 +26,6 @@ parameters:
 			path: src/Console/IndexDropCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$index of method Schranz\\\\Search\\\\SEAL\\\\Engine\\:\\:dropIndex\\(\\) expects string, string\\|null given\\.$#"
+			message: "#^Parameter \\#1 \\$index of method Schranz\\\\Search\\\\SEAL\\\\EngineInterface\\:\\:dropIndex\\(\\) expects string, string\\|null given\\.$#"
 			count: 1
 			path: src/Console/IndexDropCommand.php

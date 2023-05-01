@@ -17,6 +17,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
 use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
@@ -107,13 +108,13 @@ final class SearchBundle extends AbstractBundle
                 ])
                 ->addTag('schranz_search.engine', ['name' => $name]);
 
-            if ('default' === $name) {
-                $builder->setAlias(Engine::class, $engineServiceId);
+            if ('default' === $name || (!isset($engines['default']) && !$builder->has(EngineInterface::class))) {
+                $builder->setAlias(EngineInterface::class, $engineServiceId);
             }
 
             $builder->registerAliasForArgument(
                 $engineServiceId,
-                Engine::class,
+                EngineInterface::class,
                 $name . 'Engine',
             );
         }

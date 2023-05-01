@@ -16,6 +16,7 @@ namespace Schranz\Search\SEAL\Testing;
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Schema\Schema;
 
@@ -23,7 +24,7 @@ abstract class AbstractAdapterTestCase extends TestCase
 {
     protected static AdapterInterface $adapter;
 
-    protected static Engine $engine;
+    protected static EngineInterface $engine;
 
     protected static Schema $schema;
 
@@ -34,7 +35,7 @@ abstract class AbstractAdapterTestCase extends TestCase
         self::$taskHelper = new TaskHelper();
     }
 
-    protected static function getEngine(): Engine
+    protected static function getEngine(): EngineInterface
     {
         if (!isset(self::$engine)) {
             self::$schema = TestingHelper::createSchema();
