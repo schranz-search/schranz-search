@@ -19,6 +19,7 @@ use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
 use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 
@@ -98,7 +99,7 @@ final class SealContainerFactory
             $engineServices[$name] = $engine;
             if ('default' === $name || (!isset($engineServices['default']) && !isset($config['engines']['default']))) {
                 $engineServices['default'] = $engine;
-                $sealContainer->set(Engine::class, $engine);
+                $sealContainer->set(EngineInterface::class, $engine);
             }
 
             $sealContainer->set($adapterServiceId, $adapter);

@@ -135,7 +135,7 @@ The default engine is available as `Engine`:
 ```php
 class Some {
     public function __construct(
-        private readonly \Schranz\Search\SEAL\Engine $engine,
+        private readonly \Schranz\Search\SEAL\EngineInterface $engine,
     ) {
     }
 }

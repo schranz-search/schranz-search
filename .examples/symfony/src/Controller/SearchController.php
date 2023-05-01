@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,7 +50,7 @@ class SearchController
     }
 
     #[Route('/algolia', name: 'algolia')]
-    public function algolia(Engine $algoliaEngine): Response
+    public function algolia(EngineInterface $algoliaEngine): Response
     {
         $class = $this->getAdapterClass($algoliaEngine);
 
@@ -70,7 +70,7 @@ HTML
     }
 
     #[Route('/meilisearch', name: 'meilisearch')]
-    public function meilisearch(Engine $meilisearchEngine): Response
+    public function meilisearch(EngineInterface $meilisearchEngine): Response
     {
         $class = $this->getAdapterClass($meilisearchEngine);
 
@@ -90,7 +90,7 @@ HTML
     }
 
     #[Route('/elasticsearch', name: 'elasticsearch')]
-    public function elasticsearch(Engine $elasticsearchEngine): Response
+    public function elasticsearch(EngineInterface $elasticsearchEngine): Response
     {
         $class = $this->getAdapterClass($elasticsearchEngine);
 
@@ -110,7 +110,7 @@ HTML
     }
 
     #[Route('/memory', name: 'memory')]
-    public function memory(Engine $memoryEngine): Response
+    public function memory(EngineInterface $memoryEngine): Response
     {
         $class = $this->getAdapterClass($memoryEngine);
 
@@ -130,7 +130,7 @@ HTML
     }
 
     #[Route('/opensearch', name: 'opensearch')]
-    public function opensearch(Engine $opensearchEngine): Response
+    public function opensearch(EngineInterface $opensearchEngine): Response
     {
         $class = $this->getAdapterClass($opensearchEngine);
 
@@ -150,7 +150,7 @@ HTML
     }
 
     #[Route('/solr', name: 'solr')]
-    public function solr(Engine $solrEngine): Response
+    public function solr(EngineInterface $solrEngine): Response
     {
         $class = $this->getAdapterClass($solrEngine);
 
@@ -170,7 +170,7 @@ HTML
     }
 
     #[Route('/redisearch', name: 'redisearch')]
-    public function redisearch(Engine $redisearchEngine): Response
+    public function redisearch(EngineInterface $redisearchEngine): Response
     {
         $class = $this->getAdapterClass($redisearchEngine);
 
@@ -190,7 +190,7 @@ HTML
     }
 
     #[Route('/typesense', name: 'typesense')]
-    public function typesense(Engine $typesenseEngine): Response
+    public function typesense(EngineInterface $typesenseEngine): Response
     {
         $class = $this->getAdapterClass($typesenseEngine);
 
@@ -210,7 +210,7 @@ HTML
     }
 
     #[Route('/multi', name: 'multi')]
-    public function multi(Engine $multiEngine): Response
+    public function multi(EngineInterface $multiEngine): Response
     {
         $class = $this->getAdapterClass($multiEngine);
 
@@ -230,7 +230,7 @@ HTML
     }
 
     #[Route('/read-write', name: 'read-write')]
-    public function readWrite(Engine $readWriteEngine): Response
+    public function readWrite(EngineInterface $readWriteEngine): Response
     {
         $class = $this->getAdapterClass($readWriteEngine);
 
@@ -249,7 +249,7 @@ HTML
         );
     }
 
-    private function getAdapterClass(Engine $engine): string
+    private function getAdapterClass(EngineInterface $engine): string
     {
         $reflection = new \ReflectionClass($engine);
         $propertyReflection = $reflection->getProperty('adapter');

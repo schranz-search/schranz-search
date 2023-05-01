@@ -30,6 +30,7 @@ use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
@@ -132,7 +133,7 @@ final class SearchBootloader extends Bootloader
             $engineServices[$name] = $engineServiceId;
             $container->bindSingleton(
                 $engineServiceId,
-                static function (Container $container) use ($adapterServiceId, $schemaId): Engine {
+                static function (Container $container) use ($adapterServiceId, $schemaId): EngineInterface {
                     /** @var AdapterInterface $adapter */
                     $adapter = $container->get($adapterServiceId);
                     /** @var Schema $schema */
@@ -142,8 +143,8 @@ final class SearchBootloader extends Bootloader
                 },
             );
 
-            if ('default' === $name || (!isset($engines['default']) && !$container->has(Engine::class))) {
-                $container->bind(Engine::class, $engineServiceId);
+            if ('default' === $name || (!isset($engines['default']) && !$container->has(EngineInterface::class))) {
+                $container->bind(EngineInterface::class, $engineServiceId);
             }
         }
 
@@ -153,7 +154,7 @@ final class SearchBootloader extends Bootloader
                 $engines = [];
 
                 foreach ($engineServices as $name => $engineServiceId) {
-                    /** @var Engine $engine */
+                    /** @var EngineInterface $engine */
                     $engine = $container->get($engineServiceId);
 
                     $engines[$name] = $engine;

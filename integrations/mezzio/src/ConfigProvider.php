@@ -29,7 +29,7 @@ use Schranz\Search\SEAL\Adapter\ReadWrite\ReadWriteAdapterFactory;
 use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
-use Schranz\Search\SEAL\Engine;
+use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
 
 final class ConfigProvider
@@ -82,7 +82,7 @@ final class ConfigProvider
         return [
             'factories' => [
                 EngineRegistry::class => SealContainerServiceAbstractFactory::class,
-                Engine::class => SealContainerServiceAbstractFactory::class,
+                EngineInterface::class => SealContainerServiceAbstractFactory::class,
                 AdapterFactory::class => SealContainerServiceAbstractFactory::class,
                 SealContainer::class => SealContainerFactory::class,
                 Command\IndexCreateCommand::class => CommandAbstractFactory::class,

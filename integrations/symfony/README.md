@@ -107,7 +107,7 @@ The default engine is available as `Engine`:
 ```php
 class Some {
     public function __construct(
-        private readonly \Schranz\Search\SEAL\Engine $engine,
+        private readonly \Schranz\Search\SEAL\EngineInterface $engine,
     ) {
     }
 }
@@ -118,7 +118,7 @@ A specific engine is available under the config key prefix with `Engine`:
 ```php
 class Some {
     public function __construct(
-        private readonly \Schranz\Search\SEAL\Engine $algoliaEngine,
+        private readonly \Schranz\Search\SEAL\EngineInterface $algoliaEngine,
     ) {
     }
 }
