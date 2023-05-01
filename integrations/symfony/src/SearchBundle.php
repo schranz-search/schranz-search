@@ -114,7 +114,7 @@ final class SearchBundle extends AbstractBundle
 
             $builder->registerAliasForArgument(
                 $engineServiceId,
-                Engine::class,
+                EngineInterface::class,
                 $name . 'Engine',
             );
         }
