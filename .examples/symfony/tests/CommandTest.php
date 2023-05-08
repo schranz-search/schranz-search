@@ -35,4 +35,19 @@ final class CommandTest extends KernelTestCase
 
         $commandTester->assertCommandIsSuccessful();
     }
+
+    public function testReindex(): void
+    {
+        $kernel = self::bootKernel();
+        $application = new Application($kernel);
+
+        $command = $application->find('schranz:search:reindex');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            '--drop' => true,
+        ]);
+
+        $commandTester->assertCommandIsSuccessful();
+        $this->assertStringContainsString('3/3', $commandTester->getDisplay());
+    }
 }

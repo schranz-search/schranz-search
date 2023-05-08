@@ -15,6 +15,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Schranz\Search\Integration\Symfony\Command\IndexCreateCommand;
 use Schranz\Search\Integration\Symfony\Command\IndexDropCommand;
+use Schranz\Search\Integration\Symfony\Command\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
@@ -46,6 +47,14 @@ return static function (ContainerConfigurator $container) {
         ->set('schranz_search.index_drop_command', IndexDropCommand::class)
         ->args([
             service('schranz_search.engine_registry'),
+        ])
+        ->tag('console.command');
+
+    $container->services()
+        ->set('schranz_search.reindex_command', ReindexCommand::class)
+        ->args([
+            service('schranz_search.engine_registry'),
+            tagged_iterator('schranz_search.reindex_provider'),
         ])
         ->tag('console.command');
 
