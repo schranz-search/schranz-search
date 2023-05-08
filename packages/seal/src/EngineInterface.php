@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
+use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Search\SearchBuilder;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
@@ -72,4 +73,20 @@ interface EngineInterface
      * @return ($options is non-empty-array ? TaskInterface<null> : null)
      */
     public function dropSchema(array $options = []): ?TaskInterface;
+
+    /**
+     * @experimental This method is experimental and may change in future versions, we are not sure if it stays here or the syntax change completely.
+     *               For framework users it is uninteresting as there it is handled via CLI commands.
+     *
+     * @param iterable<ReindexProviderInterface> $reindexProviders
+     * @param string|null $index
+     * @param bool $dropIndex
+     * @param callable(string, int, int|null): void|null $progressCallback
+     */
+    public function reindex(
+        iterable $reindexProviders,
+        ?string $index = null,
+        bool $dropIndex = false,
+        callable $progressCallback = null,
+    ): void;
 }
