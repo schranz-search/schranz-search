@@ -12,7 +12,6 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/src',
         __DIR__ . '/config',
         __DIR__ . '/public',
-        __DIR__ . '/resources',
         __DIR__ . '/tests',
     ]);
 };

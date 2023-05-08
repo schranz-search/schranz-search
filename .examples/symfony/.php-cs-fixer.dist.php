@@ -10,7 +10,6 @@ $finder = (new PhpCsFixer\Finder())
         __DIR__ . '/src',
         __DIR__ . '/config',
         __DIR__ . '/public',
-        __DIR__ . '/resources',
         __DIR__ . '/tests',
     ])
     ->ignoreVCSIgnored(true);
