@@ -16,6 +16,7 @@ namespace Schranz\Search\Integration\Spiral\Bootloader;
 use Schranz\Search\Integration\Spiral\Config\SearchConfig;
 use Schranz\Search\Integration\Spiral\Console\IndexCreateCommand;
 use Schranz\Search\Integration\Spiral\Console\IndexDropCommand;
+use Schranz\Search\Integration\Spiral\Console\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -73,6 +74,7 @@ final class SearchBootloader extends Bootloader
     ): void {
         $console->addCommand(IndexCreateCommand::class);
         $console->addCommand(IndexDropCommand::class);
+        $console->addCommand(ReindexCommand::class);
 
         $this->config->setDefaults(
             SearchConfig::CONFIG,
@@ -161,6 +163,20 @@ final class SearchBootloader extends Bootloader
                 }
 
                 return new EngineRegistry($engines);
+            },
+        );
+
+        $reindexProviderNames = $config->getReindexProviders(); // TODO tagged services would make this easier
+
+        $container->bindSingleton(
+            ReindexCommand::class,
+            static function (Container $container) use ($reindexProviderNames): ReindexCommand {
+                $reindexProviders = [];
+                foreach ($reindexProviderNames as $reindexProviderName) {
+                    $reindexProviders[] = $container->get($reindexProviderName);
+                }
+
+                return new ReindexCommand($reindexProviders);
             },
         );
     }
