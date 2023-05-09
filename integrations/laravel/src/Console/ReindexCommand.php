@@ -15,6 +15,7 @@ namespace Schranz\Search\Integration\Laravel\Console;
 
 use Illuminate\Console\Command;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 
 /**
  * @experimental
@@ -35,6 +36,9 @@ final class ReindexCommand extends Command
      */
     protected $description = 'Reindex configured search indexes.';
 
+    /**
+     * @param iterable<ReindexProviderInterface> $reindexProviders
+     */
     public function __construct(
         private readonly iterable $reindexProviders, // TODO move to handle method: https://discord.com/channels/297040613688475649/1105593000664498336
     ) {

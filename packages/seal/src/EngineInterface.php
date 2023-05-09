@@ -79,8 +79,6 @@ interface EngineInterface
      *               For framework users it is uninteresting as there it is handled via CLI commands.
      *
      * @param iterable<ReindexProviderInterface> $reindexProviders
-     * @param string|null $index
-     * @param bool $dropIndex
      * @param callable(string, int, int|null): void|null $progressCallback
      */
     public function reindex(
