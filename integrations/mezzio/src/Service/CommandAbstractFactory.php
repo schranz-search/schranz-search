@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Mezzio\Service;
 
 use Psr\Container\ContainerInterface;
+use Schranz\Search\Integration\Mezzio\Command\ReindexCommand;
 use Schranz\Search\SEAL\EngineRegistry;
 
 /**
@@ -31,6 +32,19 @@ final class CommandAbstractFactory
     public function __invoke(ContainerInterface $container, string $className): object
     {
         $engineRegistry = $container->get(EngineRegistry::class);
+
+        if (ReindexCommand::class === $className) {
+            /** @var array{schranz_search: array{reindex_providers: string[]}} $config */
+            $config = $container->get('config');
+
+            $reindexProviderNames = $config['schranz_search']['reindex_providers'];
+            $reindexProviders = [];
+            foreach ($reindexProviderNames as $reindexProviderName) {
+                $reindexProviders[] = $container->get($reindexProviderName);
+            }
+
+            return new $className($engineRegistry, $reindexProviders);
+        }
 
         return new $className($engineRegistry);
     }

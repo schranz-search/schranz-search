@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Search\BlogReindexProvider;
+
 /**
  * The configuration provider for the App module.
  *
@@ -92,6 +94,9 @@ class ConfigProvider
                         'adapter' => 'read-write://elasticsearch?write=multi',
                     ],
                 ],
+                'reindex_providers' => [
+                    BlogReindexProvider::class,
+                ],
             ],
         ];
     }
@@ -106,6 +111,7 @@ class ConfigProvider
         return [
             'invokables' => [
                 Handler\PingHandler::class => Handler\PingHandler::class,
+                BlogReindexProvider::class => BlogReindexProvider::class,
             ],
             'factories' => [
                 Handler\SearchHandler::class => Handler\SearchHandlerFactory::class,

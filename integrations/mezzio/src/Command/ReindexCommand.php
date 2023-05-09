@@ -11,11 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Schranz\Search\Integration\Symfony\Command;
+namespace Schranz\Search\Integration\Mezzio\Command;
 
 use Schranz\Search\SEAL\EngineRegistry;
 use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +24,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @experimental
  */
-#[AsCommand(name: 'schranz:search:reindex', description: 'Reindex configured search indexes.')]
 final class ReindexCommand extends Command
 {
     /**
@@ -40,6 +38,7 @@ final class ReindexCommand extends Command
 
     protected function configure()
     {
+        $this->setDescription('Reindex configured search indexes.');
         $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
         $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'The name of the index to create the schema for.');
         $this->addOption('drop', null, InputOption::VALUE_NONE, 'Drop the index before reindexing.');

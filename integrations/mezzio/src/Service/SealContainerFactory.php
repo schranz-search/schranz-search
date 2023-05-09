@@ -44,6 +44,7 @@ final class SealContainerFactory
          *         adapter: string,
          *     }>,
          *     adapter_factories: array<class-string, class-string<AdapterFactoryInterface>>,
+         *     reindex_providers: string[],
          * } $config
          */
         $config = $config['schranz_search'];
