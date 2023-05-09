@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Search\BlogReindexProvider;
 use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\TranslatorViewInjection;
@@ -102,6 +103,9 @@ return [
             'read-write' => [
                 'adapter' => 'read-write://elasticsearch?write=multi',
             ],
+        ],
+        'reindex_providers' => [
+            BlogReindexProvider::class,
         ],
     ],
 ];

@@ -23,6 +23,6 @@ return [
             'locales' => $params['locale']['locales'],
             'ignoredRequests' => $params['locale']['ignoredRequests'],
         ],
-        'withSaveLocale()' => [false],
+        'withSaveLocale()' => [true],
     ],
 ];

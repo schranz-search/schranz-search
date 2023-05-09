@@ -21,4 +21,11 @@ final class CommandCest
         $I->runShellCommand($command . ' schranz:search:index-drop --force');
         $I->seeInShellOutput('Search indexes dropped.');
     }
+
+    public function testReindex(CliTester $I): void
+    {
+        $command = \dirname(__DIR__, 2) . '/yii';
+        $I->runShellCommand($command . ' schranz:search:reindex --drop');
+        $I->seeInShellOutput('Search indexes reindexed.');
+    }
 }
