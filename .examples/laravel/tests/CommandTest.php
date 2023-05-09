@@ -11,3 +11,9 @@ it('test drop', function () {
     $this->artisan('schranz:search:index-drop --force')
         ->assertExitCode(0);
 });
+
+it('test reindex', function () {
+    $this->artisan('schranz:search:reindex --drop')
+        ->assertExitCode(0)
+        ->expectsOutputToContain('3/3');
+});
