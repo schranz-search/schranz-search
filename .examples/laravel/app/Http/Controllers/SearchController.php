@@ -41,8 +41,10 @@ class SearchController extends Controller
     {
         $engineNames = \implode(', ', \array_keys([...EngineRegistryFacade::getEngines()]));
 
-        $engineFacadeClass = get_class(EngineFacade::getFacadeRoot());
-        $engineRegistryFacadeClass = get_class(EngineRegistryFacade::getFacadeRoot());
+        $engineFacadeClass = EngineFacade::class;
+        $engineRegistryFacadeClass = EngineRegistryFacade::class;
+        $engineFacadeTargetClass = get_class(EngineFacade::getFacadeRoot());
+        $engineRegistryFacadeTargetClass = get_class(EngineRegistryFacade::getFacadeRoot());
 
         return
             <<<HTML
@@ -72,7 +74,12 @@ class SearchController extends Controller
                     </div>
 
                     <div>
-                        <strong>Facade Engines</strong>: $engineFacadeClass, $engineRegistryFacadeClass
+                        <h2>Facade Engines</h2>
+
+                        <ul>
+                            <li><strong>$engineFacadeClass</strong>: $engineFacadeTargetClass</li>
+                            <li><strong>$engineRegistryFacadeClass</strong>: $engineRegistryFacadeTargetClass</li>
+                        </ul>
                     </div>
                 </body>
             </html>
