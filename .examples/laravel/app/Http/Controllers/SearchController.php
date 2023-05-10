@@ -6,7 +6,8 @@ namespace App\Http\Controllers;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\EngineInterface;
-use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\Integration\Laravel\Facade\EngineRegistry as EngineRegistryFacade;
+use Schranz\Search\Integration\Laravel\Facade\Engine as EngineFacade;
 use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
@@ -22,24 +23,26 @@ class SearchController extends Controller
     private readonly EngineInterface $multiEngine;
     private readonly EngineInterface $readWriteEngine;
 
-    public function __construct(
-        private readonly EngineRegistry $engineRegistry,
-    ) {
-        $this->algoliaEngine = $this->engineRegistry->getEngine('algolia');
-        $this->meilisearchEngine = $this->engineRegistry->getEngine('meilisearch');
-        $this->elasticsearchEngine = $this->engineRegistry->getEngine('elasticsearch');
-        $this->memoryEngine = $this->engineRegistry->getEngine('memory');
-        $this->opensearchEngine = $this->engineRegistry->getEngine('opensearch');
-        $this->solrEngine = $this->engineRegistry->getEngine('solr');
-        $this->redisearchEngine = $this->engineRegistry->getEngine('redisearch');
-        $this->typesenseEngine = $this->engineRegistry->getEngine('typesense');
-        $this->multiEngine = $this->engineRegistry->getEngine('multi');
-        $this->readWriteEngine = $this->engineRegistry->getEngine('read-write');
+    public function __construct()
+    {
+        $this->algoliaEngine = EngineRegistryFacade::getEngine('algolia');
+        $this->meilisearchEngine = EngineRegistryFacade::getEngine('meilisearch');
+        $this->elasticsearchEngine = EngineRegistryFacade::getEngine('elasticsearch');
+        $this->memoryEngine = EngineRegistryFacade::getEngine('memory');
+        $this->opensearchEngine = EngineRegistryFacade::getEngine('opensearch');
+        $this->solrEngine = EngineRegistryFacade::getEngine('solr');
+        $this->redisearchEngine = EngineRegistryFacade::getEngine('redisearch');
+        $this->typesenseEngine = EngineRegistryFacade::getEngine('typesense');
+        $this->multiEngine = EngineRegistryFacade::getEngine('multi');
+        $this->readWriteEngine = EngineRegistryFacade::getEngine('read-write');
     }
 
     public function home(): string
     {
-        $engineNames = \implode(', ', \array_keys([...$this->engineRegistry->getEngines()]));
+        $engineNames = \implode(', ', \array_keys([...EngineRegistryFacade::getEngines()]));
+
+        $engineFacadeClass = get_class(EngineFacade::getFacadeRoot());
+        $engineRegistryFacadeClass = get_class(EngineRegistryFacade::getFacadeRoot());
 
         return
             <<<HTML
@@ -66,6 +69,10 @@ class SearchController extends Controller
 
                     <div>
                         <strong>Registred Engines</strong>: $engineNames
+                    </div>
+
+                    <div>
+                        <strong>Facade Engines</strong>: $engineFacadeClass, $engineRegistryFacadeClass
                     </div>
                 </body>
             </html>
