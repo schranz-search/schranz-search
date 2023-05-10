@@ -15,6 +15,7 @@ namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
+use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition\IdentifierCondition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
@@ -118,5 +119,49 @@ final class Engine implements EngineInterface
         }
 
         return new MultiTask($tasks); // @phpstan-ignore-line
+    }
+
+    public function reindex(
+        iterable $reindexProviders,
+        ?string $index = null,
+        bool $dropIndex = false,
+        callable $progressCallback = null,
+    ): void {
+        /** @var array<string, ReindexProviderInterface[]> $reindexProvidersPerIndex */
+        $reindexProvidersPerIndex = [];
+        foreach ($reindexProviders as $reindexProvider) {
+            if (!isset($this->schema->indexes[$reindexProvider::getIndex()])) {
+                continue;
+            }
+
+            if ($reindexProvider::getIndex() === $index || null === $index) {
+                $reindexProvidersPerIndex[$reindexProvider::getIndex()][] = $reindexProvider;
+            }
+        }
+
+        foreach ($reindexProvidersPerIndex as $index => $reindexProviders) {
+            if ($dropIndex && $this->existIndex($index)) {
+                $task = $this->dropIndex($index, ['return_slow_promise_result' => true]);
+                $task->wait();
+                $task = $this->createIndex($index, ['return_slow_promise_result' => true]);
+                $task->wait();
+            } elseif (!$this->existIndex($index)) {
+                $task = $this->createIndex($index, ['return_slow_promise_result' => true]);
+                $task->wait();
+            }
+
+            foreach ($reindexProviders as $reindexProvider) {
+                $count = 0;
+                $total = $reindexProvider->total();
+                foreach ($reindexProvider->provide() as $document) {
+                    $this->saveDocument($index, $document);
+                    ++$count;
+
+                    if (null !== $progressCallback) {
+                        $progressCallback($index, $count, $total);
+                    }
+                }
+            }
+        }
     }
 }

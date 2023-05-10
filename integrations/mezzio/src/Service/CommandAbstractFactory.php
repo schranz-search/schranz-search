@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Schranz\Search\Integration\Mezzio\Service;
 
 use Psr\Container\ContainerInterface;
+use Schranz\Search\Integration\Mezzio\Command\ReindexCommand;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 
 /**
  * @internal
@@ -30,8 +32,31 @@ final class CommandAbstractFactory
      */
     public function __invoke(ContainerInterface $container, string $className): object
     {
-        $engineRegistry = $container->get(EngineRegistry::class);
+        $arguments = [$container->get(EngineRegistry::class)];
 
-        return new $className($engineRegistry);
+        if (ReindexCommand::class === $className) {
+            /** @var array{schranz_search: array{reindex_providers: string[]}} $config */
+            $config = $container->get('config');
+
+            $reindexProviderNames = $config['schranz_search']['reindex_providers'];
+            $reindexProviders = [];
+            foreach ($reindexProviderNames as $reindexProviderName) {
+                $reindexProvider = $container->get($reindexProviderName);
+
+                if (!$reindexProvider instanceof ReindexProviderInterface) {
+                    throw new \RuntimeException(\sprintf(
+                        'Reindex provider "%s" does not implement "%s".',
+                        $reindexProviderName,
+                        ReindexProviderInterface::class,
+                    ));
+                }
+
+                $reindexProviders[] = $reindexProvider;
+            }
+
+            $arguments[] = $reindexProviders;
+        }
+
+        return new $className(...$arguments);
     }
 }

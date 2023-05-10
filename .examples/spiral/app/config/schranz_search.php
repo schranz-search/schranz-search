@@ -71,4 +71,7 @@ return [
             'adapter' => 'read-write://elasticsearch?write=multi',
         ],
     ],
+    'reindex_providers' => [
+        \App\Search\BlogReindexProvider::class,
+    ],
 ];

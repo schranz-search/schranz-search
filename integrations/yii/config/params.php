@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 use Schranz\Search\Integration\Yii\Command\IndexCreateCommand;
 use Schranz\Search\Integration\Yii\Command\IndexDropCommand;
+use Schranz\Search\Integration\Yii\Command\ReindexCommand;
 
 return [
     'schranz-search/yii-module' => [
@@ -29,11 +30,13 @@ return [
             ],
             */
         ],
+        'reindex_providers' => [],
     ],
     'yiisoft/yii-console' => [
         'commands' => [
             'schranz:search:index-create' => IndexCreateCommand::class,
             'schranz:search:index-drop' => IndexDropCommand::class,
+            'schranz:search:reindex' => ReindexCommand::class,
         ],
     ],
 ];

@@ -47,6 +47,7 @@ final class ConfigProvider
                 'prefix' => '',
                 'schemas' => [],
                 'engines' => [],
+                'reindex_providers' => [],
             ],
         ];
     }
@@ -62,6 +63,7 @@ final class ConfigProvider
             'commands' => [
                 'schranz:search:index-create' => Command\IndexCreateCommand::class,
                 'schranz:search:index-drop' => Command\IndexDropCommand::class,
+                'schranz:search:reindex' => Command\ReindexCommand::class,
             ],
         ];
     }
@@ -87,6 +89,7 @@ final class ConfigProvider
                 SealContainer::class => SealContainerFactory::class,
                 Command\IndexCreateCommand::class => CommandAbstractFactory::class,
                 Command\IndexDropCommand::class => CommandAbstractFactory::class,
+                Command\ReindexCommand::class => CommandAbstractFactory::class,
                 ...$adapterFactories,
             ],
         ];

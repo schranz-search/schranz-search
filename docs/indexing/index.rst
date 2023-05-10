@@ -47,18 +47,234 @@ the name of the index and the identifier of the document which should be removed
 
     $this->engine->deleteDocument('blog', '1');
 
+Reindex operations
+------------------
+
+To reindex documents it is required to create atleast one ReindexProvider for
+the index you want to reindex. The ReindexProvider is a class which implements
+the ``ReindexProviderInterface`` and provides the documents for your index.
+
+.. code-block:: php
+
+    <?php
+
+    class BlogReindexProvider implements ReindexProviderInterface
+    {
+        public function total(): ?int
+        {
+            return 3;
+        }
+
+        public function provide(): \Generator
+        {
+            yield [
+                'id' => 1,
+                'title' => 'Title 1',
+                'description' => 'Description 1',
+            ];
+
+            yield [
+                'id' => 2,
+                'title' => 'Title 2',
+                'description' => 'Description 2',
+            ];
+
+            yield [
+                'id' => 3,
+                'title' => 'Title 3',
+                'description' => 'Description 3',
+            ];
+        }
+
+        public static function getIndex(): string
+        {
+            return 'blog';
+        }
+    }
+
+After that you can use the ``reindex`` to index all documents:
+
+.. tabs::
+
+    .. group-tab:: Standalone use
+
+        When using the ``Standalone`` version you need to reindex the documents
+        in your search engines via the ``Engine`` instance which was created before:
+
+        .. code-block:: php
+
+            <?php
+
+            $reindexProviders = [
+                new BlogReindexProvider(),
+            ];
+
+            // reindex all indexes
+            $engine->reindex($reindexProviders);
+
+            // reindex specific index and drop data before
+            $engine->reindex($reindexProviders, 'blog', dropIndex: true);
+
+    .. group-tab:: Laravel
+
+        In Laravel the new created ``ReindexProvider`` need to be tagged correctly:
+
+        .. code-block:: php
+
+            <?php // app/Providers/AppServiceProvider.php
+
+            namespace App\Providers;
+
+            class AppServiceProvider extends \Illuminate\Support\ServiceProvider
+            {
+                // ...
+
+                public function boot(): void
+                {
+                    $this->app->singleton(\App\Search\BlogReindexProvider::class, fn () => new \App\Search\BlogReindexProvider());
+
+                    $this->app->tag(\App\Search\BlogReindexProvider::class, 'schranz_search.reindex_provider');
+                }
+            }
+
+        After correctly tagging the ``ReindexProvider`` with ``schranz_search.reindex_provider`` the
+        ``schranz:search:reindex`` command can be used to index all documents:
+
+        .. code-block:: bash
+
+            # reindex all indexes
+            php artisan schranz:search:reindex
+
+            # reindex specific index and drop data before
+            php artisan schranz:search:reindex --index=blog --drop
+
+    .. group-tab:: Symfony
+
+        In Symfony ``autoconfigure`` feature should already tag the new ``ReindexProvider`` correctly
+        with the ``schranz_search.reindex_provider`` tag. If not you can tag it manually:
+
+        .. code-block:: yaml
+
+            # config/services.yaml
+
+            services:
+                App\Search\BlogReindexProvider:
+                    tags:
+                        - { name: schranz_search.reindex_provider }
+
+        After correctly tagging the ``ReindexProvider`` use the following command to index all documents:
+
+        .. code-block:: bash
+
+            # reindex all indexes
+            bin/console schranz:search:reindex
+
+            bin/console schranz:search:reindex --index=blog --drop
+
+    .. group-tab:: Spiral
+
+        In Spiral the new created ``ReindexProvider`` need to be registered correctly as reindex provider:
+
+        .. code-block:: php
+
+            <?php // app/config/schranz_search.php
+
+            return [
+                // ...
+
+                'reindex_providers' => [
+                    \App\Search\BlogReindexProvider::class,
+                ],
+            ];
+
+        After correctly registering the ``ReindexProvider`` use the following command to index all documents:
+
+        .. code-block:: bash
+
+            # reindex all indexes
+            php app.php schranz:search:reindex
+
+            php app.php schranz:search:reindex --index=blog --drop
+
+    .. group-tab:: Mezzio
+
+        In Mezzio the new created ``ReindexProvider`` need to be registered correctly as reindex provider:
+
+        .. code-block:: php
+
+            <?php // src/App/src/ConfigProvider.php
+
+            class ConfigProvider
+            {
+                public function __invoke(): array
+                {
+                    return [
+                        // ...
+                        'schranz_search' => [
+                            // ...
+                            'reindex_providers' => [
+                                \App\Search\BlogReindexProvider::class,
+                            ],
+                        ],
+                    ];
+                }
+
+                public function getDependencies(): array
+                {
+                    return [
+                        // ...
+
+                        'invokables' => [
+                            \App\Search\BlogReindexProvider::class => \App\Search\BlogReindexProvider::class,
+                        ],
+
+                        // ...
+                    ];
+                }
+            }
+
+        After correctly registering the ``ReindexProvider`` use the following command to index all documents:
+
+        .. code-block:: bash
+
+            # reindex all indexes
+            vendor/bin/laminas schranz:search:reindex
+
+            vendor/bin/laminas schranz:search:reindex --index=blog --drop
+
+    .. group-tab:: Yii
+
+        In Yii the new created ``ReindexProvider`` need to be registered correctly as reindex provider:
+
+        .. code-block:: php
+
+            <?php // config/common/params.php
+
+            return [
+                // ...
+                'schranz-search/yii-module' => [
+                    // ...
+
+                    'reindex_providers' => [
+                        \App\Search\BlogReindexProvider::class,
+                    ],
+                ],
+            ];
+
+        After correctly registering the ``ReindexProvider`` use the following command to index all documents:
+
+        .. code-block:: bash
+
+            # reindex all indexes
+            ./yii schranz:search:reindex
+
+            ./yii schranz:search:reindex --index=blog --drop
+
 Bulk operations
 ---------------
 
 Currently no bulk operations are implemented. Add your opinion to the
 `Bulk issue <https://github.com/schranz-search/schranz-search/issues/24>`_
-on Github.
-
-Reindex operations
-------------------
-
-Currently no reindex operations are implemented. Add your opinion to the
-`Reindex issue <https://github.com/schranz-search/schranz-search/issues/16>`_
 on Github.
 
 Next Steps

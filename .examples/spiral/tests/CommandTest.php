@@ -21,4 +21,13 @@ final class CommandTest extends TestCase
 
         $this->assertStringContainsString('Search indexes dropped.', $output);
     }
+
+    public function testReindex(): void
+    {
+        $this->assertCommandRegistered('schranz:search:reindex');
+        $output = $this->runCommand('schranz:search:reindex', ['--drop' => true]);
+
+        $this->assertStringContainsString('3/3', $output);
+        $this->assertStringContainsString('Search indexes reindexed.', $output);
+    }
 }

@@ -16,6 +16,7 @@ namespace Schranz\Search\Integration\Spiral\Bootloader;
 use Schranz\Search\Integration\Spiral\Config\SearchConfig;
 use Schranz\Search\Integration\Spiral\Console\IndexCreateCommand;
 use Schranz\Search\Integration\Spiral\Console\IndexDropCommand;
+use Schranz\Search\Integration\Spiral\Console\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -32,6 +33,7 @@ use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\Engine;
 use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Schema\Loader\LoaderInterface;
 use Schranz\Search\SEAL\Schema\Loader\PhpFileLoader;
 use Schranz\Search\SEAL\Schema\Schema;
@@ -73,6 +75,7 @@ final class SearchBootloader extends Bootloader
     ): void {
         $console->addCommand(IndexCreateCommand::class);
         $console->addCommand(IndexDropCommand::class);
+        $console->addCommand(ReindexCommand::class);
 
         $this->config->setDefaults(
             SearchConfig::CONFIG,
@@ -161,6 +164,30 @@ final class SearchBootloader extends Bootloader
                 }
 
                 return new EngineRegistry($engines);
+            },
+        );
+
+        $reindexProviderNames = $config->getReindexProviders(); // TODO tagged services would make this easier
+
+        $container->bindSingleton(
+            ReindexCommand::class,
+            static function (Container $container) use ($reindexProviderNames): ReindexCommand {
+                $reindexProviders = [];
+                foreach ($reindexProviderNames as $reindexProviderName) {
+                    $reindexProvider = $container->get($reindexProviderName);
+
+                    if (!$reindexProvider instanceof ReindexProviderInterface) {
+                        throw new \RuntimeException(\sprintf(
+                            'Reindex provider "%s" does not implement "%s".',
+                            $reindexProviderName,
+                            ReindexProviderInterface::class,
+                        ));
+                    }
+
+                    $reindexProviders[] = $reindexProvider;
+                }
+
+                return new ReindexCommand($reindexProviders);
             },
         );
     }

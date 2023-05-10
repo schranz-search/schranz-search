@@ -7,6 +7,7 @@ namespace AppTest\Command;
 use AppTest\FunctionalTestCase;
 use Schranz\Search\Integration\Mezzio\Command\IndexCreateCommand;
 use Schranz\Search\Integration\Mezzio\Command\IndexDropCommand;
+use Schranz\Search\Integration\Mezzio\Command\ReindexCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -38,5 +39,23 @@ final class CommandTest extends FunctionalTestCase
         $this->assertSame(0, $command->run($input, $output));
 
         $this->assertStringContainsString('Search indexes dropped.', $output->fetch());
+    }
+
+    public function testReindex(): void
+    {
+        /** @var IndexDropCommand $command */
+        $command = $this->container->get(ReindexCommand::class);
+
+        $input = new ArrayInput([
+            '--drop' => true,
+        ]);
+        $output = new BufferedOutput();
+
+        $this->assertSame(0, $command->run($input, $output));
+
+        $outputText = $output->fetch();
+
+        $this->assertStringContainsString('3/3', $outputText);
+        $this->assertStringContainsString('Search indexes reindexed.', $outputText);
     }
 }

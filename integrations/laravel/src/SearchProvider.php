@@ -16,6 +16,7 @@ namespace Schranz\Search\Integration\Laravel;
 use Illuminate\Support\ServiceProvider;
 use Schranz\Search\Integration\Laravel\Console\IndexCreateCommand;
 use Schranz\Search\Integration\Laravel\Console\IndexDropCommand;
+use Schranz\Search\Integration\Laravel\Console\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
@@ -61,6 +62,7 @@ final class SearchProvider extends ServiceProvider
         $this->commands([
             IndexCreateCommand::class,
             IndexDropCommand::class,
+            ReindexCommand::class,
         ]);
 
         /** @var array{schranz_search: mixed[]} $globalConfig */
@@ -137,6 +139,12 @@ final class SearchProvider extends ServiceProvider
         });
 
         $this->app->alias('schranz_search.engine_factory', EngineRegistry::class);
+
+        $this->app->when(ReindexCommand::class)
+            ->needs('$reindexProviders')
+            ->giveTagged('schranz_search.reindex_provider');
+
+        $this->app->tagged('schranz_search.reindex_provider');
     }
 
     private function createAdapterFactories(): void
