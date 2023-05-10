@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use Schranz\Search\Integration\Laravel\Facade\Engine as EngineFacade;
+use Schranz\Search\Integration\Laravel\Facade\EngineRegistry as EngineRegistryFacade;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\EngineInterface;
-use Schranz\Search\Integration\Laravel\Facade\EngineRegistry as EngineRegistryFacade;
-use Schranz\Search\Integration\Laravel\Facade\Engine as EngineFacade;
 use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
@@ -43,8 +43,8 @@ class SearchController extends Controller
 
         $engineFacadeClass = EngineFacade::class;
         $engineRegistryFacadeClass = EngineRegistryFacade::class;
-        $engineFacadeTargetClass = get_class(EngineFacade::getFacadeRoot());
-        $engineRegistryFacadeTargetClass = get_class(EngineRegistryFacade::getFacadeRoot());
+        $engineFacadeTargetClass = EngineFacade::getFacadeRoot()::class; // @phpstan-ignore-line
+        $engineRegistryFacadeTargetClass = EngineRegistryFacade::getFacadeRoot()::class; // @phpstan-ignore-line
 
         return
             <<<HTML
