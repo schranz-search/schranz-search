@@ -24,7 +24,7 @@ final class SearchConfig extends InjectableConfig
 
     /**
      * @var array{
-     *     prefix: string,
+     *     index_name_prefix: string,
      *     schemas: array<string, array{
      *         dir: string,
      *         engine?: string,
@@ -36,15 +36,15 @@ final class SearchConfig extends InjectableConfig
      * }
      */
     protected array $config = [
-        'prefix' => '',
+        'index_name_prefix' => '',
         'schemas' => [],
         'engines' => [],
         'reindex_providers' => [],
     ];
 
-    public function getPrefix(): string
+    public function getIndexNamePrefix(): string
     {
-        return $this->config['prefix'];
+        return $this->config['index_name_prefix'];
     }
 
     /**

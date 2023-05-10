@@ -39,7 +39,7 @@ final class SearchBundle extends AbstractBundle
         // @phpstan-ignore-next-line
         $definition->rootNode()
             ->children()
-                ->scalarNode('prefix')->defaultValue('')->end()
+                ->scalarNode('index_name_prefix')->defaultValue('')->end()
                 ->arrayNode('schemas')
                     ->useAttributeAsKey('name')
                     ->arrayPrototype()
@@ -62,14 +62,14 @@ final class SearchBundle extends AbstractBundle
 
     /**
      * @param array{
-     *     prefix: string,
+     *     index_name_prefix: string,
      *     engines: array<string, array{adapter: string}>,
      *     schemas: array<string, array{dir: string, engine?: string}>,
      * } $config
      */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $prefix = $config['prefix'];
+        $indexNamePrefix = $config['index_name_prefix'];
         $engines = $config['engines'];
         $schemas = $config['schemas'];
 
@@ -97,7 +97,7 @@ final class SearchBundle extends AbstractBundle
             $dirs = $engineSchemaDirs[$name] ?? [];
 
             $builder->register($schemaLoaderServiceId, PhpFileLoader::class)
-                ->setArguments([$dirs, $prefix]);
+                ->setArguments([$dirs, $indexNamePrefix]);
 
             $builder->register($schemaId, Schema::class)
                 ->setFactory([new Reference($schemaLoaderServiceId), 'load']);

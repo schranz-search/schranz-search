@@ -20,7 +20,7 @@ return [
     | Define the prefix used for the index names to avoid conflicts.
     */
 
-    'prefix' => '',
+    'index_name_prefix' => '',
 
     /*
     |--------------------------------------------------------------------------

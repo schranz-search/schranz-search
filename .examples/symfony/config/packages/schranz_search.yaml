@@ -1,4 +1,5 @@
 schranz_search:
+    index_name_prefix: '%env(TEST_INDEX_PREFIX)%'
     schemas:
         algolia:
             dir: '%kernel.project_dir%/config/schemas'

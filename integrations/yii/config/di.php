@@ -37,13 +37,13 @@ use Schranz\Search\SEAL\Schema\Schema;
 
 /**
  * @var array{
- *     prefix: string,
+ *     index_name_prefix: string,
  *     engines: array<string, array{adapter: string}>,
  *     schemas: array<string, array{dir: string, engine?: string}>,
  * } $config
  */
 $config = $params['schranz-search/yii-module'];
-$prefix = $config['prefix'];
+$indexNamePrefix = $config['index_name_prefix'];
 $engines = $config['engines'];
 $schemas = $config['schemas'];
 
@@ -140,7 +140,7 @@ foreach ($engines as $name => $engineConfig) {
         return $factory->createAdapter($adapterDsn);
     };
 
-    $diConfig[$schemaLoaderServiceId] = static fn (ContainerInterface $container) => new PhpFileLoader($dirs, $prefix);
+    $diConfig[$schemaLoaderServiceId] = static fn (ContainerInterface $container) => new PhpFileLoader($dirs, $indexNamePrefix);
 
     $diConfig[$schemaId] = static function (ContainerInterface $container) use ($schemaLoaderServiceId) {
         /** @var LoaderInterface $loader */

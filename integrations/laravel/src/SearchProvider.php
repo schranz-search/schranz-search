@@ -70,13 +70,13 @@ final class SearchProvider extends ServiceProvider
 
         /**
          * @var array{
-         *     prefix: string,
+         *     index_name_prefix: string,
          *     engines: array<string, array{adapter: string}>,
          *     schemas: array<string, array{dir: string, engine?: string}>,
          * } $config
          */
         $config = $globalConfig['schranz_search'];
-        $prefix = $config['prefix'];
+        $indexNamePrefix = $config['index_name_prefix'];
         $engines = $config['engines'];
         $schemas = $config['schemas'];
 
@@ -105,7 +105,7 @@ final class SearchProvider extends ServiceProvider
                 return $factory->createAdapter($adapterDsn);
             });
 
-            $this->app->singleton($schemaLoaderServiceId, fn () => new PhpFileLoader($dirs, $prefix));
+            $this->app->singleton($schemaLoaderServiceId, fn () => new PhpFileLoader($dirs, $indexNamePrefix));
 
             $this->app->singleton($schemaId, function ($app) use ($schemaLoaderServiceId) {
                 /** @var LoaderInterface $loader */

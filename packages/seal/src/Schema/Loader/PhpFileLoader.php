@@ -24,7 +24,7 @@ final class PhpFileLoader implements LoaderInterface
      */
     public function __construct(
         private readonly array $directories,
-        private readonly string $prefix = '',
+        private readonly string $indexNamePrefix = '',
     ) {
     }
 
@@ -63,7 +63,7 @@ final class PhpFileLoader implements LoaderInterface
             foreach ($pathIndexes as $index) {
                 $name = $index->name;
                 if (isset($indexes[$name])) {
-                    $index = new Index($this->prefix . $name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
+                    $index = new Index($this->indexNamePrefix . $name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
                 }
 
                 $indexes[$name] = $index;

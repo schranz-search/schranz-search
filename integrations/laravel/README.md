@@ -158,6 +158,16 @@ return [
             'adapter' => 'read-write://elasticsearch?write=multi',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Schema prefix
+    |--------------------------------------------------------------------------
+    |
+    | Define the prefix used for the index names to avoid conflicts.
+    */
+
+    'index_name_prefix' => '',
 ];
 ```
 

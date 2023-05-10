@@ -68,6 +68,10 @@ return [
                 'adapter' => 'meilisearch://127.0.0.1:7700',
             ],
         ],
+        'index_name_prefix' => '',
+        'reindex_providers' => [
+            \App\Search\BlogReindexProvider::class,
+        ],
     ],
 ];
 ```

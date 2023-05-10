@@ -121,6 +121,10 @@ return [
             'adapter' => 'read-write://elasticsearch?write=multi',
         ],
     ],
+    'index_name_prefix' => '',
+    'reindex_providers' => [
+        \App\Search\BlogReindexProvider::class,
+    ],
 ];
 ```
 
