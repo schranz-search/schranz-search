@@ -35,7 +35,7 @@ final class SealContainerFactory
 
         /**
          * @var array{
-         *     prefix: string,
+         *     index_name_prefix: string,
          *     schemas: array<string, array{
          *         dir: string,
          *         engine?: string,
@@ -49,7 +49,7 @@ final class SealContainerFactory
          */
         $config = $config['schranz_search'];
 
-        $prefix = $config['prefix'];
+        $indexNamePrefix = $config['index_name_prefix'];
         $adapterFactoriesConfig = $config['adapter_factories'];
 
         $engineSchemaDirs = [];
@@ -92,7 +92,7 @@ final class SealContainerFactory
             $dirs = $engineSchemaDirs[$name] ?? [];
 
             $adapter = $adapterFactory->createAdapter($adapterDsn);
-            $loader = new PhpFileLoader($dirs, $prefix);
+            $loader = new PhpFileLoader($dirs, $indexNamePrefix);
             $schema = $loader->load();
 
             $engine = new Engine($adapter, $schema);

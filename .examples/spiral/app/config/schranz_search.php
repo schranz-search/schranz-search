@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'index_name_prefix' => env('TEST_INDEX_PREFIX', ''),
     'schemas' => [
         'algolia' => [
             'dir' => 'app/schemas',

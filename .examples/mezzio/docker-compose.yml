@@ -36,11 +36,12 @@ services:
       discovery.type: single-node
       plugins.security.disabled: 'true'
       cluster.routing.allocation.disk.threshold_enabled: 'false'
+      http.port: 9201
     ports:
-      - "9201:9200"
+      - "9201:9201"
       - "9601:9600"
     healthcheck:
-      test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
+      test: ["CMD-SHELL", "curl --silent --fail localhost:9201/_cluster/health || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -55,7 +56,7 @@ services:
     environment:
       REDIS_ARGS: --requirepass supersecure
     volumes:
-        - redisearch-data:/data
+      - redisearch-data:/data
 
   typesense:
     image: typesense/typesense:0.24.0
@@ -74,8 +75,8 @@ services:
   solr:
     image: "solr:9"
     ports:
-     - "8983:8983"
-     - "9983:9983"
+      - "8983:8983"
+      - "9983:9983"
     command: solr -f -cloud
     healthcheck:
       test: ["CMD-SHELL", "curl --silent --fail localhost:8983 || exit 1"]

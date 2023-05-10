@@ -98,6 +98,7 @@ schranz_search:
             adapter: 'multi://elasticsearch?adapters[]=opensearch'
         read-write:
             adapter: 'read-write://elasticsearch?write=multi'
+    index_name_prefix: ''
 ```
 
 ## Usage
@@ -113,7 +114,7 @@ class Some {
 }
 ```
 
-A specific engine is available under the config key prefix with `Engine`:
+A specific engine is available under the config key suffix with `Engine`:
 
 ```php
 class Some {

@@ -80,7 +80,7 @@ final class SearchBootloader extends Bootloader
         $this->config->setDefaults(
             SearchConfig::CONFIG,
             [
-                'prefix' => $environment->get('SEAL_SEARCH_PREFIX', ''),
+                'index_name_prefix' => $environment->get('SEAL_SEARCH_PREFIX', ''),
                 'schemas' => [
                     'app' => [
                         'dir' => $dirs->get('app') . 'schemas',
@@ -120,7 +120,7 @@ final class SearchBootloader extends Bootloader
 
             $container->bindSingleton(
                 $schemaLoaderServiceId,
-                static fn (Container $container): PhpFileLoader => new PhpFileLoader($dirs, $config->getPrefix()),
+                static fn (Container $container): PhpFileLoader => new PhpFileLoader($dirs, $config->getIndexNamePrefix()),
             );
 
             $container->bindSingleton(

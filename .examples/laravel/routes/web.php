@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,14 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [SearchController::class, 'home']);
-Route::get('/algolia', [SearchController::class, 'algolia']);
-Route::get('/elasticsearch', [SearchController::class, 'elasticsearch']);
-Route::get('/meilisearch', [SearchController::class, 'meilisearch']);
-Route::get('/memory', [SearchController::class, 'memory']);
-Route::get('/opensearch', [SearchController::class, 'opensearch']);
-Route::get('/redisearch', [SearchController::class, 'redisearch']);
-Route::get('/solr', [SearchController::class, 'solr']);
-Route::get('/typesense', [SearchController::class, 'typesense']);
-Route::get('/multi', [SearchController::class, 'multi']);
-Route::get('/read-write', [SearchController::class, 'readWrite']);
+Route::get('/', fn (): string => (new \App\Http\Controllers\SearchController())->home());
+Route::get('/algolia', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->algolia());
+Route::get('/elasticsearch', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->elasticsearch());
+Route::get('/meilisearch', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->meilisearch());
+Route::get('/memory', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->memory());
+Route::get('/opensearch', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->opensearch());
+Route::get('/redisearch', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->redisearch());
+Route::get('/solr', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->solr());
+Route::get('/typesense', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->typesense());
+Route::get('/multi', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->multi());
+Route::get('/read-write', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->readWrite());

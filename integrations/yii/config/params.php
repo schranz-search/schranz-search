@@ -17,7 +17,7 @@ use Schranz\Search\Integration\Yii\Command\ReindexCommand;
 
 return [
     'schranz-search/yii-module' => [
-        'prefix' => '',
+        'index_name_prefix' => '',
         'schemas' => [
             'app' => [
                 'dir' => 'config/schemas',

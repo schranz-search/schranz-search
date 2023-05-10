@@ -44,7 +44,7 @@ final class ConfigProvider
             'dependencies' => $this->getDependencies(),
             'schranz_search' => [
                 'adapter_factories' => $this->getAdapterFactories(), // we are going over a config as there are no tagged services in mezzio
-                'prefix' => '',
+                'index_name_prefix' => '',
                 'schemas' => [],
                 'engines' => [],
                 'reindex_providers' => [],
