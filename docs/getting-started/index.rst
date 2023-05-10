@@ -601,6 +601,12 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                         ],
                     ];
 
+        .. note::
+
+            The ``Laravel`` integration provides also `Facades <https://laravel.com/docs/10.x/facades>`__ for the later used default ``Engine``
+            and ``EngineRegistry``. They are provided under the ``Schranz\Search\Integration\Laravel\Facade\``
+            namespace. See also the `Laravel Integration README <https://github.com/schranz-search/schranz-search/tree/0.1/integrations/laravel>`__.
+
     .. group-tab:: Symfony
 
         When we are using the Symfony Bundle we just need to configure our ``Engine``

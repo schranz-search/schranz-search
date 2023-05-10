@@ -186,6 +186,12 @@ class Some {
 }
 ```
 
+Instead of constructor injection the `Laravel` integration provides also two `Facades`
+for the above services:
+
+- `Schranz\Search\Integration\Laravel\Facade\Engine`
+- `Schranz\Search\Integration\Laravel\Facade\EngineRegistry`
+
 How to create a `Schema` file and use your `Engine` can be found [SEAL Documentation](../../README.md#usage).
 
 ### Commands
