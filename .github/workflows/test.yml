@@ -105,7 +105,6 @@ jobs:
             docker: true
         secrets: inherit
 
-
     yii-integration-example:
         name: Yii Integration Example
         uses: ./.github/workflows/callable-test.yml
