@@ -1360,7 +1360,7 @@ search engine.
 
             services:
               elasticsearch:
-                image: elasticsearch:8.5.3
+                image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
                 environment:
                   discovery.type: single-node
                   xpack.security.enabled: 'false'
@@ -1404,7 +1404,6 @@ search engine.
                   cluster.routing.allocation.disk.threshold_enabled: 'false'
                 ports:
                   - "9200:9200"
-                  - "9600:9600"
                 healthcheck:
                   test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
                   interval: 5s

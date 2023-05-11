@@ -53,8 +53,15 @@ jobs:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: ${{ matrix.dependency-versions }}
 
+            - name: Generate UUID
+              id: uuid
+              # GitHub does not provide any parameter which is unique inside a workflow
+              # so instead of using GitHub variables we require to generate a unique id
+              run: |
+                  echo "uuid=$(uuidgen)" >> $GITHUB_OUTPUT
+
             - name: Run tests
               run: composer test
               working-directory: ${{ inputs.directory }}
               env:
-                  TEST_INDEX_PREFIX: 'test_${{ github.run_number }}_${{ strategy.job-index }}_'
+                  TEST_INDEX_PREFIX: 'test_${{ steps.uuid.outputs.uuid }}_'
