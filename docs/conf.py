@@ -11,7 +11,9 @@ copyright = '2023, Alexander Schranz'
 author = 'Alexander Schranz'
 release = '0.1'
 html_title = 'SEAL Documentation'
+html_short_title = 'SEAL'
 html_favicon = '_static/icons/favicon.ico'
+html_logo = '_static/icons/logo.png'
 
 html_context = {
     "display_github": True, # Integrate GitHub
