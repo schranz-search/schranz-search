@@ -25,6 +25,7 @@ use Schranz\Search\SEAL\Schema\Field;
 final class FlattenMarshaller
 {
     public function __construct(
+        private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
     ) {
     }
@@ -71,6 +72,7 @@ final class FlattenMarshaller
             match (true) {
                 $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $rootIsParentMultiple),
                 $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple),
+                $field instanceof Field\DateTimeField => $document[$name] = $this->flattenDateTimeField($raw[$field->name], $field), // @phpstan-ignore-line
                 default => null,
             };
 
@@ -82,6 +84,35 @@ final class FlattenMarshaller
         }
 
         return $raw;
+    }
+
+    /**
+     * @param string|string[]|null $value
+     *
+     * @return int|string|string[]|int[]|null
+     */
+    private function flattenDateTimeField(null|string|array $value, Field\DateTimeField $field): null|int|string|array
+    {
+        if ($field->multiple) {
+            /** @var string[]|null $value */
+
+            return \array_map(function ($value) {
+                if (null !== $value && $this->dateAsInteger) {
+                    /** @var int */
+                    return \strtotime($value);
+                }
+
+                return $value;
+            }, (array) $value);
+        }
+
+        /** @var string|null $value */
+        if (null !== $value && $this->dateAsInteger) {
+            /** @var int */
+            return \strtotime($value);
+        }
+
+        return $value;
     }
 
     /**

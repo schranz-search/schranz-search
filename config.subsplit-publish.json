@@ -36,6 +36,11 @@
             "target": "git@github.com:schranz-search/seal-typesense-adapter.git"
         },
         {
+            "name": "SEALManticoresearchAdapter",
+            "directory": "packages/seal-manticoresearch-adapter",
+            "target": "git@github.com:schranz-search/seal-manticoresearch-adapter.git"
+        },
+        {
             "name": "SEALAlgoliaAdapter",
             "directory": "packages/seal-algolia-adapter",
             "target": "git@github.com:schranz-search/seal-algolia-adapter.git"

@@ -144,16 +144,6 @@ Describes itself as a alternative to Algolia and Elasticsearch written in C++.
 
 Implementation: `schranz-search/seal-typesense-adapter <https://github.com/schranz-search/seal-typesense-adapter>`__
 
-Zinc Labs
-~~~~~~~~~
-
-Zinc search describes itself as a lightweight alternative to Elasticsearch written in GoLang.
-
-- Server: `Zinclabs Server <https://github.com/zinclabs/zinc>`__
-- PHP Client: No PHP SDK currently: `https://github.com/zinclabs/zinc/issues/12 <https://github.com/zinclabs/zinc/issues/12>`__
-
-Implementation: work in progress `#79 <https://github.com/schranz-search/schranz-search/pull/79>`__
-
 Manticore Search
 ~~~~~~~~~~~~~~~~
 
@@ -163,7 +153,17 @@ Good alternative for Elasticsearch.
 - Server: `Manticore Search Server <https://github.com/manticoresoftware/manticoresearch>`__
 - PHP Client: `Manticore Search PHP Client <https://github.com/manticoresoftware/manticoresearch-php>`__
 
-Implementation: work in progress `#103 <https://github.com/schranz-search/schranz-search/pull/103>`__
+Implementation: `schranz-search/seal-manticoresearch-adapter <https://github.com/schranz-search/seal-manticoresearch-adapter>`__
+
+Zinc Labs
+~~~~~~~~~
+
+Zinc search describes itself as a lightweight alternative to Elasticsearch written in GoLang.
+
+- Server: `Zinclabs Server <https://github.com/zinclabs/zinc>`__
+- PHP Client: No PHP SDK currently: `https://github.com/zinclabs/zinc/issues/12 <https://github.com/zinclabs/zinc/issues/12>`__
+
+Implementation: work in progress `#79 <https://github.com/schranz-search/schranz-search/pull/79>`__
 
 ZendSearch
 ~~~~~~~~~~
