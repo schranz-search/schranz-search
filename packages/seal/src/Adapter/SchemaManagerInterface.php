@@ -25,7 +25,7 @@ interface SchemaManagerInterface
      *
      * @param array{return_slow_promise_result?: T} $options
      *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return (T is true ? TaskInterface<void|null> : null)
      */
     public function dropIndex(Index $index, array $options = []): ?TaskInterface;
 
@@ -34,7 +34,7 @@ interface SchemaManagerInterface
      *
      * @param array{return_slow_promise_result?: T} $options
      *
-     * @return (T is true ? TaskInterface<null|void> : null)
+     * @return (T is true ? TaskInterface<void|null> : null)
      */
     public function createIndex(Index $index, array $options = []): ?TaskInterface;
 }

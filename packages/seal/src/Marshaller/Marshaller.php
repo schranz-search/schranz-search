@@ -54,8 +54,8 @@ final class Marshaller
                 default => $rawDocument[$name] = $document[$field->name],
             };
 
-            if ($this->addRawFilterTextField &&
-                $field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)
+            if ($this->addRawFilterTextField
+                && $field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)
             ) {
                 $rawDocument[$name . '.raw'] = $rawDocument[$name];
             }

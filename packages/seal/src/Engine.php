@@ -125,7 +125,7 @@ final class Engine implements EngineInterface
         iterable $reindexProviders,
         ?string $index = null,
         bool $dropIndex = false,
-        callable $progressCallback = null,
+        ?callable $progressCallback = null,
     ): void {
         /** @var array<string, ReindexProviderInterface[]> $reindexProvidersPerIndex */
         $reindexProvidersPerIndex = [];

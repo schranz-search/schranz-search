@@ -29,7 +29,7 @@ interface IndexerInterface
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
-     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
     public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface;
 }

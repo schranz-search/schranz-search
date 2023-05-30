@@ -31,7 +31,7 @@ interface EngineInterface
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
-     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
     public function deleteDocument(string $index, string $identifier, array $options = []): ?TaskInterface;
 
@@ -47,14 +47,14 @@ interface EngineInterface
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
-     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
     public function createIndex(string $index, array $options = []): ?TaskInterface;
 
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
-     * @return ($options is non-empty-array ? TaskInterface<null|void> : null)
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
     public function dropIndex(string $index, array $options = []): ?TaskInterface;
 
@@ -85,6 +85,6 @@ interface EngineInterface
         iterable $reindexProviders,
         ?string $index = null,
         bool $dropIndex = false,
-        callable $progressCallback = null,
+        ?callable $progressCallback = null,
     ): void;
 }
