@@ -10,7 +10,7 @@ services:
       test: ["CMD-SHELL", "exit 0"] # TODO currently not working as curl not available: https://github.com/typesense/typesense/issues/441#issuecomment-1383157680
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     volumes:
       - typesense-data:/data
 
