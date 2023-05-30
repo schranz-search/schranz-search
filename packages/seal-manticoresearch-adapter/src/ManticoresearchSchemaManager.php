@@ -87,21 +87,21 @@ final class ManticoresearchSchemaManager implements SchemaManagerInterface
             match (true) {
                 $field instanceof Field\IdentifierField => null,
                 $field instanceof Field\TextField => $indexFields[$name] = [
-                    'type' => $isSearchable ? 'text' : 'string',
+                    'type' => $isMultiple ? 'json' : ($isSearchable ? 'text' : 'string'),
                     'options' => \array_merge(
                         $isSearchable ? ['indexed'] : [],
                         ($field->sortable || $field->filterable) ? ['attribute'] : [],
                     ),
                 ],
                 $field instanceof Field\BooleanField => $indexFields[$name] = [
-                    'type' => 'bool',
+                    'type' => $isMultiple ? 'json' : 'bool',
                     'options' => \array_merge(
                         $isSearchable ? ['indexed'] : [],
                         ($field->sortable || $field->filterable) ? ['attribute'] : [],
                     ),
                 ],
                 $field instanceof Field\DateTimeField => $indexFields[$name] = [
-                    'type' => 'timestamp',
+                    'type' => $isMultiple ? 'multi' : 'timestamp',
                     'options' => \array_merge(
                         $isSearchable ? ['indexed'] : [],
                     ),
@@ -113,7 +113,7 @@ final class ManticoresearchSchemaManager implements SchemaManagerInterface
                     ),
                 ],
                 $field instanceof Field\FloatField => $indexFields[$name] = [
-                    'type' => 'float',
+                    'type' => $isMultiple ? 'json' : 'float',
                     'options' => \array_merge(
                         $isSearchable ? ['indexed'] : [],
                     ),
@@ -124,11 +124,15 @@ final class ManticoresearchSchemaManager implements SchemaManagerInterface
                 }, $field->types, \array_keys($field->types)),
                 default => throw new \RuntimeException(\sprintf('Field type "%s" is not supported.', $field::class)),
             };
+
+            if (($indexFields[$name]['type'] ?? null) === 'json') {
+                $indexFields[$name]['options'] = [];
+            }
         }
 
         if ('' === $prefix) {
             $indexFields['_source'] = [
-                'type' => 'text',
+                'type' => 'string',
                 'options' => [],
             ];
         }

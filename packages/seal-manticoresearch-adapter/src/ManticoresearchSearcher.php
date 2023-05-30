@@ -32,6 +32,12 @@ final class ManticoresearchSearcher implements SearcherInterface
     ) {
         $this->marshaller = new FlattenMarshaller(
             dateAsInteger: true,
+            separator: '_',
+            multiFieldJsonTypes: [
+                Field\TextField::class,
+                Field\FloatField::class,
+                Field\BooleanField::class,
+            ],
         );
     }
 
@@ -46,8 +52,7 @@ final class ManticoresearchSearcher implements SearcherInterface
             && 1 === $search->limit
         ) {
             $searchIndex = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name);
-
-            $result = $searchIndex->getDocumentById($search->filters[0]->identifier);
+            $result = $searchIndex->getDocumentByIds($search->filters[0]->identifier);
 
             if (!$result->getNumFound()) {
                 return new Result(

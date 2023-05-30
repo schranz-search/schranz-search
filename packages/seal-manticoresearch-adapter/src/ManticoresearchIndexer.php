@@ -16,6 +16,7 @@ namespace Schranz\Search\SEAL\Adapter\Manticoresearch;
 use Manticoresearch\Client;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
+use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
@@ -29,6 +30,12 @@ final class ManticoresearchIndexer implements IndexerInterface
     ) {
         $this->marshaller = new FlattenMarshaller(
             dateAsInteger: true,
+            separator: '_',
+            multiFieldJsonTypes: [
+                Field\TextField::class,
+                Field\FloatField::class,
+                Field\BooleanField::class,
+            ],
         );
     }
 
@@ -41,8 +48,6 @@ final class ManticoresearchIndexer implements IndexerInterface
         unset($document[$identifierField->name]);
 
         $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
-        $marshalledDocument['id'] = $identifier; // Manticoresearch currently does not support set another identifier then id: TODO create issue
-
         $searchIndex = $this->client->index($index->name);
 
         $searchIndex->addDocument($marshalledDocument, $identifier);

@@ -24,9 +24,14 @@ use Schranz\Search\SEAL\Schema\Field;
  */
 final class FlattenMarshaller
 {
+    /**
+     * @param class-string<Field\AbstractField[]> $multiFieldJsonTypes
+     */
     public function __construct(
         private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
+        private readonly string $separator = '.',
+        private readonly array $multiFieldJsonTypes = [],
     ) {
     }
 
@@ -38,7 +43,14 @@ final class FlattenMarshaller
      */
     public function marshall(array $fields, array $document): array
     {
-        $flattenDocument = $this->flatten($fields, $document);
+        $jsonFields = [];
+        $flattenDocument = $this->flatten($fields, $document, false, $jsonFields);
+        foreach (array_unique($jsonFields) as $key) {
+            if (isset($flattenDocument[$key])) {
+                $flattenDocument[$key] = \json_encode($flattenDocument[$key], \JSON_THROW_ON_ERROR);
+            }
+        }
+
         $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
 
         return $flattenDocument;
@@ -59,10 +71,11 @@ final class FlattenMarshaller
     /**
      * @param Field\AbstractField[] $fields
      * @param array<string, mixed> $raw
+     * @param string[] $jsonFields
      *
      * @return array<string, mixed>
      */
-    private function flatten(array $fields, array $raw, bool $rootIsParentMultiple = false)
+    private function flatten(array $fields, array $raw, bool $rootIsParentMultiple = false, array &$jsonFields = [])
     {
         foreach ($fields as $name => $field) {
             if (!\array_key_exists($name, $raw)) {
@@ -70,8 +83,8 @@ final class FlattenMarshaller
             }
 
             match (true) {
-                $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $rootIsParentMultiple),
-                $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple),
+                $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $rootIsParentMultiple, $jsonFields),
+                $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple, $jsonFields),
                 $field instanceof Field\DateTimeField => $document[$name] = $this->flattenDateTimeField($raw[$field->name], $field), // @phpstan-ignore-line
                 default => null,
             };
@@ -79,7 +92,13 @@ final class FlattenMarshaller
             if ($this->addRawFilterTextField
                 && $field instanceof Field\TextField && $field->searchable && ($field->sortable || $field->filterable)
             ) {
-                $raw[$name . '.raw'] = $raw[$name];
+                $raw[$name . $this->separator . 'raw'] = $raw[$name];
+            }
+
+            if (($field->multiple || $rootIsParentMultiple)
+                && \in_array(\get_class($field), $this->multiFieldJsonTypes)
+            ) {
+                $jsonFields[$name] = $name;
             }
         }
 
@@ -117,10 +136,11 @@ final class FlattenMarshaller
 
     /**
      * @param array<string, mixed> $raw
+     * @param string[] $jsonFields
      *
      * @return array<string, mixed>
      */
-    private function flattenObject(string $name, array $raw, Field\ObjectField $field, bool $rootIsParentMultiple)
+    private function flattenObject(string $name, array $raw, Field\ObjectField $field, bool $rootIsParentMultiple, array &$jsonFields = [])
     {
         /** @var array<array<string, mixed>> $objects */
         $objects = $field->multiple ? $raw[$name] : [$raw[$name]];
@@ -128,10 +148,15 @@ final class FlattenMarshaller
         $newRawData = [];
         foreach ($objects as $object) {
             $isParentMultiple = $rootIsParentMultiple || $field->multiple;
-            $flattenedObject = $this->flatten($field->fields, $object, $isParentMultiple);
+            $subJsonFields = [];
+            $flattenedObject = $this->flatten($field->fields, $object, $isParentMultiple, $subJsonFields);
+            foreach ($subJsonFields as $key) {
+                $flattenKey = $name . $this->separator . $key;
+                $jsonFields[$flattenKey] = $flattenKey;
+            }
 
             foreach ($flattenedObject as $key => $value) {
-                $flattenKey = $name . '.' . $key;
+                $flattenKey = $name . $this->separator . $key;
 
                 if (!$isParentMultiple) {
                     $newRawData[$flattenKey] = $value;
@@ -176,7 +201,7 @@ final class FlattenMarshaller
      *
      * @return array<string, mixed>
      */
-    private function flattenTyped(string $name, array $raw, Field\TypedField $field, bool $rootIsParentMultiple)
+    private function flattenTyped(string $name, array $raw, Field\TypedField $field, bool $rootIsParentMultiple, array &$jsonFields = [])
     {
         /** @var array<array<string, mixed>> $objects */
         $objects = $field->multiple ? $raw[$name] : [$raw[$name]];
@@ -197,9 +222,15 @@ final class FlattenMarshaller
                 ));
             }
 
-            $flattenedObject = $this->flatten($field->types[$type], $object, $isParentMultiple);
+            $subJsonFields = [];
+            $flattenedObject = $this->flatten($field->types[$type], $object, $isParentMultiple, $subJsonFields);
+            foreach ($subJsonFields as $key) {
+                $flattenKey = $name . $this->separator . $type . $this->separator . $key;
+                $jsonFields[$flattenKey] = $flattenKey;
+            }
+
             foreach ($flattenedObject as $key => $value) {
-                $flattenKey = $name . '.' . $type . '.' . $key;
+                $flattenKey = $name . $this->separator . $type . $this->separator . $key;
 
                 if (!$isParentMultiple) {
                     $newRawData[$flattenKey] = $value;
