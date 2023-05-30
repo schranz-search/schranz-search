@@ -15,7 +15,7 @@
 /** @internal */
 require_once \dirname(__DIR__) . '/vendor/autoload.php';
 
-if (!isset($_ENV['ALGOLIA_APPLICATION_ID'])) {
+if (!isset($_ENV['ALGOLIA_DSN'])) {
     if (!\file_exists(\dirname(__DIR__) . '/phpunit.xml')) {
         throw new \Exception('phpunit.xml not found');
     }
@@ -24,12 +24,10 @@ if (!isset($_ENV['ALGOLIA_APPLICATION_ID'])) {
 
     $xml = \simplexml_load_string($data);
 
-    $applicationId = $xml->xpath('//env[@name="ALGOLIA_APPLICATION_ID"]')[0]['value']->__toString();
-    $adminId = $xml->xpath('//env[@name="ALGOLIA_ADMIN_API_KEY"]')[0]['value']->__toString();
+    $algoliaDsn = $xml->xpath('//env[@name="ALGOLIA_DSN"]')[0]['value']->__toString();
 }
 
-$_ENV['ALGOLIA_APPLICATION_ID'] = $applicationId;
-$_ENV['ALGOLIA_ADMIN_API_KEY'] = $adminId;
+$_ENV['ALGOLIA_DSN'] = $algoliaDsn;
 
 $client = \Schranz\Search\SEAL\Adapter\Algolia\Tests\ClientHelper::getClient();
 
