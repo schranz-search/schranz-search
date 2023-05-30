@@ -60,13 +60,15 @@ final class IndexDropCommand extends Command
 
             if ($indexName && $indexName === $name) {
                 $this->line('Drop search index "' . $indexName . '" of "' . $name . '" ...');
-                $engine->dropIndex($indexName);
+                $task = $engine->dropIndex($indexName, ['return_slow_promise_result' => true]);
+                $task->wait();
 
                 continue;
             }
 
             $this->line('Drop search indexes of "' . $name . '" ...');
-            $engine->dropSchema();
+            $task = $engine->dropSchema(['return_slow_promise_result' => true]);
+            $task->wait();
         }
 
         $this->info('Search indexes created.');

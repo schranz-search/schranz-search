@@ -61,13 +61,15 @@ final class IndexDropCommand extends Command
 
             if ($indexName) {
                 $ui->text('Dropping search index "' . $indexName . '" for "' . $name . '" ...');
-                $engine->dropIndex($indexName);
+                $task = $engine->dropIndex($indexName, ['return_slow_promise_result' => true]);
+                $task->wait();
 
                 continue;
             }
 
             $ui->text('Dropping search indexes of "' . $name . '" ...');
-            $engine->dropSchema();
+            $task = $engine->dropSchema(['return_slow_promise_result' => true]);
+            $task->wait();
         }
 
         $ui->success('Search indexes dropped.');
