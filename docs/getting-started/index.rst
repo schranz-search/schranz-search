@@ -1317,7 +1317,7 @@ search engine.
 
             services:
               meilisearch:
-                image: getmeili/meilisearch:v1.0
+                image: getmeili/meilisearch:v1.1
                 environment:
                   MEILI_ENV: development
                 ports:
@@ -1360,7 +1360,7 @@ search engine.
 
             services:
               elasticsearch:
-                image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+                image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
                 environment:
                   discovery.type: single-node
                   xpack.security.enabled: 'false'
@@ -1515,7 +1515,7 @@ search engine.
 
             services:
               typesense:
-                image: typesense/typesense:0.24.0
+                image: typesense/typesense:0.24.1
                 ports:
                   - "8108:8108"
                 environment:
