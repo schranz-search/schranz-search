@@ -15,8 +15,7 @@
     stopOnError="false"
     stderr="true">
     <php>
-        <env name="ALGOLIA_APPLICATION_ID" value=""/>
-        <env name="ALGOLIA_ADMIN_API_KEY" value=""/>
+        <env name="ALGOLIA_DSN" value="algolia://"/>
         <env name="TEST_INDEX_PREFIX" value="local_" />
     </php>
 

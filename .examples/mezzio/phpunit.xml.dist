@@ -12,6 +12,10 @@
     failOnWarning="true"
     verbose="true"
     colors="true">
+    <php>
+        <env name="ALGOLIA_DSN" value="algolia://" />
+    </php>
+
     <testsuites>
         <testsuite name="default">
             <directory suffix="Test.php">test</directory>

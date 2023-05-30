@@ -73,7 +73,7 @@ return [
         ],
         'engines' => [
             'algolia' => [
-                'adapter' => 'algolia://' . (\getenv('ALGOLIA_APPLICATION_ID') ?: $_ENV['ALGOLIA_APPLICATION_ID']) . ':' . (\getenv('ALGOLIA_ADMIN_API_KEY') ?: $_ENV['ALGOLIA_ADMIN_API_KEY']),
+                'adapter' => (\getenv('ALGOLIA_DSN') ?: $_ENV['ALGOLIA_DSN']),
             ],
             'elasticsearch' => [
                 'adapter' => 'elasticsearch://127.0.0.1:9200',

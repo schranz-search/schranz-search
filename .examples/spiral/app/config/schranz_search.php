@@ -40,7 +40,7 @@ return [
     ],
     'engines' => [
         'algolia' => [
-            'adapter' => 'algolia://' . env('ALGOLIA_APPLICATION_ID') . ':' . env('ALGOLIA_ADMIN_API_KEY'),
+            'adapter' => env('ALGOLIA_DSN'),
         ],
         'elasticsearch' => [
             'adapter' => 'elasticsearch://127.0.0.1:9200',

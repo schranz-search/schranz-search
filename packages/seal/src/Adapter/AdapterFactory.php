@@ -32,7 +32,21 @@ final class AdapterFactory
         $this->factories = [...$factories];
     }
 
-    public function createAdapter(string $dsn): AdapterInterface
+    /**
+     * @internal
+     *
+     * @return array{
+     *     scheme: string,
+     *     host: string,
+     *     port?: int,
+     *     user?: string,
+     *     pass?: string,
+     *     path?: string,
+     *     query: array<string, string>,
+     *     fragment?: string,
+     * }
+     */
+    public function parseDsn(string $dsn): array
     {
         /** @var string|null $adapterName */
         $adapterName = \explode(':', $dsn, 2)[0];
@@ -65,6 +79,14 @@ final class AdapterFactory
 
         // make DSN like algolia://YourApplicationID:YourAdminAPIKey parseable
         if (false === $parsedDsn) {
+            $query = '';
+            if (\str_contains($dsn, '?')) {
+                [$dsn, $query] = \explode('?', $dsn);
+                $query = '?' . $query;
+            }
+
+            $dsn = $dsn . '@' . $adapterName . $query;
+
             /**
              * @var array{
              *     scheme: string,
@@ -77,7 +99,7 @@ final class AdapterFactory
              *     fragment?: string,
              * } $parsedDsn
              */
-            $parsedDsn = \parse_url($dsn . '@' . $adapterName);
+            $parsedDsn = \parse_url($dsn);
         }
 
         /** @var array<string, string> $query */
@@ -101,6 +123,13 @@ final class AdapterFactory
          * } $parsedDsn
          */
 
-        return $this->factories[$adapterName]->createAdapter($parsedDsn);
+        return $parsedDsn;
+    }
+
+    public function createAdapter(string $dsn): AdapterInterface
+    {
+        $parsedDsn = $this->parseDsn($dsn);
+
+        return $this->factories[$parsedDsn['scheme']]->createAdapter($parsedDsn);
     }
 }

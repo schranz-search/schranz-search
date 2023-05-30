@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
+use Algolia\AlgoliaSearch\Config\SearchConfig;
 use Algolia\AlgoliaSearch\SearchClient;
 use Psr\Container\ContainerInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
@@ -42,6 +43,7 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
      *     host: string,
      *     user?: string,
      *     pass?: string,
+     *     query: array<string, string>,
      * } $dsn
      */
     public function createClient(array $dsn): SearchClient
@@ -72,10 +74,36 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
             return $client;
         }
 
-        return SearchClient::create(
-            $applicationId,
-            $adminApiKey,
-        );
+        $config = SearchConfig::create($applicationId, $adminApiKey);
+
+        $query = $dsn['query'];
+
+        $hosts = $query['hosts'] ?? [];
+        if ([] !== $hosts) {
+            $config->setHosts($hosts);
+        }
+
+        $readTimeout = $query['readTimeout'] ?? null;
+        if (null !== $readTimeout) {
+            $config->setReadTimeout((int) $readTimeout);
+        }
+
+        $writeTimeout = $query['writeTimeout'] ?? null;
+        if (null !== $writeTimeout) {
+            $config->setWriteTimeout((int) $writeTimeout);
+        }
+
+        $connectTimeout = $query['connectTimeout'] ?? null;
+        if (null !== $connectTimeout) {
+            $config->setConnectTimeout((int) $connectTimeout);
+        }
+
+        $defaultHeaders = $query['defaultHeaders'] ?? [];
+        if ([] !== $defaultHeaders) {
+            $config->setDefaultHeaders($defaultHeaders);
+        }
+
+        return SearchClient::createWithConfig($config);
     }
 
     public static function getName(): string
