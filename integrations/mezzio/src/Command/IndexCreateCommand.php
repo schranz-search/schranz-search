@@ -52,13 +52,15 @@ final class IndexCreateCommand extends Command
 
             if ($indexName) {
                 $ui->text('Creating search index "' . $indexName . '" of "' . $name . '" ...');
-                $engine->createIndex($indexName);
+                $task = $engine->createIndex($indexName, ['return_slow_promise_result' => true]);
+                $task->wait();
 
                 continue;
             }
 
             $ui->text('Creating search indexes of "' . $name . '" ...');
-            $engine->createSchema();
+            $task = $engine->createSchema(['return_slow_promise_result' => true]);
+            $task->wait();
         }
 
         $ui->success('Search indexes created.');
