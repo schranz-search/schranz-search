@@ -9,7 +9,7 @@ services:
       test: ["CMD-SHELL", "curl --silent --fail localhost:7700/health || exit 1"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     volumes:
       - meilisearch-data:/data.ms
 

@@ -11,7 +11,7 @@ services:
       test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
       interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 20
     volumes:
       - opensearch-data:/usr/share/opensearch/data
 

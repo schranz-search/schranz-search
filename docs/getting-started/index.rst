@@ -1326,7 +1326,7 @@ search engine.
                   test: ["CMD-SHELL", "curl --silent --fail localhost:7700/health || exit 1"]
                   interval: 5s
                   timeout: 5s
-                  retries: 10
+                  retries: 20
                 volumes:
                   - meilisearch-data:/data.ms
 
@@ -1371,7 +1371,7 @@ search engine.
                   test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
                   interval: 5s
                   timeout: 5s
-                  retries: 10
+                  retries: 20
                 volumes:
                   - elasticsearch-data:/usr/share/elasticsearch/data
 
@@ -1408,7 +1408,7 @@ search engine.
                   test: ["CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1"]
                   interval: 5s
                   timeout: 5s
-                  retries: 10
+                  retries: 20
                 volumes:
                   - opensearch-data:/usr/share/opensearch/data
 
@@ -1478,7 +1478,7 @@ search engine.
                   test: ["CMD-SHELL", "curl --silent --fail localhost:8983 || exit 1"]
                   interval: 5s
                   timeout: 5s
-                  retries: 10
+                  retries: 20
                 environment:
                   SOLR_OPTS: '-Dsolr.disableConfigSetsCreateAuthChecks=true'
                 volumes:
@@ -1525,7 +1525,7 @@ search engine.
                   test: ["CMD-SHELL", "exit 0"] # TODO currently not working as curl not available: https://github.com/typesense/typesense/issues/441#issuecomment-1383157680
                   interval: 5s
                   timeout: 5s
-                  retries: 10
+                  retries: 20
                 volumes:
                   - typesense-data:/data
 
