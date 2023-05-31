@@ -83,7 +83,7 @@
         "yiisoft/yii-debug": "^3.0@dev",
         "yiisoft/yii-event": "^2.0",
         "yiisoft/yii-http": "^1.0",
-        "yiisoft/yii-middleware": "^1.0",
+        "yiisoft/yii-middleware": "dev-fix-locale as 1.0.0",
         "yiisoft/yii-runner-console": "^2.0",
         "yiisoft/yii-runner-http": "^2.0",
         "yiisoft/yii-view": "^6.0"
