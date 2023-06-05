@@ -349,7 +349,7 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "3.4.x-dev",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
@@ -364,6 +364,7 @@
             "require": {
                 "php": ">=8.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -396,7 +397,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/3.4"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -416,7 +417,7 @@
         },
         {
             "name": "symfony/event-dispatcher-contracts",
-            "version": "3.4.x-dev",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher-contracts.git",
@@ -432,6 +433,7 @@
                 "php": ">=8.1",
                 "psr/event-dispatcher": "^1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -472,7 +474,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/3.4"
+                "source": "https://github.com/symfony/event-dispatcher-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -826,7 +828,7 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "3.4.x-dev",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
@@ -845,6 +847,7 @@
             "conflict": {
                 "ext-psr": "<1.1|>=2"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -888,7 +891,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/3.4"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -2032,16 +2035,16 @@
         },
         {
             "name": "meilisearch/meilisearch-php",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meilisearch/meilisearch-php.git",
-                "reference": "950d587995bbd72f5eb794a1f3e88eceb34f6245"
+                "reference": "e48fc6cb39a43614d2042bfbfff56540107016bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/950d587995bbd72f5eb794a1f3e88eceb34f6245",
-                "reference": "950d587995bbd72f5eb794a1f3e88eceb34f6245",
+                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/e48fc6cb39a43614d2042bfbfff56540107016bc",
+                "reference": "e48fc6cb39a43614d2042bfbfff56540107016bc",
                 "shasum": ""
             },
             "require": {
@@ -2056,7 +2059,7 @@
                 "guzzlehttp/guzzle": "^7.1",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "1.10.8",
+                "phpstan/phpstan": "1.10.15",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpstan/phpstan-strict-rules": "^1.1",
@@ -2094,9 +2097,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meilisearch/meilisearch-php/issues",
-                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.1.1"
+                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.2.0"
             },
-            "time": "2023-04-03T10:05:59+00:00"
+            "time": "2023-06-05T11:33:30+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2470,12 +2473,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/manifest.git",
-                "reference": "36d8a21e851a9512db2b086dc5ac2c61308f0138"
+                "reference": "67729272c564ab9f953c81f48db44e8b1cb1e1c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/manifest/zipball/36d8a21e851a9512db2b086dc5ac2c61308f0138",
-                "reference": "36d8a21e851a9512db2b086dc5ac2c61308f0138",
+                "url": "https://api.github.com/repos/phar-io/manifest/zipball/67729272c564ab9f953c81f48db44e8b1cb1e1c3",
+                "reference": "67729272c564ab9f953c81f48db44e8b1cb1e1c3",
                 "shasum": ""
             },
             "require": {
@@ -2484,7 +2487,7 @@
                 "ext-phar": "*",
                 "ext-xmlwriter": "*",
                 "phar-io/version": "^3.0.1",
-                "php": "^7.2 || ^8.0"
+                "php": "^7.3 || ^8.0"
             },
             "default-branch": true,
             "type": "library",
@@ -2530,7 +2533,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-21T19:55:33+00:00"
+            "time": "2023-06-01T14:19:47+00:00"
         },
         {
             "name": "phar-io/version",
@@ -3076,12 +3079,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "81443ccf605a8cc93760e1309540db299454dba6"
+                "reference": "26fd44077a6e2ee0f42b3cc8508f246e12d22154"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/81443ccf605a8cc93760e1309540db299454dba6",
-                "reference": "81443ccf605a8cc93760e1309540db299454dba6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/26fd44077a6e2ee0f42b3cc8508f246e12d22154",
+                "reference": "26fd44077a6e2ee0f42b3cc8508f246e12d22154",
                 "shasum": ""
             },
             "require": {
@@ -3131,7 +3134,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-29T19:45:08+00:00"
+            "time": "2023-06-05T11:45:19+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -3510,12 +3513,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8a8e4495e652c78c0283df3369fe1a484e56468a"
+                "reference": "70e8497b3c2201b3523b3c160958b3a7c696c7e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8a8e4495e652c78c0283df3369fe1a484e56468a",
-                "reference": "8a8e4495e652c78c0283df3369fe1a484e56468a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/70e8497b3c2201b3523b3c160958b3a7c696c7e6",
+                "reference": "70e8497b3c2201b3523b3c160958b3a7c696c7e6",
                 "shasum": ""
             },
             "require": {
@@ -3605,7 +3608,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-29T14:52:02+00:00"
+            "time": "2023-06-01T06:02:40+00:00"
         },
         {
             "name": "psr/http-client",
@@ -3943,12 +3946,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "17e8e0f374ba325d11fce9a9ac85e7e5c3752336"
+                "reference": "1078587eaef32bf1b0aeaa2daee73893319ce980"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/17e8e0f374ba325d11fce9a9ac85e7e5c3752336",
-                "reference": "17e8e0f374ba325d11fce9a9ac85e7e5c3752336",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/1078587eaef32bf1b0aeaa2daee73893319ce980",
+                "reference": "1078587eaef32bf1b0aeaa2daee73893319ce980",
                 "shasum": ""
             },
             "require": {
@@ -3997,7 +4000,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-30T15:53:28+00:00"
+            "time": "2023-06-05T10:21:40+00:00"
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
@@ -6024,7 +6027,7 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "3.4.x-dev",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
@@ -6039,6 +6042,7 @@
             "require": {
                 "php": ">=8.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6082,7 +6086,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/3.4"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.3.0"
             },
             "funding": [
                 {

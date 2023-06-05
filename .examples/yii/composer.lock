@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4ec96450c02db2697ca75b8539e5a269",
+    "content-hash": "3ee78664b8e7bf9f0de7e7e733e1e36f",
     "packages": [
         {
             "name": "alexkart/curl-builder",
@@ -3462,26 +3462,27 @@
         },
         {
             "name": "yiisoft/i18n",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/i18n.git",
-                "reference": "b56c77d981d5bbf672be45493867e3ccaa49fb26"
+                "reference": "e45081b29ac4e22ecbb47c060d5057ca1af92754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/i18n/zipball/b56c77d981d5bbf672be45493867e3ccaa49fb26",
-                "reference": "b56c77d981d5bbf672be45493867e3ccaa49fb26",
+                "url": "https://api.github.com/repos/yiisoft/i18n/zipball/e45081b29ac4e22ecbb47c060d5057ca1af92754",
+                "reference": "e45081b29ac4e22ecbb47c060d5057ca1af92754",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4|^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.4",
-                "roave/infection-static-analysis-plugin": "^1.5",
+                "phpunit/phpunit": "^9.5",
+                "rector/rector": "^0.17.0",
+                "roave/infection-static-analysis-plugin": "^1.16",
                 "spatie/phpunit-watcher": "^1.23",
-                "vimeo/psalm": "^4.2"
+                "vimeo/psalm": "^4.30|^5.4"
             },
             "type": "library",
             "autoload": {
@@ -3493,13 +3494,14 @@
             "license": [
                 "BSD-3-Clause"
             ],
-            "description": "Yii i18n",
+            "description": "Yii Internationalization Library",
             "homepage": "https://www.yiiframework.com/",
             "keywords": [
                 "i18n",
                 "locale"
             ],
             "support": {
+                "chat": "https://t.me/yii3en",
                 "forum": "https://www.yiiframework.com/forum/",
                 "irc": "irc://irc.freenode.net/yii",
                 "issues": "https://github.com/yiisoft/i18n/issues?state=open",
@@ -3508,15 +3510,15 @@
             },
             "funding": [
                 {
-                    "url": "https://github.com/yiisoft",
+                    "url": "https://github.com/sponsors/yiisoft",
                     "type": "github"
                 },
                 {
                     "url": "https://opencollective.com/yiisoft",
-                    "type": "open_collective"
+                    "type": "opencollective"
                 }
             ],
-            "time": "2021-11-05T23:04:25+00:00"
+            "time": "2023-06-04T22:04:43+00:00"
         },
         {
             "name": "yiisoft/injector",
@@ -5176,16 +5178,16 @@
         },
         {
             "name": "yiisoft/yii-middleware",
-            "version": "dev-fix-locale",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii-middleware.git",
-                "reference": "5db50582007cec0dbd0a3b126bc195ef9a67f5ca"
+                "reference": "8c001b1c9926883cfe767aa0f5bd602ace89e5e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii-middleware/zipball/5db50582007cec0dbd0a3b126bc195ef9a67f5ca",
-                "reference": "5db50582007cec0dbd0a3b126bc195ef9a67f5ca",
+                "url": "https://api.github.com/repos/yiisoft/yii-middleware/zipball/8c001b1c9926883cfe767aa0f5bd602ace89e5e7",
+                "reference": "8c001b1c9926883cfe767aa0f5bd602ace89e5e7",
                 "shasum": ""
             },
             "require": {
@@ -5210,7 +5212,7 @@
                 "httpsoft/http-message": "^1.0",
                 "maglnet/composer-require-checker": "^4.2",
                 "phpunit/phpunit": "^9.5",
-                "rector/rector": "^0.16.0",
+                "rector/rector": "^0.17.0",
                 "roave/infection-static-analysis-plugin": "^1.16",
                 "slope-it/clock-mock": "^0.3.6",
                 "spatie/phpunit-watcher": "^1.23",
@@ -5257,7 +5259,7 @@
                     "type": "opencollective"
                 }
             ],
-            "time": "2023-05-31T07:51:05+00:00"
+            "time": "2023-06-04T21:43:24+00:00"
         },
         {
             "name": "yiisoft/yii-runner",
@@ -7129,25 +7131,29 @@
         },
         {
             "name": "doctrine/deprecations",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "8cffffb2218e01f3b370bf763e00e81697725259"
+                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/8cffffb2218e01f3b370bf763e00e81697725259",
-                "reference": "8cffffb2218e01f3b370bf763e00e81697725259",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
+                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1|^8.0"
+                "php": "^7.1 || ^8.0"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9",
-                "phpunit/phpunit": "^7.5|^8.5|^9.5",
-                "psr/log": "^1|^2|^3"
+                "phpstan/phpstan": "1.4.10 || 1.10.15",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "psalm/plugin-phpunit": "0.18.4",
+                "psr/log": "^1 || ^2 || ^3",
+                "vimeo/psalm": "4.30.0 || 5.12.0"
             },
             "suggest": {
                 "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
@@ -7166,9 +7172,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v1.1.0"
+                "source": "https://github.com/doctrine/deprecations/tree/v1.1.1"
             },
-            "time": "2023-05-29T18:55:17+00:00"
+            "time": "2023-06-03T09:27:29+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -8534,16 +8540,16 @@
         },
         {
             "name": "meilisearch/meilisearch-php",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meilisearch/meilisearch-php.git",
-                "reference": "950d587995bbd72f5eb794a1f3e88eceb34f6245"
+                "reference": "e48fc6cb39a43614d2042bfbfff56540107016bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/950d587995bbd72f5eb794a1f3e88eceb34f6245",
-                "reference": "950d587995bbd72f5eb794a1f3e88eceb34f6245",
+                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/e48fc6cb39a43614d2042bfbfff56540107016bc",
+                "reference": "e48fc6cb39a43614d2042bfbfff56540107016bc",
                 "shasum": ""
             },
             "require": {
@@ -8558,7 +8564,7 @@
                 "guzzlehttp/guzzle": "^7.1",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "1.10.8",
+                "phpstan/phpstan": "1.10.15",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpstan/phpstan-strict-rules": "^1.1",
@@ -8596,9 +8602,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meilisearch/meilisearch-php/issues",
-                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.1.1"
+                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.2.0"
             },
-            "time": "2023-04-03T10:05:59+00:00"
+            "time": "2023-06-05T11:33:30+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -9914,22 +9920,23 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.21.3",
+            "version": "1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "b0c366dd2cea79407d635839d25423ba07c55dd6"
+                "reference": "ec58baf7b3c7f1c81b3b00617c953249fb8cf30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/b0c366dd2cea79407d635839d25423ba07c55dd6",
-                "reference": "b0c366dd2cea79407d635839d25423ba07c55dd6",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/ec58baf7b3c7f1c81b3b00617c953249fb8cf30c",
+                "reference": "ec58baf7b3c7f1c81b3b00617c953249fb8cf30c",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
+                "doctrine/annotations": "^2.0",
                 "nikic/php-parser": "^4.15",
                 "php-parallel-lint/php-parallel-lint": "^1.2",
                 "phpstan/extension-installer": "^1.0",
@@ -9954,22 +9961,22 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.21.3"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.22.0"
             },
-            "time": "2023-05-29T19:31:28+00:00"
+            "time": "2023-06-01T12:35:21+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.15",
+            "version": "1.10.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "762c4dac4da6f8756eebb80e528c3a47855da9bd"
+                "reference": "352bdbb960bb523e3d71b834862589f910921c23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/762c4dac4da6f8756eebb80e528c3a47855da9bd",
-                "reference": "762c4dac4da6f8756eebb80e528c3a47855da9bd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/352bdbb960bb523e3d71b834862589f910921c23",
+                "reference": "352bdbb960bb523e3d71b834862589f910921c23",
                 "shasum": ""
             },
             "require": {
@@ -10018,7 +10025,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-09T15:28:01+00:00"
+            "time": "2023-06-05T08:21:46+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -10962,12 +10969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "d40baa1c4204055d04a5a9b5ad39c95b189ef889"
+                "reference": "0feb297cb2162446e9d3334cd131d861d7d2d997"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/d40baa1c4204055d04a5a9b5ad39c95b189ef889",
-                "reference": "d40baa1c4204055d04a5a9b5ad39c95b189ef889",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0feb297cb2162446e9d3334cd131d861d7d2d997",
+                "reference": "0feb297cb2162446e9d3334cd131d861d7d2d997",
                 "shasum": ""
             },
             "conflict": {
@@ -11043,7 +11050,7 @@
                 "contao/core-bundle": "<4.9.40|>=4.10,<4.11.7|>=4.13,<4.13.21|>=5.1,<5.1.4|= 4.10.0",
                 "contao/listing-bundle": ">=4,<4.4.8",
                 "contao/managed-edition": "<=1.5",
-                "craftcms/cms": ">= 4.0.0-RC1, <= 4.4.5|>= 4.0.0-RC1, <= 4.4.6|<=3.8.5|>=4,<4.4.6|>= 4.0.0-RC1, < 4.4.6|>= 4.0.0-RC1, < 4.3.7|>= 4.0.0-RC1, < 4.2.1",
+                "craftcms/cms": "<4.4.12|>= 4.0.0-RC1, <= 4.4.5|>= 4.0.0-RC1, <= 4.4.6|>= 4.0.0-RC1, < 4.4.6|>= 4.0.0-RC1, < 4.3.7|>= 4.0.0-RC1, < 4.2.1",
                 "croogo/croogo": "<3.0.7",
                 "cuyz/valinor": "<0.12",
                 "czproject/git-php": "<4.0.3",
@@ -11243,7 +11250,7 @@
                 "netgen/tagsbundle": ">=3.4,<3.4.11|>=4,<4.0.15",
                 "nette/application": ">=2,<2.0.19|>=2.1,<2.1.13|>=2.2,<2.2.10|>=2.3,<2.3.14|>=2.4,<2.4.16|>=3,<3.0.6",
                 "nette/nette": ">=2,<2.0.19|>=2.1,<2.1.13",
-                "nilsteampassnet/teampass": "<3.0.7",
+                "nilsteampassnet/teampass": "<3.0.9",
                 "notrinos/notrinos-erp": "<=0.7",
                 "noumo/easyii": "<=0.9",
                 "nukeviet/nukeviet": "<4.5.2",
@@ -11299,7 +11306,7 @@
                 "pimcore/pimcore": "<10.5.21",
                 "pixelfed/pixelfed": "<=0.11.4",
                 "pocketmine/bedrock-protocol": "<8.0.2",
-                "pocketmine/pocketmine-mp": "<4.12.5|>= 4.0.0-BETA5, < 4.4.2",
+                "pocketmine/pocketmine-mp": "< 4.18.0-ALPHA2|<4.12.5|>= 4.0.0-BETA5, < 4.4.2",
                 "pressbooks/pressbooks": "<5.18",
                 "prestashop/autoupgrade": ">=4,<4.10.1",
                 "prestashop/blockwishlist": ">=2,<2.1.1",
@@ -11561,7 +11568,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-05-30T21:04:11+00:00"
+            "time": "2023-06-02T23:04:03+00:00"
         },
         {
             "name": "sanmai/later",
@@ -15029,12 +15036,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii-debug-api.git",
-                "reference": "b8a631a2e94282dae33c02aacf27521d48d3afd7"
+                "reference": "0a9844211de70bbd6b91caeeac827423321f3fa6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii-debug-api/zipball/b8a631a2e94282dae33c02aacf27521d48d3afd7",
-                "reference": "b8a631a2e94282dae33c02aacf27521d48d3afd7",
+                "url": "https://api.github.com/repos/yiisoft/yii-debug-api/zipball/0a9844211de70bbd6b91caeeac827423321f3fa6",
+                "reference": "0a9844211de70bbd6b91caeeac827423321f3fa6",
                 "shasum": ""
             },
             "require": {
@@ -15067,7 +15074,7 @@
                 "codeception/codeception": "^5.0",
                 "maglnet/composer-require-checker": "^4.2",
                 "phpunit/phpunit": "^9.5",
-                "rector/rector": "^0.15.4",
+                "rector/rector": "^0.17.0",
                 "roave/infection-static-analysis-plugin": "^1.16",
                 "spatie/phpunit-watcher": "^1.23",
                 "vimeo/psalm": "^4.30|^5.8",
@@ -15137,7 +15144,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-05-29T16:15:40+00:00"
+            "time": "2023-06-04T22:13:46+00:00"
         },
         {
             "name": "yiisoft/yii-debug-viewer",
@@ -15478,18 +15485,10 @@
             "time": "2023-04-28T00:56:39+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "yiisoft/yii-middleware",
-            "version": "dev-fix-locale",
-            "alias": "1.0.0",
-            "alias_normalized": "1.0.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "yiisoft/yii-debug": 20,
-        "yiisoft/yii-middleware": 20,
         "roave/security-advisories": 20,
         "yiisoft/yii-debug-api": 20,
         "yiisoft/yii-debug-viewer": 20,

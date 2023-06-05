@@ -18,7 +18,7 @@ return [
             ->middleware(CsrfMiddleware::class)
             ->middleware(FormatDataResponse::class)
             ->addGroup(
-                Group::create('') // TODO should be /{_language}: https://github.com/schranz-search/schranz-search/issues/165#issuecomment-1540964696
+                Group::create()
                     ->routes(...$config->get('routes')),
             );
 
