@@ -20,7 +20,10 @@ return [
         ],
         'di-console' => '$di',
         'events' => [],
-        'events-web' => '$events',
+        'events-web' => [
+            '$events',
+            'web/events.php',
+        ],
         'events-console' => '$events',
         'routes' => 'common/routes.php',
         'bootstrap' => [],

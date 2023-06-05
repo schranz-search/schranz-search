@@ -44,7 +44,7 @@ via ``sortable``, ``multiple``, ``filterable`` and ``searchable`` flags:
     $index = new Index('blog', [
         'title' => new Field\TextField('title', sortable: true),
         'tags' => new Field\TextField('tags', multiple: true, filterable: true),
-        'internalNote' => new Field\TextField('tags', searchable: false),
+        'internalNote' => new Field\TextField('internalNote', searchable: false),
     ]);
 
 **Options:**
@@ -335,7 +335,7 @@ via ``multiple`` flags.
     use Schranz\Search\SEAL\Schema\Index;
 
     $index = new Index('blog', [
-        'header' => new Field\ObjectField('footer', [
+        'header' => new Field\ObjectField('header', [
             'title' => new Field\TextField('title'),
         ]),
         'comments' => new Field\ObjectField('comments', [
@@ -709,47 +709,47 @@ Can be saved in an ``Index`` via the following ``Index`` and ``Field`` definitio
 
 .. code-block:: php
 
-    <?php
+<?php
 
-    use Schranz\Search\SEAL\Schema\Field;
-    use Schranz\Search\SEAL\Schema\Index;
+use Schranz\Search\SEAL\Schema\Field;
+use Schranz\Search\SEAL\Schema\Index;
 
-    $index = new Index('blog', [
-        'uuid' => new Field\IdentifierField('uuid'),
-        'title' => new Field\TextField('title'),
-        'header' => new Field\TypedField('header', 'type', [
-            'image' => [
-                'media' => new Field\IntegerField('media'),
-            ],
-            'video' => [
-                'media' => new Field\TextField('media', searchable: false),
-            ],
-        ]),
-        'article' => new Field\TextField('article'),
-        'blocks' => new Field\TypedField('blocks', 'type', [
-            'text' => [
-                'title' => new Field\TextField('title'),
-                'description' => new Field\TextField('description'),
-                'media' => new Field\IntegerField('media', multiple: true),
-            ],
-            'embed' => [
-                'title' => new Field\TextField('title'),
-                'media' => new Field\TextField('media', searchable: false),
-            ],
-        ], multiple: true),
-        'footer' => new Field\ObjectField('footer', [
+$index = new Index('blog', [
+    'uuid' => new Field\IdentifierField('uuid'),
+    'title' => new Field\TextField('title'),
+    'header' => new Field\TypedField('header', 'type', [
+        'image' => [
+            'media' => new Field\IntegerField('media'),
+        ],
+        'video' => [
+            'media' => new Field\TextField('media', searchable: false),
+        ],
+    ]),
+    'article' => new Field\TextField('article'),
+    'blocks' => new Field\TypedField('blocks', 'type', [
+        'text' => [
             'title' => new Field\TextField('title'),
-        ]),
-        'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
-        'commentsCount' => new Field\IntegerField('commentsCount', filterable: true, sortable: true),
-        'rating' => new Field\FloatField('rating', filterable: true, sortable: true),
-        'comments' => new Field\ObjectField('comments', [
-            'email' => new Field\TextField('email', searchable: false),
-            'text' => new Field\TextField('text'),
-        ], multiple: true),
-        'tags' => new Field\TextField('tags', multiple: true, filterable: true),
-        'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
-    ]);
+            'description' => new Field\TextField('description'),
+            'media' => new Field\IntegerField('media', multiple: true),
+        ],
+        'embed' => [
+            'title' => new Field\TextField('title'),
+            'media' => new Field\TextField('media', searchable: false),
+        ],
+    ], multiple: true),
+    'footer' => new Field\ObjectField('footer', [
+        'title' => new Field\TextField('title'),
+    ]),
+    'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
+    'commentsCount' => new Field\IntegerField('commentsCount', filterable: true, sortable: true),
+    'rating' => new Field\FloatField('rating', filterable: true, sortable: true),
+    'comments' => new Field\ObjectField('comments', [
+        'email' => new Field\TextField('email', searchable: false),
+        'text' => new Field\TextField('text'),
+    ], multiple: true),
+    'tags' => new Field\TextField('tags', multiple: true, filterable: true),
+    'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
+]);
 
 Best Practices
 --------------
