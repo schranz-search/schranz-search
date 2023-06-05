@@ -1317,7 +1317,7 @@ search engine.
 
             services:
               meilisearch:
-                image: getmeili/meilisearch:v1.1
+                image: getmeili/meilisearch:v1.2
                 environment:
                   MEILI_ENV: development
                 ports:
