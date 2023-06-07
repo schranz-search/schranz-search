@@ -176,7 +176,7 @@ In this section we will create a first schema for our ``Index``:
 
     .. group-tab:: Symfony
 
-        If you are using Symfony create a new ``Index`` in the ``resources/schemas`` directory:´
+        If you are using Symfony create a new ``Index`` in the ``resources/schemas`` directory:
 
         .. code-block:: php
 
@@ -194,7 +194,7 @@ In this section we will create a first schema for our ``Index``:
 
     .. group-tab:: Spiral
 
-        If you are using Spiral create a new ``Index`` in the ``resources/schemas`` directory:´
+        If you are using Spiral create a new ``Index`` in the ``resources/schemas`` directory:
 
         .. code-block:: php
 
@@ -212,7 +212,7 @@ In this section we will create a first schema for our ``Index``:
 
     .. group-tab:: Mezzio
 
-        If you are using Mezzio create a new ``Index`` in the ``config/schemas`` directory:´
+        If you are using Mezzio create a new ``Index`` in the ``config/schemas`` directory:
 
         .. code-block:: php
 
@@ -230,7 +230,7 @@ In this section we will create a first schema for our ``Index``:
 
     .. group-tab:: Yii
 
-        If you are using Yii create a new ``Index`` in the ``config/schemas`` directory:´
+        If you are using Yii create a new ``Index`` in the ``config/schemas`` directory:
 
         .. code-block:: php
 
