@@ -1,0 +1,13 @@
+{
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Schranz",
+            "email": "alexander@sulu.io"
+        }
+    ],
+    "require-dev": {
+        "schranz/mono": "^1.0"
+    }
+}
