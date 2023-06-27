@@ -29,10 +29,10 @@
         </include>
     </coverage>
 
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
-      <extensions>
-          <extension class="Symfony\Component\Panther\ServerExtension" />
-      </extensions>
-      -->
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
+    <extensions>
+    </extensions>
 </phpunit>
