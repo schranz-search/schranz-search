@@ -30,6 +30,7 @@ to communicate with various search engines, including:
 - [Solr](packages/seal-solr-adapter)
 - [RediSearch](packages/seal-redisearch-adapter)
 - [Typesense](packages/seal-typesense-adapter)
+- [Memory](packages/seal-memory-adapter)
 - ... missing something? Let us know!
 
 It also provides integration packages for the
