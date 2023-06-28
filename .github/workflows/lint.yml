@@ -67,6 +67,12 @@ jobs:
         with:
             directory: 'packages/seal-typesense-adapter'
 
+    manticoresearch-adapter:
+        name: Manticoresearch Adapter
+        uses: ./.github/workflows/callable-lint.yml
+        with:
+            directory: 'packages/seal-manticoresearch-adapter'
+
     solr-adapter:
         name: Solr Adapter
         uses: ./.github/workflows/callable-lint.yml

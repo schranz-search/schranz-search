@@ -1,0 +1,12 @@
+services:
+  manticore:
+    image: manticoresearch/manticore:6.0.4
+    ports:
+      - "9306:9306"
+      - "9308:9308"
+      - "9312:9312"
+    volumes:
+      - manticore-data:/var/lib/manticore
+
+volumes:
+  manticore-data:
