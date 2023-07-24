@@ -23,16 +23,9 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
+    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
-
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
-      <extensions>
-          <extension class="Symfony\Component\Panther\ServerExtension" />
-      </extensions>
-      -->
+    </source>
 </phpunit>
