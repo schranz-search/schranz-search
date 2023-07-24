@@ -31,6 +31,7 @@ jobs:
               with:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: 'locked'
+                  ignore-cache: "yes"
 
             - name: Run lints
               run: composer lint
