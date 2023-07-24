@@ -30,7 +30,7 @@ jobs:
                   COMPOSER_ROOT_VERSION: 0.1-dev
               with:
                   working-directory: ${{ inputs.directory }}
-                  dependency-versions: 'highest'
+                  dependency-versions: 'locked'
 
             - name: Run lints
               run: composer lint
