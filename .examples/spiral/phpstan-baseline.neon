@@ -31,34 +31,9 @@ parameters:
 			path: app/src/Endpoint/Console/DoNothing.php
 
 		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Argument is not an Attribute class\\.$#"
-			count: 1
-			path: app/src/Endpoint/Console/DoNothing.php
-
-		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\AsCommand is not an Attribute class\\.$#"
-			count: 1
-			path: app/src/Endpoint/Console/DoNothing.php
-
-		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Option is not an Attribute class\\.$#"
-			count: 1
-			path: app/src/Endpoint/Console/DoNothing.php
-
-		-
-			message: "#^Class Spiral\\\\Console\\\\Attribute\\\\Question is not an Attribute class\\.$#"
-			count: 1
-			path: app/src/Endpoint/Console/DoNothing.php
-
-		-
 			message: "#^Property App\\\\Endpoint\\\\Console\\\\DoNothing\\:\\:\\$name is never written, only read\\.$#"
 			count: 1
 			path: app/src/Endpoint/Console/DoNothing.php
-
-		-
-			message: "#^Class Spiral\\\\Router\\\\Annotation\\\\Route is not an Attribute class\\.$#"
-			count: 12
-			path: app/src/Endpoint/Web/SearchController.php
 
 		-
 			message: "#^Cannot call method setLocale\\(\\) on mixed\\.$#"
