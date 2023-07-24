@@ -330,12 +330,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4"
+                "reference": "57f3de01d32085fea20865f9b16fb0e69347c39e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
-                "reference": "1856a119a0b0ba8da8b5c33c080aa7af8fac25b4",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/57f3de01d32085fea20865f9b16fb0e69347c39e",
+                "reference": "57f3de01d32085fea20865f9b16fb0e69347c39e",
                 "shasum": ""
             },
             "require": {
@@ -399,9 +399,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.19.0"
+                "source": "https://github.com/php-http/discovery/tree/1.19.1"
             },
-            "time": "2023-06-19T08:45:36+00:00"
+            "time": "2023-07-11T07:02:26+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -1079,12 +1079,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "5fcf92e9208e8b54459b5fbd47fb5633440c66dd"
+                "reference": "515f713bf969ceb06f906be32d2eb90e3429f292"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/5fcf92e9208e8b54459b5fbd47fb5633440c66dd",
-                "reference": "5fcf92e9208e8b54459b5fbd47fb5633440c66dd",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/515f713bf969ceb06f906be32d2eb90e3429f292",
+                "reference": "515f713bf969ceb06f906be32d2eb90e3429f292",
                 "shasum": ""
             },
             "require": {
@@ -1163,7 +1163,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-24T11:52:37+00:00"
+            "time": "2023-07-20T08:25:00+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -1859,16 +1859,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.20.0",
+            "version": "v3.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "3253acf5cdb96383bb37ce7052e5dbf49a660f1e"
+                "reference": "f6692934a6d1fe40fd8bc3339487490baa4a6700"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/3253acf5cdb96383bb37ce7052e5dbf49a660f1e",
-                "reference": "3253acf5cdb96383bb37ce7052e5dbf49a660f1e",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/f6692934a6d1fe40fd8bc3339487490baa4a6700",
+                "reference": "f6692934a6d1fe40fd8bc3339487490baa4a6700",
                 "shasum": ""
             },
             "require": {
@@ -1905,9 +1905,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.20.0"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.22.0"
             },
-            "time": "2023-06-27T20:23:49+00:00"
+            "time": "2023-07-16T23:08:49+00:00"
         },
         {
             "name": "php-http/curl-client",
@@ -2024,12 +2024,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f8a15e4d4f72d3cd59a69891fd8d3294d7e11477"
+                "reference": "49d7c8554122e1e627d5449f82bd22dc78959cc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f8a15e4d4f72d3cd59a69891fd8d3294d7e11477",
-                "reference": "f8a15e4d4f72d3cd59a69891fd8d3294d7e11477",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/49d7c8554122e1e627d5449f82bd22dc78959cc4",
+                "reference": "49d7c8554122e1e627d5449f82bd22dc78959cc4",
                 "shasum": ""
             },
             "require": {
@@ -2079,7 +2079,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-27T18:58:35+00:00"
+            "time": "2023-07-24T17:20:20+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2139,12 +2139,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "8a507b131b8f7747f670116d749983737405940a"
+                "reference": "f1564623dc5330085a73cefcf824b48cdec997b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8a507b131b8f7747f670116d749983737405940a",
-                "reference": "8a507b131b8f7747f670116d749983737405940a",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f1564623dc5330085a73cefcf824b48cdec997b2",
+                "reference": "f1564623dc5330085a73cefcf824b48cdec997b2",
                 "shasum": ""
             },
             "require": {
@@ -2209,7 +2209,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-26T07:35:23+00:00"
+            "time": "2023-07-17T04:56:01+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2458,12 +2458,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9683af405df064cf17fa2d43d40380978daf0801"
+                "reference": "19c72d49bfdecc2dac983f3cd4b5b1aff30df7a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9683af405df064cf17fa2d43d40380978daf0801",
-                "reference": "9683af405df064cf17fa2d43d40380978daf0801",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/19c72d49bfdecc2dac983f3cd4b5b1aff30df7a1",
+                "reference": "19c72d49bfdecc2dac983f3cd4b5b1aff30df7a1",
                 "shasum": ""
             },
             "require": {
@@ -2553,7 +2553,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-26T07:25:57+00:00"
+            "time": "2023-07-18T12:32:17+00:00"
         },
         {
             "name": "rector/rector",
@@ -2561,17 +2561,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "bbcd259217c36a58c3e32a135c61a93cc59efdad"
+                "reference": "d7e7f1eba1bfeb23322d7ed6b1e7d74073452f91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/bbcd259217c36a58c3e32a135c61a93cc59efdad",
-                "reference": "bbcd259217c36a58c3e32a135c61a93cc59efdad",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d7e7f1eba1bfeb23322d7ed6b1e7d74073452f91",
+                "reference": "d7e7f1eba1bfeb23322d7ed6b1e7d74073452f91",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.20"
+                "phpstan/phpstan": "^1.10.26"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -2615,7 +2615,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-06-27T20:26:20+00:00"
+            "time": "2023-07-24T14:31:01+00:00"
         },
         {
             "name": "sebastian/cli-parser",
