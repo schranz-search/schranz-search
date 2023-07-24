@@ -14,7 +14,7 @@ updates:
     schedule:
       interval: "weekly"
   - package-ecosystem: "composer"
-    directory: "p/ackages/seal-algolia-adapter"
+    directory: "/packages/seal-algolia-adapter"
     schedule:
       interval: "weekly"
   - package-ecosystem: "composer"
