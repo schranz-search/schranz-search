@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b659952e595b72d069dfc0f55ac10ab8",
+    "content-hash": "1fbf553414729ff933215402b04e69e3",
     "packages": [],
     "packages-dev": [
         {
             "name": "schranz/mono",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexander-schranz/mono.git",
-                "reference": "733907dc0b76076be6c615c635ed737a528e5fd6"
+                "reference": "11b83f0fe8032ea7bd76e8069b5e89feb60f3c4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexander-schranz/mono/zipball/733907dc0b76076be6c615c635ed737a528e5fd6",
-                "reference": "733907dc0b76076be6c615c635ed737a528e5fd6",
+                "url": "https://api.github.com/repos/alexander-schranz/mono/zipball/11b83f0fe8032ea7bd76e8069b5e89feb60f3c4b",
+                "reference": "11b83f0fe8032ea7bd76e8069b5e89feb60f3c4b",
                 "shasum": ""
             },
             "require": {
@@ -46,9 +46,9 @@
             ],
             "support": {
                 "issues": "https://github.com/alexander-schranz/mono/issues",
-                "source": "https://github.com/alexander-schranz/mono/tree/1.0.0"
+                "source": "https://github.com/alexander-schranz/mono/tree/1.0.1"
             },
-            "time": "2023-06-27T21:37:45+00:00"
+            "time": "2023-06-27T22:13:28+00:00"
         }
     ],
     "aliases": [],

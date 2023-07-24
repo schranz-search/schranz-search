@@ -8,6 +8,6 @@
         }
     ],
     "require-dev": {
-        "schranz/mono": "^1.0"
+        "schranz/mono": "^1.0.1"
     }
 }
