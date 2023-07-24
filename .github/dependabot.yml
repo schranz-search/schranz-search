@@ -1,0 +1,91 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/packages/seal"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "p/ackages/seal-algolia-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-elasticsearch-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-meilisearch-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-memory-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-multi-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-opensearch-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-read-write-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-redisearch-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-solr-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-typesense-adapter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/integrations/laravel"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/integrations/mezzio"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/integrations/spiral"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/integrations/symfony"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/integrations/yii"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/.examples/laravel"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/.examples/mezzio"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/.examples/spiral"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/.examples/symfony"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/.examples/yii"
+    schedule:
+      interval: "weekly"
