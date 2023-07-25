@@ -38,6 +38,10 @@
             "codecept run"
         ],
         "test-watch": "phpunit-watcher watch",
+        "post-install-cmd": [
+            "App\\Installer::postUpdate",
+            "App\\Installer::copyEnvFile"
+        ],
         "post-update-cmd": [
             "App\\Installer::postUpdate",
             "App\\Installer::copyEnvFile"

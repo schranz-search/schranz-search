@@ -36,10 +36,5 @@ jobs:
                   COMPOSER_ROOT_VERSION: 0.1-dev
               run: vendor/bin/mono composer install
 
-            - name: Run .env file # see https://github.com/yiisoft/app/issues/299
-              run: |
-                  echo 'YII_ENV=dev' >> .examples/yii/.env
-                  echo 'YII_DEBUG=true' >> .examples/yii/.env
-
             - name: Run packages lints
               run: vendor/bin/mono composer lint
