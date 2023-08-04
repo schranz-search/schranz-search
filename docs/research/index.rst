@@ -17,6 +17,7 @@ Here we collect different search engines which are around and could be interesti
 - `Solr <#solr>`__ - ``schranz-search/seal-solr-adapter``
 - `RediSearch <#redisearch>`__ - ``schranz-search/seal-redisearch-adapter``
 - `Typesense <#typesense>`__ - ``schranz-search/seal-typesense-adapter``
+- `Loupe <#loupe>`__
 - `Zinc Labs <#zinc-labs>`__ (work in progress `#79 <https://github.com/schranz-search/schranz-search/pull/79>`__)
 - `Manticore Search <#manticore-search>`__ (work in progress `#103 <https://github.com/schranz-search/schranz-search/pull/103>`__)
 - `ZendSearch <#zendsearch>`__
@@ -143,6 +144,13 @@ Describes itself as a alternative to Algolia and Elasticsearch written in C++.
 - PHP Client: `Typesense PHP <https://github.com/typesense/typesense-php>`__
 
 Implementation: `schranz-search/seal-typesense-adapter <https://github.com/schranz-search/seal-typesense-adapter>`__
+
+Loupe
+~~~~~
+
+An SQLite based, PHP-only fulltext search engine.
+
+- Implementation: `Loupe PHP <https://github.com/loupe-php/loupe>`__
 
 Zinc Labs
 ~~~~~~~~~
