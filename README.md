@@ -9,8 +9,8 @@
 <strong>Monorepository</strong> for **SEAL** a **S**earch **E**ngine **A**bstraction **L**ayer with support to different search engines<br/>
 <a href="https://schranz-search.github.io/schranz-search/">Documentation</a> | [Packages](#-packages)
 
-Elasticsearch | Opensearch | Meilisearch | Algolia | Solr | Redisearch | Typesense <br/>
-**PHP** | Symfony | Laravel | Spiral | Mezzio | Yii
+Elasticsearch | Opensearch | Meilisearch | Algolia | Loupe | Solr | Redisearch | Typesense <br/>
+**PHP** | Symfony | Laravel | Spiral | Mezzio | Yii
 
 </div>
 
@@ -27,6 +27,7 @@ to communicate with various search engines, including:
 - [Opensearch](packages/seal-opensearch-adapter)
 - [Meilisearch](packages/seal-meilisearch-adapter)
 - [Algolia](packages/seal-algolia-adapter)
+- [Loupe](packages/seal-loupe-adapter)
 - [Solr](packages/seal-solr-adapter)
 - [RediSearch](packages/seal-redisearch-adapter)
 - [Typesense](packages/seal-typesense-adapter)
@@ -94,6 +95,7 @@ Full list of packages provided by the SEAL project:
 - [`schranz-search/seal-elasticsearch-adapter`](packages/seal-elasticsearch-adapter/README.md) - Adapter for the Elasticsearch search engine.
 - [`schranz-search/seal-opensearch-adapter`](packages/seal-opensearch-adapter/README.md) - Adapter for the Opensearch search engine.
 - [`schranz-search/seal-meilisearch-adapter`](packages/seal-meilisearch-adapter/README.md) - Adapter for the Meilisearch search engine.
+- [`schranz-search/seal-loupe-adapter`](packages/seal-loupe-adapter/README.md) - Adapter for the Loupe search engine.
 - [`schranz-search/seal-redisearch-adapter`](packages/seal-redisearch-adapter/README.md) - Adapter for the Redisearch search engine.
 - [`schranz-search/seal-solr-adapter`](packages/seal-solr-adapter/README.md) - Adapter for the Solr search engine.
 - [`schranz-search/seal-typesense-adapter`](packages/seal-typesense-adapter/README.md) - Adapter for the Typesense search engine.
