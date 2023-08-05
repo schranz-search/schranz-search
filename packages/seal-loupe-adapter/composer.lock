@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5526cf04466141ac9c0920e886be4477",
+    "content-hash": "a1c36de29fe135abca83959b3f9ff8ae",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "dev-feature/fill-missing-columns",
+            "version": "dev-enhancement/fixes-together",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexander-schranz/loupe.git",
-                "reference": "08c6e6543298d2c979406dcdfd25e35de7bc5ece"
+                "reference": "ddbac9e3e57c17861d92492b85bde1b10a6036a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexander-schranz/loupe/zipball/08c6e6543298d2c979406dcdfd25e35de7bc5ece",
-                "reference": "08c6e6543298d2c979406dcdfd25e35de7bc5ece",
+                "url": "https://api.github.com/repos/alexander-schranz/loupe/zipball/ddbac9e3e57c17861d92492b85bde1b10a6036a4",
+                "reference": "ddbac9e3e57c17861d92492b85bde1b10a6036a4",
                 "shasum": ""
             },
             "require": {
@@ -500,7 +500,7 @@
             ],
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQlite",
             "support": {
-                "source": "https://github.com/alexander-schranz/loupe/tree/feature/fill-missing-columns"
+                "source": "https://github.com/alexander-schranz/loupe/tree/enhancement/fixes-together"
             },
             "funding": [
                 {
@@ -508,7 +508,7 @@
                     "url": "https://github.com/Toflar"
                 }
             ],
-            "time": "2023-08-04T22:35:35+00:00"
+            "time": "2023-08-05T23:47:21+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -1980,12 +1980,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c3c4dd7ca17a6ff640295faaca064017ffce0f90"
+                "reference": "0aa80b43d203a868ddf0d013a8dc04b95034a752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c3c4dd7ca17a6ff640295faaca064017ffce0f90",
-                "reference": "c3c4dd7ca17a6ff640295faaca064017ffce0f90",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0aa80b43d203a868ddf0d013a8dc04b95034a752",
+                "reference": "0aa80b43d203a868ddf0d013a8dc04b95034a752",
                 "shasum": ""
             },
             "require": {
@@ -2035,7 +2035,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-03T16:53:39+00:00"
+            "time": "2023-08-05T12:55:09+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2517,12 +2517,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "cdee2bcef922bdf940e1cc9040715e15f8b0799d"
+                "reference": "da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/cdee2bcef922bdf940e1cc9040715e15f8b0799d",
-                "reference": "cdee2bcef922bdf940e1cc9040715e15f8b0799d",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc",
+                "reference": "da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc",
                 "shasum": ""
             },
             "require": {
@@ -2571,7 +2571,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-04T18:17:32+00:00"
+            "time": "2023-08-05T23:37:13+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -3591,7 +3591,7 @@
     "aliases": [
         {
             "package": "loupe/loupe",
-            "version": "dev-feature/fill-missing-columns",
+            "version": "dev-enhancement/fixes-together",
             "alias": "0.1.1",
             "alias_normalized": "0.1.1.0"
         }

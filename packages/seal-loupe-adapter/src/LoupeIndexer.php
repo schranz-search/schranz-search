@@ -52,29 +52,7 @@ final class LoupeIndexer implements IndexerInterface
     {
         $loupe = $this->loupeHelper->getLoupe($index);
 
-        // TODO remove this when https://github.com/loupe-php/loupe/pull/10 is merged and released:
-        $reflectionClass = new \ReflectionClass($loupe);
-        $reflectionProperty = $reflectionClass->getProperty('engine');
-        $reflectionProperty->setAccessible(true);
-
-        /** @var \Loupe\Loupe\Internal\Engine $engine */
-        $engine = $reflectionProperty->getValue($loupe);
-
-        $connection = $engine->getConnection();
-
-        $connection
-            ->executeStatement(
-                \sprintf(
-                    'DELETE FROM %s WHERE user_id IN(:ids)',
-                    \Loupe\Loupe\Internal\Index\IndexInfo::TABLE_NAME_DOCUMENTS,
-                ),
-                [
-                    'ids' => \array_map(fn (string $id) => \Loupe\Loupe\Internal\LoupeTypes::convertToString($id), [$identifier]),
-                ],
-                [
-                    'ids' => \Doctrine\DBAL\ArrayParameterType::STRING,
-                ],
-            );
+        $loupe->deleteDocument($identifier);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
