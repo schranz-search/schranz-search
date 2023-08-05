@@ -100,6 +100,7 @@ final class AdapterFactory
              * } $parsedDsn
              */
             $parsedDsn = \parse_url($dsn);
+            $parsedDsn['host'] = '';
         }
 
         /** @var array<string, string> $query */

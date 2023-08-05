@@ -99,6 +99,7 @@ abstract class AbstractIndexerTestCase extends TestCase
             $search = new SearchBuilder($schema, self::$searcher);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
+            $search->limit(1);
 
             $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
 
@@ -132,6 +133,7 @@ abstract class AbstractIndexerTestCase extends TestCase
             $search = new SearchBuilder($schema, self::$searcher);
             $search->addIndex(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
+            $search->limit(1);
 
             $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
 
