@@ -14,6 +14,7 @@ to communicate with various search engines, including:
 - ``Opensearch``
 - ``Elasticsearch``
 - ``Algolia``
+- ``Loupe``
 - ``Redisearch``
 - ``Solr``
 - ``Typesense``

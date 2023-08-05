@@ -17,7 +17,7 @@ Here we collect different search engines which are around and could be interesti
 - `Solr <#solr>`__ - ``schranz-search/seal-solr-adapter``
 - `RediSearch <#redisearch>`__ - ``schranz-search/seal-redisearch-adapter``
 - `Typesense <#typesense>`__ - ``schranz-search/seal-typesense-adapter``
-- `Loupe <#loupe>`__
+- `Loupe <#loupe>`__ - ``schranz-search/seal-loupe-adapter``
 - `Zinc Labs <#zinc-labs>`__ (work in progress `#79 <https://github.com/schranz-search/schranz-search/pull/79>`__)
 - `Manticore Search <#manticore-search>`__ (work in progress `#103 <https://github.com/schranz-search/schranz-search/pull/103>`__)
 - `ZendSearch <#zendsearch>`__
