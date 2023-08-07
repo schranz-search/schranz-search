@@ -30,6 +30,8 @@ jobs:
         steps:
             - name: Checkout project
               uses: actions/checkout@v3
+              with:
+                  ref: "${{ github.event.pull_request.merge_commit_sha }}"
 
             - name: Start Docker services
               if: ${{ inputs.docker }}
