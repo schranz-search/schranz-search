@@ -439,6 +439,46 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
+    public function testGreaterThanEqualConditionMultiValue(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GreaterThanEqualCondition('categoryIds', 3.0));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+
+        foreach ($loadedDocuments as $loadedDocument) {
+            /** @var int[] $categoryIds */
+            $categoryIds = $loadedDocument['categoryIds'];
+            $biggestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => \max($categoryId, $item));
+
+            $this->assertNotNull($biggestCategoryId);
+            $this->assertGreaterThanOrEqual(3.0, $biggestCategoryId);
+        }
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
     public function testLessThanCondition(): void
     {
         $documents = TestingHelper::createComplexFixtures();
@@ -508,6 +548,46 @@ abstract class AbstractSearcherTestCase extends TestCase
             );
 
             $this->assertLessThanOrEqual(3.5, $loadedDocument['rating']);
+        }
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testLessThanEqualConditionMultiValue(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\LessThanEqualCondition('categoryIds', 2.0));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(2, $loadedDocuments);
+
+        foreach ($loadedDocuments as $loadedDocument) {
+            /** @var int[] $categoryIds */
+            $categoryIds = $loadedDocument['categoryIds'];
+            $smallestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => null !== $categoryId ? \min($categoryId, $item) : $item);
+
+            $this->assertNotNull($smallestCategoryId);
+            $this->assertLessThanOrEqual(2.0, $smallestCategoryId);
         }
 
         foreach ($documents as $document) {
