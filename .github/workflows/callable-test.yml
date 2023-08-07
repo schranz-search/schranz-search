@@ -53,6 +53,29 @@ jobs:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: ${{ matrix.dependency-versions }}
 
+            - name: Check symlinks
+              working-directory: ${{ inputs.directory }}
+              run: |
+                  ls -lah vendor/schranz-search || true
+                  check_directory() {
+                      directory="vendor/schranz-search"
+        
+                      # Check if the directory exists
+                      if [ -d "$directory" ]; then
+                          # Loop through all directories in the specified directory
+                          for dir in "$directory"/*; do
+                              # Check if the directory is a symlink
+                              if [ ! -L "$dir" ]; then
+                                  echo "Directory $dir is not a symlink"
+                                  return 1
+                              fi
+                          done
+                          echo "All directories in $directory are symlinks"
+                          return 0
+                      fi
+                  }
+                  check_directory
+
             - name: Generate UUID
               id: uuid
               # GitHub does not provide any parameter which is unique inside a workflow
