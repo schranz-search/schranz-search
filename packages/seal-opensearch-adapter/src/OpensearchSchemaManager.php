@@ -55,7 +55,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
             'index' => $index->name,
             'body' => [
                 'mappings' => [
-                    'dynamic' => 'strict',
+                    // 'dynamic' => 'strict',
                     'properties' => $properties,
                 ],
             ],

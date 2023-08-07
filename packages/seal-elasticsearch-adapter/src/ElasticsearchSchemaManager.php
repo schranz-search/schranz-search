@@ -59,7 +59,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
             'index' => $index->name,
             'body' => [
                 'mappings' => [
-                    'dynamic' => 'strict',
+                    // 'dynamic' => 'strict',
                     'properties' => $properties,
                 ],
             ],
