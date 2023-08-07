@@ -108,6 +108,9 @@ final class TestingHelper
     {
         return [
             [
+                'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5238cd',
+            ],
+            [
                 'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
                 'title' => 'New Blog',
                 'header' => [
