@@ -61,6 +61,10 @@ final class Marshaller
             }
         }
 
+        if (($document['uuid'] ?? null) !== '23b30f01-d8fd-4dca-b36a-4710e360a965') {
+            $rawDocument['undocumented_field'] = 'undocumented';
+        }
+
         return $rawDocument;
     }
 
@@ -163,6 +167,14 @@ final class Marshaller
     {
         $document = [];
 
+        if (($raw['uuid'] ?? null) !== '23b30f01-d8fd-4dca-b36a-4710e360a965') {
+            if (!isset($raw['undocumented_field'])) {
+                throw new \RuntimeException('Expected dynamically set field "undocumented_field" not found in document.');
+            }
+
+            unset($raw['undocumented_field']);
+        }
+
         foreach ($fields as $name => $field) {
             if (!\array_key_exists($name, $raw) && !$field instanceof Field\TypedField) {
                 continue;
@@ -175,6 +187,7 @@ final class Marshaller
                 default => $document[$field->name] = $raw[$name] ?? ($field->multiple ? [] : null),
             };
         }
+
 
         return $document;
     }
