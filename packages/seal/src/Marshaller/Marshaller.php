@@ -188,7 +188,6 @@ final class Marshaller
             };
         }
 
-
         return $document;
     }
 

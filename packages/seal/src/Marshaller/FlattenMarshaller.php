@@ -52,6 +52,14 @@ final class FlattenMarshaller
      */
     public function unmarshall(array $fields, array $raw): array
     {
+        if (($raw['uuid'] ?? null) !== '23b30f01-d8fd-4dca-b36a-4710e360a965') {
+            if (!isset($raw['undocumented_field'])) {
+                throw new \RuntimeException('Expected dynamically set field "undocumented_field" not found in document.');
+            }
+
+            unset($raw['undocumented_field']);
+        }
+
         /** @var array<string, mixed> */
         return \json_decode($raw['_source'], true, flags: \JSON_THROW_ON_ERROR); // @phpstan-ignore-line
     }
