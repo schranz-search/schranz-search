@@ -39,6 +39,7 @@ final class FlattenMarshaller
     {
         $flattenDocument = $this->flatten($fields, $document);
         $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
+        $flattenDocument['undocumented_field'] = 'undocumented';
 
         return $flattenDocument;
     }
