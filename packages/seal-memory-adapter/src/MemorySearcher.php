@@ -87,15 +87,15 @@ final class MemorySearcher implements SearcherInterface
                         }
 
                         $values = (array) ($document[$filter->field] ?? []);
-
-                        if ([] === $values) {
-                            continue 2;
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if ($value > $filter->value) {
+                                $hasMatchingValue = true;
+                            }
                         }
 
-                        foreach ($values as $value) {
-                            if ($filter->value >= $value) {
-                                continue 3;
-                            }
+                        if (false === $hasMatchingValue) {
+                            continue 2;
                         }
                     } elseif ($filter instanceof Condition\GreaterThanEqualCondition) {
                         if (\str_contains($filter->field, '.')) {
@@ -104,14 +104,15 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if ([] === $values) {
-                            continue 2;
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if ($value >= $filter->value) {
+                                $hasMatchingValue = true;
+                            }
                         }
 
-                        foreach ($values as $value) {
-                            if ($filter->value > $value) {
-                                continue 3;
-                            }
+                        if (false === $hasMatchingValue) {
+                            continue 2;
                         }
                     } elseif ($filter instanceof Condition\LessThanCondition) {
                         if (\str_contains($filter->field, '.')) {
@@ -120,14 +121,15 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if ([] === $values) {
-                            continue 2;
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if ($value < $filter->value) {
+                                $hasMatchingValue = true;
+                            }
                         }
 
-                        foreach ($values as $value) {
-                            if ($filter->value <= $value) {
-                                continue 3;
-                            }
+                        if (false === $hasMatchingValue) {
+                            continue 2;
                         }
                     } elseif ($filter instanceof Condition\LessThanEqualCondition) {
                         if (\str_contains($filter->field, '.')) {
@@ -136,14 +138,15 @@ final class MemorySearcher implements SearcherInterface
 
                         $values = (array) ($document[$filter->field] ?? []);
 
-                        if ([] === $values) {
-                            continue 2;
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if ($value <= $filter->value) {
+                                $hasMatchingValue = true;
+                            }
                         }
 
-                        foreach ($values as $value) {
-                            if ($filter->value < $value) {
-                                continue 3;
-                            }
+                        if (false === $hasMatchingValue) {
+                            continue 2;
                         }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
