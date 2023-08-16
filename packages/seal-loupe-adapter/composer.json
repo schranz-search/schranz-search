@@ -29,7 +29,7 @@
     "require": {
         "php": "^8.1",
         "schranz-search/seal": "^0.1",
-        "loupe/loupe": "dev-enhancement/fixes-together as 0.1.1",
+        "loupe/loupe": "dev-feature/delete-documents as 0.2.0",
         "psr/container": "^1.0 || ^2.0"
     },
     "require-dev": {

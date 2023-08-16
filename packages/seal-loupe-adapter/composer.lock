@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1c36de29fe135abca83959b3f9ff8ae",
+    "content-hash": "7a8a3f34683870bd936c3bab8749dd59",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2f1e19efdec2a9fc8af4cd66dc1091c5ba23d282"
+                "reference": "1800cc42aa565b0cc938dee7fb46329171503b56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2f1e19efdec2a9fc8af4cd66dc1091c5ba23d282",
-                "reference": "2f1e19efdec2a9fc8af4cd66dc1091c5ba23d282",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1800cc42aa565b0cc938dee7fb46329171503b56",
+                "reference": "1800cc42aa565b0cc938dee7fb46329171503b56",
                 "shasum": ""
             },
             "require": {
@@ -127,7 +127,7 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.10.21",
+                "phpstan/phpstan": "1.10.26",
                 "phpstan/phpstan-strict-rules": "^1.5",
                 "phpunit/phpunit": "9.6.9",
                 "psalm/plugin-phpunit": "0.18.4",
@@ -211,7 +211,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-04T14:29:00+00:00"
+            "time": "2023-08-08T06:56:38+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "dev-enhancement/fixes-together",
+            "version": "dev-feature/delete-documents",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexander-schranz/loupe.git",
-                "reference": "ddbac9e3e57c17861d92492b85bde1b10a6036a4"
+                "reference": "50522c2aac715c7511fc0a13cca093b3a83981b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexander-schranz/loupe/zipball/ddbac9e3e57c17861d92492b85bde1b10a6036a4",
-                "reference": "ddbac9e3e57c17861d92492b85bde1b10a6036a4",
+                "url": "https://api.github.com/repos/alexander-schranz/loupe/zipball/50522c2aac715c7511fc0a13cca093b3a83981b0",
+                "reference": "50522c2aac715c7511fc0a13cca093b3a83981b0",
                 "shasum": ""
             },
             "require": {
@@ -458,6 +458,7 @@
                 "wamania/php-stemmer": "^3.0"
             },
             "require-dev": {
+                "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^10.0",
                 "symfony/filesystem": "^6.2",
                 "symfony/finder": "^6.2",
@@ -487,6 +488,9 @@
                 ],
                 "cs-fixer": [
                     "@php vendor/bin/ecs check --fix"
+                ],
+                "phpstan": [
+                    "@php vendor/bin/phpstan analyse"
                 ]
             },
             "license": [
@@ -498,9 +502,9 @@
                     "email": "yanick.witschi@terminal42.ch"
                 }
             ],
-            "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQlite",
+            "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
-                "source": "https://github.com/alexander-schranz/loupe/tree/enhancement/fixes-together"
+                "source": "https://github.com/alexander-schranz/loupe/tree/feature/delete-documents"
             },
             "funding": [
                 {
@@ -508,7 +512,7 @@
                     "url": "https://github.com/Toflar"
                 }
             ],
-            "time": "2023-08-05T23:47:21+00:00"
+            "time": "2023-08-16T06:46:19+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -1708,12 +1712,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "cfc54e30a4f5e5af5f9d9ce86697cfcc5f7e7c24"
+                "reference": "a6303e50c90c355c7eeee2c4a8b27fe8dc8fef1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/cfc54e30a4f5e5af5f9d9ce86697cfcc5f7e7c24",
-                "reference": "cfc54e30a4f5e5af5f9d9ce86697cfcc5f7e7c24",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a6303e50c90c355c7eeee2c4a8b27fe8dc8fef1d",
+                "reference": "a6303e50c90c355c7eeee2c4a8b27fe8dc8fef1d",
                 "shasum": ""
             },
             "require": {
@@ -1755,9 +1759,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/4.x"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.17.1"
             },
-            "time": "2023-07-30T21:38:32+00:00"
+            "time": "2023-08-13T19:53:39+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1880,16 +1884,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.22.0",
+            "version": "v3.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "f6692934a6d1fe40fd8bc3339487490baa4a6700"
+                "reference": "ddca9b342374087121e44cca3b7d8aca8f121fa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/f6692934a6d1fe40fd8bc3339487490baa4a6700",
-                "reference": "f6692934a6d1fe40fd8bc3339487490baa4a6700",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/ddca9b342374087121e44cca3b7d8aca8f121fa7",
+                "reference": "ddca9b342374087121e44cca3b7d8aca8f121fa7",
                 "shasum": ""
             },
             "require": {
@@ -1926,9 +1930,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.22.0"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.23.0"
             },
-            "time": "2023-07-16T23:08:49+00:00"
+            "time": "2023-08-14T12:28:46+00:00"
         },
         {
             "name": "phpstan/extension-installer",
@@ -1980,12 +1984,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0aa80b43d203a868ddf0d013a8dc04b95034a752"
+                "reference": "c4c1018ef3782bd1ea9113cc6aef2ab06535991b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0aa80b43d203a868ddf0d013a8dc04b95034a752",
-                "reference": "0aa80b43d203a868ddf0d013a8dc04b95034a752",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c4c1018ef3782bd1ea9113cc6aef2ab06535991b",
+                "reference": "c4c1018ef3782bd1ea9113cc6aef2ab06535991b",
                 "shasum": ""
             },
             "require": {
@@ -2035,7 +2039,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-05T12:55:09+00:00"
+            "time": "2023-08-15T20:23:52+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2095,12 +2099,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "9e1baee3a7525530f5600035759ce754a8b3750b"
+                "reference": "89c4446bd73dd2e600d559489cef3516daa89f90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9e1baee3a7525530f5600035759ce754a8b3750b",
-                "reference": "9e1baee3a7525530f5600035759ce754a8b3750b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/89c4446bd73dd2e600d559489cef3516daa89f90",
+                "reference": "89c4446bd73dd2e600d559489cef3516daa89f90",
                 "shasum": ""
             },
             "require": {
@@ -2165,7 +2169,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-02T09:00:29+00:00"
+            "time": "2023-08-14T13:28:25+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2414,12 +2418,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6904cfa5f4a6211e759de8ef36fb51fc939a83fa"
+                "reference": "53e630fa7af1fc75652dc029ab5f023b3fe734f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6904cfa5f4a6211e759de8ef36fb51fc939a83fa",
-                "reference": "6904cfa5f4a6211e759de8ef36fb51fc939a83fa",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/53e630fa7af1fc75652dc029ab5f023b3fe734f8",
+                "reference": "53e630fa7af1fc75652dc029ab5f023b3fe734f8",
                 "shasum": ""
             },
             "require": {
@@ -2509,25 +2513,25 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-02T08:56:58+00:00"
+            "time": "2023-08-16T06:34:57+00:00"
         },
         {
             "name": "rector/rector",
-            "version": "dev-main",
+            "version": "0.15.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc"
+                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc",
-                "reference": "da5c8d8544f3fda1f1d1bd7a8e55aca7576c96dc",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/015935c7ed9e48a4f5895ba974f337e20a263841",
+                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.26"
+                "phpstan/phpstan": "^1.10.14"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -2535,7 +2539,6 @@
                 "rector/rector-phpunit": "*",
                 "rector/rector-symfony": "*"
             },
-            "default-branch": true,
             "bin": [
                 "bin/rector"
             ],
@@ -2563,7 +2566,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/main"
+                "source": "https://github.com/rectorphp/rector/tree/0.15.25"
             },
             "funding": [
                 {
@@ -2571,7 +2574,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-05T23:37:13+00:00"
+            "time": "2023-04-20T16:07:39+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -3591,9 +3594,9 @@
     "aliases": [
         {
             "package": "loupe/loupe",
-            "version": "dev-enhancement/fixes-together",
-            "alias": "0.1.1",
-            "alias_normalized": "0.1.1.0"
+            "version": "dev-feature/delete-documents",
+            "alias": "0.2.0",
+            "alias_normalized": "0.2.0.0"
         }
     ],
     "minimum-stability": "dev",
