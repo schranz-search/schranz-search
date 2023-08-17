@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a8a3f34683870bd936c3bab8749dd59",
+    "content-hash": "0e223dd66bc3aa377518bbb9fe2581d6",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "1800cc42aa565b0cc938dee7fb46329171503b56"
+                "reference": "420961e32615224dabebb289bcf8b23efd09ce8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1800cc42aa565b0cc938dee7fb46329171503b56",
-                "reference": "1800cc42aa565b0cc938dee7fb46329171503b56",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/420961e32615224dabebb289bcf8b23efd09ce8f",
+                "reference": "420961e32615224dabebb289bcf8b23efd09ce8f",
                 "shasum": ""
             },
             "require": {
@@ -127,7 +127,7 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.10.26",
+                "phpstan/phpstan": "1.10.29",
                 "phpstan/phpstan-strict-rules": "^1.5",
                 "phpunit/phpunit": "9.6.9",
                 "psalm/plugin-phpunit": "0.18.4",
@@ -211,7 +211,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-08T06:56:38+00:00"
+            "time": "2023-08-16T09:45:43+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "dev-feature/delete-documents",
+            "version": "0.2.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/alexander-schranz/loupe.git",
-                "reference": "50522c2aac715c7511fc0a13cca093b3a83981b0"
+                "url": "https://github.com/loupe-php/loupe.git",
+                "reference": "30647a9cbfec2b0618e39fe8a4f82bc3e29d2973"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexander-schranz/loupe/zipball/50522c2aac715c7511fc0a13cca093b3a83981b0",
-                "reference": "50522c2aac715c7511fc0a13cca093b3a83981b0",
+                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/30647a9cbfec2b0618e39fe8a4f82bc3e29d2973",
+                "reference": "30647a9cbfec2b0618e39fe8a4f82bc3e29d2973",
                 "shasum": ""
             },
             "require": {
@@ -471,28 +471,7 @@
                     "Loupe\\Loupe\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Loupe\\Loupe\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "tests": [
-                    "@php vendor/bin/phpunit"
-                ],
-                "unit-tests": [
-                    "@php vendor/bin/phpunit --testsuite=unit"
-                ],
-                "functional-tests": [
-                    "@php vendor/bin/phpunit --testsuite=functional"
-                ],
-                "cs-fixer": [
-                    "@php vendor/bin/ecs check --fix"
-                ],
-                "phpstan": [
-                    "@php vendor/bin/phpstan analyse"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -504,15 +483,16 @@
             ],
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
-                "source": "https://github.com/alexander-schranz/loupe/tree/feature/delete-documents"
+                "issues": "https://github.com/loupe-php/loupe/issues",
+                "source": "https://github.com/loupe-php/loupe/tree/0.2"
             },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/Toflar"
+                    "url": "https://github.com/Toflar",
+                    "type": "github"
                 }
             ],
-            "time": "2023-08-16T06:46:19+00:00"
+            "time": "2023-08-17T08:23:08+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -1984,12 +1964,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c4c1018ef3782bd1ea9113cc6aef2ab06535991b"
+                "reference": "4dcd1d34cc16a0733d317566c7d4d43003ccb7af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c4c1018ef3782bd1ea9113cc6aef2ab06535991b",
-                "reference": "c4c1018ef3782bd1ea9113cc6aef2ab06535991b",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4dcd1d34cc16a0733d317566c7d4d43003ccb7af",
+                "reference": "4dcd1d34cc16a0733d317566c7d4d43003ccb7af",
                 "shasum": ""
             },
             "require": {
@@ -2039,7 +2019,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-15T20:23:52+00:00"
+            "time": "2023-08-16T14:22:24+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -3591,18 +3571,9 @@
             "time": "2021-07-28T10:34:58+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "loupe/loupe",
-            "version": "dev-feature/delete-documents",
-            "alias": "0.2.0",
-            "alias_normalized": "0.2.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "loupe/loupe": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
