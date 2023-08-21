@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e223dd66bc3aa377518bbb9fe2581d6",
+    "content-hash": "1a36e5039ab50a04743e9a312c28157e",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loupe-php/loupe.git",
-                "reference": "30647a9cbfec2b0618e39fe8a4f82bc3e29d2973"
+                "reference": "2ab24d9855795d452cca46757c2cdaa63358a1e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/30647a9cbfec2b0618e39fe8a4f82bc3e29d2973",
-                "reference": "30647a9cbfec2b0618e39fe8a4f82bc3e29d2973",
+                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/2ab24d9855795d452cca46757c2cdaa63358a1e8",
+                "reference": "2ab24d9855795d452cca46757c2cdaa63358a1e8",
                 "shasum": ""
             },
             "require": {
@@ -450,7 +450,7 @@
                 "ext-intl": "*",
                 "ext-pdo_sqlite": "*",
                 "mjaschen/phpgeo": "^4.2",
-                "patrickschur/language-detection": "^5.2",
+                "nitotm/efficient-language-detector": "^2.0",
                 "php": "^8.1",
                 "psr/log": "^3.0",
                 "toflar/state-set-index": "^1.0",
@@ -484,7 +484,7 @@
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
                 "issues": "https://github.com/loupe-php/loupe/issues",
-                "source": "https://github.com/loupe-php/loupe/tree/0.2"
+                "source": "https://github.com/loupe-php/loupe/tree/0.3"
             },
             "funding": [
                 {
@@ -492,7 +492,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-17T08:23:08+00:00"
+            "time": "2023-08-21T16:09:00+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -568,55 +568,60 @@
             "time": "2022-07-25T08:36:36+00:00"
         },
         {
-            "name": "patrickschur/language-detection",
-            "version": "v5.2.0",
+            "name": "nitotm/efficient-language-detector",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/patrickschur/language-detection.git",
-                "reference": "4849c2e8618cce09dbe15d5b534b51137bd6d477"
+                "url": "https://github.com/nitotm/efficient-language-detector.git",
+                "reference": "844b76231f34a23f9e606475a2ed339df358740a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/patrickschur/language-detection/zipball/4849c2e8618cce09dbe15d5b534b51137bd6d477",
-                "reference": "4849c2e8618cce09dbe15d5b534b51137bd6d477",
+                "url": "https://api.github.com/repos/nitotm/efficient-language-detector/zipball/844b76231f34a23f9e606475a2ed339df358740a",
+                "reference": "844b76231f34a23f9e606475a2ed339df358740a",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
                 "ext-mbstring": "*",
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5.0"
+                "ext-json": "*",
+                "phpmd/phpmd": "^2.13",
+                "squizlabs/php_codesniffer": "3.*",
+                "vimeo/psalm": "^5.12"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "LanguageDetection\\": "src/LanguageDetection"
+                    "Nitotm\\Eld\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "Apache-2.0"
             ],
             "authors": [
                 {
-                    "name": "Patrick Schur",
-                    "email": "patrick_schur@outlook.de"
+                    "name": "Nito T.M.",
+                    "homepage": "https://github.com/nitotm"
                 }
             ],
-            "description": "A language detection library for PHP. Detects the language from a given text string.",
-            "homepage": "https://github.com/patrickschur/language-detection",
+            "description": "Fast and accurate natural language detection. Detector written in PHP. Nito-ELD, ELD.",
+            "homepage": "https://github.com/nitotm/efficient-language-detector",
             "keywords": [
-                "detect",
                 "detection",
-                "language"
+                "detector",
+                "language",
+                "language detection",
+                "language detector",
+                "language identification"
             ],
             "support": {
-                "issues": "https://github.com/patrickschur/language-detection/issues",
-                "source": "https://github.com/patrickschur/language-detection/tree/v5.2.0"
+                "issues": "https://github.com/nitotm/efficient-language-detector/issues",
+                "source": "https://github.com/nitotm/efficient-language-detector/tree/v2.0.0"
             },
-            "time": "2022-03-01T22:22:41+00:00"
+            "time": "2023-07-17T18:53:48+00:00"
         },
         {
             "name": "psr/cache",
@@ -1283,16 +1288,16 @@
         },
         {
             "name": "toflar/state-set-index",
-            "version": "1.0.1",
+            "version": "1.0.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Toflar/state-set-index.git",
-                "reference": "4096d8956aa52a30a2840c1157276c11ef53e4b2"
+                "reference": "a4277c050b69d8d5fb61d27aee4eef2092b4fac3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Toflar/state-set-index/zipball/4096d8956aa52a30a2840c1157276c11ef53e4b2",
-                "reference": "4096d8956aa52a30a2840c1157276c11ef53e4b2",
+                "url": "https://api.github.com/repos/Toflar/state-set-index/zipball/a4277c050b69d8d5fb61d27aee4eef2092b4fac3",
+                "reference": "a4277c050b69d8d5fb61d27aee4eef2092b4fac3",
                 "shasum": ""
             },
             "require": {
@@ -1322,9 +1327,9 @@
             "description": "Implementation of the State Set Index Algorithm",
             "support": {
                 "issues": "https://github.com/Toflar/state-set-index/issues",
-                "source": "https://github.com/Toflar/state-set-index/tree/1.0.1"
+                "source": "https://github.com/Toflar/state-set-index/tree/1.0.2"
             },
-            "time": "2023-08-04T13:37:24+00:00"
+            "time": "2023-08-18T10:03:59+00:00"
         },
         {
             "name": "voku/portable-ascii",
@@ -1964,12 +1969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4dcd1d34cc16a0733d317566c7d4d43003ccb7af"
+                "reference": "09a5a17a155a2f7a5d14e261e92584ebd1716889"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4dcd1d34cc16a0733d317566c7d4d43003ccb7af",
-                "reference": "4dcd1d34cc16a0733d317566c7d4d43003ccb7af",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/09a5a17a155a2f7a5d14e261e92584ebd1716889",
+                "reference": "09a5a17a155a2f7a5d14e261e92584ebd1716889",
                 "shasum": ""
             },
             "require": {
@@ -2019,7 +2024,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-16T14:22:24+00:00"
+            "time": "2023-08-21T14:22:29+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2079,12 +2084,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "89c4446bd73dd2e600d559489cef3516daa89f90"
+                "reference": "a74e6341296fe533cb69c8c94193afc7537443ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/89c4446bd73dd2e600d559489cef3516daa89f90",
-                "reference": "89c4446bd73dd2e600d559489cef3516daa89f90",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/a74e6341296fe533cb69c8c94193afc7537443ec",
+                "reference": "a74e6341296fe533cb69c8c94193afc7537443ec",
                 "shasum": ""
             },
             "require": {
@@ -2149,7 +2154,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-14T13:28:25+00:00"
+            "time": "2023-08-21T05:57:35+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2398,12 +2403,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "53e630fa7af1fc75652dc029ab5f023b3fe734f8"
+                "reference": "6c24b9dd8390a031a5490a2443fff1958522b49a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/53e630fa7af1fc75652dc029ab5f023b3fe734f8",
-                "reference": "53e630fa7af1fc75652dc029ab5f023b3fe734f8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6c24b9dd8390a031a5490a2443fff1958522b49a",
+                "reference": "6c24b9dd8390a031a5490a2443fff1958522b49a",
                 "shasum": ""
             },
             "require": {
@@ -2493,7 +2498,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-16T06:34:57+00:00"
+            "time": "2023-08-21T05:56:05+00:00"
         },
         {
             "name": "rector/rector",
