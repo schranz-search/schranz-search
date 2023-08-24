@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "5d55089cbe7339f72405560a254153e21c24e9c5"
+                "reference": "256cc585b6157546d6934b5c33e018fa8b97af5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/5d55089cbe7339f72405560a254153e21c24e9c5",
-                "reference": "5d55089cbe7339f72405560a254153e21c24e9c5",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/256cc585b6157546d6934b5c33e018fa8b97af5d",
+                "reference": "256cc585b6157546d6934b5c33e018fa8b97af5d",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +98,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-18T18:44:28+00:00"
+            "time": "2023-08-23T14:55:02+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -106,12 +106,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "420961e32615224dabebb289bcf8b23efd09ce8f"
+                "reference": "d279b8fc570999217c68442ea0bf55da038fecac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/420961e32615224dabebb289bcf8b23efd09ce8f",
-                "reference": "420961e32615224dabebb289bcf8b23efd09ce8f",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/d279b8fc570999217c68442ea0bf55da038fecac",
+                "reference": "d279b8fc570999217c68442ea0bf55da038fecac",
                 "shasum": ""
             },
             "require": {
@@ -211,7 +211,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-16T09:45:43+00:00"
+            "time": "2023-08-24T09:53:47+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "0.3.x-dev",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loupe-php/loupe.git",
-                "reference": "2ab24d9855795d452cca46757c2cdaa63358a1e8"
+                "reference": "3978b449710a399ebbe23f4c6e7812525bf0a92c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/2ab24d9855795d452cca46757c2cdaa63358a1e8",
-                "reference": "2ab24d9855795d452cca46757c2cdaa63358a1e8",
+                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/3978b449710a399ebbe23f4c6e7812525bf0a92c",
+                "reference": "3978b449710a399ebbe23f4c6e7812525bf0a92c",
                 "shasum": ""
             },
             "require": {
@@ -484,7 +484,7 @@
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
                 "issues": "https://github.com/loupe-php/loupe/issues",
-                "source": "https://github.com/loupe-php/loupe/tree/0.3"
+                "source": "https://github.com/loupe-php/loupe/tree/0.3.1"
             },
             "funding": [
                 {
@@ -492,7 +492,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-21T16:09:00+00:00"
+            "time": "2023-08-23T11:14:32+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -1565,12 +1565,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "40fc8fcd149f6ccff851e767c3fc5ded4e6a96c0"
+                "reference": "f49f6a836a816609c853718ba2ea422dc18a8e4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/40fc8fcd149f6ccff851e767c3fc5ded4e6a96c0",
-                "reference": "40fc8fcd149f6ccff851e767c3fc5ded4e6a96c0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f49f6a836a816609c853718ba2ea422dc18a8e4a",
+                "reference": "f49f6a836a816609c853718ba2ea422dc18a8e4a",
                 "shasum": ""
             },
             "require": {
@@ -1628,7 +1628,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-07-30T10:00:15+00:00"
+            "time": "2023-08-24T20:23:35+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1969,12 +1969,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "09a5a17a155a2f7a5d14e261e92584ebd1716889"
+                "reference": "17af2fbef6f7abba3dc7febca513571cad449bd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/09a5a17a155a2f7a5d14e261e92584ebd1716889",
-                "reference": "09a5a17a155a2f7a5d14e261e92584ebd1716889",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/17af2fbef6f7abba3dc7febca513571cad449bd6",
+                "reference": "17af2fbef6f7abba3dc7febca513571cad449bd6",
                 "shasum": ""
             },
             "require": {
@@ -2024,7 +2024,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-21T14:22:29+00:00"
+            "time": "2023-08-24T21:33:06+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
