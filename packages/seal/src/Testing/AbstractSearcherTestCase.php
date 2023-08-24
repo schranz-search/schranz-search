@@ -128,12 +128,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\SearchCondition('Blog'));
 
         $expectedDocumentsVariantA = [
+            $documents[0],
             $documents[1],
-            $documents[2],
         ];
         $expectedDocumentsVariantB = [
-            $documents[2],
             $documents[1],
+            $documents[0],
         ];
 
         $loadedDocuments = [...$search->getResult()];
@@ -149,7 +149,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('Thing'));
 
-        $this->assertSame([$documents[3]], [...$search->getResult()]);
+        $this->assertSame([$documents[2]], [...$search->getResult()]);
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
@@ -206,12 +206,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $this->assertCount(1, $loadedDocuments);
 
         $this->assertTrue(
-            [$documents[1]] === $loadedDocuments
-            || [$documents[2]] === $loadedDocuments,
+            [$documents[0]] === $loadedDocuments
+            || [$documents[1]] === $loadedDocuments,
             'Not correct documents where found.',
         );
 
-        $isFirstDocumentOnPage1 = [$documents[1]] === $loadedDocuments;
+        $isFirstDocumentOnPage1 = [$documents[0]] === $loadedDocuments;
 
         $search = (new SearchBuilder($schema, self::$searcher))
             ->addIndex(TestingHelper::INDEX_COMPLEX)
@@ -222,7 +222,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(1, $loadedDocuments);
         $this->assertSame(
-            $isFirstDocumentOnPage1 ? [$documents[2]] : [$documents[1]],
+            $isFirstDocumentOnPage1 ? [$documents[1]] : [$documents[0]],
             $loadedDocuments,
         );
 
@@ -255,12 +255,12 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
+            $documents[0],
             $documents[1],
-            $documents[2],
         ];
         $expectedDocumentsVariantB = [
-            $documents[2],
             $documents[1],
+            $documents[0],
         ];
 
         $loadedDocuments = [...$search->getResult()];
@@ -305,7 +305,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $this->assertCount(1, $loadedDocuments);
 
         $this->assertSame(
-            [$documents[2]],
+            [$documents[1]],
             $loadedDocuments,
         );
 
@@ -338,18 +338,16 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addFilter(new Condition\NotEqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
-            $documents[0],
+            $documents[2],
             $documents[3],
-            $documents[4],
         ];
         $expectedDocumentsVariantB = [
-            $documents[4],
             $documents[3],
-            $documents[0],
+            $documents[2],
         ];
 
         $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(3, $loadedDocuments);
+        $this->assertCount(2, $loadedDocuments);
 
         $this->assertTrue(
             $expectedDocumentsVariantA === $loadedDocuments
@@ -389,8 +387,6 @@ abstract class AbstractSearcherTestCase extends TestCase
         $this->assertGreaterThanOrEqual(1, \count($loadedDocuments));
 
         foreach ($loadedDocuments as $loadedDocument) {
-            $rating = $loadedDocument['rating'] ?? null;
-            $this->assertNotNull($rating);
             $this->assertGreaterThan(2.5, $loadedDocument['rating']);
         }
 
