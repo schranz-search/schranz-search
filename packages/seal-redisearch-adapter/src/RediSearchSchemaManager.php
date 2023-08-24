@@ -31,7 +31,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         try {
             $indexInfo = $this->client->rawCommand('FT.INFO', $index->name);
         } catch (\RedisException $e) {
-            if ('Unknown Index name' !== $e->getMessage()) {
+            if ('unknown index name' !== \strtolower($e->getMessage())) {
                 throw $e;
             }
 
