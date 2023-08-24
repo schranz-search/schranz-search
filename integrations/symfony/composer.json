@@ -18,6 +18,7 @@
         "solr",
         "redisearch",
         "algolia",
+        "loupe",
         "integration",
         "bridge",
         "symfony-bundle",
@@ -60,6 +61,7 @@
         "rector/rector": "^0.15.23",
         "schranz-search/seal-algolia-adapter": "^0.1",
         "schranz-search/seal-elasticsearch-adapter": "^0.1",
+        "schranz-search/seal-loupe-adapter": "^0.1",
         "schranz-search/seal-meilisearch-adapter": "^0.1",
         "schranz-search/seal-memory-adapter": "^0.1",
         "schranz-search/seal-multi-adapter": "^0.1",
@@ -72,6 +74,7 @@
     "conflict": {
         "schranz-search/seal-algolia-adapter": "<0.1, >=0.2",
         "schranz-search/seal-elasticsearch-adapter": "<0.1, >=0.2",
+        "schranz-search/seal-loupe-adapter": "<0.1, >=0.2",
         "schranz-search/seal-meilisearch-adapter": "<0.1, >=0.2",
         "schranz-search/seal-memory-adapter": "<0.1, >=0.2",
         "schranz-search/seal-multi-adapter": "<0.1, >=0.2",

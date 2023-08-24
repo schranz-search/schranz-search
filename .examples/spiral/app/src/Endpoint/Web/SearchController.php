@@ -26,6 +26,7 @@ final class SearchController
     private readonly EngineInterface $algoliaEngine;
     private readonly EngineInterface $meilisearchEngine;
     private readonly EngineInterface $elasticsearchEngine;
+    private readonly EngineInterface $loupeEngine;
     private readonly EngineInterface $memoryEngine;
     private readonly EngineInterface $opensearchEngine;
     private readonly EngineInterface $solrEngine;
@@ -40,6 +41,7 @@ final class SearchController
         $this->algoliaEngine = $this->engineRegistry->getEngine('algolia');
         $this->meilisearchEngine = $this->engineRegistry->getEngine('meilisearch');
         $this->elasticsearchEngine = $this->engineRegistry->getEngine('elasticsearch');
+        $this->loupeEngine = $this->engineRegistry->getEngine('loupe');
         $this->memoryEngine = $this->engineRegistry->getEngine('memory');
         $this->opensearchEngine = $this->engineRegistry->getEngine('opensearch');
         $this->solrEngine = $this->engineRegistry->getEngine('solr');
@@ -66,6 +68,7 @@ final class SearchController
                     <ul>
                         <li><a href="/algolia">Algolia</a></li>
                         <li><a href="/elasticsearch">Elasticsearch</a></li>
+                        <li><a href="/loupe">Loupe</a></li>
                         <li><a href="/meilisearch">Meilisearch</a></li>
                         <li><a href="/memory">Memory</a></li>
                         <li><a href="/opensearch">Opensearch</a></li>
@@ -131,6 +134,24 @@ final class SearchController
             <html>
                 <head>
                     <title>Elasticsearch</title>
+                </head>
+                <body>
+                    <h1>$class</h1>
+                </body>
+            </html>
+            HTML;
+    }
+
+    #[Route(route: '/loupe', name: 'loupe')]
+    public function elasticsearch(): string
+    {
+        $class = $this->getAdapterClass($this->loupeEngine);
+
+        return <<<HTML
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Loupe</title>
                 </head>
                 <body>
                     <h1>$class</h1>

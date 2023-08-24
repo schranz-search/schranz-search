@@ -7,6 +7,9 @@ schranz_search:
         elasticsearch:
             dir: '%kernel.project_dir%/config/schemas'
             engine: elasticsearch
+        loupe:
+            dir: '%kernel.project_dir%/config/schemas'
+            engine: loupe
         meilisearch:
             dir: '%kernel.project_dir%/config/schemas'
             engine: meilisearch
@@ -30,6 +33,8 @@ schranz_search:
             adapter: '%env(ALGOLIA_DSN)%'
         elasticsearch:
             adapter: 'elasticsearch://127.0.0.1:9200'
+        loupe:
+            adapter: 'loupe://'
         meilisearch:
             adapter: 'meilisearch://127.0.0.1:7700'
         memory:

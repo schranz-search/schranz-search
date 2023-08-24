@@ -22,6 +22,7 @@ use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
@@ -173,6 +174,15 @@ final class SearchProvider extends ServiceProvider
 
             $this->app->tag(
                 'schranz_search.elasticsearch.adapter_factory',
+                'schranz_search.adapter_factory',
+            );
+        }
+
+        if (\class_exists(LoupeAdapterFactory::class)) {
+            $this->app->singleton('schranz_search.loupe.adapter_factory', fn ($app) => new LoupeAdapterFactory($app));
+
+            $this->app->tag(
+                'schranz_search.loupe.adapter_factory',
                 'schranz_search.adapter_factory',
             );
         }

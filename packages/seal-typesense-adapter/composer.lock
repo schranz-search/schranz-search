@@ -914,7 +914,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.1-dev",
+            "version": "0.1.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",

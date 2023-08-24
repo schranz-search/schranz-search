@@ -93,6 +93,15 @@ return static function (ContainerConfigurator $container) {
             ->tag('schranz_search.adapter_factory', ['name' => ElasticsearchAdapterFactory::getName()]);
     }
 
+    if (\class_exists(LoupeAdapterFactory::class)) {
+        $container->services()
+            ->set('schranz_search.loupe.adapter_factory', LoupeAdapterFactory::class)
+            ->args([
+                service('service_container'),
+            ])
+            ->tag('schranz_search.adapter_factory', ['name' => LoupeAdapterFactory::getName()]);
+    }
+
     if (\class_exists(OpensearchAdapterFactory::class)) {
         $container->services()
             ->set('schranz_search.opensearch.adapter_factory', OpensearchAdapterFactory::class)

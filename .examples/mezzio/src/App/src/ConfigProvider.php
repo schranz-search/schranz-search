@@ -36,6 +36,10 @@ class ConfigProvider
                         'dir' => 'config/schemas',
                         'engine' => 'elasticsearch',
                     ],
+                    'loupe' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'loupe',
+                    ],
                     'meilisearch' => [
                         'dir' => 'config/schemas',
                         'engine' => 'meilisearch',
@@ -67,6 +71,9 @@ class ConfigProvider
                     ],
                     'elasticsearch' => [
                         'adapter' => 'elasticsearch://127.0.0.1:9200',
+                    ],
+                    'loupe' => [
+                        'adapter' => 'loupe://',
                     ],
                     'meilisearch' => [
                         'adapter' => 'meilisearch://127.0.0.1:7700',

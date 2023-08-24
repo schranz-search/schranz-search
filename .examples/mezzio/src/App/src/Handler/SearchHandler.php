@@ -33,6 +33,7 @@ class SearchHandler implements RequestHandlerInterface
                     <ul>
                         <li><a href="/algolia">Algolia</a></li>
                         <li><a href="/elasticsearch">Elasticsearch</a></li>
+                        <li><a href="/loupe">Loupe</a></li>
                         <li><a href="/meilisearch">Meilisearch</a></li>
                         <li><a href="/memory">Memory</a></li>
                         <li><a href="/opensearch">Opensearch</a></li>
