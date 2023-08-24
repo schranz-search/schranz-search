@@ -9,5 +9,10 @@
     ],
     "require-dev": {
         "schranz/mono": "^1.0.1"
+    },
+    "scripts": {
+        "fix": "@php vendor/bin/mono composer fix",
+        "lint": "@php vendor/bin/mono composer lint",
+        "test": "@php vendor/bin/mono composer test"
     }
 }
