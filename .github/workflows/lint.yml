@@ -33,10 +33,5 @@ jobs:
                   working-directory: ${{ inputs.directory }}
                   dependency-versions: 'highest'
 
-            - name: Install packages dependencies
-              env:
-                  COMPOSER_ROOT_VERSION: 0.1-dev
-              run: vendor/bin/mono composer install
-
             - name: Run packages lints
-              run: vendor/bin/mono composer lint
+              run: composer lint
