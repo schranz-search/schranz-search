@@ -11,6 +11,8 @@
         "schranz/mono": "^1.0.1"
     },
     "scripts": {
+        "post-install-cmd": "@php vendor/bin/mono composer install",
+        "post-update-cmd": "@php vendor/bin/mono composer update",
         "fix": "@php vendor/bin/mono composer fix",
         "lint": "@php vendor/bin/mono composer lint",
         "test": "@php vendor/bin/mono composer test"

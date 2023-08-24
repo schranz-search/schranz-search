@@ -1677,7 +1677,7 @@
         },
         {
             "name": "schranz-search/mezzio-module",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../integrations/mezzio",
@@ -1812,7 +1812,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal",
@@ -6556,7 +6556,7 @@
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-algolia-adapter",
@@ -6645,7 +6645,7 @@
         },
         {
             "name": "schranz-search/seal-elasticsearch-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-elasticsearch-adapter",
@@ -6737,7 +6737,7 @@
         },
         {
             "name": "schranz-search/seal-meilisearch-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-meilisearch-adapter",
@@ -6828,7 +6828,7 @@
         },
         {
             "name": "schranz-search/seal-memory-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-memory-adapter",
@@ -6914,7 +6914,7 @@
         },
         {
             "name": "schranz-search/seal-multi-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-multi-adapter",
@@ -7001,7 +7001,7 @@
         },
         {
             "name": "schranz-search/seal-opensearch-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-opensearch-adapter",
@@ -7093,7 +7093,7 @@
         },
         {
             "name": "schranz-search/seal-read-write-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-read-write-adapter",
@@ -7180,7 +7180,7 @@
         },
         {
             "name": "schranz-search/seal-redisearch-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
@@ -7271,7 +7271,7 @@
         },
         {
             "name": "schranz-search/seal-solr-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-solr-adapter",
@@ -7362,7 +7362,7 @@
         },
         {
             "name": "schranz-search/seal-typesense-adapter",
-            "version": "0.1.x-dev",
+            "version": "0.1-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-typesense-adapter",
