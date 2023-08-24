@@ -365,7 +365,7 @@ MyAdapterTest
         public static function setUpBeforeClass(): void
         {
             $client = ClientHelper::getClient();
-            self::$adapter = new ElasticsearchAdapter($client);
+            self::$adapter = new MyAdapter($client);
 
             parent::setUpBeforeClass();
         }
@@ -458,6 +458,7 @@ Examples for different ``SchemaManager`` can be found in the official Repository
 - `ElasticsearchSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-elasticsearch-adapter/src/ElasticsearchSchemaManager.php>`__
 - `OpensearchSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-opensearch-adapter/src/OpensearchSchemaManager.php>`__
 - `MeilisearchSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-meilisearch-adapter/src/MeilisearchSchemaManager.php>`__
+- `LoupeSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-loupe-adapter/src/LoupeSchemaManager.php>`__
 - `RediSearchSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-redisearch-adapter/src/RediSearchSchemaManager.php>`__
 - `SolrSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-solr-adapter/src/SolrSchemaManager.php>`__
 - `TypesenseSchemaManager <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-typesense-adapter/src/TypesenseSchemaManager.php>`__
@@ -480,6 +481,7 @@ Examples for different ``Indexer`` can be found in the official Repository:
 - `ElasticsearchIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-elasticsearch-adapter/src/ElasticsearchIndexer.php>`__
 - `OpensearchIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-opensearch-adapter/src/OpensearchIndexer.php>`__
 - `MeilisearchIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-meilisearch-adapter/src/MeilisearchIndexer.php>`__
+- `LoupeIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-loupe-adapter/src/LoupeIndexer.php>`__
 - `RediSearchIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-redisearch-adapter/src/RediSearchIndexer.php>`__
 - `SolrIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-solr-adapter/src/SolrIndexer.php>`__
 - `TypesenseIndexer <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-typesense-adapter/src/TypesenseIndexer.php>`__
@@ -590,6 +592,7 @@ Examples for different ``Searcher`` can be found in the official Repository:
 - `ElasticsearchSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-elasticsearch-adapter/src/ElasticsearchSearcher.php>`__
 - `OpensearchSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-opensearch-adapter/src/OpensearchSearcher.php>`__
 - `MeilisearchSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-meilisearch-adapter/src/MeilisearchSearcher.php>`__
+- `LoupeSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-loupe-adapter/src/LoupeSearcher.php>`__
 - `RediSearchSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-redisearch-adapter/src/RediSearchSearcher.php>`__
 - `SolrSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-solr-adapter/src/SolrSearcher.php>`__
 - `TypesenseSearcher <https://github.com/schranz-search/schranz-search/blob/0.1/packages/seal-typesense-adapter/src/TypesenseSearcher.php>`__

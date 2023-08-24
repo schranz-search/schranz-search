@@ -56,7 +56,7 @@ This way it is easy to switch between different search engine software and servi
    * - ``Documents``
      - A structure of data that you want to index need to follow the structure of the fields of the index schema.
    * - ``Search Engine``
-     - Search Engine software or service where the data will actually be stored currently ``Meilisearch``, ``Opensearch``, ``Elasticsearch``, ``Algolia``, ``Redisearch``, ``Solr`` and ``Typesense`` is supported.
+     - Search Engine software or service where the data will actually be stored currently ``Meilisearch``, ``Opensearch``, ``Elasticsearch``, ``Algolia``, ``Loupe``, ``Redisearch``, ``Solr`` and ``Typesense`` is supported.
 
 Contents
 --------
@@ -87,6 +87,7 @@ Full list of packages provided by the SEAL project:
 - ``schranz-search/seal-opensearch-adapter`` - Adapter for the Opensearch search engine.
 - ``schranz-search/seal-meilisearch-adapter`` - Adapter for the Meilisearch search engine.
 - ``schranz-search/seal-redisearch-adapter`` - Adapter for the Redisearch search engine.
+- ``schranz-search/seal-loupe-adapter`` - Adapter for the Loupe search engine.
 - ``schranz-search/seal-solr-adapter`` - Adapter for the Solr search engine.
 - ``schranz-search/seal-typesense-adapter`` - Adapter for the Typesense search engine.
 - ``schranz-search/seal-read-write-adapter`` - Adapter to split read and write operations.

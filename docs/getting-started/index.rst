@@ -107,6 +107,14 @@ integration of the package or the ``Standalone`` version.
 
             composer require schranz-search/seal-redisearch-adapter
 
+    .. group-tab:: Loupe
+
+        Install the `Loupe <https://github.com/loupe-php/loupe>`__ adapter:
+
+        .. code-block:: bash
+
+            composer require schranz-search/seal-loupe-adapter
+
     .. group-tab:: Solr
 
         Install the `Solr <https://solr.apache.org/>`__ adapter:
@@ -374,6 +382,29 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                         $schema,
                     );
 
+            .. group-tab:: Loupe
+
+                Use the following code to create a new ``Engine`` using the ``Loupe`` adapter:
+
+                .. code-block:: php
+
+                    <?php
+
+                    use Loupe\Loupe\LoupeFactory;
+                    use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapter;
+                    use Schranz\Search\SEAL\Adapter\Loupe\LoupeHelper;
+                    use Schranz\Search\SEAL\Engine;
+
+                    $loupeHelper = new LoupeHelper(
+                        new LoupeFactory(),
+                        $directory,
+                    );
+
+                    $engine = new Engine(
+                        new LoupeAdapter($loupeHelper),
+                        $schema,
+                    );
+
             .. group-tab:: Solr
 
                 Use the following code to create a new ``Engine`` using the ``Solr`` adapter:
@@ -557,6 +588,28 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                         ],
                     ];
 
+            .. group-tab:: Loupe
+
+                Use the following configuration to use ``Loupe`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'loupe://var/indexes',
+                            ],
+                        ],
+                    ];
+
             .. group-tab:: Solr
 
                 Use the following configuration to use ``Solr`` as your default ``Engine`` adapter:
@@ -695,6 +748,22 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                         engines:
                             default:
                                 adapter: 'redis://127.0.0.1:6379'
+
+            .. group-tab:: Loupe
+
+                Use the following configuration to use ``Loupe`` as your default ``Engine`` adapter:
+
+                .. code-block:: yaml
+
+                    # config/packages/schranz_search.yaml
+
+                    schranz_search:
+                        schemas:
+                            default:
+                                dir: '%kernel.project_dir%/config/schemas'
+                        engines:
+                            default:
+                                adapter: 'loupe://var/indexes'
 
             .. group-tab:: Solr
 
@@ -842,6 +911,28 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                         'engines' => [
                             'default' => [
                                 'adapter' => 'redis://127.0.0.1:6379',
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Loupe
+
+                Use the following configuration to use ``Loupe`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // app/config/schranz_search.php
+
+                    return [
+                        'schemas' => [
+                            'default' => [
+                                'dir' => resource_path('schemas'),
+                            ],
+                        ],
+
+                        'engines' => [
+                            'default' => [
+                                'adapter' => 'loupe://var/indexes',
                             ],
                         ],
                     ];
@@ -1052,6 +1143,36 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                             ];
                         }
                     }
+            .. group-tab:: Loupe
+
+                Use the following configuration to use ``Loupe`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // src/App/src/ConfigProvider.php
+
+                    class ConfigProvider
+                    {
+                        public function __invoke(): array
+                        {
+                            return [
+                                // ...
+                                'schranz_search' => [
+                                    'schemas' => [
+                                        'default' => [
+                                            'dir' => 'config/schemas',
+                                        ],
+                                    ],
+
+                                    'engines' => [
+                                        'default' => [
+                                            'adapter' => 'loupe://var/indexes',
+                                        ],
+                                    ],
+                                ],
+                            ];
+                        }
+                    }
 
             .. group-tab:: Solr
 
@@ -1243,6 +1364,31 @@ It requires an instance of the ``Adapter`` which we did install before to connec
                             'engines' => [
                                 'default' => [
                                     'adapter' => 'redis://127.0.0.1:6379',
+                                ],
+                            ],
+                        ],
+                    ];
+
+            .. group-tab:: Loupe
+
+                Use the following configuration to use ``Loupe`` as your default ``Engine`` adapter:
+
+                .. code-block:: php
+
+                    <?php // config/common/params.php
+
+                    return [
+                        // ...
+                        'schranz-search/yii-module' => [
+                            'schemas' => [
+                                'default' => [
+                                    'dir' => 'config/schemas',
+                                ],
+                            ],
+
+                            'engines' => [
+                                'default' => [
+                                    'adapter' => 'loupe://var/indexes',
                                 ],
                             ],
                         ],
@@ -1456,6 +1602,12 @@ search engine.
 
         Depending on the service after a few seconds up to a minute the service is ready to use.
         And you can continue with the next step.
+
+    .. group-tab:: Loupe
+
+        As `Loupe <https://github.com/loupe-php/loupe>`__ is PHP based build on top of SQLite, there is no service other service required to use it.
+        You just need to make sure that you have the required `sqlite php extension <https://www.php.net/pdo_sqlite>`__` installed. The
+        php package manager `composer <https://getcomposer.org/>`__ should already tell you if you are missing the extension.
 
     .. group-tab:: Solr
 
