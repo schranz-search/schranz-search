@@ -143,7 +143,7 @@ final class SearchController
     }
 
     #[Route(route: '/loupe', name: 'loupe')]
-    public function elasticsearch(): string
+    public function loupe(): string
     {
         $class = $this->getAdapterClass($this->loupeEngine);
 
