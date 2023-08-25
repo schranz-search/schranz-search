@@ -98,7 +98,7 @@ final class LoupeHelper
             $configuration = \unserialize($configurationContent);
         }
 
-        if ('' === $this->directory || '0' === $this->directory) {
+        if ('' === $this->directory) {
             return $this->loupeFactory->createInMemory($configuration);
         }
 
