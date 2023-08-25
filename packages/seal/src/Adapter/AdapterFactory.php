@@ -85,7 +85,12 @@ final class AdapterFactory
                 $query = '?' . $query;
             }
 
-            $dsn = $dsn . '@' . $adapterName . $query;
+            if (\str_contains($dsn, ':///')) {
+                // make DSN like loupe:///full/path/project/var/indexes parseable
+                $dsn = \str_replace(':///', '://' . $adapterName . '/', $dsn);
+            } else {
+                $dsn = $dsn . '@' . $adapterName . $query;
+            }
 
             /**
              * @var array{
@@ -100,6 +105,7 @@ final class AdapterFactory
              * } $parsedDsn
              */
             $parsedDsn = \parse_url($dsn);
+
             $parsedDsn['host'] = '';
         }
 

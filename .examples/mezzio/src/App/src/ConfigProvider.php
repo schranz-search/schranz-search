@@ -73,7 +73,7 @@ class ConfigProvider
                         'adapter' => 'elasticsearch://127.0.0.1:9200',
                     ],
                     'loupe' => [
-                        'adapter' => 'loupe://',
+                        'adapter' => 'loupe://data/indexes',
                     ],
                     'meilisearch' => [
                         'adapter' => 'meilisearch://127.0.0.1:7700',

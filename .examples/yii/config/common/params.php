@@ -83,7 +83,7 @@ return [
                 'adapter' => 'elasticsearch://127.0.0.1:9200',
             ],
             'loupe' => [
-                'adapter' => 'loupe://',
+                'adapter' => 'loupe://runtime/indexes',
             ],
             'meilisearch' => [
                 'adapter' => 'meilisearch://127.0.0.1:7700',

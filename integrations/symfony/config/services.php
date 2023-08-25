@@ -19,6 +19,7 @@ use Schranz\Search\Integration\Symfony\Command\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;

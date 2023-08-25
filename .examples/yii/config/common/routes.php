@@ -12,6 +12,7 @@ return [
             Route::get('/')->action([SearchController::class, 'home'])->name('home'),
             Route::get('/algolia')->action([SearchController::class, 'algolia'])->name('algolia'),
             Route::get('/elasticsearch')->action([SearchController::class, 'elasticsearch'])->name('elasticsearch'),
+            Route::get('/loupe')->action([SearchController::class, 'loupe'])->name('loupe'),
             Route::get('/meilisearch')->action([SearchController::class, 'meilisearch'])->name('meilisearch'),
             Route::get('/memory')->action([SearchController::class, 'memory'])->name('Memory'),
             Route::get('/opensearch')->action([SearchController::class, 'opensearch'])->name('opensearch'),

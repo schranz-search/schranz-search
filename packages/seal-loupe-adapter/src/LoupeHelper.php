@@ -37,7 +37,7 @@ final class LoupeHelper
         private readonly LoupeFactory $loupeFactory,
         string $directory,
     ) {
-        $this->directory = '' !== $directory && '0' !== $directory ? (\rtrim($directory, '/') . '/') : '';
+        $this->directory = '' !== $directory ? (\rtrim($directory, '/') . '/') : '';
     }
 
     public function getLoupe(Index $index): Loupe
