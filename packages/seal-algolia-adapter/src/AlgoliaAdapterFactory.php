@@ -48,7 +48,7 @@ final class AlgoliaAdapterFactory implements AdapterFactoryInterface
      */
     public function createClient(array $dsn): SearchClient
     {
-        if ('algolia' !== $dsn['host']) {
+        if ('' !== $dsn['host']) {
             $client = $this->container?->get($dsn['host']);
 
             if (!$client instanceof SearchClient) {

@@ -43,6 +43,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/', App\Handler\SearchHandler::class, 'home');
     $app->get('/algolia', App\Handler\SearchAlgoliaHandler::class, 'algolia');
     $app->get('/elasticsearch', App\Handler\SearchElasticsearchHandler::class, 'elasticsearch');
+    $app->get('/loupe', App\Handler\SearchLoupeHandler::class, 'loupe');
     $app->get('/meilisearch', App\Handler\SearchMeilisearchHandler::class, 'meilisearch');
     $app->get('/memory', App\Handler\SearchMemoryHandler::class, 'memory');
     $app->get('/multi', App\Handler\SearchMultiHandler::class, 'multi');

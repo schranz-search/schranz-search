@@ -21,6 +21,7 @@ use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
@@ -108,6 +109,10 @@ final class ConfigProvider
 
         if (\class_exists(ElasticsearchAdapterFactory::class)) {
             $adapterFactories[ElasticsearchAdapterFactory::getName()] = ElasticsearchAdapterFactory::class;
+        }
+
+        if (\class_exists(LoupeAdapterFactory::class)) {
+            $adapterFactories[LoupeAdapterFactory::getName()] = LoupeAdapterFactory::class;
         }
 
         if (\class_exists(MeilisearchAdapterFactory::class)) {

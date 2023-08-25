@@ -22,6 +22,7 @@ use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
@@ -52,6 +53,7 @@ final class SearchBootloader extends Bootloader
     private const ADAPTER_FACTORIES = [
         AlgoliaAdapterFactory::class,
         ElasticsearchAdapterFactory::class,
+        LoupeAdapterFactory::class,
         OpensearchAdapterFactory::class,
         MeilisearchAdapterFactory::class,
         MemoryAdapterFactory::class,

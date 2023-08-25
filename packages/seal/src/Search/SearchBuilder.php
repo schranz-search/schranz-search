@@ -82,14 +82,19 @@ final class SearchBuilder
         return $this;
     }
 
-    public function getResult(): Result
+    public function getSearch(): Search
     {
-        return $this->searcher->search(new Search(
+        return new Search(
             $this->indexes,
             $this->filters,
             $this->sortBys,
             $this->limit,
             $this->offset,
-        ));
+        );
+    }
+
+    public function getResult(): Result
+    {
+        return $this->searcher->search($this->getSearch());
     }
 }

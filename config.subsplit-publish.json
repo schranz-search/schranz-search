@@ -26,6 +26,11 @@
             "target": "git@github.com:schranz-search/seal-redisearch-adapter.git"
         },
         {
+            "name": "SEALLoupeAdapter",
+            "directory": "packages/seal-loupe-adapter",
+            "target": "git@github.com:schranz-search/seal-loupe-adapter.git"
+        },
+        {
             "name": "SEALMeilisearchAdapter",
             "directory": "packages/seal-meilisearch-adapter",
             "target": "git@github.com:schranz-search/seal-meilisearch-adapter.git"

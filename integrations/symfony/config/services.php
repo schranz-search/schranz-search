@@ -19,6 +19,7 @@ use Schranz\Search\Integration\Symfony\Command\ReindexCommand;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
@@ -91,6 +92,15 @@ return static function (ContainerConfigurator $container) {
                 service('service_container'),
             ])
             ->tag('schranz_search.adapter_factory', ['name' => ElasticsearchAdapterFactory::getName()]);
+    }
+
+    if (\class_exists(LoupeAdapterFactory::class)) {
+        $container->services()
+            ->set('schranz_search.loupe.adapter_factory', LoupeAdapterFactory::class)
+            ->args([
+                service('service_container'),
+            ])
+            ->tag('schranz_search.adapter_factory', ['name' => LoupeAdapterFactory::getName()]);
     }
 
     if (\class_exists(OpensearchAdapterFactory::class)) {

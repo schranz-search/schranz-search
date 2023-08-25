@@ -17,6 +17,7 @@ use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Elasticsearch\ElasticsearchAdapterFactory;
+use Schranz\Search\SEAL\Adapter\Loupe\LoupeAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Meilisearch\MeilisearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Memory\MemoryAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Multi\MultiAdapterFactory;
@@ -62,6 +63,10 @@ if (\class_exists(AlgoliaAdapterFactory::class)) {
 
 if (\class_exists(ElasticsearchAdapterFactory::class)) {
     $adapterFactories['schranz_search.elasticsearch.adapter_factory'] = static fn (ContainerInterface $container) => new ElasticsearchAdapterFactory($container);
+}
+
+if (\class_exists(LoupeAdapterFactory::class)) {
+    $adapterFactories['schranz_search.loupe.adapter_factory'] = static fn (ContainerInterface $container) => new LoupeAdapterFactory($container);
 }
 
 if (\class_exists(OpensearchAdapterFactory::class)) {

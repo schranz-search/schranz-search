@@ -29,6 +29,10 @@ return [
             'dir' => resource_path('schemas'),
             'engine' => 'elasticsearch',
         ],
+        'loupe' => [
+            'dir' => resource_path('schemas'),
+            'engine' => 'loupe',
+        ],
         'meilisearch' => [
             'dir' => resource_path('schemas'),
             'engine' => 'meilisearch',
@@ -69,6 +73,9 @@ return [
         ],
         'elasticsearch' => [
             'adapter' => 'elasticsearch://127.0.0.1:9200',
+        ],
+        'loupe' => [
+            'adapter' => 'loupe://storage/indexes',
         ],
         'meilisearch' => [
             'adapter' => 'meilisearch://127.0.0.1:7700',

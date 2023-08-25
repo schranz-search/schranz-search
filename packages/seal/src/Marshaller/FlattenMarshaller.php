@@ -25,7 +25,10 @@ use Schranz\Search\SEAL\Schema\Field;
 final class FlattenMarshaller
 {
     public function __construct(
+        private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
+        private readonly string $separator = '.',
+        private readonly string $sourceField = '_source',
     ) {
     }
 
@@ -38,7 +41,7 @@ final class FlattenMarshaller
     public function marshall(array $fields, array $document): array
     {
         $flattenDocument = $this->flatten($fields, $document);
-        $flattenDocument['_source'] = \json_encode($document, \JSON_THROW_ON_ERROR);
+        $flattenDocument[$this->sourceField] = \json_encode($document, \JSON_THROW_ON_ERROR);
 
         return $flattenDocument;
     }
@@ -52,7 +55,7 @@ final class FlattenMarshaller
     public function unmarshall(array $fields, array $raw): array
     {
         /** @var array<string, mixed> */
-        return \json_decode($raw['_source'], true, flags: \JSON_THROW_ON_ERROR); // @phpstan-ignore-line
+        return \json_decode($raw[$this->sourceField], true, flags: \JSON_THROW_ON_ERROR); // @phpstan-ignore-line
     }
 
     /**
@@ -69,6 +72,7 @@ final class FlattenMarshaller
             }
 
             match (true) {
+                $field instanceof Field\DateTimeField => $raw[$name] = $this->flattenDateTime($raw[$field->name], $field), // @phpstan-ignore-line
                 $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $rootIsParentMultiple),
                 $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple),
                 default => null,
@@ -82,6 +86,35 @@ final class FlattenMarshaller
         }
 
         return $raw;
+    }
+
+    /**
+     * @param string|string[]|null $value
+     *
+     * @return int|string|string[]|int[]|null
+     */
+    private function flattenDateTime(null|string|array $value, Field\DateTimeField $field): null|int|string|array
+    {
+        if ($field->multiple) {
+            /** @var string[]|null $value */
+
+            return \array_map(function ($value) {
+                if (null !== $value && $this->dateAsInteger) {
+                    /** @var int */
+                    return \strtotime($value);
+                }
+
+                return $value;
+            }, (array) $value);
+        }
+
+        /** @var string|null $value */
+        if (null !== $value && $this->dateAsInteger) {
+            /** @var int */
+            return \strtotime($value);
+        }
+
+        return $value;
     }
 
     /**
@@ -100,7 +133,7 @@ final class FlattenMarshaller
             $flattenedObject = $this->flatten($field->fields, $object, $isParentMultiple);
 
             foreach ($flattenedObject as $key => $value) {
-                $flattenKey = $name . '.' . $key;
+                $flattenKey = $name . $this->separator . $key;
 
                 if (!$isParentMultiple) {
                     $newRawData[$flattenKey] = $value;
@@ -168,7 +201,7 @@ final class FlattenMarshaller
 
             $flattenedObject = $this->flatten($field->types[$type], $object, $isParentMultiple);
             foreach ($flattenedObject as $key => $value) {
-                $flattenKey = $name . '.' . $type . '.' . $key;
+                $flattenKey = $name . $this->separator . $type . $this->separator . $key;
 
                 if (!$isParentMultiple) {
                     $newRawData[$flattenKey] = $value;

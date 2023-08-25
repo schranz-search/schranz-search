@@ -36,6 +36,10 @@ class ConfigProvider
                         'dir' => 'config/schemas',
                         'engine' => 'elasticsearch',
                     ],
+                    'loupe' => [
+                        'dir' => 'config/schemas',
+                        'engine' => 'loupe',
+                    ],
                     'meilisearch' => [
                         'dir' => 'config/schemas',
                         'engine' => 'meilisearch',
@@ -67,6 +71,9 @@ class ConfigProvider
                     ],
                     'elasticsearch' => [
                         'adapter' => 'elasticsearch://127.0.0.1:9200',
+                    ],
+                    'loupe' => [
+                        'adapter' => 'loupe://data/indexes',
                     ],
                     'meilisearch' => [
                         'adapter' => 'meilisearch://127.0.0.1:7700',
@@ -118,6 +125,7 @@ class ConfigProvider
                 Handler\SearchHandler::class => Handler\SearchHandlerFactory::class,
                 Handler\SearchAlgoliaHandler::class => Handler\SearchAlgoliaHandlerFactory::class,
                 Handler\SearchElasticsearchHandler::class => Handler\SearchElasticsearchHandlerFactory::class,
+                Handler\SearchLoupeHandler::class => Handler\SearchLoupeHandlerFactory::class,
                 Handler\SearchMeilisearchHandler::class => Handler\SearchMeilisearchHandlerFactory::class,
                 Handler\SearchMemoryHandler::class => Handler\SearchMemoryHandlerFactory::class,
                 Handler\SearchMultiHandler::class => Handler\SearchMultiHandlerFactory::class,

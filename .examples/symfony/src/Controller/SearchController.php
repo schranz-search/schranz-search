@@ -29,6 +29,7 @@ class SearchController
                     <ul>
                         <li><a href="/algolia">Algolia</a></li>
                         <li><a href="/elasticsearch">Elasticsearch</a></li>
+                        <li><a href="/loupe">Loupe</a></li>
                         <li><a href="/meilisearch">Meilisearch</a></li>
                         <li><a href="/memory">Memory</a></li>
                         <li><a href="/opensearch">Opensearch</a></li>
@@ -100,6 +101,26 @@ HTML
             <html>
                 <head>
                     <title>Elasticsearch</title>
+                </head>
+                <body>
+                    <h1>$class</h1>
+                </body>
+            </html>
+HTML
+        );
+    }
+
+    #[Route('/loupe', name: 'loupe')]
+    public function loupe(EngineInterface $loupeEngine): Response
+    {
+        $class = $this->getAdapterClass($loupeEngine);
+
+        return new Response(
+            <<<HTML
+            <!doctype html>
+            <html>
+                <head>
+                    <title>Loupe</title>
                 </head>
                 <body>
                     <h1>$class</h1>
