@@ -55,7 +55,7 @@ jobs:
         uses: ./.github/workflows/callable-test.yml
         with:
             directory: 'packages/seal-loupe-adapter'
-            docker: true
+            docker: false
 
     redisearch-adapter:
         name: RediSearch Adapter
