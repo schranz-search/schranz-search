@@ -125,6 +125,7 @@ class ConfigProvider
                 Handler\SearchHandler::class => Handler\SearchHandlerFactory::class,
                 Handler\SearchAlgoliaHandler::class => Handler\SearchAlgoliaHandlerFactory::class,
                 Handler\SearchElasticsearchHandler::class => Handler\SearchElasticsearchHandlerFactory::class,
+                Handler\SearchLoupeHandler::class => Handler\SearchLoupeHandlerFactory::class,
                 Handler\SearchMeilisearchHandler::class => Handler\SearchMeilisearchHandlerFactory::class,
                 Handler\SearchMemoryHandler::class => Handler\SearchMemoryHandlerFactory::class,
                 Handler\SearchMultiHandler::class => Handler\SearchMultiHandlerFactory::class,
