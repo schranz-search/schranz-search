@@ -38,6 +38,24 @@ body[data-theme="dark"] .sphinx-tabs-panel {
     white-space: nowrap;
 }
 
+[name="TG91cGU="][role=tab] {
+    position: relative;
+}
+
+[name="TG91cGU="][role="tab"]::after {
+    content: 'New';
+    font-weight: bold;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    font-size: 0.5em;
+    line-height: 1;
+    background: #fc0;
+    color: black;
+    padding: 1px;
+    border-radius: 3px;
+}
+
 article table.align-default {
     margin-left: 0;
     margin-right: 0;
