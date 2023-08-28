@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a79c3fb33cdaffd00153423875f4a1a",
+    "content-hash": "c7fe30fd798d04eea9e84a70e8b2cc80",
     "packages": [
         {
             "name": "alexkart/curl-builder",
@@ -2684,7 +2684,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal",
-                "reference": "d3a371f2d76f575cd285499ba3294aab948a1a20"
+                "reference": "a3a46d1588e69ba7bf3beb82dc71fad1aefbbe1d"
             },
             "require": {
                 "php": "^8.1"
@@ -2695,7 +2695,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -2777,7 +2777,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../integrations/spiral",
-                "reference": "dc2dbcdef1a7a4b471e966a707493459093bb8c8"
+                "reference": "d91c307bbd1dceddcff1c4f644be419344642c83"
             },
             "require": {
                 "php": "^8.1",
@@ -2806,7 +2806,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23",
+                "rector/rector": "^0.18.1",
                 "schranz-search/seal-algolia-adapter": "^0.2",
                 "schranz-search/seal-elasticsearch-adapter": "^0.2",
                 "schranz-search/seal-loupe-adapter": "^0.2",
@@ -10348,21 +10348,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.15.25",
+            "version": "0.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841"
+                "reference": "ee72ef542680a7f47ed8c6784f78b032c0d2f381"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/015935c7ed9e48a4f5895ba974f337e20a263841",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ee72ef542680a7f47ed8c6784f78b032c0d2f381",
+                "reference": "ee72ef542680a7f47ed8c6784f78b032c0d2f381",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.14"
+                "phpstan/phpstan": "^1.10.31"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -10374,11 +10374,6 @@
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.15-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -10397,7 +10392,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.15.25"
+                "source": "https://github.com/rectorphp/rector/tree/0.18.1"
             },
             "funding": [
                 {
@@ -10405,7 +10400,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-20T16:07:39+00:00"
+            "time": "2023-08-28T18:01:58+00:00"
         },
         {
             "name": "revolt/event-loop",
@@ -10485,7 +10480,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-algolia-adapter",
-                "reference": "b4e79a48defff8048bee60ecd11b4c808e12d925"
+                "reference": "e32cc4c9d5d99752f6fa9050d6c529f401133d6f"
             },
             "require": {
                 "algolia/algoliasearch-client-php": "^3.3",
@@ -10499,7 +10494,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -10574,7 +10569,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-elasticsearch-adapter",
-                "reference": "096e8c7a861f48351aa854bd5f483b86908f4ed0"
+                "reference": "25bad159a83404789e062c2e4d4a1da7e155dc50"
             },
             "require": {
                 "elasticsearch/elasticsearch": "^8.5.3",
@@ -10591,7 +10586,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -10755,7 +10750,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-meilisearch-adapter",
-                "reference": "567c88a43437dbb595ff1f1c8804304e7ebb3481"
+                "reference": "ce32eba986bee1bcffdc7ed1c5da05a339ed6675"
             },
             "require": {
                 "meilisearch/meilisearch-php": "^1.0",
@@ -10771,7 +10766,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -10846,7 +10841,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-memory-adapter",
-                "reference": "853973d356c0cc214416264fddbb9f8b8a5ad950"
+                "reference": "afdddb658365a7781f9a1b4e11e13c51d59fa397"
             },
             "require": {
                 "php": "^8.1",
@@ -10858,7 +10853,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -10932,7 +10927,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-multi-adapter",
-                "reference": "c4f6a98c547f7e537d959c58c21ed3c8d3386a4e"
+                "reference": "03be1e5afac614f10624220ab9aa82526915a622"
             },
             "require": {
                 "php": "^8.1",
@@ -10945,7 +10940,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -11019,7 +11014,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-opensearch-adapter",
-                "reference": "77353bf70cbfaeb76bf2c0bcd7b41c950c5ede5c"
+                "reference": "0bbd86ed4a782fffcca80b9e2eaf9b2bc42d86cb"
             },
             "require": {
                 "opensearch-project/opensearch-php": "^2.0",
@@ -11036,7 +11031,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -11111,7 +11106,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-read-write-adapter",
-                "reference": "729a90c6b0a68b4b4af1831c28b22d8a8a1b5790"
+                "reference": "8f0021658428d3fcc5c14225081229655546239b"
             },
             "require": {
                 "php": "^8.1",
@@ -11124,7 +11119,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -11198,7 +11193,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
-                "reference": "9d087b9e3c347e1ecd8b36602bb2cbd347ae2fed"
+                "reference": "41e61bf02a4dedbae4ef985b555180bb0adbf763"
             },
             "require": {
                 "ext-json": "*",
@@ -11213,7 +11208,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
@@ -11289,7 +11284,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-solr-adapter",
-                "reference": "80fec924a5075119db2bc983d7d28eabe5a51a01"
+                "reference": "1133e02daab3939427cd9e76f7262c7eb7a136fd"
             },
             "require": {
                 "php": "^8.1",
@@ -11303,7 +11298,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23",
+                "rector/rector": "^0.18.1",
                 "symfony/event-dispatcher": "^5.4 || ^6.0"
             },
             "type": "library",
@@ -11380,7 +11375,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-typesense-adapter",
-                "reference": "78c676846659039ce5a726e0e3c633a10eb31ad0"
+                "reference": "fc6c11458b1063923e4dbd38b2f1af496784e556"
             },
             "require": {
                 "php": "^8.1",
@@ -11400,7 +11395,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^9.5.27",
-                "rector/rector": "^0.15.23"
+                "rector/rector": "^0.18.1"
             },
             "type": "library",
             "autoload": {
