@@ -4,5 +4,5 @@ runtime
 rr*
 protoc-gen-php-grpc*
 .env
-.phpunit.result.cache
+/.phpunit.cache
 .deptrac.cache

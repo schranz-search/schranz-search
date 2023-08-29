@@ -4,29 +4,26 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="vendor/autoload.php"
     backupGlobals="false"
-    backupStaticAttributes="false"
     colors="true"
-    verbose="false"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     processIsolation="false"
     stopOnFailure="false"
     stopOnError="false"
-    stderr="true">
+    stderr="true"
+    cacheDirectory=".phpunit.cache">
     <php>
         <env name="ALGOLIA_DSN" value="algolia://"/>
         <env name="TEST_INDEX_PREFIX" value="local_" />
     </php>
 
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
-            <directory suffix=".php">app/src</directory>
+            <directory>app/src</directory>
         </include>
-    </coverage>
+    </source>
+
     <testsuites>
         <testsuite name="Project">
-            <directory suffix="Test.php">tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
