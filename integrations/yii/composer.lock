@@ -4793,13 +4793,16 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-loupe-adapter",
-                "reference": "f36f23e8a6c6dc86f4071705a8f640e177b9fae1"
+                "reference": "02974d0a9a0444a19fcb2c6f3b318f653205ae57"
             },
             "require": {
                 "loupe/loupe": "^0.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
                 "schranz-search/seal": "^0.2"
+            },
+            "conflict": {
+                "doctrine/dbal": "<3.6.0"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",

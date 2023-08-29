@@ -11603,12 +11603,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "9160fb2612003a99a28abbd588519d5ab3a77024"
+                "reference": "c16c8b67835bc384c40b9f282b3a49a6f4cb5124"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/9160fb2612003a99a28abbd588519d5ab3a77024",
-                "reference": "9160fb2612003a99a28abbd588519d5ab3a77024",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c16c8b67835bc384c40b9f282b3a49a6f4cb5124",
+                "reference": "c16c8b67835bc384c40b9f282b3a49a6f4cb5124",
                 "shasum": ""
             },
             "conflict": {
@@ -11774,6 +11774,7 @@
                 "friendsofsymfony/rest-bundle": ">=1.2,<1.2.2",
                 "friendsofsymfony/user-bundle": ">=1.2,<1.3.5",
                 "friendsoftypo3/mediace": ">=7.6.2,<7.6.5",
+                "friendsoftypo3/openid": ">=4.5,<4.5.31|>=4.7,<4.7.16|>=6,<6.0.11|>=6.1,<6.1.6",
                 "froala/wysiwyg-editor": "<3.2.7",
                 "froxlor/froxlor": "<2.1",
                 "fuel/core": "<1.8.1",
@@ -12254,7 +12255,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-23T09:04:12+00:00"
+            "time": "2023-08-29T00:13:38+00:00"
         },
         {
             "name": "sanmai/later",
@@ -12566,13 +12567,16 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-loupe-adapter",
-                "reference": "f36f23e8a6c6dc86f4071705a8f640e177b9fae1"
+                "reference": "02974d0a9a0444a19fcb2c6f3b318f653205ae57"
             },
             "require": {
                 "loupe/loupe": "^0.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
                 "schranz-search/seal": "^0.2"
+            },
+            "conflict": {
+                "doctrine/dbal": "<3.6.0"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
