@@ -2,4 +2,4 @@ vendor/
 composer.phar
 phpunit.xml
 composer.json.bak
-.phpunit.result.cache
+.phpunit.cache/

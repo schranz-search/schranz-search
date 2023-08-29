@@ -1,7 +1,7 @@
 /vendor/
 /composer.phar
 /phpunit.xml
-/.phpunit.result.cache
+/.phpunit.cache
 /tests/var
 /.php-cs-fixer.php
 /.php-cs-fixer.cache

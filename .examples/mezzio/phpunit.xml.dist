@@ -2,29 +2,27 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-    beStrictAboutCoversAnnotation="true"
     beStrictAboutOutputDuringTests="true"
     beStrictAboutTodoAnnotatedTests="true"
     bootstrap="vendor/autoload.php"
-    convertDeprecationsToExceptions="true"
     executionOrder="depends,defects"
     failOnRisky="true"
     failOnWarning="true"
-    verbose="true"
-    colors="true">
+    colors="true"
+    cacheDirectory=".phpunit.cache">
     <php>
         <env name="ALGOLIA_DSN" value="algolia://" />
     </php>
 
     <testsuites>
         <testsuite name="default">
-            <directory suffix="Test.php">test</directory>
+            <directory>test</directory>
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <source>
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

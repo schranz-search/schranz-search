@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Tests\Marshaller;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Schema\Field;
@@ -23,9 +24,8 @@ class FlattenMarshallerTest extends TestCase
      * @param array<string, mixed> $document
      * @param array<string, mixed> $flattenDocument
      * @param Field\AbstractField[] $fields
-     *
-     * @dataProvider provideData
      */
+    #[DataProvider('provideData')]
     public function testMarshall(array $document, array $flattenDocument, array $fields): void
     {
         $marshaller = new FlattenMarshaller(addRawFilterTextField: true);
@@ -39,9 +39,8 @@ class FlattenMarshallerTest extends TestCase
      * @param array<string, mixed> $document
      * @param array<string, mixed> $flattenDocument
      * @param Field\AbstractField[] $fields
-     *
-     * @dataProvider provideData
      */
+    #[DataProvider('provideData')]
     public function testUnmarshall(array $document, array $flattenDocument, array $fields): void
     {
         $marshaller = new FlattenMarshaller(addRawFilterTextField: true);
@@ -59,7 +58,7 @@ class FlattenMarshallerTest extends TestCase
      *     2: Field\AbstractField[],
      * }>
      */
-    protected function provideData(): \Generator
+    public static function provideData(): \Generator
     {
         yield 'complex_object' => [
             [
