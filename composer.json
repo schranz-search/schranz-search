@@ -8,13 +8,14 @@
         }
     ],
     "require-dev": {
-        "schranz/mono": "^1.0.1"
+        "schranz/mono": "^2.0.0"
     },
     "scripts": {
-        "post-install-cmd": "@php vendor/bin/mono composer install",
-        "post-update-cmd": "@php vendor/bin/mono composer update",
-        "fix": "@php vendor/bin/mono composer fix",
-        "lint": "@php vendor/bin/mono composer lint",
-        "test": "@php vendor/bin/mono composer test"
+        "post-install-cmd": "@php vendor/bin/mono run composer install",
+        "post-update-cmd": "@php vendor/bin/mono run composer update",
+        "fix": "@php vendor/bin/mono run composer fix",
+        "lint": "@php vendor/bin/mono run composer lint",
+        "test": "@php vendor/bin/mono run composer test",
+        "build-docs": "sphinx-build docs docs/_build"
     }
 }
