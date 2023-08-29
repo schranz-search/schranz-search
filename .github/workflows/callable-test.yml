@@ -84,7 +84,7 @@ jobs:
               # so instead of using GitHub variables we require to generate a unique id
               run: |
                   echo "uuid=$(uuidgen)" >> $GITHUB_OUTPUT
-                  echo $GITHUB_OUTPUT
+                  cat $GITHUB_OUTPUT
 
             - name: Run tests
               run: composer test
