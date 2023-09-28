@@ -59,6 +59,7 @@ Some more research links:
 - `https://vald.vdaas.org/ <https://vald.vdaas.org/>`__
 - `https://solr.apache.org/guide/solr/latest/query-guide/dense-vector-search.html <https://solr.apache.org/guide/solr/latest/query-guide/dense-vector-search.html>`__
 - `https://github.com/facebookresearch/faiss <https://github.com/facebookresearch/faiss>`__
+- `https://blog.vespa.ai/billion-scale-knn/ <https://blog.vespa.ai/billion-scale-knn/>`__
 
 UI/UX related links:
 --------------------
