@@ -1,6 +1,6 @@
 services:
   redis:
-    image: redis/redis-stack:6.2.6-v9
+    image: redis/redis-stack:7.2.0-v2
     ports:
       - 6379:6379 # redis server
       - 8001:8001 # redis insight
