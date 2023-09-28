@@ -57,7 +57,7 @@ services:
         - redisearch-data:/data
 
   typesense:
-    image: typesense/typesense:0.24.1
+    image: typesense/typesense:0.25.1
     ports:
       - "8108:8108"
     environment:
