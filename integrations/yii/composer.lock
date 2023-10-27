@@ -5325,11 +5325,11 @@
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
-                "reference": "15aab25c3b138010307a8703851659946050573e"
+                "reference": "f9a0bed3925f1bf4c42f50eeaed9f1e07123b74a"
             },
             "require": {
                 "ext-json": "*",
-                "ext-redis": "^5",
+                "ext-redis": "^5 || ^6.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
                 "schranz-search/seal": "^0.2"
