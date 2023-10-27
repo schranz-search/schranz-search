@@ -1845,7 +1845,7 @@ many exists in the given index.
         {
             $result = $this->engine->createSearchBuilder()
                 ->addIndex('blog')
-                ->addFilter(new \Schranz\Search\SEAL\Search\Condition\SearchCondition('first')
+                ->addFilter(new \Schranz\Search\SEAL\Search\Condition\SearchCondition('first'))
                 ->getResult();
 
             foreach ($result as $document) {
