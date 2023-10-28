@@ -16,22 +16,25 @@ jobs:
         runs-on: ubuntu-latest
         name: Publish package sub-splits
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
                 with:
                     fetch-depth: '0'
                     persist-credentials: 'false'
+
             -   uses: frankdejonge/use-github-token@1.0.1
                 with:
                     authentication: 'alexander-schranz:${{ secrets.PERSONAL_ACCESS_TOKEN }}'
                     user_name: 'Alexander Schranz'
                     user_email: 'alexander@sulu.io'
+
             -   name: Cache splitsh-lite
                 id: splitsh-cache
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 with:
                     path: './.splitsh'
                     key: '${{ runner.os }}-splitsh'
-            -   uses: frankdejonge/use-subsplit-publish@1.0.0-beta.7
+
+            -   uses: frankdejonge/use-subsplit-publish@1.0.0
                 with:
                     source-branch: '${{ github.ref_name }}'
                     config-path: './config.subsplit-publish.json'

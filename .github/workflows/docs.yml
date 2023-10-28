@@ -13,10 +13,12 @@ jobs:
     docs:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
                   ref: "${{ github.event.pull_request.merge_commit_sha }}"
+
             - uses: actions/setup-python@v3
+
             - name: Install dependencies
               run: |
                   pip install -r docs/requirements.txt
