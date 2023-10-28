@@ -194,7 +194,7 @@ final class Marshaller
             }
 
             /** @var array<array<string, mixed>> $dataList */
-            $dataList = $field->multiple ? $raw[$name][$type] : [$raw[$name][$type]]; // @phpstan-ignore-line
+            $dataList = $field->multiple ? $raw[$name][$type] : [$raw[$name][$type]];
 
             foreach ($dataList as $data) {
                 $documentData = \array_replace([$field->typeField => $type], $this->unmarshall($typedFields, $data));
