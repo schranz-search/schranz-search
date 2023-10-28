@@ -8,7 +8,7 @@
         }
     ],
     "require-dev": {
-        "schranz/mono": "^2.0.0"
+        "schranz/mono": "^2.0.1"
     },
     "scripts": {
         "post-install-cmd": "@php vendor/bin/mono run composer install",
