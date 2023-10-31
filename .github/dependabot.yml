@@ -9,87 +9,137 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-algolia-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-elasticsearch-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
+  - package-ecosystem: "composer"
+    directory: "/packages/seal-loupe-adapter"
+    schedule:
+      interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-meilisearch-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-memory-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-multi-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-opensearch-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-read-write-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-redisearch-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-solr-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/packages/seal-typesense-adapter"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/integrations/laravel"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/integrations/mezzio"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/integrations/spiral"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/integrations/symfony"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/integrations/yii"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/.examples/laravel"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/.examples/mezzio"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/.examples/spiral"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/.examples/symfony"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
   - package-ecosystem: "composer"
     directory: "/.examples/yii"
     schedule:
       interval: "weekly"
+    update:
+      strategy: "widen"
