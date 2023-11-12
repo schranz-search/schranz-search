@@ -71,14 +71,14 @@ final class TypesenseSearcher implements SearcherInterface
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:=' . $filter->identifier, // TODO escape?
+                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:=' . $this->escapeFilterValue($filter->identifier),
                 $filter instanceof Condition\SearchCondition => $searchParams['q'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':=' . $filter->value, // TODO escape?
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ':!=' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':>' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $filter->value, // TODO escape?
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ':!=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':>' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $this->escapeFilterValue($filter->value),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -126,5 +126,14 @@ final class TypesenseSearcher implements SearcherInterface
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit['document']);
         }
+    }
+
+    private function escapeFilterValue(string|int|float|bool $value): string
+    {
+        return match ($value) {
+            \is_string($value) => '"' . $value . '"', // TODO escape?
+            \is_bool($value) => $value ? 'true' : 'false',
+            default => (string) $value,
+        };
     }
 }
