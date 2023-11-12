@@ -110,6 +110,7 @@ class MarshallerTest extends TestCase
             'created' => $dateAsInteger ? 1_643_022_000 : '2022-01-24T12:00:00+01:00',
             'commentsCount' => 2,
             'rating' => 3.5,
+            'isSpecial' => true,
             'comments' => [
                 [
                     'email' => 'admin.nonesearchablefield@localhost',
