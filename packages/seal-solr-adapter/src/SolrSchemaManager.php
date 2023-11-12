@@ -154,7 +154,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
                 ],
                 $field instanceof Field\BooleanField => $indexFields[$name] = [
                     'name' => $name,
-                    'type' => 'bool',
+                    'type' => 'boolean',
                     'indexed' => $field->searchable,
                     'docValues' => $field->filterable || $field->sortable,
                     'stored' => false,
