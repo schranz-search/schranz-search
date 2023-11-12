@@ -60,6 +60,7 @@ final class TestingHelper
             'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
             'commentsCount' => new Field\IntegerField('commentsCount', filterable: true, sortable: true),
             'rating' => new Field\FloatField('rating', filterable: true, sortable: true),
+            'isSpecial' => new Field\FloatField('isSpecial', filterable: true),
             'comments' => new Field\ObjectField('comments', [
                 'email' => new Field\TextField('email', searchable: false),
                 'text' => new Field\TextField('text'),
@@ -144,6 +145,7 @@ final class TestingHelper
                 'created' => '2022-01-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
+                'isSpecial' => true,
                 'comments' => [
                     [
                         'email' => 'admin.nonesearchablefield@localhost',
@@ -171,6 +173,7 @@ final class TestingHelper
                 'created' => '2022-12-26T12:00:00+01:00',
                 'commentsCount' => 0,
                 'rating' => 2.5,
+                'isSpecial' => false,
                 'comments' => [],
                 'tags' => ['UI', 'UX'],
                 'categoryIds' => [2, 3],
