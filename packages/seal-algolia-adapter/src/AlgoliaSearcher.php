@@ -84,14 +84,14 @@ final class AlgoliaSearcher implements SearcherInterface
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $filter->identifier,
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $filter->value,
-                $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $filter->value,
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -135,5 +135,14 @@ final class AlgoliaSearcher implements SearcherInterface
 
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
+    }
+
+    private function escapeFilterValue(string|int|float|bool $value): string
+    {
+        return match ($value) {
+            \is_string($value) => '"' . $value . '"', // TODO escape?
+            \is_bool($value) => $value ? 'true' : 'false',
+            default => (string) $value,
+        };
     }
 }
