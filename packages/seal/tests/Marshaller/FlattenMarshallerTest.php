@@ -99,6 +99,7 @@ class FlattenMarshallerTest extends TestCase
                 'created' => '2022-01-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
+                'isSpecial' => true,
                 'comments' => [
                     [
                         'email' => 'admin.nonesearchablefield@localhost',
@@ -126,6 +127,7 @@ class FlattenMarshallerTest extends TestCase
                 'created' => '2022-01-24T12:00:00+01:00',
                 'commentsCount' => 2,
                 'rating' => 3.5,
+                'isSpecial' => true,
                 'comments.email' => ['admin.nonesearchablefield@localhost', 'example.nonesearchablefield@localhost'],
                 'comments.text' => ['Awesome blog!', 'Like this blog!'],
                 'tags' => ['Tech', 'UI'],
@@ -161,6 +163,7 @@ class FlattenMarshallerTest extends TestCase
                 'created' => new Field\DateTimeField('created', filterable: true, sortable: true),
                 'commentsCount' => new Field\IntegerField('commentsCount', searchable: false, filterable: true, sortable: true),
                 'rating' => new Field\FloatField('rating', searchable: false, filterable: true, sortable: true),
+                'isSpecial' => new Field\BooleanField('rating', searchable: false, filterable: true),
                 'comments' => new Field\ObjectField('comments', [
                     'email' => new Field\TextField('email', searchable: false),
                     'text' => new Field\TextField('text'),
