@@ -191,16 +191,16 @@ final class RediSearchSearcher implements SearcherInterface
         return new \RuntimeException('Redis: ' . $lastError);
     }
 
-    private function escape(string|int|float|bool $text, bool $asNumber = false): string
+    private function escape(string|int|float|bool $value, bool $asNumber = false): string
     {
-        if (\is_bool($text)) {
-            return $text ? '1' : '0';
+        if (\is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
         if ($asNumber) {
-            return (string) ((float) $text);
+            return (string) ((float) $value);
         }
 
-        return \addcslashes((string) $text, ',.<>{}[]"\':;!@#$%^&*()-+=~');
+        return \addcslashes((string) $value, ',.<>{}[]"\':;!@#$%^&*()-+=~');
     }
 }
