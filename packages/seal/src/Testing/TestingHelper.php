@@ -175,7 +175,7 @@ final class TestingHelper
                 'rating' => 2.5,
                 'isSpecial' => false,
                 'comments' => [],
-                'tags' => ['UI', 'UX'],
+                'tags' => ['UI', 'UX', "The 17\" O'Conner && O`Series \n OR a || 1%2 book?"],
                 'categoryIds' => [2, 3],
             ],
             [
