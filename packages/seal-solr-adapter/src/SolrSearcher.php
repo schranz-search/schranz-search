@@ -81,13 +81,13 @@ final class SolrSearcher implements SearcherInterface
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $helper->escapeTerm((string) $filter->identifier),
-                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm((string) $filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapeTerm($helper->escapeTerm((string) $filter->value)),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $helper->escapeTerm((string) $filter->value) . ' TO *}',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $helper->escapeTerm((string) $filter->value) . ' TO *]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $helper->escapeTerm((string) $filter->value) . '}',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $helper->escapeTerm((string) $filter->value) . ']',
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $helper->escapePhrase((string) $filter->identifier),
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapePhrase((string) $filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $helper->escapePhrase((string) $filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $helper->escapePhrase((string) $filter->value) . ' TO *}',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $helper->escapePhrase((string) $filter->value) . ' TO *]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $helper->escapePhrase((string) $filter->value) . '}',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $helper->escapePhrase((string) $filter->value) . ']',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
