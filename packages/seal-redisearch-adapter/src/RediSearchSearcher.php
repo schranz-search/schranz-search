@@ -73,14 +73,14 @@ final class RediSearchSearcher implements SearcherInterface
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escape($filter->query))) . '%%', // levenshtein of 2 per word
-                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escape($filter->identifier) . '}',
-                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escape($filter->value) . '}',
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escape($filter->value) . '}',
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[(' . $this->escape($filter->value, true) . ' inf]',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escape($filter->value, true) . ' inf]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf (' . $this->escape($filter->value, true) . ']',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf ' . $this->escape($filter->value, true) . ']',
+                $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
+                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
+                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[(' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -93,8 +93,8 @@ final class RediSearchSearcher implements SearcherInterface
         $arguments = [];
         foreach ($search->sortBys as $field => $direction) {
             $arguments[] = 'SORTBY';
-            $arguments[] = $this->escape($field);
-            $arguments[] = \strtoupper($this->escape($direction));
+            $arguments[] = $this->escapeFilterValue($field);
+            $arguments[] = \strtoupper((string) $this->escapeFilterValue($direction));
         }
 
         if ($search->offset || $search->limit) {
@@ -191,16 +191,12 @@ final class RediSearchSearcher implements SearcherInterface
         return new \RuntimeException('Redis: ' . $lastError);
     }
 
-    private function escape(string|int|float|bool $value, bool $asNumber = false): string
+    private function escapeFilterValue(string|int|float|bool $value): string
     {
-        if (\is_bool($value)) {
-            return $value ? 'true' : 'false';
-        }
-
-        if ($asNumber) {
-            return (string) ((float) $value);
-        }
-
-        return \addcslashes((string) $value, ',.<>{}[]"\':;!@#$%^&*()-+=~');
+        return match (true) {
+            \is_string($value) => '' . \addcslashes($value, ',./(){}[]:;~!@#$%^&*-=+|\'`"<>? ' . "\t" . "\n"),
+            \is_bool($value) => $value ? 'true' : 'false',
+            default => (string) $value,
+        };
     }
 }
