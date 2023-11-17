@@ -139,8 +139,8 @@ final class AlgoliaSearcher implements SearcherInterface
 
     private function escapeFilterValue(string|int|float|bool $value): string
     {
-        return match ($value) {
-            \is_string($value) => '"' . $value . '"', // TODO escape?
+        return match (true) {
+            \is_string($value) => '"' . addslashes($value) . '"',
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
