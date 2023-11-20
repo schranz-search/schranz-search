@@ -75,14 +75,14 @@ final class LoupeSearcher implements SearcherInterface
         $filters = [];
         foreach ($search->filters as $filter) {
             match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = \'' . $filter->identifier . '\'', // TODO escape?
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = \'' . $filter->value . '\'', // TODO escape?
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != \'' . $filter->value . '\'', // TODO escape?
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $filter->value, // TODO escape?
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $filter->value, // TODO escape?
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -120,6 +120,17 @@ final class LoupeSearcher implements SearcherInterface
             $this->hitsToDocuments($search->indexes, $result->getHits()),
             $result->getTotalHits(),
         );
+    }
+
+    private function escapeFilterValue(string|int|float|bool $value): string
+    {
+        // TODO replace with SearchParameters::escapeFilterValue once updated Loupe to 0.5
+        //      see also https://github.com/loupe-php/loupe/pull/54
+        return match (true) {
+            \is_bool($value) => $value ? '1' : '0',
+            \is_int($value), \is_float($value) => (string) $value,
+            default => "'" . \str_replace("'", "''", $value) . "'"
+        };
     }
 
     /**

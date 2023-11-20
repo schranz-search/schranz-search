@@ -130,8 +130,8 @@ final class TypesenseSearcher implements SearcherInterface
 
     private function escapeFilterValue(string|int|float|bool $value): string
     {
-        return match ($value) {
-            \is_string($value) => '"' . $value . '"', // TODO escape?
+        return match (true) {
+            \is_string($value) => '"' . \addcslashes($value, '"&') . '"', // TODO escape?
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
