@@ -197,7 +197,7 @@ final class RediSearchSearcher implements SearcherInterface
             \is_string($value) => \str_replace(
                 ["\n", "\r", "\t"],
                 ["\\\n", "\\\r", "\\\t"], // double escaping required see https://github.com/RediSearch/RediSearch/issues/4092#issuecomment-1819932938
-                \addcslashes($value, ',./(){}[]:;~!@#$%^&*-=+|\'`"<>? ')
+                \addcslashes($value, ',./(){}[]:;~!@#$%^&*-=+|\'`"<>? '),
             ),
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,

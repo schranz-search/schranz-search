@@ -342,7 +342,7 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\EqualCondition('tags', "The 17\" O'Conner && O`Series \n OR a || 1%2 book?"));
+        $search->addFilter(new Condition\EqualCondition('tags', "^The 17\" O'Conner && O`Series \n OR a || 1%2 \r\n book? \r \twhat \\ text // ok? end$"));
 
         $expectedDocumentsVariantA = [
             $documents[1],

@@ -129,7 +129,7 @@ final class LoupeSearcher implements SearcherInterface
         return match (true) {
             \is_bool($value) => $value ? '1' : '0',
             \is_int($value), \is_float($value) => (string) $value,
-            default => "'" . str_replace("'", "''", $value) . "'"
+            default => "'" . \str_replace("'", "''", $value) . "'"
         };
     }
 
