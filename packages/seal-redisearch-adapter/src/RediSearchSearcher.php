@@ -194,7 +194,7 @@ final class RediSearchSearcher implements SearcherInterface
     private function escapeFilterValue(string|int|float|bool $value): string
     {
         return match (true) {
-            \is_string($value) => '' . \addcslashes($value, ',./(){}[]:;~!@#$%^&*-=+|\'`"<>? ' . "\t" . "\n"),
+            \is_string($value) => \str_replace("\n", "\\\n", \addcslashes($value, ',./(){}[]:;~!@#$%^&*-=+|\'`"<>?' . " " . "\t")),
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
