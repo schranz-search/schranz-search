@@ -27,6 +27,7 @@ final class ClientHelper
             [$host, $port] = \explode(':', $_ENV['SOLR_HOST'] ?? '127.0.0.1:8983');
 
             $adapter = new Curl();
+            $adapter->setTimeout(30);
             $eventDispatcher = new EventDispatcher();
             $options = [
                 'endpoint' => [
