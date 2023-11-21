@@ -42,6 +42,9 @@
         "rector/rector": "^0.18.1",
         "symfony/event-dispatcher": "^5.4 || ^6.0"
     },
+    "conflict": {
+        "solarium/solarium": "6.x-dev"
+    },
     "scripts": {
         "test": [
             "Composer\\Config::disableProcessTimeout",
