@@ -331,7 +331,12 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         $schema = self::getSchema();
 
-        foreach ($documents as $document) {
+        $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 \r\n book? \r \twhat \\ text // ok? end$";
+        foreach ($documents as &$document) {
+            if ($document['uuid'] === '79848403-c1a1-4420-bcc2-06ed537e0d4d') {
+                $document['tags'][] = $specialString;
+            }
+
             self::$taskHelper->tasks[] = self::$indexer->save(
                 $schema->indexes[TestingHelper::INDEX_COMPLEX],
                 $document,
@@ -342,7 +347,7 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\EqualCondition('tags', "^The 17\" O'Conner && O`Series \n OR a || 1%2 \r\n book? \r \twhat \\ text // ok? end$"));
+        $search->addFilter(new Condition\EqualCondition('tags', $specialString));
 
         $expectedDocumentsVariantA = [
             $documents[1],
