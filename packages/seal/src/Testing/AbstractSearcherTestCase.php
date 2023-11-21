@@ -325,13 +325,13 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
-    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$"): void
+    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$"): void
     {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
-        foreach ($documents as &$document) {
+        foreach ($documents as $key => $document) {
             if ('79848403-c1a1-4420-bcc2-06ed537e0d4d' === $document['uuid']) {
                 $document['tags'][] = $specialString;
             }
@@ -341,6 +341,8 @@ abstract class AbstractSearcherTestCase extends TestCase
                 $document,
                 ['return_slow_promise_result' => true],
             );
+
+            $documents[$key] = $document;
         }
         self::$taskHelper->waitForAll();
 
