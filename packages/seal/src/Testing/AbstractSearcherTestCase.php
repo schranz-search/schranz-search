@@ -325,7 +325,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
-    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // ok? end$"): void
+    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$"): void
     {
         $documents = TestingHelper::createComplexFixtures();
 

@@ -154,7 +154,9 @@ final class SolrSearcher implements SearcherInterface
 
     private function escapeFilterValue(Helper $helper, string|int|float|bool $value): string
     {
-        return '"' . \addcslashes((string) $value, '"+-&|!(){}[]^"~*?:\\/') . '"';
+        $value = \str_replace(["\r\n", "\r"], "\n", (string) $value); // see https://github.com/solariumphp/solarium/issues/1104#issuecomment-1821719852
+
+        return '"' . \addcslashes($value, '"+-&|!(){}[]^~*?:\\/ ') . '"';
     }
 
     /**
