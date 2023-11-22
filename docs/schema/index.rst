@@ -310,16 +310,16 @@ Lets have a look at the following example fields:
     $document = [
         // ...
         "header" => [
-            "title": "Title",
+            "title" => "Title",
         ],
         "comments" => [
             [
-                "text": "This looks great!",
-                "author": 1,
+                "text" => "This looks great!",
+                "author" => 1,
             ],
             [
-                "text": "What an awesome achievement!",
-                "author": 2,
+                "text" => "What an awesome achievement!",
+                "author" => 2,
             ],
         ],
     ];
@@ -369,9 +369,9 @@ Lets have a look at the following example fields:
     $documentA = [
         // ...
         "header" => [
-            "type": "image",
-            "title": "Title",
-            "media": 1,
+            "type" => "image",
+            "title" => "Title",
+            "media" => 1,
         ],
         "blocks" => [
             [
@@ -401,9 +401,9 @@ Lets have a look at the following example fields:
     $documentB = [
         // ...
         "header" => [
-            "type": "video",
-            "title": "Title",
-            "media": "https://www.youtube.com/watch?v=Ix6qBW4a1xg&t=826s",
+            "type" => "video",
+            "title" => "Title",
+            "media" => "https://www.youtube.com/watch?v=Ix6qBW4a1xg&t=826s",
         ],
         "blocks" => [
             [
