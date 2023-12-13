@@ -22,7 +22,8 @@ use Schranz\Search\SEAL\Schema\Schema;
 use Schranz\Search\SEAL\Search\Condition;
 use Schranz\Search\SEAL\Search\SearchBuilder;
 
-abstract class AbstractSearcherTestCase extends TestCase {
+abstract class AbstractSearcherTestCase extends TestCase
+{
     protected static AdapterInterface $adapter;
 
     protected static SchemaManagerInterface $schemaManager;
@@ -35,7 +36,13 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
     private static TaskHelper $taskHelper;
 
-    public static function setUpBeforeClass(): void {
+    protected function setUp(): void
+    {
+        self::$taskHelper = new TaskHelper();
+    }
+
+    public static function setUpBeforeClass(): void
+    {
         self::$schemaManager = self::$adapter->getSchemaManager();
         self::$indexer = self::$adapter->getIndexer();
         self::$searcher = self::$adapter->getSearcher();
@@ -52,15 +59,8 @@ abstract class AbstractSearcherTestCase extends TestCase {
         self::$taskHelper->waitForAll();
     }
 
-    protected static function getSchema(): Schema {
-        if (!isset(self::$schema)) {
-            self::$schema = TestingHelper::createSchema();
-        }
-
-        return self::$schema;
-    }
-
-    public static function tearDownAfterClass(): void {
+    public static function tearDownAfterClass(): void
+    {
         self::$taskHelper->waitForAll();
 
         foreach (self::getSchema()->indexes as $index) {
@@ -70,15 +70,25 @@ abstract class AbstractSearcherTestCase extends TestCase {
         self::$taskHelper->waitForAll();
     }
 
-    public function testFindMultipleIndexes(): void {
+    protected static function getSchema(): Schema
+    {
+        if (!isset(self::$schema)) {
+            self::$schema = TestingHelper::createSchema();
+        }
+
+        return self::$schema;
+    }
+
+    public function testFindMultipleIndexes(): void
+    {
         $document = TestingHelper::createSimpleFixtures()[0];
 
         $schema = self::getSchema();
 
         self::$indexer->save(
-                $schema->indexes[TestingHelper::INDEX_SIMPLE],
-                $document,
-                ['return_slow_promise_result' => true],
+            $schema->indexes[TestingHelper::INDEX_SIMPLE],
+            $document,
+            ['return_slow_promise_result' => true],
         )->wait();
 
         $search = new SearchBuilder($schema, self::$searcher);
@@ -92,22 +102,23 @@ abstract class AbstractSearcherTestCase extends TestCase {
         $this->assertSame($expectedDocument, $loadedDocument);
 
         self::$indexer->delete(
-                $schema->indexes[TestingHelper::INDEX_SIMPLE],
-                $document['id'],
-                ['return_slow_promise_result' => true],
+            $schema->indexes[TestingHelper::INDEX_SIMPLE],
+            $document['id'],
+            ['return_slow_promise_result' => true],
         )->wait();
     }
 
-    public function testSearchCondition(): void {
+    public function testSearchCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -117,21 +128,21 @@ abstract class AbstractSearcherTestCase extends TestCase {
         $search->addFilter(new Condition\SearchCondition('Blog'));
 
         $expectedDocumentsVariantA = [
-                $documents[0],
-                $documents[1],
+            $documents[0],
+            $documents[1],
         ];
         $expectedDocumentsVariantB = [
-                $documents[1],
-                $documents[0],
+            $documents[1],
+            $documents[0],
         ];
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(2, $loadedDocuments);
 
         $this->assertTrue(
-                $expectedDocumentsVariantA===$loadedDocuments
-                || $expectedDocumentsVariantB===$loadedDocuments,
-                'Not correct documents where found.',
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
         $search = new SearchBuilder($schema, self::$searcher);
@@ -142,23 +153,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testNoneSearchableFields(): void {
+    public function testNoneSearchableFields(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -170,68 +182,70 @@ abstract class AbstractSearcherTestCase extends TestCase {
         $this->assertCount(0, [...$search->getResult()]);
     }
 
-    public function testLimitAndOffset(): void {
+    public function testLimitAndOffset(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
 
         $search = (new SearchBuilder($schema, self::$searcher))
-                ->addIndex(TestingHelper::INDEX_COMPLEX)
-                ->addFilter(new Condition\SearchCondition('Blog'))
-                ->limit(1);
+            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->addFilter(new Condition\SearchCondition('Blog'))
+            ->limit(1);
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(1, $loadedDocuments);
 
         $this->assertTrue(
-                [$documents[0]]===$loadedDocuments
-                || [$documents[1]]===$loadedDocuments,
-                'Not correct documents where found.',
+            [$documents[0]] === $loadedDocuments
+            || [$documents[1]] === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
-        $isFirstDocumentOnPage1 = [$documents[0]]===$loadedDocuments;
+        $isFirstDocumentOnPage1 = [$documents[0]] === $loadedDocuments;
 
         $search = (new SearchBuilder($schema, self::$searcher))
-                ->addIndex(TestingHelper::INDEX_COMPLEX)
-                ->addFilter(new Condition\SearchCondition('Blog'))
-                ->offset(1)
-                ->limit(1);
+            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->addFilter(new Condition\SearchCondition('Blog'))
+            ->offset(1)
+            ->limit(1);
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(1, $loadedDocuments);
         $this->assertSame(
-                $isFirstDocumentOnPage1 ? [$documents[1]]:[$documents[0]],
-                $loadedDocuments,
+            $isFirstDocumentOnPage1 ? [$documents[1]] : [$documents[0]],
+            $loadedDocuments,
         );
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testEqualCondition(): void {
+    public function testEqualCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -241,28 +255,159 @@ abstract class AbstractSearcherTestCase extends TestCase {
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
-                $documents[0],
-                $documents[1],
+            $documents[0],
+            $documents[1],
         ];
         $expectedDocumentsVariantB = [
-                $documents[1],
-                $documents[0],
+            $documents[1],
+            $documents[0],
         ];
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(2, $loadedDocuments);
 
         $this->assertTrue(
-                $expectedDocumentsVariantA===$loadedDocuments
-                || $expectedDocumentsVariantB===$loadedDocuments,
-                'Not correct documents where found.',
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testEqualConditionWithBoolean(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\EqualCondition('isSpecial', true));
+
+        $expectedDocumentsVariantA = [
+            $documents[0],
+        ];
+        $expectedDocumentsVariantB = [
+            $documents[0],
+        ];
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+
+        $this->assertTrue(
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$"): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $key => $document) {
+            if ('79848403-c1a1-4420-bcc2-06ed537e0d4d' === $document['uuid']) {
+                $document['tags'][] = $specialString;
+            }
+
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+
+            $documents[$key] = $document;
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\EqualCondition('tags', $specialString));
+
+        $expectedDocumentsVariantA = [
+            $documents[1],
+        ];
+        $expectedDocumentsVariantB = [
+            $documents[1],
+        ];
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+
+        $this->assertTrue(
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
+    public function testMultiEqualCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
+        $search->addFilter(new Condition\EqualCondition('tags', 'UX'));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertCount(1, $loadedDocuments);
+
+        $this->assertSame(
+            [$documents[1]],
+            $loadedDocuments,
+        );
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
@@ -300,144 +445,17 @@ abstract class AbstractSearcherTestCase extends TestCase {
         }
     }
 
-    public function testEqualConditionWithBoolean(): void {
+    public function testNotEqualCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
-            );
-        }
-        self::$taskHelper->waitForAll();
-
-        $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\EqualCondition('isSpecial', true));
-
-        $expectedDocumentsVariantA = [
-                $documents[0],
-        ];
-        $expectedDocumentsVariantB = [
-                $documents[0],
-        ];
-
-        $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(1, $loadedDocuments);
-
-        $this->assertTrue(
-                $expectedDocumentsVariantA===$loadedDocuments
-                || $expectedDocumentsVariantB===$loadedDocuments,
-                'Not correct documents where found.',
-        );
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
-            );
-        }
-    }
-
-    public function testEqualConditionSpecialString(string $specialString = "^The 17\" O'Conner && O`Series \n OR a || 1%2 1~2 1*2 \r\n book? \r \twhat \\ text: }{ )( ][ - + // \n\r ok? end$"): void {
-        $documents = TestingHelper::createComplexFixtures();
-
-        $schema = self::getSchema();
-
-        foreach ($documents as $key => $document) {
-            if ('79848403-c1a1-4420-bcc2-06ed537e0d4d'===$document['uuid']) {
-                $document['tags'][] = $specialString;
-            }
-
-            self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
-            );
-
-            $documents[$key] = $document;
-        }
-        self::$taskHelper->waitForAll();
-
-        $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\EqualCondition('tags', $specialString));
-
-        $expectedDocumentsVariantA = [
-                $documents[1],
-        ];
-        $expectedDocumentsVariantB = [
-                $documents[1],
-        ];
-
-        $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(1, $loadedDocuments);
-
-        $this->assertTrue(
-                $expectedDocumentsVariantA===$loadedDocuments
-                || $expectedDocumentsVariantB===$loadedDocuments,
-                'Not correct documents where found.',
-        );
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
-            );
-        }
-    }
-
-    public function testMultiEqualCondition(): void {
-        $documents = TestingHelper::createComplexFixtures();
-
-        $schema = self::getSchema();
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
-            );
-        }
-        self::$taskHelper->waitForAll();
-
-        $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
-        $search->addFilter(new Condition\EqualCondition('tags', 'UX'));
-
-        $loadedDocuments = [...$search->getResult()];
-        $this->assertCount(1, $loadedDocuments);
-
-        $this->assertSame(
-                [$documents[1]],
-                $loadedDocuments,
-        );
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
-            );
-        }
-    }
-
-    public function testNotEqualCondition(): void {
-        $documents = TestingHelper::createComplexFixtures();
-
-        $schema = self::getSchema();
-
-        foreach ($documents as $document) {
-            self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -447,42 +465,43 @@ abstract class AbstractSearcherTestCase extends TestCase {
         $search->addFilter(new Condition\NotEqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
-                $documents[2],
-                $documents[3],
+            $documents[2],
+            $documents[3],
         ];
         $expectedDocumentsVariantB = [
-                $documents[3],
-                $documents[2],
+            $documents[3],
+            $documents[2],
         ];
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(2, $loadedDocuments);
 
         $this->assertTrue(
-                $expectedDocumentsVariantA===$loadedDocuments
-                || $expectedDocumentsVariantB===$loadedDocuments,
-                'Not correct documents where found.',
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
+            'Not correct documents where found.',
         );
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testGreaterThanCondition(): void {
+    public function testGreaterThanCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -500,23 +519,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testGreaterThanEqualCondition(): void {
+    public function testGreaterThanEqualCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -530,8 +550,8 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
-                    $loadedDocument['rating'] ?? null,
-                    'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertGreaterThanOrEqual(2.5, $loadedDocument['rating']);
@@ -539,23 +559,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testGreaterThanEqualConditionMultiValue(): void {
+    public function testGreaterThanEqualConditionMultiValue(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -570,7 +591,7 @@ abstract class AbstractSearcherTestCase extends TestCase {
         foreach ($loadedDocuments as $loadedDocument) {
             /** @var int[] $categoryIds */
             $categoryIds = $loadedDocument['categoryIds'];
-            $biggestCategoryId = \array_reduce($categoryIds, fn(?int $categoryId, ?int $item): ?int => \max($categoryId, $item));
+            $biggestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => \max($categoryId, $item));
 
             $this->assertNotNull($biggestCategoryId);
             $this->assertGreaterThanOrEqual(3.0, $biggestCategoryId);
@@ -578,23 +599,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testLessThanCondition(): void {
+    public function testLessThanCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -608,8 +630,8 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
-                    $loadedDocument['rating'] ?? null,
-                    'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertLessThan(3.5, $loadedDocument['rating']);
@@ -617,23 +639,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testLessThanEqualCondition(): void {
+    public function testLessThanEqualCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -647,8 +670,8 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($loadedDocuments as $loadedDocument) {
             $this->assertNotNull(
-                    $loadedDocument['rating'] ?? null,
-                    'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
+                $loadedDocument['rating'] ?? null,
+                'Expected only documents with rating document "' . $loadedDocument['uuid'] . '" without rating returned.',
             );
 
             $this->assertLessThanOrEqual(3.5, $loadedDocument['rating']);
@@ -656,23 +679,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testLessThanEqualConditionMultiValue(): void {
+    public function testLessThanEqualConditionMultiValue(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -687,7 +711,7 @@ abstract class AbstractSearcherTestCase extends TestCase {
         foreach ($loadedDocuments as $loadedDocument) {
             /** @var int[] $categoryIds */
             $categoryIds = $loadedDocument['categoryIds'];
-            $smallestCategoryId = \array_reduce($categoryIds, fn(?int $categoryId, ?int $item): ?int => null!==$categoryId ? \min($categoryId, $item):$item);
+            $smallestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => null !== $categoryId ? \min($categoryId, $item) : $item);
 
             $this->assertNotNull($smallestCategoryId);
             $this->assertLessThanOrEqual(2.0, $smallestCategoryId);
@@ -695,23 +719,24 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
 
-    public function testSortByAsc(): void {
+    public function testSortByAsc(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -726,9 +751,9 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
 
@@ -740,16 +765,17 @@ abstract class AbstractSearcherTestCase extends TestCase {
         }
     }
 
-    public function testSortByDesc(): void {
+    public function testSortByDesc(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -764,9 +790,9 @@ abstract class AbstractSearcherTestCase extends TestCase {
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
         $beforeRating = \PHP_INT_MAX;
@@ -775,9 +801,5 @@ abstract class AbstractSearcherTestCase extends TestCase {
             $this->assertLessThanOrEqual($beforeRating, $rating);
             $beforeRating = $rating;
         }
-    }
-
-    protected function setUp(): void {
-        self::$taskHelper = new TaskHelper();
     }
 }
