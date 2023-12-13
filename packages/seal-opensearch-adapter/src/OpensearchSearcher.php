@@ -71,7 +71,7 @@ final class OpensearchSearcher implements SearcherInterface
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
-                $filter instanceof Condition\SearchCondition => $query['query_string']['query'] = $filter->query,
+                $filter instanceof Condition\SearchCondition => $query['bool']['must']['query_string']['query'] = $filter->query,
                 $filter instanceof Condition\EqualCondition => $query['bool']['filter'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
                 $filter instanceof Condition\NotEqualCondition => $query['bool']['filter']['bool']['must_not'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
                 $filter instanceof Condition\GreaterThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gt'] = $filter->value,
