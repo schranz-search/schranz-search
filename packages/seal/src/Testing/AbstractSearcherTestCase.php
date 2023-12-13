@@ -419,9 +419,9 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->save(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document,
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
             );
         }
         self::$taskHelper->waitForAll();
@@ -438,9 +438,9 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         foreach ($documents as $document) {
             self::$taskHelper->tasks[] = self::$indexer->delete(
-                    $schema->indexes[TestingHelper::INDEX_COMPLEX],
-                    $document['uuid'],
-                    ['return_slow_promise_result' => true],
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
             );
         }
     }
