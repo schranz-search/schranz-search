@@ -412,7 +412,8 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
-    public function testEqualConditionWithSearchCondition(): void {
+    public function testEqualConditionWithSearchCondition(): void
+    {
         $documents = TestingHelper::createComplexFixtures();
 
         $schema = self::getSchema();
