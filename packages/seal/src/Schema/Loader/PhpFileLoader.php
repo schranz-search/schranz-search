@@ -64,6 +64,8 @@ final class PhpFileLoader implements LoaderInterface
                 $name = $index->name;
                 if (isset($indexes[$name])) {
                     $index = new Index($this->indexNamePrefix . $name, $this->mergeFields($indexes[$index->name]->fields, $index->fields));
+                } else {
+                    $index = new Index($this->indexNamePrefix . $name, $index->fields);
                 }
 
                 $indexes[$name] = $index;
