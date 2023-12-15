@@ -81,4 +81,20 @@ class PhpFileLoaderTest extends TestCase
 
         $this->assertSame('prefix_blog', $schema->indexes['blog']->name);
     }
+
+    public function testLoadBasicWithPrefix(): void
+    {
+        $schema = (new PhpFileLoader([__DIR__ . '/fixtures/basic'], 'prefix_'))->load();
+
+        $this->assertEqualsCanonicalizing(
+                [
+                        'news',
+                        'blog',
+                ],
+                \array_keys($schema->indexes),
+        );
+
+        $this->assertSame('prefix_blog', $schema->indexes['blog']->name);
+        $this->assertSame('prefix_news', $schema->indexes['news']->name);
+    }
 }
