@@ -27,6 +27,9 @@ jobs:
                     - php-version: '8.2'
                       dependency-versions: 'highest'
 
+                    - php-version: '8.3'
+                      dependency-versions: 'highest'
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v4
