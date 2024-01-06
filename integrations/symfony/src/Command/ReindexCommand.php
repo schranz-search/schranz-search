@@ -38,7 +38,7 @@ final class ReindexCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
         $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'The name of the index to create the schema for.');
