@@ -33,7 +33,7 @@ final class IndexDropCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('engine', InputArgument::OPTIONAL, 'The name of the engine to create the schema for.');
         $this->addArgument('index', InputArgument::OPTIONAL, 'The name of the index to create the schema for.');

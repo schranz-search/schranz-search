@@ -31,7 +31,7 @@ final class IndexDropCommand extends Command
         parent::__construct('schranz:search:index-drop');
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Drop configured search indexes.');
         $this->addArgument('engine', InputArgument::OPTIONAL, 'The name of the engine to create the schema for.');

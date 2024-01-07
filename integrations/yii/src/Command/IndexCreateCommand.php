@@ -30,7 +30,7 @@ final class IndexCreateCommand extends Command
         parent::__construct('schranz:search:index-create');
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Create configured search indexes.');
         $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
