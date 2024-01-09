@@ -199,6 +199,19 @@
     "schranz-search/seal-typesense-adapter": {
         "version": "0.1.x-dev"
     },
+    "schranz-search/symfony-bundle": {
+        "version": "0.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.2",
+            "ref": "dadad590775bc3badb33f606f15b724dadab0423"
+        },
+        "files": [
+            "config/packages/schranz_search.yaml",
+            "config/schemas/.gitignore"
+        ]
+    },
     "sebastian/cli-parser": {
         "version": "2.0.0"
     },
