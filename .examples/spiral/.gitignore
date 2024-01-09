@@ -6,3 +6,4 @@ protoc-gen-php-grpc*
 .env
 /.phpunit.cache
 .deptrac.cache
+/.php-cs-fixer.cache

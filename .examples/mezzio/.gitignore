@@ -1,4 +1,4 @@
-/.phpcs-cache
+/.php-cs-fixer.cache
 /.phpunit.cache
 /clover.xml
 /coveralls-upload.json
