@@ -17,7 +17,7 @@ return static function (RectorConfig $rectorConfig, string $directory): void {
         $directory . '/vendor',
     ]);
 
-    $rectorConfig->phpstanConfig($directory . '/phpstan.neon');
+    $rectorConfig->phpstanConfig($directory . '/phpstan.dist.neon');
 
     // $rectorConfig->importNames();
     // $rectorConfig->importShortClasses(false);

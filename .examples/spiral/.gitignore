@@ -7,3 +7,4 @@ protoc-gen-php-grpc*
 /.phpunit.cache
 .deptrac.cache
 /.php-cs-fixer.cache
+/phpstan.neon

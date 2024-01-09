@@ -36,6 +36,9 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
+# local phpstan config
+/phpstan.neon
+
 # NPM packages
 /node_modules
 .env
