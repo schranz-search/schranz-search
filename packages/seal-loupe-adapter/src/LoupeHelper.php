@@ -51,21 +51,34 @@ final class LoupeHelper
 
     public function existIndex(Index $index): bool
     {
-        return \file_exists($this->getIndexFile($index));
+        $indexDirectory = $this->getIndexDirectory($index);
+
+        return \file_exists($indexDirectory);
     }
 
     public function dropIndex(Index $index): void
     {
         if ($this->existIndex($index)) {
-            \unlink($this->getIndexFile($index));
-            \unlink($this->getConfigurationFile($index));
+            $indexDirectory = $this->getIndexDirectory($index);
+
+            // beside the .db and our own .loupe file there exists other files which we need to remove
+            $iterator = new \FilesystemIterator($indexDirectory);
+            foreach ($iterator as $fileInfo) {
+                $filePath = (string) $fileInfo;
+                if (\is_file($filePath)) {
+                    \unlink($filePath);
+                }
+            }
+
+            \rmdir($indexDirectory);
         }
     }
 
     public function createIndex(Index $index): void
     {
-        if (!\file_exists($this->directory)) {
-            \mkdir($this->directory, recursive: true);
+        $indexDirectory = $this->getIndexDirectory($index);
+        if (!\file_exists($indexDirectory)) {
+            \mkdir($indexDirectory, recursive: true);
         }
 
         // dumping the configuration allows us to search and index without knowing the configuration
@@ -73,7 +86,6 @@ final class LoupeHelper
         // would require then to know the configuration
         $configuration = $this->createConfiguration($index);
         \file_put_contents($this->getConfigurationFile($index), \serialize($configuration));
-        \touch($this->getIndexFile($index));
         $this->loupe[$index->name] = $this->createLoupe($index, $configuration);
     }
 
@@ -102,7 +114,7 @@ final class LoupeHelper
             return $this->loupeFactory->createInMemory($configuration);
         }
 
-        return $this->loupeFactory->create($this->getIndexFile($index), $configuration);
+        return $this->loupeFactory->create($this->getIndexDirectory($index), $configuration);
     }
 
     private function createConfiguration(Index $index): Configuration
@@ -114,13 +126,13 @@ final class LoupeHelper
             ->withSortableAttributes(\array_map(fn (string $field) => \str_replace('.', self::SEPERATOR, $field), $index->sortableFields));
     }
 
-    private function getIndexFile(Index $index): string
+    private function getIndexDirectory(Index $index): string
     {
-        return $this->directory . $index->name . '.db';
+        return $this->directory . $index->name . '/';
     }
 
     private function getConfigurationFile(Index $index): string
     {
-        return $this->directory . $index->name . '.loupe';
+        return $this->getIndexDirectory($index) . 'config.loupe';
     }
 }

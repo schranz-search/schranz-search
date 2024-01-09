@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41282228286b99030a3a51d2799a3f51",
+    "content-hash": "b3b1e3166041b03d5020047942d4d0eb",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -432,16 +432,16 @@
         },
         {
             "name": "loupe/loupe",
-            "version": "0.4.0",
+            "version": "0.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loupe-php/loupe.git",
-                "reference": "2fc7306899d89ed8e71a21c9636b9871d7951699"
+                "reference": "36bfaa32fb5acf1b33fbbce9f28e900ec02ca244"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/2fc7306899d89ed8e71a21c9636b9871d7951699",
-                "reference": "2fc7306899d89ed8e71a21c9636b9871d7951699",
+                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/36bfaa32fb5acf1b33fbbce9f28e900ec02ca244",
+                "reference": "36bfaa32fb5acf1b33fbbce9f28e900ec02ca244",
                 "shasum": ""
             },
             "require": {
@@ -452,7 +452,7 @@
                 "nitotm/efficient-language-detector": "^2.0",
                 "php": "^8.1",
                 "psr/log": "^3.0",
-                "toflar/state-set-index": "^1.0",
+                "toflar/state-set-index": "^2.0.1",
                 "voku/portable-utf8": "^6.0",
                 "wamania/php-stemmer": "^3.0"
             },
@@ -483,7 +483,7 @@
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
                 "issues": "https://github.com/loupe-php/loupe/issues",
-                "source": "https://github.com/loupe-php/loupe/tree/0.4.0"
+                "source": "https://github.com/loupe-php/loupe/tree/0.5.3"
             },
             "funding": [
                 {
@@ -491,7 +491,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-09-01T12:04:21+00:00"
+            "time": "2023-12-19T16:49:00+00:00"
         },
         {
             "name": "mjaschen/phpgeo",
@@ -1297,16 +1297,16 @@
         },
         {
             "name": "toflar/state-set-index",
-            "version": "1.0.2",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Toflar/state-set-index.git",
-                "reference": "a4277c050b69d8d5fb61d27aee4eef2092b4fac3"
+                "reference": "27fe48fd7c231a7ec5b495ca7f6e433b0add0519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Toflar/state-set-index/zipball/a4277c050b69d8d5fb61d27aee4eef2092b4fac3",
-                "reference": "a4277c050b69d8d5fb61d27aee4eef2092b4fac3",
+                "url": "https://api.github.com/repos/Toflar/state-set-index/zipball/27fe48fd7c231a7ec5b495ca7f6e433b0add0519",
+                "reference": "27fe48fd7c231a7ec5b495ca7f6e433b0add0519",
                 "shasum": ""
             },
             "require": {
@@ -1336,9 +1336,9 @@
             "description": "Implementation of the State Set Index Algorithm",
             "support": {
                 "issues": "https://github.com/Toflar/state-set-index/issues",
-                "source": "https://github.com/Toflar/state-set-index/tree/1.0.2"
+                "source": "https://github.com/Toflar/state-set-index/tree/2.0.1"
             },
-            "time": "2023-08-18T10:03:59+00:00"
+            "time": "2023-10-06T07:27:46+00:00"
         },
         {
             "name": "voku/portable-ascii",
