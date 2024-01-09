@@ -1506,7 +1506,7 @@ search engine.
 
             services:
               elasticsearch:
-                image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+                image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
                 environment:
                   discovery.type: single-node
                   xpack.security.enabled: 'false'
@@ -1582,7 +1582,7 @@ search engine.
 
             services:
               redis:
-                image: redis/redis-stack:latest
+                image: redis/redis-stack:7.2.0-v6
                 ports:
                   - 6379:6379 # redis server
                   - 8001:8001 # redis insight
@@ -1667,7 +1667,7 @@ search engine.
 
             services:
               typesense:
-                image: typesense/typesense:0.24.1
+                image: typesense/typesense:0.25.2
                 ports:
                   - "8108:8108"
                 environment:
