@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b09ec19979ff931b13ebdadff6bd7a0e",
+    "content-hash": "1347d958af25ddd1bbbf3b9ed13e2df6",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -853,7 +853,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",
@@ -1556,12 +1556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "d619c8b4e692d5fae76630a95c905e5ff8fbd01b"
+                "reference": "ff095c3c65c144f32a811685a81195c4df53fb99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/d619c8b4e692d5fae76630a95c905e5ff8fbd01b",
-                "reference": "d619c8b4e692d5fae76630a95c905e5ff8fbd01b",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ff095c3c65c144f32a811685a81195c4df53fb99",
+                "reference": "ff095c3c65c144f32a811685a81195c4df53fb99",
                 "shasum": ""
             },
             "require": {
@@ -1607,7 +1607,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2024-01-09T19:23:09+00:00"
+            "time": "2024-01-10T19:34:09+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1896,12 +1896,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0b350298cb8124650499932d5085e690dbf4d0a2"
+                "reference": "cdbfb612264335f9f48d6a4cef784fb005ab5440"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0b350298cb8124650499932d5085e690dbf4d0a2",
-                "reference": "0b350298cb8124650499932d5085e690dbf4d0a2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cdbfb612264335f9f48d6a4cef784fb005ab5440",
+                "reference": "cdbfb612264335f9f48d6a4cef784fb005ab5440",
                 "shasum": ""
             },
             "require": {
@@ -1951,7 +1951,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-09T12:20:45+00:00"
+            "time": "2024-01-10T13:37:08+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
