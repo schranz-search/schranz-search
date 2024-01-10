@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
-use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
@@ -80,7 +80,7 @@ class TypesenseAdapterFactory implements AdapterFactoryInterface
             return $this->container->get(HttpClientInterface::class);
         }
 
-        return HttpClientDiscovery::find();
+        return Psr18ClientDiscovery::find();
     }
 
     public static function getName(): string
