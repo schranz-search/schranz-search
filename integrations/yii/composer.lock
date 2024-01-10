@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "699418c6f7e68afb6390e7cb4c309acc",
+    "content-hash": "0ff6594c6901500bc2fe550a3be7e703",
     "packages": [
         {
             "name": "psr/container",
@@ -166,7 +166,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal",
@@ -2831,12 +2831,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "d619c8b4e692d5fae76630a95c905e5ff8fbd01b"
+                "reference": "ff095c3c65c144f32a811685a81195c4df53fb99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/d619c8b4e692d5fae76630a95c905e5ff8fbd01b",
-                "reference": "d619c8b4e692d5fae76630a95c905e5ff8fbd01b",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/ff095c3c65c144f32a811685a81195c4df53fb99",
+                "reference": "ff095c3c65c144f32a811685a81195c4df53fb99",
                 "shasum": ""
             },
             "require": {
@@ -2882,7 +2882,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2024-01-09T19:23:09+00:00"
+            "time": "2024-01-10T19:34:09+00:00"
         },
         {
             "name": "nitotm/efficient-language-detector",
@@ -3636,12 +3636,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "0b350298cb8124650499932d5085e690dbf4d0a2"
+                "reference": "cdbfb612264335f9f48d6a4cef784fb005ab5440"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/0b350298cb8124650499932d5085e690dbf4d0a2",
-                "reference": "0b350298cb8124650499932d5085e690dbf4d0a2",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cdbfb612264335f9f48d6a4cef784fb005ab5440",
+                "reference": "cdbfb612264335f9f48d6a4cef784fb005ab5440",
                 "shasum": ""
             },
             "require": {
@@ -3691,7 +3691,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-09T12:20:45+00:00"
+            "time": "2024-01-10T13:37:08+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -4612,17 +4612,17 @@
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-algolia-adapter",
-                "reference": "ca87334ce906bb3abd500c5195b09b48d2ed187b"
+                "reference": "f97f131f0ece9bd435afcae520802713b724b473"
             },
             "require": {
                 "algolia/algoliasearch-client-php": "^3.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
@@ -4701,17 +4701,17 @@
         },
         {
             "name": "schranz-search/seal-elasticsearch-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-elasticsearch-adapter",
-                "reference": "8aa6120a7da3528ec9334a22c9aafd881a98c0e4"
+                "reference": "37536dadfc9feedd92394904a8b4003ee774f12e"
             },
             "require": {
                 "elasticsearch/elasticsearch": "^8.5.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.0",
@@ -4793,17 +4793,17 @@
         },
         {
             "name": "schranz-search/seal-loupe-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-loupe-adapter",
-                "reference": "a13ba2ba5ae643b7b37be86ef13872254f50ac9e"
+                "reference": "5060f4b649ea33fcb059bfbc52ccce1d8dde27b5"
             },
             "require": {
                 "loupe/loupe": "^0.5",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "conflict": {
                 "doctrine/dbal": "<3.6.0"
@@ -4885,17 +4885,17 @@
         },
         {
             "name": "schranz-search/seal-meilisearch-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-meilisearch-adapter",
-                "reference": "3466a325f5e15247202d0296c5c61f53383b4071"
+                "reference": "11cb51e23a175ad74635cf6ae7c07f58d5988e31"
             },
             "require": {
                 "meilisearch/meilisearch-php": "^1.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.5",
@@ -4976,15 +4976,15 @@
         },
         {
             "name": "schranz-search/seal-memory-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-memory-adapter",
-                "reference": "ce1e58ada40ea53f3a03aa689de7011bd803478c"
+                "reference": "8077326aa772bc67b023b50c88cf4175515dfc46"
             },
             "require": {
                 "php": "^8.1",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
@@ -5062,16 +5062,16 @@
         },
         {
             "name": "schranz-search/seal-multi-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-multi-adapter",
-                "reference": "6196fa9efb259f76f0882063eb1610b348d164a5"
+                "reference": "2f611f6a77a51018a2c5b56712adf62474be0e1b"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
@@ -5149,17 +5149,17 @@
         },
         {
             "name": "schranz-search/seal-opensearch-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-opensearch-adapter",
-                "reference": "b2343a3b85c7c71db063e85d0e50d9a00884c9fc"
+                "reference": "be3fc265dc2ba628b7ad73126758372ceaee8a45"
             },
             "require": {
                 "opensearch-project/opensearch-php": "^2.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.0",
@@ -5241,16 +5241,16 @@
         },
         {
             "name": "schranz-search/seal-read-write-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-read-write-adapter",
-                "reference": "1fd18fe71deba22696492545b0aaaf8d72ce1b1f"
+                "reference": "ad4b9e0dbba16ab6f1c4e0f1a801a649a629e03f"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
@@ -5328,18 +5328,18 @@
         },
         {
             "name": "schranz-search/seal-redisearch-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
-                "reference": "9cb6fde22ba6846f0d9b8334fd09bd6437325d12"
+                "reference": "de05020723a924f0105a42bb16cf962c60158f9b"
             },
             "require": {
                 "ext-json": "*",
                 "ext-redis": "^5 || ^6.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2"
+                "schranz-search/seal": "^0.3"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.15",
@@ -5419,16 +5419,16 @@
         },
         {
             "name": "schranz-search/seal-solr-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-solr-adapter",
-                "reference": "418d66ca1dc23dda9917b0fe224faf430493f368"
+                "reference": "0ff44eed31ea8d2ab2bbc390a31ebb49d592c8a6"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2",
+                "schranz-search/seal": "^0.3",
                 "solarium/solarium": "^6.3"
             },
             "conflict": {
@@ -5513,16 +5513,16 @@
         },
         {
             "name": "schranz-search/seal-typesense-adapter",
-            "version": "0.2.x-dev",
+            "version": "0.3.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-typesense-adapter",
-                "reference": "fadd0729d9f0c3ee5384799ae5d3ad7cdde87da3"
+                "reference": "02d7f61ff197cae7fc23228c570b17742a0c1e99"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.2",
+                "schranz-search/seal": "^0.3",
                 "symfony/http-client": "^5.4 || ^6.0 || ^7.0",
                 "typesense/typesense-php": "^4.8.1"
             },
@@ -6531,16 +6531,16 @@
         },
         {
             "name": "solarium/solarium",
-            "version": "6.3.4",
+            "version": "6.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solariumphp/solarium.git",
-                "reference": "7a7232f69caa35c966ca0eb96ce8b1c5606c82fc"
+                "reference": "ae4ea592dc92d2be4dfd0a329f1ffbe3cbd01cf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solariumphp/solarium/zipball/7a7232f69caa35c966ca0eb96ce8b1c5606c82fc",
-                "reference": "7a7232f69caa35c966ca0eb96ce8b1c5606c82fc",
+                "url": "https://api.github.com/repos/solariumphp/solarium/zipball/ae4ea592dc92d2be4dfd0a329f1ffbe3cbd01cf3",
+                "reference": "ae4ea592dc92d2be4dfd0a329f1ffbe3cbd01cf3",
                 "shasum": ""
             },
             "require": {
@@ -6593,9 +6593,9 @@
             ],
             "support": {
                 "issues": "https://github.com/solariumphp/solarium/issues",
-                "source": "https://github.com/solariumphp/solarium/tree/6.3.4"
+                "source": "https://github.com/solariumphp/solarium/tree/6.3.5"
             },
-            "time": "2023-12-04T11:56:37+00:00"
+            "time": "2024-01-10T08:36:53+00:00"
         },
         {
             "name": "symfony/http-client",
