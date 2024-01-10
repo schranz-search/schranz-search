@@ -62,11 +62,15 @@ final class LoupeHelper
             $indexDirectory = $this->getIndexDirectory($index);
 
             // beside the .db and our own .loupe file there exists other files which we need to remove
-            $iterator = new \FilesystemIterator($indexDirectory);
+            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($indexDirectory, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
             foreach ($iterator as $fileInfo) {
-                $filePath = (string) $fileInfo;
-                if (\is_file($filePath)) {
+                \assert($fileInfo instanceof \SplFileInfo);
+
+                $filePath = $fileInfo->getPathname();
+                if ($fileInfo->isFile()) {
                     \unlink($filePath);
+                } elseif ($fileInfo->isDir()) {
+                    \rmdir($filePath);
                 }
             }
 
