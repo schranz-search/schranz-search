@@ -71,17 +71,17 @@
         "schranz-search/seal-typesense-adapter": "^0.3"
     },
     "conflict": {
-        "schranz-search/seal-algolia-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-elasticsearch-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-loupe-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-meilisearch-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-memory-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-multi-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-opensearch-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-read-write-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-redisearch-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-solr-adapter": "<0.2, >=0.3",
-        "schranz-search/seal-typesense-adapter": "<0.2, >=0.3"
+        "schranz-search/seal-algolia-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-elasticsearch-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-loupe-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-meilisearch-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-memory-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-multi-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-opensearch-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-read-write-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-redisearch-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-solr-adapter": "<0.3 || >=0.4",
+        "schranz-search/seal-typesense-adapter": "<0.3 || >=0.4"
     },
     "scripts": {
         "test": [
