@@ -1506,7 +1506,7 @@ search engine.
 
             services:
               elasticsearch:
-                image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+                image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
                 environment:
                   discovery.type: single-node
                   xpack.security.enabled: 'false'
