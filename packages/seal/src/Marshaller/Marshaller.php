@@ -69,7 +69,7 @@ final class Marshaller
      *
      * @return int|string|string[]|int[]|null
      */
-    private function marshallDateTimeField(null|string|array $value, Field\DateTimeField $field): null|int|string|array
+    private function marshallDateTimeField(string|array|null $value, Field\DateTimeField $field): int|string|array|null
     {
         if ($field->multiple) {
             /** @var string[]|null $value */
@@ -247,7 +247,7 @@ final class Marshaller
      *
      * @return string|string[]
      */
-    private function unmarshallDateTimeField(null|string|int|array $value, Field\DateTimeField $field): null|string|array
+    private function unmarshallDateTimeField(string|int|array|null $value, Field\DateTimeField $field): string|array|null
     {
         if ($field->multiple) {
             return \array_map(function ($value) {
