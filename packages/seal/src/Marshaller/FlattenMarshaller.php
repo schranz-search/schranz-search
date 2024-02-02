@@ -93,7 +93,7 @@ final class FlattenMarshaller
      *
      * @return int|string|string[]|int[]|null
      */
-    private function flattenDateTime(null|string|array $value, Field\DateTimeField $field): null|int|string|array
+    private function flattenDateTime(string|array|null $value, Field\DateTimeField $field): int|string|array|null
     {
         if ($field->multiple) {
             /** @var string[]|null $value */
