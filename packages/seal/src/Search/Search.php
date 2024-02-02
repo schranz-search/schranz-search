@@ -21,6 +21,7 @@ final class Search
      * @param array<string, Index> $indexes
      * @param object[] $filters
      * @param array<string, 'asc'|'desc'> $sortBys
+     * @param array<string> $higlightFields
      */
     public function __construct(
         public readonly array $indexes = [],
@@ -28,6 +29,9 @@ final class Search
         public readonly array $sortBys = [],
         public readonly ?int $limit = null,
         public readonly int $offset = 0,
+        public readonly array $higlightFields = [],
+        public readonly string $highlightPreTag = '<mark>',
+        public readonly string $highlightPostTag = '</mark>',
     ) {
     }
 }
