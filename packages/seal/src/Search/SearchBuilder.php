@@ -38,6 +38,15 @@ final class SearchBuilder
 
     private ?int $limit = null;
 
+    /**
+     * @var array<string>
+     */
+    private array $highlightFields = [];
+
+    private string $highlightPreTag = '<mark>';
+
+    private string $highlightPostTag = '</mark>';
+
     public function __construct(
         readonly private Schema $schema,
         readonly private SearcherInterface $searcher,
@@ -82,6 +91,23 @@ final class SearchBuilder
         return $this;
     }
 
+    /**
+     * @param array<string> $fields
+     */
+    public function highlight(array $fields, string $preTag = '<mark>', string $postTag = '</mark>'): static
+    {
+        $this->highlightFields = $fields;
+        $this->highlightPreTag = $preTag;
+        $this->highlightPostTag = $postTag;
+
+        return $this;
+    }
+
+    public function getSearcher(): SearcherInterface
+    {
+        return $this->searcher;
+    }
+
     public function getSearch(): Search
     {
         return new Search(
@@ -90,6 +116,9 @@ final class SearchBuilder
             $this->sortBys,
             $this->limit,
             $this->offset,
+            $this->highlightFields,
+            $this->highlightPreTag,
+            $this->highlightPostTag,
         );
     }
 
