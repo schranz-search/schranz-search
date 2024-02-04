@@ -47,7 +47,7 @@ services:
       - opensearch-data:/usr/share/opensearch/data
 
   redis:
-    image: redis/redis-stack:7.2.0-v6
+    image: redis/redis-stack:7.2.0-v8
     ports:
       - 6379:6379 # redis server
       - 8001:8001 # redis insight

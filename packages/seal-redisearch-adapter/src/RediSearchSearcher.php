@@ -103,6 +103,20 @@ final class RediSearchSearcher implements SearcherInterface
             $arguments[] = ($search->limit ?: 10);
         }
 
+        if ($search->highlightFields !== []) {
+            $arguments[] = 'HIGHLIGHT';
+            $arguments[] = 'FIELDS';
+            $arguments[] = \count($search->highlightFields);
+
+            foreach ($search->highlightFields as $highlightField) {
+                $arguments[] = $highlightField;
+            }
+
+            $arguments[] = 'TAGS';
+            $arguments[] = $search->highlightPreTag;
+            $arguments[] = $search->highlightPostTag;
+        }
+
         $arguments[] = 'DIALECT';
         $arguments[] = '3';
 
