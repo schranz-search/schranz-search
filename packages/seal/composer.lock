@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe4d1106c96f070d614d0dedce77edea",
+    "content-hash": "a199bbf31a901c8348d580173d75b647",
     "packages": [],
     "packages-dev": [
         {
@@ -348,12 +348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "29a68b7091c0b86007c66e3f00b5e53a5dba1597"
+                "reference": "417c0290fdcd0d515c00ea04e27a4a9886788b29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/29a68b7091c0b86007c66e3f00b5e53a5dba1597",
-                "reference": "29a68b7091c0b86007c66e3f00b5e53a5dba1597",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/417c0290fdcd0d515c00ea04e27a4a9886788b29",
+                "reference": "417c0290fdcd0d515c00ea04e27a4a9886788b29",
                 "shasum": ""
             },
             "require": {
@@ -403,7 +403,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-01T19:03:17+00:00"
+            "time": "2024-02-11T14:09:04+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -884,16 +884,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.19.5",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "89c895d127b9d248d2af007068a824b5348ef81f"
+                "reference": "362258a1f6369fc88d02d469a5478d220f78b0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/89c895d127b9d248d2af007068a824b5348ef81f",
-                "reference": "89c895d127b9d248d2af007068a824b5348ef81f",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/362258a1f6369fc88d02d469a5478d220f78b0e6",
+                "reference": "362258a1f6369fc88d02d469a5478d220f78b0e6",
                 "shasum": ""
             },
             "require": {
@@ -928,7 +928,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.19.5"
+                "source": "https://github.com/rectorphp/rector/tree/1.0.0"
             },
             "funding": [
                 {
@@ -936,7 +936,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-29T23:53:47+00:00"
+            "time": "2024-02-06T13:38:07+00:00"
         },
         {
             "name": "sebastian/cli-parser",
