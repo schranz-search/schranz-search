@@ -42,6 +42,7 @@ Here we collect different search engines which are around and could be interesti
 - `Qdrant <#qdrant>`__
 - `OpenAI <#openai>`__
 - `Jina <#jina>`__
+- `Paradedb <#paradedb>`__
 
 Some more research links:
 -------------------------
@@ -342,3 +343,10 @@ Jina
 Another vector based search engine:
 
 - Server: `Jina Server <https://github.com/jina-ai/jina/>`__
+
+Paradedb
+~~~~~~~~
+
+A search and analytics engine ontop of Postgres, with own Postgres extensions written in Rust:
+
+- Server: `Paradedb Server <https://github.com/paradedb/paradedb>`__
