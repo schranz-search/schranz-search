@@ -347,6 +347,6 @@ Another vector based search engine:
 Paradedb
 ~~~~~~~~
 
-A search and analytics engine ontop of Postgres:
+A search and analytics engine ontop of Postgres, with own Postgres extensions written in Rust:
 
 - Server: `Paradedb Server <https://github.com/paradedb/paradedb>`__
