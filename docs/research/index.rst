@@ -73,6 +73,7 @@ Optimization links:
 - `https://sites.google.com/site/kevinbouge/stopwords-lists <https://sites.google.com/site/kevinbouge/stopwords-lists>`__
 - `https://github.com/uschindler/german-decompounder <https://github.com/uschindler/german-decompounder>`__
 - `https://symfony.com/blog/migrating-symfony-com-search-engine-to-meilisearch <https://symfony.com/blog/migrating-symfony-com-search-engine-to-meilisearch>`__
+- `https://thetizzo.com/2024/02/13/scaling-elasticsearch-for-fun-and-profit <https://thetizzo.com/2024/02/13/scaling-elasticsearch-for-fun-and-profit>`__
 
 Descriptions of Search Engines
 ------------------------------
