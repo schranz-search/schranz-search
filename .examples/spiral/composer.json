@@ -46,7 +46,7 @@
         "symfony/css-selector": "^6.2",
         "symfony/dom-crawler": "^6.2",
         "symfony/var-dumper": "^6.1",
-        "vimeo/psalm": "dev-master"
+        "vimeo/psalm": "^5.22"
     },
     "repositories": [
         {
