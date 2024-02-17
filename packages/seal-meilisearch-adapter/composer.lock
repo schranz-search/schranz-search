@@ -75,16 +75,16 @@
         },
         {
             "name": "meilisearch/meilisearch-php",
-            "version": "v1.6.0",
+            "version": "v1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/meilisearch/meilisearch-php.git",
-                "reference": "4dbb26d583bd14506784846fb86cbb408007b132"
+                "reference": "a0bcb5ae8e8e32dec1d28613b53dc0360d995983"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/4dbb26d583bd14506784846fb86cbb408007b132",
-                "reference": "4dbb26d583bd14506784846fb86cbb408007b132",
+                "url": "https://api.github.com/repos/meilisearch/meilisearch-php/zipball/a0bcb5ae8e8e32dec1d28613b53dc0360d995983",
+                "reference": "a0bcb5ae8e8e32dec1d28613b53dc0360d995983",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
                 "guzzlehttp/guzzle": "^7.1",
                 "http-interop/http-factory-guzzle": "^1.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "1.10.50",
+                "phpstan/phpstan": "1.10.57",
                 "phpstan/phpstan-deprecation-rules": "^1.0",
                 "phpstan/phpstan-phpunit": "^1.0",
                 "phpstan/phpstan-strict-rules": "^1.1",
@@ -137,9 +137,9 @@
             ],
             "support": {
                 "issues": "https://github.com/meilisearch/meilisearch-php/issues",
-                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.6.0"
+                "source": "https://github.com/meilisearch/meilisearch-php/tree/v1.6.1"
             },
-            "time": "2024-01-15T13:07:32+00:00"
+            "time": "2024-02-16T13:42:26+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -693,7 +693,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "688b219dc0cdc36615e36d74359aacbc6f5b68d7"
+                "reference": "37923312058903f13630fc4116fb8007c1491693"
             },
             "require": {
                 "php": "^8.1"
@@ -704,7 +704,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^10.3",
-                "rector/rector": "^1.0.0"
+                "rector/rector": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -978,7 +978,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php80/tree/1.x"
+                "source": "https://github.com/symfony/polyfill-php80/tree/v1.29.0"
             },
             "funding": [
                 {
@@ -1389,12 +1389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "202aaf6b7c2e1e0a622b0298e9f3f537e4d84018"
+                "reference": "2f5294676c802a62b0549f6bc8983f14294ce369"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/202aaf6b7c2e1e0a622b0298e9f3f537e4d84018",
-                "reference": "202aaf6b7c2e1e0a622b0298e9f3f537e4d84018",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/2f5294676c802a62b0549f6bc8983f14294ce369",
+                "reference": "2f5294676c802a62b0549f6bc8983f14294ce369",
                 "shasum": ""
             },
             "require": {
@@ -1442,7 +1442,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-01T08:01:43+00:00"
+            "time": "2024-02-10T11:10:03+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2163,12 +2163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a76110264bece2fcae400433084321af7e89c496"
+                "reference": "828c5ab97f96e1045250b57f935d70aa7277da07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a76110264bece2fcae400433084321af7e89c496",
-                "reference": "a76110264bece2fcae400433084321af7e89c496",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/828c5ab97f96e1045250b57f935d70aa7277da07",
+                "reference": "828c5ab97f96e1045250b57f935d70aa7277da07",
                 "shasum": ""
             },
             "require": {
@@ -2256,7 +2256,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-02T16:40:22+00:00"
+            "time": "2024-02-14T07:01:37+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
