@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "705b3a0bf1923b748ebfc14ef3caf31b",
+    "content-hash": "f2203db24b52d4e91ab6e4374ac1ce86",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -797,7 +797,7 @@
             "dist": {
                 "type": "path",
                 "url": "./../seal",
-                "reference": "d27779392b1fd4830bc9d13cb8ede0794f0b81ed"
+                "reference": "37923312058903f13630fc4116fb8007c1491693"
             },
             "require": {
                 "php": "^8.1"
@@ -808,7 +808,7 @@
                 "phpstan/phpstan": "^1.10",
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^10.3",
-                "rector/rector": "^0.19.0"
+                "rector/rector": "^1.0"
             },
             "type": "library",
             "autoload": {
@@ -1895,12 +1895,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "29a68b7091c0b86007c66e3f00b5e53a5dba1597"
+                "reference": "6077d42201d50e50834fd1fef36ff0707a330f66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/29a68b7091c0b86007c66e3f00b5e53a5dba1597",
-                "reference": "29a68b7091c0b86007c66e3f00b5e53a5dba1597",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6077d42201d50e50834fd1fef36ff0707a330f66",
+                "reference": "6077d42201d50e50834fd1fef36ff0707a330f66",
                 "shasum": ""
             },
             "require": {
@@ -1950,7 +1950,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-01T19:03:17+00:00"
+            "time": "2024-02-16T14:22:27+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2431,21 +2431,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.15.25",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841"
+                "reference": "258b775511e62a7188f8ce114d44acaf244d9a7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/015935c7ed9e48a4f5895ba974f337e20a263841",
-                "reference": "015935c7ed9e48a4f5895ba974f337e20a263841",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/258b775511e62a7188f8ce114d44acaf244d9a7d",
+                "reference": "258b775511e62a7188f8ce114d44acaf244d9a7d",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.14"
+                "phpstan/phpstan": "^1.10.57"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -2457,11 +2457,6 @@
                 "bin/rector"
             ],
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.15-dev"
-                }
-            },
             "autoload": {
                 "files": [
                     "bootstrap.php"
@@ -2480,7 +2475,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.15.25"
+                "source": "https://github.com/rectorphp/rector/tree/1.0.1"
             },
             "funding": [
                 {
@@ -2488,7 +2483,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-20T16:07:39+00:00"
+            "time": "2024-02-16T07:53:23+00:00"
         },
         {
             "name": "sebastian/cli-parser",
