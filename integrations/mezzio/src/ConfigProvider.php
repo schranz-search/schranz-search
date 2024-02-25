@@ -32,6 +32,7 @@ use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\Schema\Schema;
 
 final class ConfigProvider
 {
@@ -86,6 +87,7 @@ final class ConfigProvider
             'factories' => [
                 EngineRegistry::class => SealContainerServiceAbstractFactory::class,
                 EngineInterface::class => SealContainerServiceAbstractFactory::class,
+                Schema::class => SealContainerServiceAbstractFactory::class,
                 AdapterFactory::class => SealContainerServiceAbstractFactory::class,
                 SealContainer::class => SealContainerFactory::class,
                 Command\IndexCreateCommand::class => CommandAbstractFactory::class,

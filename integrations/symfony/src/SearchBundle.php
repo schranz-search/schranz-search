@@ -111,12 +111,19 @@ final class SearchBundle extends AbstractBundle
 
             if ('default' === $name || (!isset($engines['default']) && !$builder->has(EngineInterface::class))) {
                 $builder->setAlias(EngineInterface::class, $engineServiceId);
+                $builder->setAlias(Schema::class, $schemaId);
             }
 
             $builder->registerAliasForArgument(
                 $engineServiceId,
                 EngineInterface::class,
                 $name . 'Engine',
+            );
+
+            $builder->registerAliasForArgument(
+                $schemaId,
+                Schema::class,
+                $name . 'Schema',
             );
         }
 

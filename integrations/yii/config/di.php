@@ -165,8 +165,9 @@ foreach ($engines as $name => $engineConfig) {
         return new Engine($adapter, $schema);
     };
 
-    if ('default' === $name || (!isset($engines['default']) && !isset($diConfig[Engine::class]))) {
+    if ('default' === $name || (!isset($engines['default']) && !isset($diConfig[EngineInterface::class]))) {
         $diConfig[EngineInterface::class] = $engineServiceId;
+        $diConfig[Schema::class] = $schemaId;
     }
 }
 

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\Integration\Mezzio\Service;
 
+use Doctrine\DBAL\Schema\Schema;
 use Psr\Container\ContainerInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactory;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
@@ -101,6 +102,7 @@ final class SealContainerFactory
             if ('default' === $name || (!isset($engineServices['default']) && !isset($config['engines']['default']))) {
                 $engineServices['default'] = $engine;
                 $sealContainer->set(EngineInterface::class, $engine);
+                $sealContainer->set(Schema::class, $schema);
             }
 
             $sealContainer->set($adapterServiceId, $adapter);
