@@ -1546,8 +1546,8 @@ search engine.
                 image: opensearchproject/opensearch:2
                 environment:
                   discovery.type: single-node
-                  plugins.security.disabled: 'true'
                   cluster.routing.allocation.disk.threshold_enabled: 'false'
+                  DISABLE_SECURITY_PLUGIN: true
                 ports:
                   - "9200:9200"
                 healthcheck:
