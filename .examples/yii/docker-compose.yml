@@ -33,8 +33,8 @@ services:
     image: opensearchproject/opensearch:2
     environment:
       discovery.type: single-node
-      plugins.security.disabled: 'true'
       cluster.routing.allocation.disk.threshold_enabled: 'false'
+      DISABLE_SECURITY_PLUGIN: true
       http.port: 9201
     ports:
       - "9201:9201"
