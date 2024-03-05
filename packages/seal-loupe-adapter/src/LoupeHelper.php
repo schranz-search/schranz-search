@@ -23,7 +23,7 @@ use Schranz\Search\SEAL\Schema\Index;
  */
 final class LoupeHelper
 {
-    public const SEPERATOR = '_';
+    public const SEPARATOR = '_';
     public const SOURCE_FIELD = 'l_source'; // fields are not allowed to begin with `_`
 
     /**
@@ -98,6 +98,14 @@ final class LoupeHelper
         $this->loupe = [];
     }
 
+    /**
+     * @internal
+     */
+    public function formatField(string $field): string
+    {
+        return \str_replace('.', self::SEPARATOR, $field);
+    }
+
     private function createLoupe(Index $index, Configuration|null $configuration = null): Loupe
     {
         if (!$configuration instanceof Configuration) {
@@ -125,9 +133,9 @@ final class LoupeHelper
     {
         return Configuration::create()
             ->withPrimaryKey($index->getIdentifierField()->name)
-            ->withSearchableAttributes(\array_map(fn (string $field) => \str_replace('.', self::SEPERATOR, $field), $index->searchableFields))
-            ->withFilterableAttributes(\array_map(fn (string $field) => \str_replace('.', self::SEPERATOR, $field), $index->filterableFields))
-            ->withSortableAttributes(\array_map(fn (string $field) => \str_replace('.', self::SEPERATOR, $field), $index->sortableFields));
+            ->withSearchableAttributes(\array_map(fn (string $field) => $this->formatField($field), $index->searchableFields))
+            ->withFilterableAttributes(\array_map(fn (string $field) => $this->formatField($field), $index->filterableFields))
+            ->withSortableAttributes(\array_map(fn (string $field) => $this->formatField($field), $index->sortableFields));
     }
 
     private function getIndexDirectory(Index $index): string
