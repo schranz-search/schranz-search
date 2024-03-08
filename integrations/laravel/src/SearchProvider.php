@@ -127,6 +127,7 @@ final class SearchProvider extends ServiceProvider
 
             if ('default' === $name || (!isset($engines['default']) && !$this->app->has(EngineInterface::class))) {
                 $this->app->alias($engineServiceId, EngineInterface::class);
+                $this->app->alias($schemaId, Schema::class);
             }
         }
 

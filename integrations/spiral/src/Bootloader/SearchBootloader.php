@@ -150,6 +150,7 @@ final class SearchBootloader extends Bootloader
 
             if ('default' === $name || (!isset($engines['default']) && !$container->has(EngineInterface::class))) {
                 $container->bind(EngineInterface::class, $engineServiceId);
+                $container->bind(Schema::class, $schemaId);
             }
         }
 
