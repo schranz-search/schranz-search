@@ -4,29 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fe465ca2ec22ef1a22bc1e7757aa654",
+    "content-hash": "8f82a7d2eb590433d14c2bec7db33cf7",
     "packages": [
         {
             "name": "alexkart/curl-builder",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexkart/curl-builder.git",
-                "reference": "626cf95a84a37b6e1643675f7fc4acfc2f90dbfb"
+                "reference": "6d2ffa146c59afd43d144d02f95ca4cba8a1a720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexkart/curl-builder/zipball/626cf95a84a37b6e1643675f7fc4acfc2f90dbfb",
-                "reference": "626cf95a84a37b6e1643675f7fc4acfc2f90dbfb",
+                "url": "https://api.github.com/repos/alexkart/curl-builder/zipball/6d2ffa146c59afd43d144d02f95ca4cba8a1a720",
+                "reference": "6d2ffa146c59afd43d144d02f95ca4cba8a1a720",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.3",
-                "psr/http-message": "^1.0"
+                "psr/http-message": "^2.0"
             },
             "require-dev": {
                 "nyholm/psr7": "^1.3",
                 "phan/phan": "^5.4",
+                "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.5"
             },
             "type": "library",
@@ -48,9 +49,9 @@
             "description": "PSR-7 compatible curl builder.",
             "support": {
                 "issues": "https://github.com/alexkart/curl-builder/issues",
-                "source": "https://github.com/alexkart/curl-builder/tree/1.0.8"
+                "source": "https://github.com/alexkart/curl-builder/tree/1.0.9"
             },
-            "time": "2023-05-29T13:44:51+00:00"
+            "time": "2024-02-22T11:37:59+00:00"
         },
         {
             "name": "brick/math",
@@ -678,24 +679,24 @@
         },
         {
             "name": "google/common-protos",
-            "version": "v3.2.0",
+            "version": "v4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/common-protos-php.git",
-                "reference": "57d4ad36cc48cc0369123042908013ef2a86bb98"
+                "reference": "dfc232e90823cedca107b56e7371f2e2f35b9427"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/common-protos-php/zipball/57d4ad36cc48cc0369123042908013ef2a86bb98",
-                "reference": "57d4ad36cc48cc0369123042908013ef2a86bb98",
+                "url": "https://api.github.com/repos/googleapis/common-protos-php/zipball/dfc232e90823cedca107b56e7371f2e2f35b9427",
+                "reference": "dfc232e90823cedca107b56e7371f2e2f35b9427",
                 "shasum": ""
             },
             "require": {
-                "google/protobuf": "^3.6.1"
+                "google/protobuf": "^3.6.1",
+                "php": ">=7.4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.36||^8.5",
-                "sami/sami": "*"
+                "phpunit/phpunit": "^9.0"
             },
             "type": "library",
             "autoload": {
@@ -724,9 +725,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/common-protos-php/issues",
-                "source": "https://github.com/googleapis/common-protos-php/tree/v3.2.0"
+                "source": "https://github.com/googleapis/common-protos-php/tree/v4.5.0"
             },
-            "time": "2023-01-12T16:51:46+00:00"
+            "time": "2023-11-29T21:08:16+00:00"
         },
         {
             "name": "google/protobuf",
@@ -1659,71 +1660,6 @@
             "time": "2023-11-08T09:30:43+00:00"
         },
         {
-            "name": "opis/closure",
-            "version": "3.6.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opis/closure.git",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "reference": "3d81e4309d2a927abbe66df935f4bb60082805ad",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "jeremeamia/superclosure": "^2.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.6.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "functions.php"
-                ],
-                "psr-4": {
-                    "Opis\\Closure\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marius Sarca",
-                    "email": "marius.sarca@gmail.com"
-                },
-                {
-                    "name": "Sorin Sarca",
-                    "email": "sarca_sorin@hotmail.com"
-                }
-            ],
-            "description": "A library that can be used to serialize closures (anonymous functions) and arbitrary objects.",
-            "homepage": "https://opis.io/closure",
-            "keywords": [
-                "anonymous functions",
-                "closure",
-                "function",
-                "serializable",
-                "serialization",
-                "serialize"
-            ],
-            "support": {
-                "issues": "https://github.com/opis/closure/issues",
-                "source": "https://github.com/opis/closure/tree/3.6.3"
-            },
-            "time": "2022-01-27T09:35:39+00:00"
-        },
-        {
             "name": "paragonie/random_compat",
             "version": "v9.99.100",
             "source": {
@@ -1772,61 +1708,6 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
-        },
-        {
-            "name": "php-http/message-factory",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-http/message-factory.git",
-                "reference": "4d8778e1c7d405cbb471574821c1ff5b68cc8f57"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message-factory/zipball/4d8778e1c7d405cbb471574821c1ff5b68cc8f57",
-                "reference": "4d8778e1c7d405cbb471574821c1ff5b68cc8f57",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4",
-                "psr/http-message": "^1.0 || ^2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Http\\Message\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Márk Sági-Kazár",
-                    "email": "mark.sagikazar@gmail.com"
-                }
-            ],
-            "description": "Factory interfaces for PSR-7 HTTP Message",
-            "homepage": "http://php-http.org",
-            "keywords": [
-                "factory",
-                "http",
-                "message",
-                "stream",
-                "uri"
-            ],
-            "support": {
-                "issues": "https://github.com/php-http/message-factory/issues",
-                "source": "https://github.com/php-http/message-factory/tree/1.1.0"
-            },
-            "abandoned": "psr/http-factory",
-            "time": "2023-04-14T14:16:17+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -2112,16 +1993,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
@@ -2130,7 +2011,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -2145,7 +2026,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -2159,9 +2040,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
             "name": "psr/http-server-handler",
@@ -2617,39 +2498,36 @@
         },
         {
             "name": "roadrunner-php/centrifugo",
-            "version": "1.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/centrifugo.git",
-                "reference": "5b6e67ef4242b66d5f95032b507b1f341818a28c"
+                "reference": "8ffc623f2bdddecdbf8105285c4526ed91522c5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/centrifugo/zipball/5b6e67ef4242b66d5f95032b507b1f341818a28c",
-                "reference": "5b6e67ef4242b66d5f95032b507b1f341818a28c",
+                "url": "https://api.github.com/repos/roadrunner-php/centrifugo/zipball/8ffc623f2bdddecdbf8105285c4526ed91522c5a",
+                "reference": "8ffc623f2bdddecdbf8105285c4526ed91522c5a",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
                 "php": ">=8.1",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner-worker": "^2.2"
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "mockery/mockery": "^1.5",
-                "phpunit/phpunit": "^9.5",
-                "spiral/roadrunner-cli": "^2.3",
-                "vimeo/psalm": "^4.29"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">= 5.8"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "RoadRunner\\Centrifugo\\": [
-                        "src",
-                        "generated/RoadRunner/Centrifugo"
-                    ]
+                    "RoadRunner\\Centrifugo\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2658,16 +2536,125 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: Centrifugo bridge",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/roadrunner-php/centrifugo/issues",
-                "source": "https://github.com/roadrunner-php/centrifugo/tree/1.0.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/centrifugo/tree/v2.0.1"
             },
-            "time": "2022-11-11T18:30:55+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-03-06T13:36:00+00:00"
+        },
+        {
+            "name": "roadrunner-php/lock",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/lock.git",
+                "reference": "bea3761b2cabce86cdca3b6013d024135fdf9138"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/lock/zipball/bea3761b2cabce86cdca3b6013d024135fdf9138",
+                "reference": "bea3761b2cabce86cdca3b6013d024135fdf9138",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1",
+                "ramsey/uuid": "^4.7",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.5",
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": "^5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RoadRunner\\Lock\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "This package provides a PHP integration package for the RoadRunner Lock plugin, which allows for easy management of distributed locks in PHP applications. The plugin provides a fast, lightweight, and reliable way to acquire, release, and manage locks in a distributed environment, making it ideal for use in high-traffic web applications and microservices.",
+            "homepage": "https://roadrunner.dev/",
+            "keywords": [
+                "lock",
+                "roadrunner-php",
+                "spiral"
+            ],
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/lock/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-10T10:09:31+00:00"
         },
         {
             "name": "roadrunner-php/roadrunner-api-dto",
@@ -3433,31 +3420,31 @@
         },
         {
             "name": "spiral/goridge",
-            "version": "v3.2.0",
+            "version": "4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-php/goridge.git",
-                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb"
+                "reference": "a5d67441dc862aa32647622975c9e6f6042a593d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
-                "reference": "3d8e97d7d1cc26b6130d233177b23ecb3c7d4efb",
+                "url": "https://api.github.com/repos/roadrunner-php/goridge/zipball/a5d67441dc862aa32647622975c9e6f6042a593d",
+                "reference": "a5d67441dc862aa32647622975c9e6f6042a593d",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=7.4",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "spiral/roadrunner": "^2023"
             },
             "require-dev": {
-                "google/protobuf": "^3.17",
+                "google/protobuf": "^3.22",
                 "infection/infection": "^0.26.1",
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^10.0",
                 "rybakit/msgpack": "^0.7",
-                "vimeo/psalm": "^4.18.1"
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "ext-msgpack": "MessagePack codec support",
@@ -3466,11 +3453,6 @@
                 "rybakit/msgpack": "(^0.7) MessagePack codec support"
             },
             "type": "goridge",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\Goridge\\": "src"
@@ -3482,22 +3464,46 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
             "description": "High-performance PHP-to-Golang RPC bridge",
+            "homepage": "https://spiral.dev/",
             "support": {
-                "issues": "https://github.com/roadrunner-php/goridge/issues",
-                "source": "https://github.com/roadrunner-php/goridge/tree/v3.2.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/goridge/tree/4.1.1"
             },
             "funding": [
                 {
-                    "url": "https://github.com/roadrunner-server",
+                    "url": "https://github.com/sponsors/roadrunner-server",
                     "type": "github"
                 }
             ],
-            "time": "2022-03-21T20:32:19+00:00"
+            "time": "2023-12-21T10:47:02+00:00"
         },
         {
             "name": "spiral/nyholm-bridge",
@@ -3548,22 +3554,17 @@
         },
         {
             "name": "spiral/roadrunner",
-            "version": "v2.12.3",
+            "version": "v2023.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadrunner-server/roadrunner.git",
-                "reference": "18f526ad9eef19b57bdf1ad4b0252683f514c718"
+                "reference": "9b5b65e00c6de7327142a8d689646f950fe00788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/18f526ad9eef19b57bdf1ad4b0252683f514c718",
-                "reference": "18f526ad9eef19b57bdf1ad4b0252683f514c718",
+                "url": "https://api.github.com/repos/roadrunner-server/roadrunner/zipball/9b5b65e00c6de7327142a8d689646f950fe00788",
+                "reference": "9b5b65e00c6de7327142a8d689646f950fe00788",
                 "shasum": ""
-            },
-            "require": {
-                "spiral/roadrunner-cli": "^2.0",
-                "spiral/roadrunner-http": "^2.0",
-                "spiral/roadrunner-worker": "^2.0"
             },
             "type": "metapackage",
             "notification-url": "https://packagist.org/downloads/",
@@ -3591,7 +3592,7 @@
                 "docs": "https://roadrunner.dev/docs",
                 "forum": "https://forum.roadrunner.dev/",
                 "issues": "https://github.com/roadrunner-server/roadrunner/issues",
-                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2.12.3"
+                "source": "https://github.com/roadrunner-server/roadrunner/tree/v2023.3.12"
             },
             "funding": [
                 {
@@ -3599,42 +3600,48 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-16T13:00:26+00:00"
+            "time": "2024-02-29T18:16:45+00:00"
         },
         {
             "name": "spiral/roadrunner-bridge",
-            "version": "2.6.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spiral/roadrunner-bridge.git",
-                "reference": "ea273fbb9dcc6e9bef5e43e1ee808ea45d15f310"
+                "reference": "15013b34a869ee371946ac687b61b8c37aacc9ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-bridge/zipball/ea273fbb9dcc6e9bef5e43e1ee808ea45d15f310",
-                "reference": "ea273fbb9dcc6e9bef5e43e1ee808ea45d15f310",
+                "url": "https://api.github.com/repos/spiral/roadrunner-bridge/zipball/15013b34a869ee371946ac687b61b8c37aacc9ee",
+                "reference": "15013b34a869ee371946ac687b61b8c37aacc9ee",
                 "shasum": ""
             },
             "require": {
                 "grpc/grpc": "^1.42",
                 "php": ">=8.1",
-                "php-http/message-factory": "^1.0",
-                "psr/simple-cache": "2 - 3",
+                "psr/http-factory": "^1.0.2",
+                "psr/simple-cache": "^3.0",
                 "roadrunner-php/app-logger": "^1.0",
-                "roadrunner-php/centrifugo": "^1.0",
-                "spiral/framework": "^3.5",
-                "spiral/roadrunner-broadcast": "^2.0",
-                "spiral/roadrunner-grpc": "^2.0",
-                "spiral/roadrunner-jobs": "^2.6",
-                "spiral/roadrunner-kv": "^2.2||^3.0",
-                "spiral/roadrunner-metrics": "^2.0",
-                "spiral/roadrunner-tcp": "^2.0",
-                "spiral/serializer": "^3.2"
+                "roadrunner-php/centrifugo": "^2.0",
+                "roadrunner-php/lock": "^1.0",
+                "spiral/roadrunner-grpc": "^3.2",
+                "spiral/roadrunner-http": "^3.0",
+                "spiral/roadrunner-jobs": "^4.0",
+                "spiral/roadrunner-kv": "^4.0",
+                "spiral/roadrunner-metrics": "^3.0",
+                "spiral/roadrunner-tcp": "^3.0",
+                "spiral/scaffolder": "^3.7",
+                "spiral/serializer": "^3.7"
             },
             "require-dev": {
+                "phpunit/phpunit": "^10.1",
+                "spiral/framework": "^3.7",
                 "spiral/nyholm-bridge": "^1.2",
-                "spiral/testing": "^2.0.x-dev",
-                "vimeo/psalm": "^4.22"
+                "spiral/testing": "^2.6.1",
+                "vimeo/psalm": "^5.0"
+            },
+            "suggest": {
+                "ext-protobuf": "For better performance, install the protobuf C extension."
             },
             "type": "library",
             "autoload": {
@@ -3652,87 +3659,34 @@
                     "email": "wolfy-j@spiralscout.com"
                 },
                 {
-                    "name": "Pavel Buchnev (butschster)",
+                    "name": "Pavel Butchnev (butschster)",
                     "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 }
             ],
             "description": "RoadRunner integration package",
             "homepage": "https://spiral.dev",
             "support": {
-                "issues": "https://github.com/spiral/framework/issues",
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://spiral.dev/docs",
+                "forum": "https://forum.spiral.dev",
+                "issues": "https://github.com/spiral/roadrunner-bridge/issues",
                 "source": "https://github.com/spiral/roadrunner-bridge"
             },
-            "time": "2023-03-28T09:51:32+00:00"
-        },
-        {
-            "name": "spiral/roadrunner-broadcast",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/roadrunner-broadcast.git",
-                "reference": "693f92e9c34a552b060d6a0aa0e727caf80dcb24"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-broadcast/zipball/693f92e9c34a552b060d6a0aa0e727caf80dcb24",
-                "reference": "693f92e9c34a552b060d6a0aa0e727caf80dcb24",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "google/protobuf": "^3.7",
-                "php": ">=7.4",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0",
-                "symfony/polyfill-php80": "^1.23"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0",
-                "roave/security-advisories": "dev-master",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": ">=4.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "Spiral\\RoadRunner\\Broadcast\\": [
-                        "src",
-                        "generated/Spiral/RoadRunner/Broadcast"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
+            "funding": [
                 {
-                    "name": "Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
-                },
-                {
-                    "name": "Kirill Nesmeyanov (SerafimArts)",
-                    "email": "kirill.nesmeyanov@spiralscout.com"
-                },
-                {
-                    "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
                 }
             ],
-            "description": "RoadRunner broadcast plugin bridge",
-            "support": {
-                "issues": "https://github.com/spiral/roadrunner-broadcast/issues",
-                "source": "https://github.com/spiral/roadrunner-broadcast/tree/v2.1.0"
-            },
-            "abandoned": true,
-            "time": "2022-08-30T13:52:06+00:00"
+            "time": "2024-01-03T12:44:17+00:00"
         },
         {
             "name": "spiral/roadrunner-cli",
@@ -3799,44 +3753,35 @@
         },
         {
             "name": "spiral/roadrunner-grpc",
-            "version": "v2.0.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-grpc.git",
-                "reference": "41ddf6f9747c990609830c61723da9f9cccb9ded"
+                "url": "https://github.com/roadrunner-php/grpc.git",
+                "reference": "6865691e2adf8ddc8f7365b716521a2deaca3192"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-grpc/zipball/41ddf6f9747c990609830c61723da9f9cccb9ded",
-                "reference": "41ddf6f9747c990609830c61723da9f9cccb9ded",
+                "url": "https://api.github.com/repos/roadrunner-php/grpc/zipball/6865691e2adf8ddc8f7365b716521a2deaca3192",
+                "reference": "6865691e2adf8ddc8f7365b716521a2deaca3192",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "google/common-protos": "^3.1",
+                "google/common-protos": "^3.1|^4.0",
                 "google/protobuf": "^3.7",
-                "php": ">=7.4",
-                "spiral/roadrunner": "^2.0",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
                 "mockery/mockery": "^1.4",
-                "phpunit/phpunit": "^9.5",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": ">=4.4",
-                "vimeo/psalm": "^4.6"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
             "autoload": {
-                "files": [
-                    "src/polyfill.php"
-                ],
                 "psr-4": {
                     "Spiral\\RoadRunner\\GRPC\\": "src"
                 }
@@ -3847,55 +3792,77 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "High-Performance GRPC server for PHP applications",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-grpc/issues",
-                "source": "https://github.com/spiral/roadrunner-grpc/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/grpc/tree/3.2.0"
             },
-            "time": "2022-11-10T10:11:03+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-30T14:43:28+00:00"
         },
         {
             "name": "spiral/roadrunner-http",
-            "version": "v2.2.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-http.git",
-                "reference": "2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9"
+                "url": "https://github.com/roadrunner-php/http.git",
+                "reference": "c6fb29998a1074c82038cb280c2c6bb61b2d178f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-http/zipball/2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9",
-                "reference": "2b397a27f19cbf8934c20b9e691e0f2edfd2d7b9",
+                "url": "https://api.github.com/repos/roadrunner-php/http/zipball/c6fb29998a1074c82038cb280c2c6bb61b2d178f",
+                "reference": "c6fb29998a1074c82038cb280c2c6bb61b2d178f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.4",
+                "php": ">=8.1",
                 "psr/http-factory": "^1.0.1",
-                "psr/http-message": "^1.0.1",
-                "spiral/roadrunner-worker": "^2.2.0"
+                "psr/http-message": "^1.0.1 || ^2.0",
+                "spiral/roadrunner": "^2023.3",
+                "spiral/roadrunner-worker": "^3.1.0"
             },
             "require-dev": {
+                "buggregator/trap": "^1.0",
                 "jetbrains/phpstorm-attributes": "^1.0",
                 "nyholm/psr7": "^1.3",
-                "phpstan/phpstan": "~0.12",
-                "phpunit/phpunit": "~8.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.22"
+                "phpunit/phpunit": "^10.0",
+                "symfony/process": "^6.2 || ^7.0",
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.2.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\Http\\": "src"
@@ -3907,65 +3874,165 @@
             ],
             "authors": [
                 {
-                    "name": "Anton Titov / Wolfy-J",
-                    "email": "wolfy.jd@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "RoadRunner Community",
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
+                }
+            ],
+            "description": "RoadRunner: HTTP and PSR-7 worker",
+            "homepage": "https://spiral.dev/",
+            "support": {
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/http/tree/v3.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-05T13:06:59+00:00"
+        },
+        {
+            "name": "spiral/roadrunner-jobs",
+            "version": "4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/roadrunner-php/jobs.git",
+                "reference": "b0903fe3921151d23c10f6b1b4ac19a320aead29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/roadrunner-php/jobs/zipball/b0903fe3921151d23c10f6b1b4ac19a320aead29",
+                "reference": "b0903fe3921151d23c10f6b1b4ac19a320aead29",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "google/protobuf": "^v3.17",
+                "php": ">=8.1",
+                "ramsey/uuid": "^3 || ^4",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^10.0",
+                "roave/security-advisories": "dev-master",
+                "vimeo/psalm": ">=5.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spiral\\RoadRunner\\Jobs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
                 },
                 {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
-            "description": "RoadRunner: HTTP and PSR-7 worker",
+            "description": "RoadRunner Queues (Jobs) plugin API library",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-http/issues",
-                "source": "https://github.com/spiral/roadrunner-http/tree/v2.2.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/jobs/tree/4.3.0"
             },
-            "time": "2022-11-30T11:40:04+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-08T13:23:40+00:00"
         },
         {
-            "name": "spiral/roadrunner-jobs",
-            "version": "v2.9.0",
+            "name": "spiral/roadrunner-kv",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-jobs.git",
-                "reference": "5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2"
+                "url": "https://github.com/roadrunner-php/kv.git",
+                "reference": "fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-jobs/zipball/5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2",
-                "reference": "5d7b9d252c9453f7ec3f98c684a6051da3b5e8d2",
+                "url": "https://api.github.com/repos/roadrunner-php/kv/zipball/fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c",
+                "reference": "fca0221f91de80ad7a8c3b03f5d4cdf5bfdf0a4c",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "google/protobuf": "^3.7",
-                "opis/closure": "^3.6",
-                "php": ">=7.4",
-                "ramsey/uuid": "^3 || ^4",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0",
-                "spiral/roadrunner-worker": "^2.0.2"
+                "php": ">=8.1",
+                "psr/simple-cache": "3",
+                "roadrunner-php/roadrunner-api-dto": "^1.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5",
+                "phpunit/phpunit": "^10.0",
                 "roave/security-advisories": "dev-master",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.14"
+                "vimeo/psalm": ">=5.8"
+            },
+            "suggest": {
+                "ext-igbinary": "(>3.1.6) Igbinary serailizer support",
+                "ext-sodium": "Sodium serailizer support"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "Spiral\\RoadRunner\\Jobs\\": [
-                        "src",
-                        "generated/Spiral/RoadRunner/Jobs"
-                    ]
+                    "Spiral\\RoadRunner\\KeyValue\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3978,74 +4045,17 @@
                     "email": "wolfy.jd@gmail.com"
                 },
                 {
-                    "name": "Kirill Nesmeyanov (SerafimArts)",
-                    "email": "kirill.nesmeyanov@spiralscout.com"
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
                 },
                 {
-                    "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
-                }
-            ],
-            "description": "RoadRunner Queues (Jobs) plugin API library",
-            "support": {
-                "issues": "https://github.com/spiral/roadrunner-jobs/issues",
-                "source": "https://github.com/spiral/roadrunner-jobs/tree/v2.9.0"
-            },
-            "time": "2023-03-20T08:02:16+00:00"
-        },
-        {
-            "name": "spiral/roadrunner-kv",
-            "version": "v3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spiral/roadrunner-kv.git",
-                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-kv/zipball/4e9694faad119d3ece2d7632f85f980f14ab5daf",
-                "reference": "4e9694faad119d3ece2d7632f85f980f14ab5daf",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "google/protobuf": "^3.7",
-                "php": ">=8.1",
-                "psr/simple-cache": "2 - 3",
-                "spiral/goridge": "^3.1",
-                "spiral/roadrunner": "^2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.0",
-                "roave/security-advisories": "dev-master",
-                "spiral/code-style": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": ">=4.4"
-            },
-            "suggest": {
-                "ext-igbinary": "(>3.1.6) Igbinary serailizer support",
-                "ext-sodium": "Sodium serailizer support"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GPBMetadata\\": "generated/GPBMetadata",
-                    "Spiral\\RoadRunner\\KeyValue\\": [
-                        "src",
-                        "generated/Spiral/RoadRunner/KeyValue"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
                 {
                     "name": "Kirill Nesmeyanov (SerafimArts)",
                     "email": "kirill.nesmeyanov@spiralscout.com"
@@ -4056,45 +4066,51 @@
                 }
             ],
             "description": "RoadRunner kv plugin bridge",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-kv/issues",
-                "source": "https://github.com/spiral/roadrunner-kv/tree/v3.0.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/kv/tree/4.0.0"
             },
-            "time": "2022-09-26T08:54:18+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-04-13T12:55:51+00:00"
         },
         {
             "name": "spiral/roadrunner-metrics",
-            "version": "v2.0.1",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-metrics.git",
-                "reference": "256c121e0b33f445775a4d840ed5a72c558abcba"
+                "url": "https://github.com/roadrunner-php/metrics.git",
+                "reference": "8878661e62b9333f91443312b0f5c9885f989959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-metrics/zipball/256c121e0b33f445775a4d840ed5a72c558abcba",
-                "reference": "256c121e0b33f445775a4d840ed5a72c558abcba",
+                "url": "https://api.github.com/repos/roadrunner-php/metrics/zipball/8878661e62b9333f91443312b0f5c9885f989959",
+                "reference": "8878661e62b9333f91443312b0f5c9885f989959",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4",
-                "spiral/goridge": "^3.0",
-                "symfony/polyfill-php80": "^1.22"
+                "php": ">=8.1",
+                "psr/log": ">=2.0",
+                "spiral/goridge": "^4.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "~8.0",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.0",
+                "vimeo/psalm": ">=5.8"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\Metrics\\": "src"
@@ -4110,41 +4126,67 @@
                     "email": "wolfy-j@spiralscout.com"
                 },
                 {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
+                    "name": "Kirill Nesmeyanov (SerafimArts)",
+                    "email": "kirill.nesmeyanov@spiralscout.com"
+                },
+                {
                     "name": "RoadRunner Community",
                     "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: Prometheus metrics RPC",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-metrics/issues",
-                "source": "https://github.com/spiral/roadrunner-metrics/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://roadrunner.dev/docs",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/metrics/tree/3.1.0"
             },
-            "time": "2021-02-18T17:53:39+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-10T18:59:54+00:00"
         },
         {
             "name": "spiral/roadrunner-tcp",
-            "version": "v2.0.1",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-tcp.git",
-                "reference": "d3d42b5bc8d96de466c86d52a281c90381f9514f"
+                "url": "https://github.com/roadrunner-php/tcp.git",
+                "reference": "2fc2fa71aa960a45880cc88c1baffc7f94a3d0af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-tcp/zipball/d3d42b5bc8d96de466c86d52a281c90381f9514f",
-                "reference": "d3d42b5bc8d96de466c86d52a281c90381f9514f",
+                "url": "https://api.github.com/repos/roadrunner-php/tcp/zipball/2fc2fa71aa960a45880cc88c1baffc7f94a3d0af",
+                "reference": "2fc2fa71aa960a45880cc88c1baffc7f94a3d0af",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": ">=7.4",
-                "spiral/roadrunner-worker": "^2.0"
+                "php": ">=8.1",
+                "spiral/roadrunner": "^2023.1",
+                "spiral/roadrunner-worker": "^3.0"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "phpunit/phpunit": "~9.5.10",
-                "spiral/code-style": "^1.0",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": ">=5.8"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
@@ -4161,8 +4203,20 @@
             ],
             "authors": [
                 {
-                    "name": "Pavel Buchnev / butschster",
-                    "email": "butschster@gmail.com"
+                    "name": "Anton Titov (wolfy-j)",
+                    "email": "wolfy-j@spiralscout.com"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "email": "alexey.gagarin@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
                 },
                 {
                     "name": "RoadRunner Community",
@@ -4170,49 +4224,55 @@
                 }
             ],
             "description": "RoadRunner: TCP worker",
+            "homepage": "https://roadrunner.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-tcp/issues",
-                "source": "https://github.com/spiral/roadrunner-tcp/tree/v2.0.1"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/tcp/tree/v3.1.0"
             },
-            "time": "2022-07-14T13:31:57+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-29T10:38:30+00:00"
         },
         {
             "name": "spiral/roadrunner-worker",
-            "version": "v2.3.0",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/spiral/roadrunner-worker.git",
-                "reference": "028adbbd43566b264fa3e3edb47cfbc3fb2cd11e"
+                "url": "https://github.com/roadrunner-php/worker.git",
+                "reference": "8efc721a3ced27fd6ef6bca347a69010ff7930cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spiral/roadrunner-worker/zipball/028adbbd43566b264fa3e3edb47cfbc3fb2cd11e",
-                "reference": "028adbbd43566b264fa3e3edb47cfbc3fb2cd11e",
+                "url": "https://api.github.com/repos/roadrunner-php/worker/zipball/8efc721a3ced27fd6ef6bca347a69010ff7930cb",
+                "reference": "8efc721a3ced27fd6ef6bca347a69010ff7930cb",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
                 "ext-json": "*",
                 "ext-sockets": "*",
-                "php": ">=7.4",
-                "psr/log": "^1.0|^2.0|^3.0",
-                "spiral/goridge": "^3.2.0",
-                "symfony/polyfill-php80": "^1.23"
+                "php": ">=8.1",
+                "psr/log": "^2.0|^3.0",
+                "spiral/goridge": "^4.1.0",
+                "spiral/roadrunner": "^2023.1"
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.0",
-                "symfony/var-dumper": "^5.1",
-                "vimeo/psalm": "^4.4"
+                "phpunit/phpunit": "^10.0",
+                "symfony/var-dumper": "^6.3 || ^7.0",
+                "vimeo/psalm": "^5.9"
             },
             "suggest": {
                 "spiral/roadrunner-cli": "Provides RoadRunner installation and management CLI tools"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Spiral\\RoadRunner\\": "src"
@@ -4228,16 +4288,42 @@
                     "email": "wolfy-j@spiralscout.com"
                 },
                 {
+                    "name": "Valery Piashchynski",
+                    "homepage": "https://github.com/rustatian"
+                },
+                {
+                    "name": "Aleksei Gagarin (roxblnfk)",
+                    "homepage": "https://github.com/roxblnfk"
+                },
+                {
+                    "name": "Pavel Buchnev (butschster)",
+                    "email": "pavel.buchnev@spiralscout.com"
+                },
+                {
+                    "name": "Maksim Smakouz (msmakouz)",
+                    "email": "maksim.smakouz@spiralscout.com"
+                },
+                {
                     "name": "RoadRunner Community",
-                    "homepage": "https://github.com/spiral/roadrunner/graphs/contributors"
+                    "homepage": "https://github.com/roadrunner-server/roadrunner/graphs/contributors"
                 }
             ],
             "description": "RoadRunner: PHP worker",
+            "homepage": "https://spiral.dev/",
             "support": {
-                "issues": "https://github.com/spiral/roadrunner-worker/issues",
-                "source": "https://github.com/spiral/roadrunner-worker/tree/v2.3.0"
+                "chat": "https://discord.gg/V6EK4he",
+                "docs": "https://docs.roadrunner.dev",
+                "forum": "https://forum.roadrunner.dev/",
+                "issues": "https://github.com/roadrunner-server/roadrunner/issues",
+                "source": "https://github.com/roadrunner-php/worker/tree/v3.4.0"
             },
-            "time": "2022-10-28T09:36:29+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/roadrunner-server",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-26T11:59:06+00:00"
         },
         {
             "name": "spiral/sapi-bridge",
@@ -8056,103 +8142,6 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
-        },
-        {
-            "name": "laminas/laminas-diactoros",
-            "version": "2.26.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laminas/laminas-diactoros.git",
-                "reference": "6584d44eb8e477e89d453313b858daac6183cddc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diactoros/zipball/6584d44eb8e477e89d453313b858daac6183cddc",
-                "reference": "6584d44eb8e477e89d453313b858daac6183cddc",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
-                "psr/http-factory": "^1.0",
-                "psr/http-message": "^1.1"
-            },
-            "conflict": {
-                "zendframework/zend-diactoros": "*"
-            },
-            "provide": {
-                "psr/http-factory-implementation": "1.0",
-                "psr/http-message-implementation": "1.0"
-            },
-            "require-dev": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-gd": "*",
-                "ext-libxml": "*",
-                "http-interop/http-factory-tests": "^0.9.0",
-                "laminas/laminas-coding-standard": "^2.5",
-                "php-http/psr7-integration-tests": "^1.2",
-                "phpunit/phpunit": "^9.5.28",
-                "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.6"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "config-provider": "Laminas\\Diactoros\\ConfigProvider",
-                    "module": "Laminas\\Diactoros"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions/create_uploaded_file.php",
-                    "src/functions/marshal_headers_from_sapi.php",
-                    "src/functions/marshal_method_from_sapi.php",
-                    "src/functions/marshal_protocol_version_from_sapi.php",
-                    "src/functions/marshal_uri_from_sapi.php",
-                    "src/functions/normalize_server.php",
-                    "src/functions/normalize_uploaded_files.php",
-                    "src/functions/parse_cookie_header.php",
-                    "src/functions/create_uploaded_file.legacy.php",
-                    "src/functions/marshal_headers_from_sapi.legacy.php",
-                    "src/functions/marshal_method_from_sapi.legacy.php",
-                    "src/functions/marshal_protocol_version_from_sapi.legacy.php",
-                    "src/functions/marshal_uri_from_sapi.legacy.php",
-                    "src/functions/normalize_server.legacy.php",
-                    "src/functions/normalize_uploaded_files.legacy.php",
-                    "src/functions/parse_cookie_header.legacy.php"
-                ],
-                "psr-4": {
-                    "Laminas\\Diactoros\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "PSR HTTP Message implementations",
-            "homepage": "https://laminas.dev",
-            "keywords": [
-                "http",
-                "laminas",
-                "psr",
-                "psr-17",
-                "psr-7"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.laminas.dev/laminas-diactoros/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/laminas/laminas-diactoros/issues",
-                "rss": "https://github.com/laminas/laminas-diactoros/releases.atom",
-                "source": "https://github.com/laminas/laminas-diactoros"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2023-10-29T16:17:44+00:00"
         },
         {
             "name": "loupe/loupe",
