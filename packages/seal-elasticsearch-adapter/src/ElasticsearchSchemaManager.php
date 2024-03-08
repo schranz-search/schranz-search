@@ -38,7 +38,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
         return 404 !== $response->getStatusCode();
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->client->indices()->delete([
             'index' => $index->name,
@@ -51,7 +51,7 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
         return new SyncTask(null); // TODO wait for index drop
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $properties = $this->createPropertiesMapping($index->fields);
 

@@ -15,7 +15,7 @@ namespace Schranz\Search\SEAL\Adapter\RediSearch\Tests;
 
 final class ClientHelper
 {
-    private static ?\Redis $client = null;
+    private static \Redis|null $client = null;
 
     public static function getClient(): \Redis
     {

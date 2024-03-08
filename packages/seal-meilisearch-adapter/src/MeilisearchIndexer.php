@@ -30,7 +30,7 @@ final class MeilisearchIndexer implements IndexerInterface
         $this->marshaller = new Marshaller();
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $identifierField = $index->getIdentifierField();
 
@@ -56,7 +56,7 @@ final class MeilisearchIndexer implements IndexerInterface
         });
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         $deleteResponse = $this->client->index($index->name)->deleteDocument($identifier);
 

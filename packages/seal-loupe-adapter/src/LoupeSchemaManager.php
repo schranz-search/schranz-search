@@ -30,7 +30,7 @@ final class LoupeSchemaManager implements SchemaManagerInterface
         return $this->loupeHelper->existIndex($index);
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->loupeHelper->dropIndex($index);
 
@@ -41,7 +41,7 @@ final class LoupeSchemaManager implements SchemaManagerInterface
         return new SyncTask(null);
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->loupeHelper->createIndex($index);
         $this->loupeHelper->getLoupe($index);

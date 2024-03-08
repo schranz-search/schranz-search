@@ -36,7 +36,7 @@ final class SearchBuilder
 
     private int $offset = 0;
 
-    private ?int $limit = null;
+    private int|null $limit = null;
 
     public function __construct(
         readonly private Schema $schema,

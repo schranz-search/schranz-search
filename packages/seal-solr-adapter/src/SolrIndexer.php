@@ -30,7 +30,7 @@ final class SolrIndexer implements IndexerInterface
         $this->marshaller = new FlattenMarshaller(addRawFilterTextField: true);
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $identifierField = $index->getIdentifierField();
 
@@ -58,7 +58,7 @@ final class SolrIndexer implements IndexerInterface
         return new SyncTask($document);
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         $update = $this->client->createUpdate();
         $update->addDeleteById($identifier);

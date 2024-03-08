@@ -29,9 +29,9 @@ final class ElasticsearchAdapter implements AdapterInterface
 
     public function __construct(
         Client $client,
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        SchemaManagerInterface|null $schemaManager = null,
+        IndexerInterface|null $indexer = null,
+        SearcherInterface|null $searcher = null,
     ) {
         if ($client->getAsync()) {
             throw new \RuntimeException('Currently only synchronous client is supported.');

@@ -18,7 +18,7 @@ interface ReindexProviderInterface
     /**
      * Returns how many documents this provider will provide. Returns `null` if the total is unknown.
      */
-    public function total(): ?int;
+    public function total(): int|null;
 
     /**
      * The reindex provider returns a Generator which provides the documents to reindex.

@@ -42,7 +42,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
         return $result->getClusterState()->collectionExists($index->name);
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $collectionQuery = $this->client->createCollections();
 
@@ -65,7 +65,7 @@ final class SolrSchemaManager implements SchemaManagerInterface
         return new SyncTask(null);
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $configsetQuery = $this->client->createConfigsets();
 

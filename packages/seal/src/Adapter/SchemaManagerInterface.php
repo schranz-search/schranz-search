@@ -27,7 +27,7 @@ interface SchemaManagerInterface
      *
      * @return (T is true ? TaskInterface<void|null> : null)
      */
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface;
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null;
 
     /**
      * @template T of bool
@@ -36,5 +36,5 @@ interface SchemaManagerInterface
      *
      * @return (T is true ? TaskInterface<void|null> : null)
      */
-    public function createIndex(Index $index, array $options = []): ?TaskInterface;
+    public function createIndex(Index $index, array $options = []): TaskInterface|null;
 }

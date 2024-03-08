@@ -98,7 +98,7 @@ final class LoupeHelper
         $this->loupe = [];
     }
 
-    private function createLoupe(Index $index, ?Configuration $configuration = null): Loupe
+    private function createLoupe(Index $index, Configuration|null $configuration = null): Loupe
     {
         if (!$configuration instanceof Configuration) {
             $configurationFile = $this->getConfigurationFile($index);

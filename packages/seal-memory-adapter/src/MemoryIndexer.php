@@ -28,7 +28,7 @@ final class MemoryIndexer implements IndexerInterface
         $this->marshaller = new Marshaller();
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $document = MemoryStorage::save($index, $this->marshaller->marshall($index->fields, $document));
 
@@ -39,7 +39,7 @@ final class MemoryIndexer implements IndexerInterface
         return new SyncTask($document);
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         MemoryStorage::delete($index, $identifier);
 

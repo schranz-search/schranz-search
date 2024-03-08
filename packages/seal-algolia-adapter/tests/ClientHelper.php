@@ -19,7 +19,7 @@ use Schranz\Search\SEAL\Adapter\Algolia\AlgoliaAdapterFactory;
 
 final class ClientHelper
 {
-    private static ?SearchClient $client = null;
+    private static SearchClient|null $client = null;
 
     public static function getClient(): SearchClient
     {

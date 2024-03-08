@@ -41,7 +41,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         return true;
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $dropIndex = $this->client->rawCommand('FT.DROPINDEX', $index->name);
         if (false === $dropIndex) {
@@ -55,7 +55,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
         return new SyncTask(null);
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $indexFields = $this->createJsonFields($index->fields);
 

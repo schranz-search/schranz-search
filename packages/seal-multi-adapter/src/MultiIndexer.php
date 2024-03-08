@@ -32,7 +32,7 @@ final class MultiIndexer implements IndexerInterface
     ) {
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $tasks = [];
         foreach ($this->indexers as $indexer) {
@@ -55,7 +55,7 @@ final class MultiIndexer implements IndexerInterface
         });
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         $tasks = [];
         foreach ($this->indexers as $indexer) {

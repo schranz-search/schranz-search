@@ -39,7 +39,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
         return true;
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->client->collections[$index->name]->delete();
 
@@ -50,7 +50,7 @@ final class TypesenseSchemaManager implements SchemaManagerInterface
         return new SyncTask(null);
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $fields = $this->createFields($index->fields);
 

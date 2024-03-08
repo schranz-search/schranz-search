@@ -51,4 +51,5 @@ return (new PhpCsFixer\Config())
         'global_namespace_import' => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
         'nullable_type_declaration_for_default_null_value' => true,
         'fully_qualified_strict_types' => [],
+        'nullable_type_declaration' => ['syntax' => 'union'],
     ]);

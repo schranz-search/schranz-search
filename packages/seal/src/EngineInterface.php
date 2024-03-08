@@ -26,14 +26,14 @@ interface EngineInterface
      *
      * @return ($options is non-empty-array ? TaskInterface<array<string, mixed>> : null)
      */
-    public function saveDocument(string $index, array $document, array $options = []): ?TaskInterface;
+    public function saveDocument(string $index, array $document, array $options = []): TaskInterface|null;
 
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
      * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
-    public function deleteDocument(string $index, string $identifier, array $options = []): ?TaskInterface;
+    public function deleteDocument(string $index, string $identifier, array $options = []): TaskInterface|null;
 
     /**
      * @throws DocumentNotFoundException
@@ -49,14 +49,14 @@ interface EngineInterface
      *
      * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
-    public function createIndex(string $index, array $options = []): ?TaskInterface;
+    public function createIndex(string $index, array $options = []): TaskInterface|null;
 
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
      * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
-    public function dropIndex(string $index, array $options = []): ?TaskInterface;
+    public function dropIndex(string $index, array $options = []): TaskInterface|null;
 
     public function existIndex(string $index): bool;
 
@@ -65,14 +65,14 @@ interface EngineInterface
      *
      * @return ($options is non-empty-array ? TaskInterface<null> : null)
      */
-    public function createSchema(array $options = []): ?TaskInterface;
+    public function createSchema(array $options = []): TaskInterface|null;
 
     /**
      * @param array{return_slow_promise_result?: bool} $options
      *
      * @return ($options is non-empty-array ? TaskInterface<null> : null)
      */
-    public function dropSchema(array $options = []): ?TaskInterface;
+    public function dropSchema(array $options = []): TaskInterface|null;
 
     /**
      * @experimental This method is experimental and may change in future versions, we are not sure if it stays here or the syntax change completely.
@@ -83,8 +83,8 @@ interface EngineInterface
      */
     public function reindex(
         iterable $reindexProviders,
-        ?string $index = null,
+        string|null $index = null,
         bool $dropIndex = false,
-        ?callable $progressCallback = null,
+        callable|null $progressCallback = null,
     ): void;
 }

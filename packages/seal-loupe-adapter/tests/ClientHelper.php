@@ -19,7 +19,7 @@ use Schranz\Search\SEAL\Adapter\Loupe\LoupeHelper;
 
 final class ClientHelper
 {
-    private static ?LoupeHelper $helper = null;
+    private static LoupeHelper|null $helper = null;
 
     public static function getHelper(): LoupeHelper
     {

@@ -23,7 +23,7 @@ use Schranz\Search\SEAL\Adapter\AdapterInterface;
 class RediSearchAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null,
+        private readonly ContainerInterface|null $container = null,
     ) {
     }
 

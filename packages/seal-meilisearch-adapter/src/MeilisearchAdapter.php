@@ -29,9 +29,9 @@ final class MeilisearchAdapter implements AdapterInterface
 
     public function __construct(
         Client $client,
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        SchemaManagerInterface|null $schemaManager = null,
+        IndexerInterface|null $indexer = null,
+        SearcherInterface|null $searcher = null,
     ) {
         $this->schemaManager = $schemaManager ?? new MeilisearchSchemaManager($client);
         $this->indexer = $indexer ?? new MeilisearchIndexer($client);

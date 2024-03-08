@@ -42,7 +42,7 @@ final class MultiSchemaManager implements SchemaManagerInterface
         return $existIndex;
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $tasks = [];
 
@@ -64,7 +64,7 @@ final class MultiSchemaManager implements SchemaManagerInterface
         });
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $tasks = [];
         foreach ($this->schemaManagers as $schemaManager) {

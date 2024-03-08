@@ -29,9 +29,9 @@ final class AlgoliaAdapter implements AdapterInterface
 
     public function __construct(
         SearchClient $client,
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        SchemaManagerInterface|null $schemaManager = null,
+        IndexerInterface|null $indexer = null,
+        SearcherInterface|null $searcher = null,
     ) {
         $this->schemaManager = $schemaManager ?? new AlgoliaSchemaManager($client);
         $this->indexer = $indexer ?? new AlgoliaIndexer($client);

@@ -20,9 +20,9 @@ use Schranz\Search\SEAL\Adapter\SearcherInterface;
 
 final class MultiAdapter implements AdapterInterface
 {
-    private ?SchemaManagerInterface $schemaManager = null;
+    private SchemaManagerInterface|null $schemaManager = null;
 
-    private ?IndexerInterface $indexer = null;
+    private IndexerInterface|null $indexer = null;
 
     private SearcherInterface $searcher;
 
