@@ -26,7 +26,7 @@ use Typesense\Client;
 class TypesenseAdapterFactory implements AdapterFactoryInterface
 {
     public function __construct(
-        private readonly ?ContainerInterface $container = null,
+        private readonly ContainerInterface|null $container = null,
     ) {
     }
 

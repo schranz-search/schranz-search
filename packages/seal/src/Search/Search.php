@@ -26,7 +26,7 @@ final class Search
         public readonly array $indexes = [],
         public readonly array $filters = [],
         public readonly array $sortBys = [],
-        public readonly ?int $limit = null,
+        public readonly int|null $limit = null,
         public readonly int $offset = 0,
     ) {
     }

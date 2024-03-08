@@ -28,9 +28,9 @@ final class RediSearchAdapter implements AdapterInterface
 
     public function __construct(
         \Redis $client,
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        SchemaManagerInterface|null $schemaManager = null,
+        IndexerInterface|null $indexer = null,
+        SearcherInterface|null $searcher = null,
     ) {
         $this->schemaManager = $schemaManager ?? new RediSearchSchemaManager($client);
         $this->indexer = $indexer ?? new RediSearchIndexer($client);

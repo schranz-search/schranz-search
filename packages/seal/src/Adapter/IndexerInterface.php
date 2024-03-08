@@ -24,12 +24,12 @@ interface IndexerInterface
      *
      * @return ($options is non-empty-array ? TaskInterface<array<string, mixed>> : null)
      */
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface;
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null;
 
     /**
      * @param array{return_slow_promise_result?: true} $options
      *
      * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface;
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null;
 }

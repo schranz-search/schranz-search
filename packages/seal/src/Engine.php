@@ -30,7 +30,7 @@ final class Engine implements EngineInterface
     ) {
     }
 
-    public function saveDocument(string $index, array $document, array $options = []): ?TaskInterface
+    public function saveDocument(string $index, array $document, array $options = []): TaskInterface|null
     {
         return $this->adapter->getIndexer()->save(
             $this->schema->indexes[$index],
@@ -39,7 +39,7 @@ final class Engine implements EngineInterface
         );
     }
 
-    public function deleteDocument(string $index, string $identifier, array $options = []): ?TaskInterface
+    public function deleteDocument(string $index, string $identifier, array $options = []): TaskInterface|null
     {
         return $this->adapter->getIndexer()->delete(
             $this->schema->indexes[$index],
@@ -78,12 +78,12 @@ final class Engine implements EngineInterface
         );
     }
 
-    public function createIndex(string $index, array $options = []): ?TaskInterface
+    public function createIndex(string $index, array $options = []): TaskInterface|null
     {
         return $this->adapter->getSchemaManager()->createIndex($this->schema->indexes[$index], $options);
     }
 
-    public function dropIndex(string $index, array $options = []): ?TaskInterface
+    public function dropIndex(string $index, array $options = []): TaskInterface|null
     {
         return $this->adapter->getSchemaManager()->dropIndex($this->schema->indexes[$index], $options);
     }
@@ -93,7 +93,7 @@ final class Engine implements EngineInterface
         return $this->adapter->getSchemaManager()->existIndex($this->schema->indexes[$index]);
     }
 
-    public function createSchema(array $options = []): ?TaskInterface
+    public function createSchema(array $options = []): TaskInterface|null
     {
         $tasks = [];
         foreach ($this->schema->indexes as $index) {
@@ -107,7 +107,7 @@ final class Engine implements EngineInterface
         return new MultiTask($tasks); // @phpstan-ignore-line
     }
 
-    public function dropSchema(array $options = []): ?TaskInterface
+    public function dropSchema(array $options = []): TaskInterface|null
     {
         $tasks = [];
         foreach ($this->schema->indexes as $index) {
@@ -123,9 +123,9 @@ final class Engine implements EngineInterface
 
     public function reindex(
         iterable $reindexProviders,
-        ?string $index = null,
+        string|null $index = null,
         bool $dropIndex = false,
-        ?callable $progressCallback = null,
+        callable|null $progressCallback = null,
     ): void {
         /** @var array<string, ReindexProviderInterface[]> $reindexProvidersPerIndex */
         $reindexProvidersPerIndex = [];

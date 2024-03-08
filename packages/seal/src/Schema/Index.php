@@ -24,7 +24,7 @@ use Schranz\Search\SEAL\Schema\Field\TypedField;
  */
 final class Index
 {
-    private readonly ?IdentifierField $identifierField;
+    private readonly IdentifierField|null $identifierField;
 
     /**
      * @var string[]

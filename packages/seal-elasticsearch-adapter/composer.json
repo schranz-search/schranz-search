@@ -36,7 +36,7 @@
         "php-http/curl-client": "^2.0",
         "guzzlehttp/psr7": "^2.0",
         "php-http/message": "^1.0",
-        "php-cs-fixer/shim": "^3.15",
+        "php-cs-fixer/shim": "^3.51",
         "phpstan/extension-installer": "^1.2",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",

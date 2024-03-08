@@ -34,7 +34,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         ]);
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->client->indices()->delete([
             'index' => $index->name,
@@ -47,7 +47,7 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
         return new SyncTask(null); // TODO wait for index drop
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $properties = $this->createPropertiesMapping($index->fields);
 

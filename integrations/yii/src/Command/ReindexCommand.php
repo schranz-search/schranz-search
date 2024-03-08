@@ -67,7 +67,7 @@ final class ReindexCommand extends Command
                 $this->reindexProviders,
                 $indexName,
                 $drop,
-                function (string $index, int $count, ?int $total) use ($progressBar) {
+                function (string $index, int $count, int|null $total) use ($progressBar) {
                     $progressBar->setMessage($index);
                     $progressBar->setProgress($count);
 

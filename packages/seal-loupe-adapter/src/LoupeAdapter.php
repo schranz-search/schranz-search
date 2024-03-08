@@ -28,9 +28,9 @@ final class LoupeAdapter implements AdapterInterface
 
     public function __construct(
         LoupeHelper $loupeHelper,
-        ?SchemaManagerInterface $schemaManager = null,
-        ?IndexerInterface $indexer = null,
-        ?SearcherInterface $searcher = null,
+        SchemaManagerInterface|null $schemaManager = null,
+        IndexerInterface|null $indexer = null,
+        SearcherInterface|null $searcher = null,
     ) {
         $this->schemaManager = $schemaManager ?? new LoupeSchemaManager($loupeHelper);
         $this->indexer = $indexer ?? new LoupeIndexer($loupeHelper);

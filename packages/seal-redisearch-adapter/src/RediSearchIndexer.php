@@ -31,7 +31,7 @@ final class RediSearchIndexer implements IndexerInterface
         );
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $identifierField = $index->getIdentifierField();
 
@@ -58,7 +58,7 @@ final class RediSearchIndexer implements IndexerInterface
         return new SyncTask($document);
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         $jsonDel = $this->client->rawCommand(
             'JSON.DEL',

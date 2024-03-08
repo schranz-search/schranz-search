@@ -42,7 +42,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         return true;
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $deleteIndexResponse = $this->client->deleteIndex($index->name);
 
@@ -55,7 +55,7 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
         });
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $this->client->createIndex(
             $index->name,

@@ -33,7 +33,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         return $index->exists();
     }
 
-    public function dropIndex(Index $index, array $options = []): ?TaskInterface
+    public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
         $searchIndex = $this->client->initIndex($index->name);
 
@@ -69,7 +69,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         });
     }
 
-    public function createIndex(Index $index, array $options = []): ?TaskInterface
+    public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $searchIndex = $this->client->initIndex($index->name);
 

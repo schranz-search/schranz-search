@@ -8,7 +8,7 @@ use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 
 class BlogReindexProvider implements ReindexProviderInterface
 {
-    public function total(): ?int
+    public function total(): int|null
     {
         return 3;
     }

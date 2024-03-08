@@ -17,7 +17,7 @@ use Meilisearch\Client;
 
 final class ClientHelper
 {
-    private static ?Client $client = null;
+    private static Client|null $client = null;
 
     public static function getClient(): Client
     {

@@ -592,7 +592,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         foreach ($loadedDocuments as $loadedDocument) {
             /** @var int[] $categoryIds */
             $categoryIds = $loadedDocument['categoryIds'];
-            $biggestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => \max($categoryId, $item));
+            $biggestCategoryId = \array_reduce($categoryIds, fn (int|null $categoryId, int|null $item): int|null => \max($categoryId, $item));
 
             $this->assertNotNull($biggestCategoryId);
             $this->assertGreaterThanOrEqual(3.0, $biggestCategoryId);
@@ -712,7 +712,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         foreach ($loadedDocuments as $loadedDocument) {
             /** @var int[] $categoryIds */
             $categoryIds = $loadedDocument['categoryIds'];
-            $smallestCategoryId = \array_reduce($categoryIds, fn (?int $categoryId, ?int $item): ?int => null !== $categoryId ? \min($categoryId, $item) : $item);
+            $smallestCategoryId = \array_reduce($categoryIds, fn (int|null $categoryId, int|null $item): int|null => null !== $categoryId ? \min($categoryId, $item) : $item);
 
             $this->assertNotNull($smallestCategoryId);
             $this->assertLessThanOrEqual(2.0, $smallestCategoryId);

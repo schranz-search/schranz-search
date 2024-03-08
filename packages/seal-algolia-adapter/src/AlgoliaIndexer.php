@@ -30,7 +30,7 @@ final class AlgoliaIndexer implements IndexerInterface
         $this->marshaller = new Marshaller();
     }
 
-    public function save(Index $index, array $document, array $options = []): ?TaskInterface
+    public function save(Index $index, array $document, array $options = []): TaskInterface|null
     {
         $identifierField = $index->getIdentifierField();
 
@@ -52,7 +52,7 @@ final class AlgoliaIndexer implements IndexerInterface
         });
     }
 
-    public function delete(Index $index, string $identifier, array $options = []): ?TaskInterface
+    public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         $searchIndex = $this->client->initIndex($index->name);
 
