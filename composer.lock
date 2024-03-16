@@ -9,16 +9,16 @@
     "packages-dev": [
         {
             "name": "schranz/mono",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alexander-schranz/mono.git",
-                "reference": "a331373a8e7e9fdc1a3ed9a8076a6955d83b3f11"
+                "reference": "3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alexander-schranz/mono/zipball/a331373a8e7e9fdc1a3ed9a8076a6955d83b3f11",
-                "reference": "a331373a8e7e9fdc1a3ed9a8076a6955d83b3f11",
+                "url": "https://api.github.com/repos/alexander-schranz/mono/zipball/3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8",
+                "reference": "3b0f1ff7196381c93ea4b4d6e560ddbc981c3bc8",
                 "shasum": ""
             },
             "require": {
@@ -46,9 +46,9 @@
             ],
             "support": {
                 "issues": "https://github.com/alexander-schranz/mono/issues",
-                "source": "https://github.com/alexander-schranz/mono/tree/2.1.0"
+                "source": "https://github.com/alexander-schranz/mono/tree/2.2.0"
             },
-            "time": "2024-02-17T19:14:46+00:00"
+            "time": "2024-03-16T12:03:15+00:00"
         }
     ],
     "aliases": [],
