@@ -79,6 +79,13 @@ final class TypesenseSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s)',
+                    $filter->field,
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->distance),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
