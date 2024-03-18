@@ -4,17 +4,6 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', fn (): string => (new \App\Http\Controllers\SearchController())->home());
 Route::get('/algolia', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->algolia());
 Route::get('/elasticsearch', fn (): \Symfony\Component\HttpFoundation\Response => (new \App\Http\Controllers\SearchController())->elasticsearch());

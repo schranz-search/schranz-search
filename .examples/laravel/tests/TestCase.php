@@ -9,8 +9,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
-
     public function crawler(string $content): Crawler
     {
         return new Crawler($content);
