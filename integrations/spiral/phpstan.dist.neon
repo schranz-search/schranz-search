@@ -1,9 +1,9 @@
 includes:
+    - ../../phpstan.dist.neon
     - phpstan-baseline.neon
 
 parameters:
     paths:
         - src
-    level: max
     excludePaths:
         - vendor/*

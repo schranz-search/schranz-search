@@ -1,27 +1,25 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "The skeleton application for the Laravel framework.",
+    "keywords": ["laravel", "framework"],
     "license": "MIT",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
+        "php": "^8.2",
+        "laravel/framework": "^11.0",
+        "laravel/tinker": "^2.9",
         "schranz-search/seal": "^0.4",
-        "schranz-search/laravel-package": "^0.4",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8"
+        "schranz-search/laravel-package": "^0.4"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "nunomaduro/larastan": "^2.0",
+        "fakerphp/faker": "^1.23",
+        "laravel/pint": "^1.13",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "phpunit/phpunit": "^10.5",
         "pestphp/pest": "^2.16",
         "php-cs-fixer/shim": "^3.51",
         "phpstan/extension-installer": "^1.2",
@@ -39,12 +37,9 @@
         "schranz-search/seal-redisearch-adapter": "^0.4",
         "schranz-search/seal-solr-adapter": "^0.4",
         "schranz-search/seal-typesense-adapter": "^0.4",
-        "spatie/laravel-ignition": "^2.0",
-        "symfony/css-selector": "^6.2",
-        "symfony/dom-crawler": "^6.2"
-    },
-    "conflict": {
-        "react/promise": "<2.2.0"
+        "spatie/laravel-ignition": "^2.4",
+        "symfony/css-selector": "^6.4 || 7.0",
+        "symfony/dom-crawler": "^6.4 || 7.0"
     },
     "repositories": [
         {
@@ -80,19 +75,15 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
-        ],
-        "post-install-cmd": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi"
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
         ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
@@ -103,8 +94,8 @@
         "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
         "lint": [
             "@phpstan",
-            "@lint-php-cs",
             "@lint-rector",
+            "@lint-php-cs",
             "@lint-composer"
         ],
         "lint-composer": "@composer validate --strict --no-check-publish",
