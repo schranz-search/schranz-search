@@ -34,6 +34,8 @@ final class MemorySearcher implements SearcherInterface
     {
         $documents = [];
 
+        $searchTerms = [];
+
         /** @var Index $index */
         foreach ($search->indexes as $index) {
             foreach (MemoryStorage::getDocuments($index) as $identifier => $document) {
@@ -55,6 +57,7 @@ final class MemorySearcher implements SearcherInterface
 
                         $text = \json_encode($searchableDocument, \JSON_THROW_ON_ERROR);
                         $terms = \explode(' ', $filter->query);
+                        $searchTerms = \array_unique([...$searchTerms, ...$terms]);
 
                         foreach ($terms as $term) {
                             if (!\str_contains($text, $term)) {
@@ -170,8 +173,40 @@ final class MemorySearcher implements SearcherInterface
 
         $documents = \array_slice($documents, $search->offset, $search->limit);
 
-        $generator = (function () use ($documents): \Generator {
+        $generator = (function () use ($documents, $search, $searchTerms): \Generator {
             foreach ($documents as $document) {
+                foreach ($search->highlightFields as $highlightField) {
+                    $highlightFieldContent = \json_encode($document[$highlightField], \JSON_THROW_ON_ERROR);
+                    foreach ($searchTerms as $searchTerm) {
+                        $highlightFieldContent = \str_replace(
+                            $searchTerm,
+                            $search->highlightPreTag . $searchTerm . $search->highlightPostTag,
+                            $highlightFieldContent,
+                        );
+                    }
+
+                    $highlightFieldContent = \str_replace(
+                        $search->highlightPostTag . $search->highlightPostTag,
+                        '',
+                        $highlightFieldContent,
+                    );
+
+                    $highlightFieldContent = \str_replace(
+                        $search->highlightPostTag . ' ' . $search->highlightPostTag,
+                        ' ',
+                        $highlightFieldContent,
+                    );
+
+                    $document['_formatted'] ??= [];
+
+                    \assert(
+                        \is_array($document['_formatted']),
+                        'Document with key "_formatted" expected to be array.',
+                    );
+
+                    $document['_formatted'][$highlightField] = \json_decode($highlightFieldContent, true, 512, \JSON_THROW_ON_ERROR);
+                }
+
                 yield $document;
             }
         });
