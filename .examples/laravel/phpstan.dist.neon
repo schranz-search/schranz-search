@@ -1,8 +1,10 @@
+includes:
+    - ../../phpstan.dist.neon
+
 parameters:
     paths:
         - app
         - tests
-    level: max
     excludePaths:
         - vendor/*
     ignoreErrors:

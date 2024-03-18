@@ -26,9 +26,4 @@ return static function (RectorConfig $rectorConfig, string $directory): void {
         SetList::CODE_QUALITY,
         LevelSetList::UP_TO_PHP_81,
     ]);
-
-    $rectorConfig->sets([
-        PHPUnitLevelSetList::UP_TO_PHPUNIT_90,
-        PHPUnitSetList::PHPUNIT_91,
-    ]);
 };

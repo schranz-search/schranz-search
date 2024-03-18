@@ -1,6 +1,8 @@
+includes:
+    - ../../phpstan.dist.neon
+
 parameters:
     paths:
         - .
-    level: max
     excludePaths:
         - vendor/*

@@ -94,8 +94,8 @@
         "lint-php-cs": "@php vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
         "lint": [
             "@phpstan",
-            "@lint-php-cs",
             "@lint-rector",
+            "@lint-php-cs",
             "@lint-composer"
         ],
         "lint-composer": "@composer validate --strict --no-check-publish",
