@@ -28,7 +28,7 @@ final class LoupeIndexer implements IndexerInterface
     ) {
         $this->marshaller = new FlattenMarshaller(
             dateAsInteger: true,
-            separator: LoupeHelper::SEPERATOR,
+            separator: LoupeHelper::SEPARATOR,
             sourceField: LoupeHelper::SOURCE_FIELD,
         );
     }

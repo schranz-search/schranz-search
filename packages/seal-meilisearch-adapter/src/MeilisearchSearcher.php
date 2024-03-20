@@ -62,7 +62,7 @@ final class MeilisearchSearcher implements SearcherInterface
         }
 
         if (1 !== \count($search->indexes)) {
-            throw new \RuntimeException('Meilisearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
+            throw new \RuntimeException('Meilisearch does not yet support search across multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];
