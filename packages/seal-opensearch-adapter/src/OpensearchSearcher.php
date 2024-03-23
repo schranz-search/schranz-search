@@ -124,13 +124,26 @@ final class OpensearchSearcher implements SearcherInterface
     private function hitsToDocuments(array $indexes, array $hits): \Generator
     {
         $indexesByInternalName = [];
-        foreach ($indexes as $index) {
-            $indexesByInternalName[$index->name] = $index;
-        }
 
         /** @var array{_index: string, _source: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
             $index = $indexesByInternalName[$hit['_index']] ?? null;
+            if (!$index instanceof Index) {
+                $lastMaxLength = 0;
+
+                // find the correct index alias as we use %indexName%_%datetime% as index name
+                foreach ($indexes as $otherIndex) {
+                    if (
+                        \str_starts_with($hit['_index'], $otherIndex->name . '_')
+                        && $lastMaxLength < \strlen($otherIndex->name)
+                    ) {
+                        $index = $otherIndex;
+                        $lastMaxLength = \strlen($index->name);
+                    }
+                }
+                $indexesByInternalName[$hit['_index']] = $index;
+            }
+
             if (!$index instanceof Index) {
                 throw new \RuntimeException('SchemaMetadata for Index "' . $hit['_index'] . '" not found.');
             }
