@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
@@ -36,8 +37,19 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
 
     public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
+        $responseData = $this->client->indices()->getAlias([
+            'name' => $index->name,
+        ]);
+
+        $targetIndexName = \array_key_first($responseData);
+
+        $this->client->indices()->deleteAlias([
+            'name' => $index->name,
+            'index' => $targetIndexName,
+        ]);
+
         $this->client->indices()->delete([
-            'index' => $index->name,
+            'index' => $targetIndexName,
         ]);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
@@ -51,14 +63,31 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
     {
         $properties = $this->createPropertiesMapping($index->fields);
 
+        $targetIndexName = $index->name . '_' . \date('YmdHis');
+
+        try {
+            $responseData = $this->client->indices()->getAlias([
+                'name' => $index->name,
+            ]);
+
+            $targetIndexName = \array_key_first($responseData) ?? $targetIndexName;
+        } catch (Missing404Exception) {
+            // @ignoreException
+        }
+
         $this->client->indices()->create([
-            'index' => $index->name,
+            'index' => $targetIndexName,
             'body' => [
                 'mappings' => [
                     'dynamic' => 'strict',
                     'properties' => $properties,
                 ],
             ],
+        ]);
+
+        $this->client->indices()->putAlias([
+            'name' => $index->name,
+            'index' => $targetIndexName,
         ]);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
