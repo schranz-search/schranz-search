@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "schranz-search/seal": "^0.4"
+        "schranz-search/seal": "^0.5"
     },
     "require-dev": {
         "php-cs-fixer/shim": "^3.51",

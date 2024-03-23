@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a63308ee4aba72a0359a7c4ea301e2f",
+    "content-hash": "58d192b70355ffac0f9e19af549dc286",
     "packages": [
         {
             "name": "brick/math",
@@ -1047,16 +1047,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.0.7",
+            "version": "v11.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "28eabe9dcdcb017a21ce226eda4538c5c8c93b1c"
+                "reference": "0379a7ccb77e2029c43ce508fa76e251a0d68fce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/28eabe9dcdcb017a21ce226eda4538c5c8c93b1c",
-                "reference": "28eabe9dcdcb017a21ce226eda4538c5c8c93b1c",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0379a7ccb77e2029c43ce508fa76e251a0d68fce",
+                "reference": "0379a7ccb77e2029c43ce508fa76e251a0d68fce",
                 "shasum": ""
             },
             "require": {
@@ -1159,7 +1159,7 @@
                 "league/flysystem-sftp-v3": "^3.0",
                 "mockery/mockery": "^1.6",
                 "nyholm/psr7": "^1.2",
-                "orchestra/testbench-core": "^9.0",
+                "orchestra/testbench-core": "^9.0.6",
                 "pda/pheanstalk": "^5.0",
                 "phpstan/phpstan": "^1.4.7",
                 "phpunit/phpunit": "^10.5|^11.0",
@@ -1248,7 +1248,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-03-15T23:17:58+00:00"
+            "time": "2024-03-21T14:15:49+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -3120,31 +3120,31 @@
         },
         {
             "name": "schranz-search/laravel-package",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../integrations/laravel",
-                "reference": "7a5e40044c6c3a931d68a1efdf0b149a1b3d3211"
+                "reference": "a881b38a1727ee290a709e34a6ee9c31e01d7fa4"
             },
             "require": {
                 "illuminate/console": "^8.0 || ^9.0 || ^10.0 || ^11.0",
                 "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0",
                 "illuminate/view": "^8.0 || ^9.0 || ^10.0 || ^11.0",
                 "php": "^8.1",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "conflict": {
-                "schranz-search/seal-algolia-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-elasticsearch-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-loupe-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-meilisearch-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-memory-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-multi-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-opensearch-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-read-write-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-redisearch-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-solr-adapter": "<0.4 || >=0.5",
-                "schranz-search/seal-typesense-adapter": "<0.4 || >=0.5"
+                "schranz-search/seal-algolia-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-elasticsearch-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-loupe-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-meilisearch-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-memory-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-multi-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-opensearch-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-read-write-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-redisearch-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-solr-adapter": "<0.5 || >=0.6",
+                "schranz-search/seal-typesense-adapter": "<0.5 || >=0.6"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -3153,17 +3153,17 @@
                 "phpstan/phpstan-phpunit": "^1.3",
                 "phpunit/phpunit": "^10.3",
                 "rector/rector": "^1.0",
-                "schranz-search/seal-algolia-adapter": "^0.4",
-                "schranz-search/seal-elasticsearch-adapter": "^0.4",
-                "schranz-search/seal-loupe-adapter": "^0.4",
-                "schranz-search/seal-meilisearch-adapter": "^0.4",
-                "schranz-search/seal-memory-adapter": "^0.4",
-                "schranz-search/seal-multi-adapter": "^0.4",
-                "schranz-search/seal-opensearch-adapter": "^0.4",
-                "schranz-search/seal-read-write-adapter": "^0.4",
-                "schranz-search/seal-redisearch-adapter": "^0.4",
-                "schranz-search/seal-solr-adapter": "^0.4",
-                "schranz-search/seal-typesense-adapter": "^0.4"
+                "schranz-search/seal-algolia-adapter": "^0.5",
+                "schranz-search/seal-elasticsearch-adapter": "^0.5",
+                "schranz-search/seal-loupe-adapter": "^0.5",
+                "schranz-search/seal-meilisearch-adapter": "^0.5",
+                "schranz-search/seal-memory-adapter": "^0.5",
+                "schranz-search/seal-multi-adapter": "^0.5",
+                "schranz-search/seal-opensearch-adapter": "^0.5",
+                "schranz-search/seal-read-write-adapter": "^0.5",
+                "schranz-search/seal-redisearch-adapter": "^0.5",
+                "schranz-search/seal-solr-adapter": "^0.5",
+                "schranz-search/seal-typesense-adapter": "^0.5"
             },
             "type": "library",
             "extra": {
@@ -3260,7 +3260,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal",
@@ -6556,7 +6556,7 @@
             "version": "v8.12.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:elastic/elasticsearch-php.git",
+                "url": "https://github.com/elastic/elasticsearch-php.git",
                 "reference": "6f4a2ee4ff2cb9f75a6ee00f574aa2d9c1bb14fd"
             },
             "dist": {
@@ -6602,6 +6602,10 @@
                 "elasticsearch",
                 "search"
             ],
+            "support": {
+                "issues": "https://github.com/elastic/elasticsearch-php/issues",
+                "source": "https://github.com/elastic/elasticsearch-php/tree/v8.12.0"
+            },
             "time": "2024-01-26T14:58:39+00:00"
         },
         {
@@ -7146,16 +7150,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.29.0",
+            "version": "v1.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "e40cc7ffb5186c45698dbd47e9477e0e429396d0"
+                "reference": "8be4a31150eab3b46af11a2e7b2c4632eefaad7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/e40cc7ffb5186c45698dbd47e9477e0e429396d0",
-                "reference": "e40cc7ffb5186c45698dbd47e9477e0e429396d0",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/8be4a31150eab3b46af11a2e7b2c4632eefaad7e",
+                "reference": "8be4a31150eab3b46af11a2e7b2c4632eefaad7e",
                 "shasum": ""
             },
             "require": {
@@ -7163,6 +7167,7 @@
                 "illuminate/contracts": "^9.52.16|^10.0|^11.0",
                 "illuminate/support": "^9.52.16|^10.0|^11.0",
                 "php": "^8.0",
+                "symfony/console": "^6.0|^7.0",
                 "symfony/yaml": "^6.0|^7.0"
             },
             "require-dev": {
@@ -7204,20 +7209,20 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2024-03-08T16:32:33+00:00"
+            "time": "2024-03-20T20:09:31+00:00"
         },
         {
             "name": "loupe/loupe",
-            "version": "0.5.6",
+            "version": "0.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/loupe-php/loupe.git",
-                "reference": "bcb04ce769888587cee9e8b52e54623325a1a4c3"
+                "reference": "cda703558015eae33ce6ede66efe444c607e9894"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/bcb04ce769888587cee9e8b52e54623325a1a4c3",
-                "reference": "bcb04ce769888587cee9e8b52e54623325a1a4c3",
+                "url": "https://api.github.com/repos/loupe-php/loupe/zipball/cda703558015eae33ce6ede66efe444c607e9894",
+                "reference": "cda703558015eae33ce6ede66efe444c607e9894",
                 "shasum": ""
             },
             "require": {
@@ -7259,7 +7264,7 @@
             "description": "A full text search engine with tokenization, stemming, typo tolerance, filters and geo support based on only PHP and SQLite",
             "support": {
                 "issues": "https://github.com/loupe-php/loupe/issues",
-                "source": "https://github.com/loupe-php/loupe/tree/0.5.6"
+                "source": "https://github.com/loupe-php/loupe/tree/0.6.3"
             },
             "funding": [
                 {
@@ -7267,7 +7272,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-18T07:50:55+00:00"
+            "time": "2024-03-20T15:16:55+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -7489,16 +7494,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.6.9",
+            "version": "1.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06"
+                "reference": "81a161d0b135df89951abd52296adf97deb0723d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
-                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/81a161d0b135df89951abd52296adf97deb0723d",
+                "reference": "81a161d0b135df89951abd52296adf97deb0723d",
                 "shasum": ""
             },
             "require": {
@@ -7510,8 +7515,8 @@
                 "phpunit/phpunit": "<8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.6.10",
-                "symplify/easy-coding-standard": "^12.0.8"
+                "phpunit/phpunit": "^8.5 || ^9.6.17",
+                "symplify/easy-coding-standard": "^12.1.14"
             },
             "type": "library",
             "autoload": {
@@ -7568,7 +7573,7 @@
                 "security": "https://github.com/mockery/mockery/security/advisories",
                 "source": "https://github.com/mockery/mockery"
             },
-            "time": "2023-12-10T02:24:34+00:00"
+            "time": "2024-03-21T18:34:15+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7929,16 +7934,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.34.4",
+            "version": "v2.34.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "6a1161ead830294ef8e21fab83c0bd118b0df7cc"
+                "reference": "863a0cc83744c677ffdb28a6a2b841dd049e57ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/6a1161ead830294ef8e21fab83c0bd118b0df7cc",
-                "reference": "6a1161ead830294ef8e21fab83c0bd118b0df7cc",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/863a0cc83744c677ffdb28a6a2b841dd049e57ce",
+                "reference": "863a0cc83744c677ffdb28a6a2b841dd049e57ce",
                 "shasum": ""
             },
             "require": {
@@ -7948,10 +7953,10 @@
                 "pestphp/pest-plugin": "^2.1.1",
                 "pestphp/pest-plugin-arch": "^2.7.0",
                 "php": "^8.1.0",
-                "phpunit/phpunit": "^10.5.13"
+                "phpunit/phpunit": "^10.5.15"
             },
             "conflict": {
-                "phpunit/phpunit": ">10.5.13",
+                "phpunit/phpunit": ">10.5.15",
                 "sebastian/exporter": "<5.1.0",
                 "webmozart/assert": "<1.11.0"
             },
@@ -8021,7 +8026,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.34.4"
+                "source": "https://github.com/pestphp/pest/tree/v2.34.5"
             },
             "funding": [
                 {
@@ -8033,7 +8038,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-14T19:44:18+00:00"
+            "time": "2024-03-22T08:44:19+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -8296,16 +8301,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.52.0",
+            "version": "v3.52.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "b9dfb4ede056c2e20102f0360b64a41a0c10a9bc"
+                "reference": "baec5a6d4b24bad4c930d39fde34b2b0c1c8cd94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/b9dfb4ede056c2e20102f0360b64a41a0c10a9bc",
-                "reference": "b9dfb4ede056c2e20102f0360b64a41a0c10a9bc",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/baec5a6d4b24bad4c930d39fde34b2b0c1c8cd94",
+                "reference": "baec5a6d4b24bad4c930d39fde34b2b0c1c8cd94",
                 "shasum": ""
             },
             "require": {
@@ -8342,9 +8347,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.52.0"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.52.1"
             },
-            "time": "2024-03-18T18:40:41+00:00"
+            "time": "2024-03-19T21:03:12+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -8885,16 +8890,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.26.0",
+            "version": "1.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227"
+                "reference": "86e4d5a4b036f8f0be1464522f4c6b584c452757"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/231e3186624c03d7e7c890ec662b81e6b0405227",
-                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/86e4d5a4b036f8f0be1464522f4c6b584c452757",
+                "reference": "86e4d5a4b036f8f0be1464522f4c6b584c452757",
                 "shasum": ""
             },
             "require": {
@@ -8926,22 +8931,22 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.26.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.27.0"
             },
-            "time": "2024-02-23T16:05:55+00:00"
+            "time": "2024-03-21T13:14:53+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.63",
+            "version": "1.10.65",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ad12836d9ca227301f5fb9960979574ed8628339"
+                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ad12836d9ca227301f5fb9960979574ed8628339",
-                "reference": "ad12836d9ca227301f5fb9960979574ed8628339",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
                 "shasum": ""
             },
             "require": {
@@ -8990,7 +8995,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-18T16:53:53+00:00"
+            "time": "2024-03-23T10:30:26+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -9367,16 +9372,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.13",
+            "version": "10.5.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7"
+                "reference": "86376e05e8745ed81d88232ff92fee868247b07b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86376e05e8745ed81d88232ff92fee868247b07b",
+                "reference": "86376e05e8745ed81d88232ff92fee868247b07b",
                 "shasum": ""
             },
             "require": {
@@ -9448,7 +9453,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.15"
             },
             "funding": [
                 {
@@ -9464,7 +9469,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-12T15:37:41+00:00"
+            "time": "2024-03-22T04:17:47+00:00"
         },
         {
             "name": "psr/cache",
@@ -9645,17 +9650,17 @@
         },
         {
             "name": "schranz-search/seal-algolia-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-algolia-adapter",
-                "reference": "e5be917ee923c29e5bcccdad8378cb8a6a06485e"
+                "reference": "41ea6c525b0408d6b0bd0e6cf5ebc6ab7c4400f8"
             },
             "require": {
                 "algolia/algoliasearch-client-php": "^3.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -9734,17 +9739,17 @@
         },
         {
             "name": "schranz-search/seal-elasticsearch-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-elasticsearch-adapter",
-                "reference": "bff575aaf12760dd1e044d1f1f07c88ffaf02da1"
+                "reference": "309264c15f231c8e0b38cd500559b63bd6df942c"
             },
             "require": {
                 "elasticsearch/elasticsearch": "^8.5.3",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.0",
@@ -9826,17 +9831,17 @@
         },
         {
             "name": "schranz-search/seal-loupe-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-loupe-adapter",
-                "reference": "c8ced0e366cc7d52b1a1913bbc54437383799e5e"
+                "reference": "9ff3277b826addbf84c40e320454ea85b388ea40"
             },
             "require": {
-                "loupe/loupe": "^0.5",
+                "loupe/loupe": "^0.6",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "conflict": {
                 "doctrine/dbal": "<3.6.0"
@@ -9918,17 +9923,17 @@
         },
         {
             "name": "schranz-search/seal-meilisearch-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-meilisearch-adapter",
-                "reference": "3547c38f7f8671163dc259c49eb951be0e5b8076"
+                "reference": "bee5cc048abfa8af5e8f4b0df2c35b2f6c3721d6"
             },
             "require": {
                 "meilisearch/meilisearch-php": "^1.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.5",
@@ -10009,15 +10014,15 @@
         },
         {
             "name": "schranz-search/seal-memory-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-memory-adapter",
-                "reference": "8db73d9fdeb4394622c79f4c6497f44ec80ad8df"
+                "reference": "092acf033655dc061b5c5269ab8bfb7787889b12"
             },
             "require": {
                 "php": "^8.1",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -10095,16 +10100,16 @@
         },
         {
             "name": "schranz-search/seal-multi-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-multi-adapter",
-                "reference": "ca27cfa9d1ea21caf774eaed8494932eac2b65d0"
+                "reference": "f8c3c93bed9ec96084b02608a85487b72dc64f99"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -10182,17 +10187,17 @@
         },
         {
             "name": "schranz-search/seal-opensearch-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-opensearch-adapter",
-                "reference": "547713e83b8730a559025e9f8bc4fb315a63ade0"
+                "reference": "1238c9bd4304a4905496f15d8a7b6527657d1f6f"
             },
             "require": {
                 "opensearch-project/opensearch-php": "^2.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.0",
@@ -10274,16 +10279,16 @@
         },
         {
             "name": "schranz-search/seal-read-write-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-read-write-adapter",
-                "reference": "62a41301bf3bff38bd76303b34f4fa39956ce9f6"
+                "reference": "d8ca0fe5f6f6cb6b25d9187206abe80dafc7bb0b"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -10361,18 +10366,18 @@
         },
         {
             "name": "schranz-search/seal-redisearch-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-redisearch-adapter",
-                "reference": "45b8b30042cb41864e2dc1fe59751b47b2d0eeb0"
+                "reference": "1d318ccbbb9b4d4eef8d369e620616e714e50fff"
             },
             "require": {
                 "ext-json": "*",
                 "ext-redis": "^5 || ^6.0",
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4"
+                "schranz-search/seal": "^0.5"
             },
             "require-dev": {
                 "php-cs-fixer/shim": "^3.51",
@@ -10452,16 +10457,16 @@
         },
         {
             "name": "schranz-search/seal-solr-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-solr-adapter",
-                "reference": "f786ece5cd3bd9d2a908d16bf381a79dd19e2546"
+                "reference": "f83f423ef35629d7c3e627ea6a70695ce4df142a"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4",
+                "schranz-search/seal": "^0.5",
                 "solarium/solarium": "^6.3"
             },
             "conflict": {
@@ -10546,16 +10551,16 @@
         },
         {
             "name": "schranz-search/seal-typesense-adapter",
-            "version": "0.4.x-dev",
+            "version": "0.5.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../../packages/seal-typesense-adapter",
-                "reference": "5e628c682e09c1834a85912d688851d22c32627b"
+                "reference": "eeaee014ae04100261cb9cb19a10f64d2a531b1e"
             },
             "require": {
                 "php": "^8.1",
                 "psr/container": "^1.0 || ^2.0",
-                "schranz-search/seal": "^0.4",
+                "schranz-search/seal": "^0.5",
                 "symfony/http-client": "^5.4 || ^6.0 || ^7.0",
                 "typesense/typesense-php": "^4.8.1"
             },
@@ -11011,16 +11016,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "6.0.1",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "43c751b41d74f96cbbd4e07b7aec9675651e2951"
+                "reference": "8074dbcd93529b357029f5cc5058fd3e43666984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/43c751b41d74f96cbbd4e07b7aec9675651e2951",
-                "reference": "43c751b41d74f96cbbd4e07b7aec9675651e2951",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/8074dbcd93529b357029f5cc5058fd3e43666984",
+                "reference": "8074dbcd93529b357029f5cc5058fd3e43666984",
                 "shasum": ""
             },
             "require": {
@@ -11035,7 +11040,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.0-dev"
+                    "dev-main": "6.1-dev"
                 }
             },
             "autoload": {
@@ -11063,7 +11068,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/6.0.1"
+                "source": "https://github.com/sebastianbergmann/environment/tree/6.1.0"
             },
             "funding": [
                 {
@@ -11071,7 +11076,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-11T05:39:26+00:00"
+            "time": "2024-03-23T08:47:14+00:00"
         },
         {
             "name": "sebastian/exporter",
