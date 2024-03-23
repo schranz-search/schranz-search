@@ -47,7 +47,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
+        $targetIndexName = \array_key_first($mapping);
+
+        $this->assertTrue(isset($mapping[$targetIndexName]['mappings']['properties']));
 
         $this->assertSame([
             'id' => [
@@ -57,7 +59,7 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping[$index->name]['mappings']['properties']);
+        ], $mapping[$targetIndexName]['mappings']['properties']);
     }
 
     public function testComplexElasticsearchMapping(): void
@@ -76,7 +78,9 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
+        $targetIndexName = \array_key_first($mapping);
+
+        $this->assertTrue(isset($mapping[$targetIndexName]['mappings']['properties']));
 
         $this->assertSame([
             'article' => [
@@ -194,6 +198,6 @@ class ElasticsearchSchemaManagerTest extends AbstractSchemaManagerTestCase
                 'type' => 'keyword',
                 'index' => false,
             ],
-        ], $mapping[$index->name]['mappings']['properties']);
+        ], $mapping[$targetIndexName]['mappings']['properties']);
     }
 }
