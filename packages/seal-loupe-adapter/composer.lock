@@ -1894,12 +1894,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3e2eed999bd3522965b51fc8a90b8c4d8e791919"
+                "reference": "8b3a589eada974f42733255a21bbce4f03a01711"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3e2eed999bd3522965b51fc8a90b8c4d8e791919",
-                "reference": "3e2eed999bd3522965b51fc8a90b8c4d8e791919",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8b3a589eada974f42733255a21bbce4f03a01711",
+                "reference": "8b3a589eada974f42733255a21bbce4f03a01711",
                 "shasum": ""
             },
             "require": {
@@ -1949,7 +1949,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T16:28:11+00:00"
+            "time": "2024-03-28T16:04:02+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2333,12 +2333,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "406a2b48db96bc6ce7df0e4f7fa05169114c16b2"
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/406a2b48db96bc6ce7df0e4f7fa05169114c16b2",
-                "reference": "406a2b48db96bc6ce7df0e4f7fa05169114c16b2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
                 "shasum": ""
             },
             "require": {
@@ -2426,7 +2426,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T08:52:25+00:00"
+            "time": "2024-03-28T10:08:10+00:00"
         },
         {
             "name": "rector/rector",
