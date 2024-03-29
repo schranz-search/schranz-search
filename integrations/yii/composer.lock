@@ -263,12 +263,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "0d9e4eb5ad413075624378f474c4167ea202de78"
+                "reference": "8adc869823fb59416f247e8ea911558b127ffe97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/0d9e4eb5ad413075624378f474c4167ea202de78",
-                "reference": "0d9e4eb5ad413075624378f474c4167ea202de78",
+                "url": "https://api.github.com/repos/symfony/console/zipball/8adc869823fb59416f247e8ea911558b127ffe97",
+                "reference": "8adc869823fb59416f247e8ea911558b127ffe97",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-22T20:27:10+00:00"
+            "time": "2024-03-27T09:54:01+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -1898,12 +1898,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "418e88940dfba2b85da25347375cc076ff670c64"
+                "reference": "1fcd26a5225472cf44ffdcad89b864f7fdaba331"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/418e88940dfba2b85da25347375cc076ff670c64",
-                "reference": "418e88940dfba2b85da25347375cc076ff670c64",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/1fcd26a5225472cf44ffdcad89b864f7fdaba331",
+                "reference": "1fcd26a5225472cf44ffdcad89b864f7fdaba331",
                 "shasum": ""
             },
             "require": {
@@ -1919,12 +1919,13 @@
                 "ext-zip": "*",
                 "mockery/mockery": "^1.5",
                 "nyholm/psr7": "^1.5",
+                "php-http/message-factory": "^1.0",
                 "php-http/mock-client": "^1.5",
                 "phpstan/phpstan": "^1.4",
                 "phpunit/phpunit": "^9.5",
                 "psr/http-factory": "^1.0",
                 "symfony/finder": "~4.0",
-                "symfony/http-client": "^5.0|^6.0"
+                "symfony/http-client": "^5.0|^6.0|^7.0"
             },
             "type": "library",
             "autoload": {
@@ -1947,7 +1948,7 @@
                 "issues": "https://github.com/elastic/elasticsearch-php/issues",
                 "source": "https://github.com/elastic/elasticsearch-php/tree/8.13"
             },
-            "time": "2024-02-23T11:24:55+00:00"
+            "time": "2024-03-27T15:09:31+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
@@ -3326,16 +3327,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.19.2",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb"
+                "reference": "1493be5dca4ec9982ddf4d35de89bb4baee79dbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
-                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/1493be5dca4ec9982ddf4d35de89bb4baee79dbd",
+                "reference": "1493be5dca4ec9982ddf4d35de89bb4baee79dbd",
                 "shasum": ""
             },
             "require": {
@@ -3359,8 +3360,10 @@
                 "php-http/httplug": "^1.0 || ^2.0",
                 "php-http/message-factory": "^1.0",
                 "phpspec/phpspec": "^5.1 || ^6.1 || ^7.3",
-                "symfony/phpunit-bridge": "^6.2"
+                "sebastian/comparator": "^3.0.5 || ^4.0.8",
+                "symfony/phpunit-bridge": "^6.4.4 || ^7.0.1"
             },
+            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "class": "Http\\Discovery\\Composer\\Plugin",
@@ -3398,9 +3401,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.19.2"
+                "source": "https://github.com/php-http/discovery/tree/1.x"
             },
-            "time": "2023-11-30T16:49:05+00:00"
+            "time": "2024-03-28T08:23:35+00:00"
         },
         {
             "name": "php-http/httplug",
@@ -3633,12 +3636,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3e2eed999bd3522965b51fc8a90b8c4d8e791919"
+                "reference": "8b3a589eada974f42733255a21bbce4f03a01711"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3e2eed999bd3522965b51fc8a90b8c4d8e791919",
-                "reference": "3e2eed999bd3522965b51fc8a90b8c4d8e791919",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8b3a589eada974f42733255a21bbce4f03a01711",
+                "reference": "8b3a589eada974f42733255a21bbce4f03a01711",
                 "shasum": ""
             },
             "require": {
@@ -3688,7 +3691,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T16:28:11+00:00"
+            "time": "2024-03-28T16:04:02+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -4072,12 +4075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "406a2b48db96bc6ce7df0e4f7fa05169114c16b2"
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/406a2b48db96bc6ce7df0e4f7fa05169114c16b2",
-                "reference": "406a2b48db96bc6ce7df0e4f7fa05169114c16b2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
                 "shasum": ""
             },
             "require": {
@@ -4165,7 +4168,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-23T08:52:25+00:00"
+            "time": "2024-03-28T10:08:10+00:00"
         },
         {
             "name": "psr/cache",
