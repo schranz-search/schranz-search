@@ -23,7 +23,7 @@ final class ClientHelper
 
     public static function getClient(): Client
     {
-        if (!self::$client instanceof \Solarium\Client) {
+        if (!self::$client instanceof Client) {
             [$host, $port] = \explode(':', $_ENV['SOLR_HOST'] ?? '127.0.0.1:8983');
 
             $adapter = new Curl();
