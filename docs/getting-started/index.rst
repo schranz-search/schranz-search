@@ -1463,7 +1463,7 @@ search engine.
 
             services:
               meilisearch:
-                image: getmeili/meilisearch:v1.7
+                image: getmeili/meilisearch:v1.8
                 environment:
                   MEILI_ENV: development
                 ports:
