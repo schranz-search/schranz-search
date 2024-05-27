@@ -1667,7 +1667,7 @@ search engine.
 
             services:
               typesense:
-                image: typesense/typesense:0.25.2
+                image: typesense/typesense:26.0
                 ports:
                   - "8108:8108"
                 environment:
