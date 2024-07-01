@@ -84,7 +84,7 @@
         "yiisoft/translator-message-php": "^1.1",
         "yiisoft/view": "^8.0",
         "yiisoft/yii-console": "^2.0",
-        "yiisoft/yii-debug": "^3.0@dev",
+        "yiisoft/yii-debug": "dev-master",
         "yiisoft/yii-event": "^2.0",
         "yiisoft/yii-http": "^1.0",
         "yiisoft/yii-middleware": "^1.0",
@@ -121,7 +121,7 @@
         "symfony/css-selector": "^6.2",
         "symfony/dom-crawler": "^6.2",
         "vimeo/psalm": "^4.30|^5.4",
-        "yiisoft/yii-debug-api": "3.0.x-dev",
+        "yiisoft/yii-debug-api": "^3.0@dev",
         "yiisoft/yii-debug-viewer": "^3.0@dev",
         "yiisoft/yii-testing": "dev-master"
     },
