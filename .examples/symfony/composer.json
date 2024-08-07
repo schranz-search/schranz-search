@@ -9,14 +9,14 @@
         "ext-iconv": "*",
         "schranz-search/seal": "^0.5",
         "schranz-search/symfony-bundle": "^0.5",
-        "symfony/console": "6.4.* || 7.0.*",
-        "symfony/dotenv": "6.4.* || 7.0.*",
+        "symfony/console": "^6.4 || ^7.0",
+        "symfony/dotenv": "^6.4 || ^7.0",
         "symfony/flex": "^2.3",
-        "symfony/framework-bundle": "6.4.* || 7.0.*",
-        "symfony/http-client": "6.4.* || 7.0.*",
+        "symfony/framework-bundle": "^6.4 || ^7.0",
+        "symfony/http-client": "^6.4 || ^7.0",
         "symfony/maker-bundle": "^1.48",
-        "symfony/runtime": "6.4.* || 7.0.*",
-        "symfony/yaml": "6.4.* || 7.0.*"
+        "symfony/runtime": "^6.4 || ^7.0",
+        "symfony/yaml": "^6.4 || ^7.0"
     },
     "require-dev": {
         "php-cs-fixer/shim": "^3.51",
@@ -36,8 +36,8 @@
         "schranz-search/seal-redisearch-adapter": "^0.5",
         "schranz-search/seal-solr-adapter": "^0.5",
         "schranz-search/seal-typesense-adapter": "^0.5",
-        "symfony/browser-kit": "6.4.* || 7.0.*",
-        "symfony/css-selector": "6.4.* || 7.0.*"
+        "symfony/browser-kit": "^6.4 || ^7.0",
+        "symfony/css-selector": "^6.4 || ^7.0"
     },
     "config": {
         "allow-plugins": {
@@ -122,7 +122,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.4.* || 7.0.*"
+            "require": "^6.4 || ^7.0"
         }
     }
 }
