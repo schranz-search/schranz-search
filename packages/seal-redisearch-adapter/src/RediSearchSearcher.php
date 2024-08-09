@@ -81,6 +81,13 @@ final class RediSearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
                 $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '@%s:[%s %s %s]',
+                    $this->getFilterField($search->indexes, $filter->field),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->distance),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

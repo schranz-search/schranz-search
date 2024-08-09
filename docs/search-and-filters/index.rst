@@ -186,6 +186,43 @@ the given value.
 
 The field is required to be marked as ``filterable`` in the index configuration.
 
+GeoDistanceCondition
+~~~~~~~~~~~~~~~~~~~~
+
+The ``GeoDistanceCondition`` is used to filter results within a radius by specifying a latitude, longitude and distance.
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('restaurants')
+        ->addFilter(new Condition\GeoDistanceCondition('location', 45.472735, 9.184019, 2000))
+        ->getResult();
+
+The field is required to be marked as ``filterable`` in the index configuration.
+
+GeoBoundingBoxCondition
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``GeoBoundingBoxCondition`` is used to filter results within a bounding box by specifying a min latitude, min longitude, max latitude and max longitude.
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('restaurants')
+        ->addFilter(new Condition\GeoBoundingBoxCondition('location', 45.494181, 9.214024, 45.449484, 9.179175))
+        ->getResult();
+
+
+The field is required to be marked as ``filterable`` in the index configuration.
+
 Filter on Objects and Typed Fields
 ----------------------------------
 

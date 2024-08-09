@@ -80,6 +80,19 @@ final class MeilisearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '_geoRadius(%s, %s, %s)',
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->distance),
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '_geoBoundingBox([%s, %s], [%s, %s])',
+                    $this->escapeFilterValue($filter->minLatitude),
+                    $this->escapeFilterValue($filter->minLongitude),
+                    $this->escapeFilterValue($filter->maxLatitude),
+                    $this->escapeFilterValue($filter->maxLongitude),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
