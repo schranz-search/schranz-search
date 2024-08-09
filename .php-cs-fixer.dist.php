@@ -52,4 +52,5 @@ return (new PhpCsFixer\Config())
         'nullable_type_declaration_for_default_null_value' => true,
         'fully_qualified_strict_types' => false,
         'nullable_type_declaration' => ['syntax' => 'union'],
+        'new_with_parentheses' => true,
     ]);
