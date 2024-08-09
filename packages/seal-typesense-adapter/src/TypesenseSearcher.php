@@ -92,6 +92,14 @@ final class TypesenseSearcher implements SearcherInterface
                     $this->escapeFilterValue($filter->longitude),
                     $this->escapeFilterValue($filter->distance / 1000) . ' km', // convert to km
                 ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s, %s)',
+                    $filter->field,
+                    $this->escapeFilterValue($filter->minLatitude),
+                    $this->escapeFilterValue($filter->minLongitude),
+                    $this->escapeFilterValue($filter->maxLatitude),
+                    $this->escapeFilterValue($filter->maxLongitude),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

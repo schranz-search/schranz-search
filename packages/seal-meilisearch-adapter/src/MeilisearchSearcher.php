@@ -92,6 +92,13 @@ final class MeilisearchSearcher implements SearcherInterface
                     $this->escapeFilterValue($filter->longitude),
                     $this->escapeFilterValue($filter->distance),
                 ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '_geoBoundingBox([%s, %s], [%s, %s])',
+                    $this->escapeFilterValue($filter->minLatitude),
+                    $this->escapeFilterValue($filter->minLongitude),
+                    $this->escapeFilterValue($filter->maxLatitude),
+                    $this->escapeFilterValue($filter->maxLongitude),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

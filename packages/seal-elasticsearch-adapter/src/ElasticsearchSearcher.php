@@ -95,9 +95,19 @@ final class ElasticsearchSearcher implements SearcherInterface
                 $filter instanceof Condition\LessThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
                 $filter instanceof Condition\GeoDistanceCondition => $query['bool']['filter'][]['geo_distance'] = [
                     'distance' => $filter->distance,
-                    $filter->field => [
+                    $this->getFilterField($search->indexes, $filter->field) => [
                         'lat' => $filter->latitude,
                         'lon' => $filter->longitude,
+                    ],
+                ],
+                $filter instanceof Condition\GeoBoundingBoxCondition => $query['bool']['filter']['geo_bounding_box'][$this->getFilterField($search->indexes, $filter->field)] = [
+                    'top_left' => [
+                        'lat' => $filter->minLatitude,
+                        'lon' => $filter->minLongitude,
+                    ],
+                    'bottom_right' => [
+                        'lat' => $filter->maxLatitude,
+                        'lon' => $filter->maxLongitude,
                     ],
                 ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
