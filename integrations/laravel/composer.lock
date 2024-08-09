@@ -491,12 +491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
-                "reference": "2ca94accf7e30e478a1cb2b0501c5be4478cb717"
+                "reference": "cfd8a636234cc5b5f736f2987f33b0d471d974b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/events/zipball/2ca94accf7e30e478a1cb2b0501c5be4478cb717",
-                "reference": "2ca94accf7e30e478a1cb2b0501c5be4478cb717",
+                "url": "https://api.github.com/repos/illuminate/events/zipball/cfd8a636234cc5b5f736f2987f33b0d471d974b3",
+                "reference": "cfd8a636234cc5b5f736f2987f33b0d471d974b3",
                 "shasum": ""
             },
             "require": {
@@ -538,7 +538,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-06-28T20:10:30+00:00"
+            "time": "2024-08-07T14:43:54+00:00"
         },
         {
             "name": "illuminate/filesystem",
@@ -707,12 +707,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "ac5f5b32e58aa4c3235c70dd5b21746184e1c16a"
+                "reference": "089c989beac69bd2633466d72d6ed07068b623ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/ac5f5b32e58aa4c3235c70dd5b21746184e1c16a",
-                "reference": "ac5f5b32e58aa4c3235c70dd5b21746184e1c16a",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/089c989beac69bd2633466d72d6ed07068b623ac",
+                "reference": "089c989beac69bd2633466d72d6ed07068b623ac",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-08-06T14:31:19+00:00"
+            "time": "2024-08-07T14:43:54+00:00"
         },
         {
             "name": "illuminate/view",
@@ -835,12 +835,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "a86e8d26365beba0bbc30d3f09bfaab05528d663"
+                "reference": "72e503540a359ed4af1da48b98462db43a7c4bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/a86e8d26365beba0bbc30d3f09bfaab05528d663",
-                "reference": "a86e8d26365beba0bbc30d3f09bfaab05528d663",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/72e503540a359ed4af1da48b98462db43a7c4bc8",
+                "reference": "72e503540a359ed4af1da48b98462db43a7c4bc8",
                 "shasum": ""
             },
             "require": {
@@ -886,7 +886,7 @@
                 "issues": "https://github.com/laravel/prompts/issues",
                 "source": "https://github.com/laravel/prompts/tree/main"
             },
-            "time": "2024-08-02T07:46:23+00:00"
+            "time": "2024-08-07T14:45:11+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -2751,12 +2751,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "1874323459e3c1152742985bf0c3d4d7e1521390"
+                "reference": "613798a32bf28f2b9de46a37f64ecf8b779d26bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1874323459e3c1152742985bf0c3d4d7e1521390",
-                "reference": "1874323459e3c1152742985bf0c3d4d7e1521390",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/613798a32bf28f2b9de46a37f64ecf8b779d26bf",
+                "reference": "613798a32bf28f2b9de46a37f64ecf8b779d26bf",
                 "shasum": ""
             },
             "require": {
@@ -2856,7 +2856,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-02T09:20:44+00:00"
+            "time": "2024-08-07T12:23:32+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -4442,16 +4442,16 @@
         },
         {
             "name": "php-cs-fixer/shim",
-            "version": "v3.61.1",
+            "version": "v3.62.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/shim.git",
-                "reference": "3ac8e446863e313b51a9466915c9b578409eef9e"
+                "reference": "7a91d5ce45c486f5b445d95901228507a02f60ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/3ac8e446863e313b51a9466915c9b578409eef9e",
-                "reference": "3ac8e446863e313b51a9466915c9b578409eef9e",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/shim/zipball/7a91d5ce45c486f5b445d95901228507a02f60ae",
+                "reference": "7a91d5ce45c486f5b445d95901228507a02f60ae",
                 "shasum": ""
             },
             "require": {
@@ -4488,9 +4488,9 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/shim/issues",
-                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.61.1"
+                "source": "https://github.com/PHP-CS-Fixer/shim/tree/v3.62.0"
             },
-            "time": "2024-07-31T14:33:55+00:00"
+            "time": "2024-08-07T17:03:46+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -4874,12 +4874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "98eed48f19d9f06ca5606069c697fe550d5ea42a"
+                "reference": "f09d3ef93daba9ecb7ab816a0f5fb7ef1d98ef93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/98eed48f19d9f06ca5606069c697fe550d5ea42a",
-                "reference": "98eed48f19d9f06ca5606069c697fe550d5ea42a",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f09d3ef93daba9ecb7ab816a0f5fb7ef1d98ef93",
+                "reference": "f09d3ef93daba9ecb7ab816a0f5fb7ef1d98ef93",
                 "shasum": ""
             },
             "require": {
@@ -4925,7 +4925,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-08-06T09:45:27+00:00"
+            "time": "2024-08-09T11:29:11+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -5309,12 +5309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2e6214438e203a30cafd26160e9a35fc1be1b358"
+                "reference": "49adfe84cc4c750bded6300c36743c514a472352"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2e6214438e203a30cafd26160e9a35fc1be1b358",
-                "reference": "2e6214438e203a30cafd26160e9a35fc1be1b358",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/49adfe84cc4c750bded6300c36743c514a472352",
+                "reference": "49adfe84cc4c750bded6300c36743c514a472352",
                 "shasum": ""
             },
             "require": {
@@ -5402,7 +5402,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-02T05:57:50+00:00"
+            "time": "2024-08-08T11:56:12+00:00"
         },
         {
             "name": "psr/cache",
