@@ -33,7 +33,7 @@ jobs:
 
             - name: Deploy
               uses: peaceiris/actions-gh-pages@v3
-              if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/0.3' }}
+              if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/0.5' }}
               with:
                   publish_branch: gh-pages
                   github_token: ${{ secrets.GITHUB_TOKEN }}
