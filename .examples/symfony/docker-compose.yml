@@ -16,7 +16,7 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
 
   meilisearch:
-    image: getmeili/meilisearch:v1.9
+    image: getmeili/meilisearch:v1
     environment:
       MEILI_ENV: development
     ports:
