@@ -148,6 +148,39 @@ final class MemorySearcher implements SearcherInterface
                         if (false === $hasMatchingValue) {
                             continue 2;
                         }
+                    } elseif ($filter instanceof Condition\GeoDistanceCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+                        if (isset($values['latitude'])) {
+                            $values = [$values];
+                        }
+
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if (!isset($value['latitude'])
+                                || !isset($value['longitude'])
+                            ) {
+                                continue;
+                            }
+
+                            $distance = $this->distanceBetween(
+                                $filter->latitude,
+                                $filter->longitude,
+                                $value['latitude'],
+                                $value['longitude'],
+                            );
+
+                            if ($distance <= $filter->distance) {
+                                $hasMatchingValue = true;
+                            }
+                        }
+
+                        if (false === $hasMatchingValue) {
+                            continue 2;
+                        }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
                     }
@@ -180,6 +213,30 @@ final class MemorySearcher implements SearcherInterface
             $generator(),
             \count($documents),
         );
+    }
+
+    /**
+     * Returns a distance in meters.
+     */
+    private function distanceBetween(float $latitudeFrom, float $longitudeFrom, float $latitudeTo, float $longitudeTo): int
+    {
+        $latFrom = \deg2rad($latitudeFrom);
+        $lonFrom = \deg2rad($longitudeFrom);
+        $latTo = \deg2rad($latitudeTo);
+        $lonTo = \deg2rad($longitudeTo);
+
+        // Haversine formula.
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * \asin(\sqrt(\sin($latDelta / 2) ** 2 +
+                \cos($latFrom) * \cos($latTo) * \sin($lonDelta / 2) ** 2));
+
+        $earthRadius = 6_371_000;
+
+        $distance = $earthRadius * $angle;
+
+        return (int) $distance;
     }
 
     /**

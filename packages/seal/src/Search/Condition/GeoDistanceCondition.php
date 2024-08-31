@@ -19,7 +19,7 @@ class GeoDistanceCondition
         public readonly string $field,
         public readonly float $latitude,
         public readonly float $longitude,
-        public readonly int|string $distance,
+        public readonly int $distance,
     ) {
     }
 }

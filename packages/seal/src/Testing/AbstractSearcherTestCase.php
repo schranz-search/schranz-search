@@ -687,6 +687,70 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
+    public function testGeoDistanceCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GeoDistanceCondition(
+            'location',
+            // Berlin
+            52.5200,
+            13.4050,
+            6_000_000, // 6000 km
+        ));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, \count($loadedDocuments));
+
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertNotNull(
+                $loadedDocument['location'] ?? null,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location returned.',
+            );
+
+            $latitude = $loadedDocument['location']['latitude'] ?? null;
+            $longitude = $loadedDocument['location']['longitude'] ?? null;
+
+            $this->assertNotNull(
+                $latitude,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location latitude returned.',
+            );
+
+            $this->assertNotNull(
+                $longitude,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location latitude returned.',
+            );
+
+            $distance = (int) (6_371_000 * 2 * \asin(\sqrt(
+                \sin(\deg2rad($latitude - 52.5200) / 2) ** 2 +
+                \cos(\deg2rad(52.5200)) * \cos(\deg2rad($latitude)) * \sin(\deg2rad($longitude - 13.4050) / 2) ** 2,
+            )));
+
+            $this->assertLessThanOrEqual(6_000_000, $distance);
+        }
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
     public function testLessThanEqualConditionMultiValue(): void
     {
         $documents = TestingHelper::createComplexFixtures();
