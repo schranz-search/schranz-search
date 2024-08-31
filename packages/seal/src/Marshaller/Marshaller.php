@@ -198,7 +198,7 @@ final class Marshaller
         foreach ($fields as $name => $field) {
             if (!\array_key_exists($name, $raw)
                 && !$field instanceof Field\TypedField
-                && !$field instanceof Field\GeoPointField
+                && (!$field instanceof Field\GeoPointField || !\array_key_exists($this->geoPointFieldConfig['name'] ?? $name, $raw))
             ) {
                 continue;
             }
