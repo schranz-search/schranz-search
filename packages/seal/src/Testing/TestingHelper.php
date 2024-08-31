@@ -67,7 +67,7 @@ final class TestingHelper
             ], multiple: true),
             'tags' => new Field\TextField('tags', multiple: true, filterable: true),
             'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
-            'location' => new Field\GeoPointField('location'),
+            'location' => new Field\GeoPointField('location', filterable: true),
         ];
 
         $simpleFields = [
