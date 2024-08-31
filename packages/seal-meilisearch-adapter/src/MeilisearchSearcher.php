@@ -29,7 +29,13 @@ final class MeilisearchSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'name' => '_geo',
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
+        );
     }
 
     public function search(Search $search): Result

@@ -16,6 +16,7 @@ namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 use Meilisearch\Client;
 use Meilisearch\Exceptions\ApiException;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Schema\Field\GeoPointField;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
@@ -69,6 +70,17 @@ final class MeilisearchSchemaManager implements SchemaManagerInterface
             'filterableAttributes' => $index->filterableFields,
             'sortableAttributes' => $index->sortableFields,
         ];
+
+        $geoPointField = $index->getGeoPointField();
+        if ($geoPointField instanceof GeoPointField) {
+            foreach ($attributes as $listKey => $list) {
+                foreach ($list as $key => $value) {
+                    if ($value === $geoPointField->name) {
+                        $attributes[$listKey][$key] = '_geo';
+                    }
+                }
+            }
+        }
 
         $updateIndexResponse = $this->client->index($index->name)
             ->updateSettings($attributes);

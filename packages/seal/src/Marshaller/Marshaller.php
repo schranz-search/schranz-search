@@ -22,9 +22,19 @@ use Schranz\Search\SEAL\Schema\Field;
  */
 final class Marshaller
 {
+    /**
+     * @param bool $dateAsInteger
+     * @param bool $addRawFilterTextField
+     * @param array{
+     *     name: string,
+     *     latitude: string,
+     *     longitude: string,
+     * }|null $geoPointFieldConfig
+     */
     public function __construct(
         private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
+        private readonly ?array $geoPointFieldConfig = null,
     ) {
     }
 
@@ -51,6 +61,7 @@ final class Marshaller
                 $field instanceof Field\ObjectField => $rawDocument[$name] = $this->marshallObjectFields($document[$field->name], $field), // @phpstan-ignore-line
                 $field instanceof Field\TypedField => $rawDocument = \array_replace($rawDocument, $this->marhsallTypedFields($name, $document[$field->name], $field)), // @phpstan-ignore-line
                 $field instanceof Field\DateTimeField => $rawDocument[$name] = $this->marshallDateTimeField($document[$field->name], $field), // @phpstan-ignore-line
+                $field instanceof Field\GeoPointField => $rawDocument[$this->geoPointFieldConfig['name'] ?? $name] = $this->marshallGeoPointField($document[$field->name], $field), // @phpstan-ignore-line
                 default => $rawDocument[$name] = $document[$field->name],
             };
 
@@ -62,6 +73,27 @@ final class Marshaller
         }
 
         return $rawDocument;
+    }
+
+    /**
+     * @param array{latitude: float, longitude: float}|array<array{latitude: float, longitude: float}>|null $value
+     *
+     * @return array{lat: float, lng: float}|null
+     */
+    private function marshallGeoPointField(array|null $value, Field\GeoPointField $field): array|null
+    {
+        if ($field->multiple) {
+            throw new \LogicException('GeoPointField currently does not support multiple values.');
+        }
+
+        if ($value) {
+            return [
+                $this->geoPointFieldConfig['latitude'] ?? 'latitude' => $value['latitude'],
+                $this->geoPointFieldConfig['longitude'] ?? 'longitude' => $value['longitude'],
+            ];
+        }
+
+        return null;
     }
 
     /**
@@ -164,7 +196,10 @@ final class Marshaller
         $document = [];
 
         foreach ($fields as $name => $field) {
-            if (!\array_key_exists($name, $raw) && !$field instanceof Field\TypedField) {
+            if (!\array_key_exists($name, $raw)
+                && !$field instanceof Field\TypedField
+                && !$field instanceof Field\GeoPointField
+            ) {
                 continue;
             }
 
@@ -172,6 +207,7 @@ final class Marshaller
                 $field instanceof Field\ObjectField => $document[$field->name] = $this->unmarshallObjectFields($raw[$name], $field), // @phpstan-ignore-line
                 $field instanceof Field\TypedField => $document = \array_replace($document, $this->unmarshallTypedFields($name, $raw, $field)),
                 $field instanceof Field\DateTimeField => $document[$name] = $this->unmarshallDateTimeField($raw[$field->name], $field), // @phpstan-ignore-line
+                $field instanceof Field\GeoPointField => $document[$name] = $this->unmarshallGeoPointField($raw, $field), // @phpstan-ignore-line
                 default => $document[$field->name] = $raw[$name] ?? ($field->multiple ? [] : null),
             };
         }
@@ -270,5 +306,28 @@ final class Marshaller
 
         /** @var string|null */
         return $value;
+    }
+
+    /**
+     * @param array{_geo: array{lat: float, lng: float}|null} $document
+     *
+     * @return array{latitude: float, longitude: float}|null
+     */
+    private function unmarshallGeoPointField(array $document, Field\GeoPointField $field): array|null
+    {
+        if ($field->multiple) {
+            throw new \LogicException('GeoPointField currently does not support multiple values.');
+        }
+
+        $value = $document['_geo'] ?? null;
+
+        if ($value) {
+            return [
+                'latitude' => $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'],
+                'longitude' => $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'],
+            ];
+        }
+
+        return null;
     }
 }

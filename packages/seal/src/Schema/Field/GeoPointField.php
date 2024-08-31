@@ -19,6 +19,8 @@ namespace Schranz\Search\SEAL\Schema\Field;
  * latitude: -90 to 90
  * longitude: -180 to 180
  *
+ * ATTENTION: Different search engines support only one field for geopoint per index.
+ *
  * @property false $searchable
  *
  * @readonly
@@ -27,6 +29,7 @@ final class GeoPointField extends AbstractField
 {
     /**
      * @param false $searchable
+     * @param false $multiple
      * @param array<string, mixed> $options
      */
     public function __construct(
