@@ -24,11 +24,19 @@ use Schranz\Search\SEAL\Schema\Field;
  */
 final class FlattenMarshaller
 {
+    /**
+     * @param array{
+     *     name: string,
+     *     latitude: string,
+     *     longitude: string,
+     * }|null $geoPointFieldConfig
+     */
     public function __construct(
         private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
         private readonly string $separator = '.',
         private readonly string $sourceField = '_source',
+        private readonly ?array $geoPointFieldConfig = null,
     ) {
     }
 
@@ -73,6 +81,7 @@ final class FlattenMarshaller
 
             match (true) {
                 $field instanceof Field\DateTimeField => $raw[$name] = $this->flattenDateTime($raw[$field->name], $field), // @phpstan-ignore-line
+                $field instanceof Field\GeoPointField => $raw[$name] = $this->flattenGeoPointField($raw[$field->name], $field), // @phpstan-ignore-line
                 $field instanceof Field\ObjectField => $raw = $this->flattenObject($name, $raw, $field, $rootIsParentMultiple),
                 $field instanceof Field\TypedField => $raw = $this->flattenTyped($name, $raw, $field, $rootIsParentMultiple),
                 default => null,
@@ -115,6 +124,27 @@ final class FlattenMarshaller
         }
 
         return $value;
+    }
+
+    /**
+     * @param array{latitude: float, longitude: float}|array<array{latitude: float, longitude: float}>|null $value
+     *
+     * @return array{lat: float, lng: float}|null
+     */
+    private function flattenGeoPointField(array|null $value, Field\GeoPointField $field): array|null
+    {
+        if ($field->multiple) {
+            throw new \LogicException('GeoPointField currently does not support multiple values.');
+        }
+
+        if ($value) {
+            return [
+                $this->geoPointFieldConfig['latitude'] ?? 'latitude' => $value['latitude'],
+                $this->geoPointFieldConfig['longitude'] ?? 'longitude' => $value['longitude'],
+            ];
+        }
+
+        return null;
     }
 
     /**

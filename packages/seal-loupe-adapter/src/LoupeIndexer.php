@@ -30,6 +30,10 @@ final class LoupeIndexer implements IndexerInterface
             dateAsInteger: true,
             separator: LoupeHelper::SEPARATOR,
             sourceField: LoupeHelper::SOURCE_FIELD,
+            geoPointFieldConfig: [
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
         );
     }
 
