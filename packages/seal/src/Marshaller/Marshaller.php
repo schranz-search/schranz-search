@@ -194,8 +194,11 @@ final class Marshaller
         $document = [];
 
         foreach ($fields as $name => $field) {
-            if (!\array_key_exists($name, $raw)
-                && !$field instanceof Field\TypedField
+            if (
+                (
+                    !\array_key_exists($name, $raw)
+                    && !$field instanceof Field\TypedField
+                )
                 && (!$field instanceof Field\GeoPointField || !\array_key_exists($this->geoPointFieldConfig['name'] ?? $name, $raw))
             ) {
                 continue;
@@ -317,7 +320,7 @@ final class Marshaller
             throw new \LogicException('GeoPointField currently does not support multiple values.');
         }
 
-        $value = $document['_geo'] ?? null;
+        $value = $document[$this->geoPointFieldConfig['name'] ?? $field->name] ?? null;
 
         if ($value) {
             return [
