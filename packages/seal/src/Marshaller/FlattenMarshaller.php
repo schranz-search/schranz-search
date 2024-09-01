@@ -36,7 +36,7 @@ final class FlattenMarshaller
         private readonly bool $addRawFilterTextField = false,
         private readonly string $separator = '.',
         private readonly string $sourceField = '_source',
-        private readonly ?array $geoPointFieldConfig = null,
+        private readonly array|null $geoPointFieldConfig = null,
     ) {
     }
 

@@ -23,8 +23,6 @@ use Schranz\Search\SEAL\Schema\Field;
 final class Marshaller
 {
     /**
-     * @param bool $dateAsInteger
-     * @param bool $addRawFilterTextField
      * @param array{
      *     name: string,
      *     latitude: string,
@@ -34,7 +32,7 @@ final class Marshaller
     public function __construct(
         private readonly bool $dateAsInteger = false,
         private readonly bool $addRawFilterTextField = false,
-        private readonly ?array $geoPointFieldConfig = null,
+        private readonly array|null $geoPointFieldConfig = null,
     ) {
     }
 

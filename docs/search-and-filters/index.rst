@@ -189,7 +189,7 @@ The field is required to be marked as ``filterable`` in the index configuration.
 GeoDistanceCondition
 ~~~~~~~~~~~~~~~~~~~~
 
-The ``GeoDistanceCondition`` is used to filter results within a radius by specifying a latitude, longitude and distance.
+The ``GeoDistanceCondition`` is used to filter results within a radius by specifying a latitude, longitude and distance in meters.
 
 .. code-block:: php
 

@@ -78,14 +78,21 @@ final class OpensearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gte'] = $filter->value,
                 $filter instanceof Condition\LessThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lt'] = $filter->value,
                 $filter instanceof Condition\LessThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\GeoDistanceCondition => $query['bool']['filter']['geo_distance'] = [
+                    'distance' => \sprintf('%dm', $filter->distance),
+                    $this->getFilterField($search->indexes, $filter->field) => [
+                        'lat' => $filter->latitude,
+                        'lon' => $filter->longitude,
+                    ],
+                ],
                 $filter instanceof Condition\GeoBoundingBoxCondition => $query['bool']['filter']['geo_bounding_box'][$this->getFilterField($search->indexes, $filter->field)] = [
                     'top_left' => [
                         'lat' => $filter->minLatitude,
-                        'lng' => $filter->minLongitude,
+                        'lon' => $filter->minLongitude,
                     ],
                     'bottom_right' => [
                         'lat' => $filter->maxLatitude,
-                        'lng' => $filter->maxLongitude,
+                        'lon' => $filter->maxLongitude,
                     ],
                 ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),

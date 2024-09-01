@@ -88,7 +88,7 @@ final class SolrSearcher implements SearcherInterface
                 $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($filter->value) . '}',
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($filter->value) . ']',
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    'fq={!geofill sfield=%s}&pt=%s,%s&d=%s',
+                    'fq={!geofilt sfield=%s}&pt=%s,%s&d=%s',
                     $this->getFilterField($search->indexes, $filter->field),
                     $this->escapeFilterValue($filter->longitude),
                     $this->escapeFilterValue($filter->latitude),

@@ -15,6 +15,9 @@ namespace Schranz\Search\SEAL\Search\Condition;
 
 class GeoDistanceCondition
 {
+    /**
+     * @param int $distance search radius in meters
+     */
     public function __construct(
         public readonly string $field,
         public readonly float $latitude,

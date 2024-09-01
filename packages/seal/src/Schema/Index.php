@@ -67,7 +67,7 @@ final class Index
         return $this->identifierField;
     }
 
-    public function getGeoPointField(): ?GeoPointField
+    public function getGeoPointField(): GeoPointField|null
     {
         foreach ($this->fields as $field) {
             if ($field instanceof GeoPointField) {
