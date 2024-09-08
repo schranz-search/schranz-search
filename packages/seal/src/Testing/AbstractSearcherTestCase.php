@@ -709,7 +709,7 @@ abstract class AbstractSearcherTestCase extends TestCase
             // Berlin
             52.5200,
             13.4050,
-            6_000_000, // 6000 km
+            1_000_000, // 1000 km
         ));
 
         $loadedDocuments = [...$search->getResult()];
