@@ -112,6 +112,10 @@ class FlattenMarshallerTest extends TestCase
                 ],
                 'tags' => ['Tech', 'UI'],
                 'categoryIds' => [1, 2],
+                'location' => [
+                    'latitude' => 40.7128,
+                    'longitude' => -74.006,
+                ],
             ],
             [
                 'uuid' => '23b30f01-d8fd-4dca-b36a-4710e360a965',
@@ -132,6 +136,10 @@ class FlattenMarshallerTest extends TestCase
                 'comments.text' => ['Awesome blog!', 'Like this blog!'],
                 'tags' => ['Tech', 'UI'],
                 'categoryIds' => [1, 2],
+                'location' => [
+                    'latitude' => 40.7128,
+                    'longitude' => -74.006,
+                ],
                 'tags.raw' => ['Tech', 'UI'],
             ],
             [
@@ -170,6 +178,7 @@ class FlattenMarshallerTest extends TestCase
                 ], multiple: true),
                 'tags' => new Field\TextField('tags', multiple: true, filterable: true),
                 'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, searchable: false, filterable: true),
+                'location' => new Field\GeoPointField('location', filterable: true, sortable: true),
             ],
         ];
 
