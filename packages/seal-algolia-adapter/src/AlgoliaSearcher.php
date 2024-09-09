@@ -29,7 +29,13 @@ final class AlgoliaSearcher implements SearcherInterface
     public function __construct(
         private readonly SearchClient $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'name' => '_geoloc',
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -94,7 +100,7 @@ final class AlgoliaSearcher implements SearcherInterface
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\GeoDistanceCondition => $geoFilters = [
                     'aroundLatLng' => \sprintf(
-                        '%s %s',
+                        '%s, %s',
                         $this->escapeFilterValue($filter->latitude),
                         $this->escapeFilterValue($filter->longitude),
                     ),
