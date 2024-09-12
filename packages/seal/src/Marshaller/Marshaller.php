@@ -92,6 +92,8 @@ final class Marshaller
                 $this->geoPointFieldConfig['longitude'] ?? 'longitude' => $value['longitude'],
             ];
 
+            \ksort($value); // for redisearch we need invert the order
+
             if ($this->geoPointFieldConfig['separator'] ?? false) {
                 $value = \implode($this->geoPointFieldConfig['separator'], $value);
             }

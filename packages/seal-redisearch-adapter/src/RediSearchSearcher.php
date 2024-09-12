@@ -32,8 +32,8 @@ final class RediSearchSearcher implements SearcherInterface
         $this->marshaller = new Marshaller(
             addRawFilterTextField: true,
             geoPointFieldConfig: [
-                'latitude' => 0,
-                'longitude' => 1,
+                'latitude' => 1,
+                'longitude' => 0,
                 'separator' => ',',
                 'multiple' => true,
             ],
@@ -92,8 +92,8 @@ final class RediSearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
                     '@%s:[%s %s %s]',
                     $this->getFilterField($search->indexes, $filter->field),
-                    $filter->latitude,
                     $filter->longitude,
+                    $filter->latitude,
                     ($filter->distance / 1000) . ' km',
                 ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),

@@ -29,8 +29,8 @@ final class RediSearchIndexer implements IndexerInterface
         $this->marshaller = new Marshaller(
             addRawFilterTextField: true,
             geoPointFieldConfig: [
-                'latitude' => 0,
-                'longitude' => 1,
+                'latitude' => 1,
+                'longitude' => 0,
                 'separator' => ',',
                 'multiple' => true,
             ],
