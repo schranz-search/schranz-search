@@ -27,6 +27,8 @@ final class Marshaller
      *     name: string,
      *     latitude: string,
      *     longitude: string,
+     *     separator?: string,
+     *     multiple?: bool,
      * }|null $geoPointFieldConfig
      */
     public function __construct(
@@ -85,10 +87,20 @@ final class Marshaller
         }
 
         if ($value) {
-            return [
+            $value = [
                 $this->geoPointFieldConfig['latitude'] ?? 'latitude' => $value['latitude'],
                 $this->geoPointFieldConfig['longitude'] ?? 'longitude' => $value['longitude'],
             ];
+
+            if ($this->geoPointFieldConfig['separator'] ?? false) {
+                $value = \implode($this->geoPointFieldConfig['separator'], $value);
+            }
+
+            if ($this->geoPointFieldConfig['multiple'] ?? false) {
+                $value = [$value];
+            }
+
+            return $value;
         }
 
         return null;
@@ -323,9 +335,17 @@ final class Marshaller
         $value = $document[$this->geoPointFieldConfig['name'] ?? $field->name] ?? null;
 
         if ($value) {
+            if ($this->geoPointFieldConfig['multiple'] ?? false) {
+                $value = $value[0] ?? $value;
+            }
+
+            if ($this->geoPointFieldConfig['separator'] ?? false) {
+                $value = \explode($this->geoPointFieldConfig['separator'], $value);
+            }
+
             return [
-                'latitude' => $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'],
-                'longitude' => $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'],
+                'latitude' => (float) $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'],
+                'longitude' => (float) $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'],
             ];
         }
 

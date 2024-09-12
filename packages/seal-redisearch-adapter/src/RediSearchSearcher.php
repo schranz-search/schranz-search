@@ -29,7 +29,15 @@ final class RediSearchSearcher implements SearcherInterface
     public function __construct(
         private readonly \Redis $client,
     ) {
-        $this->marshaller = new Marshaller(addRawFilterTextField: true);
+        $this->marshaller = new Marshaller(
+            addRawFilterTextField: true,
+            geoPointFieldConfig: [
+                'latitude' => 0,
+                'longitude' => 1,
+                'separator' => ',',
+                'multiple' => true,
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -84,9 +92,9 @@ final class RediSearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
                     '@%s:[%s %s %s]',
                     $this->getFilterField($search->indexes, $filter->field),
-                    $this->escapeFilterValue($filter->longitude),
-                    $this->escapeFilterValue($filter->latitude),
-                    $this->escapeFilterValue($filter->distance),
+                    $filter->latitude,
+                    $filter->longitude,
+                    ($filter->distance / 1000) . ' km',
                 ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
