@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2889f7fb14a40348bc6b2192393f3738",
+    "content-hash": "a08c2ca75c8c7ee38d2657264348b161",
     "packages": [
         {
             "name": "alexkart/curl-builder",
@@ -5612,92 +5612,6 @@
                 }
             ],
             "time": "2024-03-10T10:08:37+00:00"
-        },
-        {
-            "name": "yiisoft/yii-view",
-            "version": "7.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii-view-renderer.git",
-                "reference": "cb11468f554d251c2deb87bf228a302c794134a3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii-view-renderer/zipball/cb11468f554d251c2deb87bf228a302c794134a3",
-                "reference": "cb11468f554d251c2deb87bf228a302c794134a3",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "psr/container": "^1.0|^2.0",
-                "yiisoft/aliases": "^2.0|^3.0",
-                "yiisoft/csrf": "^1.2|^2.0",
-                "yiisoft/data-response": "^1.0|^2.0",
-                "yiisoft/friendly-exception": "^1.0",
-                "yiisoft/html": "^2.5|^3.0",
-                "yiisoft/strings": "^2.0",
-                "yiisoft/view": "^10.0"
-            },
-            "require-dev": {
-                "httpsoft/http-message": "^1.0",
-                "maglnet/composer-require-checker": "^4.3",
-                "nyholm/psr7": "^1.5",
-                "phpunit/phpunit": "^9.5",
-                "rector/rector": "1.0.*",
-                "roave/infection-static-analysis-plugin": "^1.25",
-                "spatie/phpunit-watcher": "^1.23",
-                "vimeo/psalm": "^4.30|^5.25",
-                "yiisoft/di": "^1.2",
-                "yiisoft/psr-dummy-provider": "^1.0",
-                "yiisoft/test-support": "^3.0",
-                "yiisoft/yii-debug": "dev-master|dev-php80"
-            },
-            "type": "library",
-            "extra": {
-                "config-plugin-options": {
-                    "source-directory": "config"
-                },
-                "config-plugin": {
-                    "params": "params.php",
-                    "di-web": "di-web.php",
-                    "events-web": "events-web.php"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Yiisoft\\Yii\\View\\Renderer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "PSR-7 compatible view renderer",
-            "homepage": "https://www.yiiframework.com/",
-            "keywords": [
-                "renderer",
-                "view",
-                "yii"
-            ],
-            "support": {
-                "chat": "https://t.me/yii3en",
-                "forum": "https://www.yiiframework.com/forum/",
-                "irc": "ircs://irc.libera.chat:6697/yii",
-                "issues": "https://github.com/yiisoft/yii-view-renderer/issues?state=open",
-                "source": "https://github.com/yiisoft/yii-view-renderer",
-                "wiki": "https://www.yiiframework.com/wiki/"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/yiisoft",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/yiisoft",
-                    "type": "opencollective"
-                }
-            ],
-            "time": "2024-07-01T11:56:55+00:00"
         }
     ],
     "packages-dev": [
