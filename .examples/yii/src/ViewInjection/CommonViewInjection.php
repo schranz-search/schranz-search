@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\ViewInjection;
 
 use App\ApplicationParameters;
-use Yiisoft\Yii\View\CommonParametersInjectionInterface;
+use Yiisoft\Yii\View\Renderer\CommonParametersInjectionInterface;
 
 final class CommonViewInjection implements CommonParametersInjectionInterface
 {
