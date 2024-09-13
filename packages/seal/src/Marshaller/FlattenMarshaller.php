@@ -129,9 +129,9 @@ final class FlattenMarshaller
     }
 
     /**
-     * @param array{latitude: float, longitude: float}|array<array{latitude: float, longitude: float}>|null $value
+     * @param array{latitude: float, longitude: float}|null $value
      *
-     * @return array{lat: float, lng: float}|null
+     * @return array<int|string, array<int|string, float>|float|string>|string|null
      */
     private function flattenGeoPointField(array|null $value, Field\GeoPointField $field): array|string|null
     {
