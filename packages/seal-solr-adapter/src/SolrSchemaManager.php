@@ -188,6 +188,15 @@ final class SolrSchemaManager implements SchemaManagerInterface
                     'useDocValuesAsStored' => false,
                     'multiValued' => $isMultiple,
                 ],
+                $field instanceof Field\GeoPointField => $indexFields[$name] = [
+                    'name' => $name,
+                    'type' => 'location',
+                    'indexed' => $field->searchable,
+                    'docValues' => $field->filterable || $field->sortable,
+                    'stored' => false,
+                    'useDocValuesAsStored' => false,
+                    'multiValued' => $isMultiple,
+                ],
                 $field instanceof Field\ObjectField => $indexFields = \array_replace($indexFields, $this->createIndexFields($field->fields, $name . '.', $isMultiple)),
                 $field instanceof Field\TypedField => \array_map(function ($fields, $type) use ($name, &$indexFields, $isMultiple) {
                     $indexFields = \array_replace($indexFields, $this->createIndexFields($fields, $name . '.' . $type . '.', $isMultiple));

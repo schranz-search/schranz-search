@@ -27,7 +27,15 @@ final class SolrIndexer implements IndexerInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new FlattenMarshaller(addRawFilterTextField: true);
+        $this->marshaller = new FlattenMarshaller(
+            addRawFilterTextField: true,
+            geoPointFieldConfig: [
+                'latitude' => 0,
+                'longitude' => 1,
+                'separator' => ',',
+                'multiple' => false,
+            ],
+        );
     }
 
     public function save(Index $index, array $document, array $options = []): TaskInterface|null

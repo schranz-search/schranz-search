@@ -131,17 +131,29 @@ final class FlattenMarshaller
      *
      * @return array{lat: float, lng: float}|null
      */
-    private function flattenGeoPointField(array|null $value, Field\GeoPointField $field): array|null
+    private function flattenGeoPointField(array|null $value, Field\GeoPointField $field): array|string|null
     {
         if ($field->multiple) {
             throw new \LogicException('GeoPointField currently does not support multiple values.');
         }
 
         if ($value) {
-            return [
+            $value = [
                 $this->geoPointFieldConfig['latitude'] ?? 'latitude' => $value['latitude'],
                 $this->geoPointFieldConfig['longitude'] ?? 'longitude' => $value['longitude'],
             ];
+
+            \ksort($value); // consistent to the Marshaller where we need this for the redisearch
+
+            if ($this->geoPointFieldConfig['separator'] ?? false) {
+                $value = \implode($this->geoPointFieldConfig['separator'], $value);
+            }
+
+            if ($this->geoPointFieldConfig['multiple'] ?? false) {
+                $value = [$value];
+            }
+
+            return $value;
         }
 
         return null;

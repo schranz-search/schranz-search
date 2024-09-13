@@ -31,7 +31,15 @@ final class SolrSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new FlattenMarshaller(addRawFilterTextField: true);
+        $this->marshaller = new FlattenMarshaller(
+            addRawFilterTextField: true,
+            geoPointFieldConfig: [
+                'latitude' => 0,
+                'longitude' => 1,
+                'separator' => ',',
+                'multiple' => false,
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -88,11 +96,11 @@ final class SolrSearcher implements SearcherInterface
                 $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($filter->value) . '}',
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($filter->value) . ']',
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    'fq={!geofilt sfield=%s}&pt=%s,%s&d=%s',
+                    '{!geofilt sfield=%s pt=%s,%s d=%s}',
                     $this->getFilterField($search->indexes, $filter->field),
-                    $this->escapeFilterValue($filter->longitude),
-                    $this->escapeFilterValue($filter->latitude),
-                    $this->escapeFilterValue($filter->distance),
+                    $filter->latitude,
+                    $filter->longitude,
+                    $filter->distance / 1000 // Convert meters to kilometers
                 ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
