@@ -100,7 +100,7 @@ final class SolrSearcher implements SearcherInterface
                     $this->getFilterField($search->indexes, $filter->field),
                     $filter->latitude,
                     $filter->longitude,
-                    $filter->distance / 1000 // Convert meters to kilometers
+                    $filter->distance / 1000, // Convert meters to kilometers
                 ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
