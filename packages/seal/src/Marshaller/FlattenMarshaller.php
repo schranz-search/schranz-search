@@ -26,9 +26,11 @@ final class FlattenMarshaller
 {
     /**
      * @param array{
-     *     name: string,
-     *     latitude: string,
-     *     longitude: string,
+     *     name?: string,
+     *     latitude?: string|int,
+     *     longitude?: string|int,
+     *     separator?: string,
+     *     multiple?: bool,
      * }|null $geoPointFieldConfig
      */
     public function __construct(
@@ -127,9 +129,9 @@ final class FlattenMarshaller
     }
 
     /**
-     * @param array{latitude: float, longitude: float}|array<array{latitude: float, longitude: float}>|null $value
+     * @param array{latitude: float, longitude: float}|null $value
      *
-     * @return array{lat: float, lng: float}|null
+     * @return array<int|string, array<int|string, float>|float|string>|string|null
      */
     private function flattenGeoPointField(array|null $value, Field\GeoPointField $field): array|string|null
     {

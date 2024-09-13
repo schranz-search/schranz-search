@@ -720,6 +720,7 @@ abstract class AbstractSearcherTestCase extends TestCase
                 $loadedDocument['location'] ?? null,
                 'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location returned.',
             );
+            $this->assertIsArray($loadedDocument['location']);
 
             $latitude = $loadedDocument['location']['latitude'] ?? null;
             $longitude = $loadedDocument['location']['longitude'] ?? null;

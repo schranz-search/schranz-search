@@ -24,9 +24,9 @@ final class Marshaller
 {
     /**
      * @param array{
-     *     name: string,
-     *     latitude: string,
-     *     longitude: string,
+     *     name?: string,
+     *     latitude?: string|int,
+     *     longitude?: string|int,
      *     separator?: string,
      *     multiple?: bool,
      * }|null $geoPointFieldConfig
@@ -76,11 +76,11 @@ final class Marshaller
     }
 
     /**
-     * @param array{latitude: float, longitude: float}|array<array{latitude: float, longitude: float}>|null $value
+     * @param array{latitude: float, longitude: float}|null $value
      *
-     * @return array{lat: float, lng: float}|null
+     * @return array<int|string, array<int|string, float>|float|string>|string|null
      */
-    private function marshallGeoPointField(array|null $value, Field\GeoPointField $field): array|null
+    private function marshallGeoPointField(array|null $value, Field\GeoPointField $field): array|string|null
     {
         if ($field->multiple) {
             throw new \LogicException('GeoPointField currently does not support multiple values.');
@@ -222,7 +222,7 @@ final class Marshaller
                 $field instanceof Field\ObjectField => $document[$field->name] = $this->unmarshallObjectFields($raw[$name], $field), // @phpstan-ignore-line
                 $field instanceof Field\TypedField => $document = \array_replace($document, $this->unmarshallTypedFields($name, $raw, $field)),
                 $field instanceof Field\DateTimeField => $document[$name] = $this->unmarshallDateTimeField($raw[$field->name], $field), // @phpstan-ignore-line
-                $field instanceof Field\GeoPointField => $document[$name] = $this->unmarshallGeoPointField($raw, $field), // @phpstan-ignore-line
+                $field instanceof Field\GeoPointField => $document[$name] = $this->unmarshallGeoPointField($raw, $field),
                 default => $document[$field->name] = $raw[$name] ?? ($field->multiple ? [] : null),
             };
         }
@@ -324,7 +324,7 @@ final class Marshaller
     }
 
     /**
-     * @param array{_geo: array{lat: float, lng: float}|null} $document
+     * @param array<string, mixed> $document
      *
      * @return array{latitude: float, longitude: float}|null
      */
@@ -334,6 +334,7 @@ final class Marshaller
             throw new \LogicException('GeoPointField currently does not support multiple values.');
         }
 
+        /** @var array<int|string, array<int|string, float>|float|string>|string|null $value */
         $value = $document[$this->geoPointFieldConfig['name'] ?? $field->name] ?? null;
 
         if ($value) {
@@ -341,13 +342,20 @@ final class Marshaller
                 $value = $value[0] ?? $value;
             }
 
-            if ($this->geoPointFieldConfig['separator'] ?? false) {
-                $value = \explode($this->geoPointFieldConfig['separator'], $value);
+            $separator = $this->geoPointFieldConfig['separator'] ?? false;
+            if ($separator) {
+                \assert(\is_string($value), 'Expected to have a string value for a seperated geo point field.');
+                $value = \explode($separator, $value);
             }
 
+            $latitude = $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'] ?? null;
+            $longitude = $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'] ?? null;
+
+            \assert(null !== $latitude && null !== $longitude, 'Expected to have latitude and longitude in geo point field.');
+
             return [
-                'latitude' => (float) $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'],
-                'longitude' => (float) $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'],
+                'latitude' => (float) $latitude,
+                'longitude' => (float) $longitude,
             ];
         }
 

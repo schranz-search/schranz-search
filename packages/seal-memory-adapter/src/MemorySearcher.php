@@ -160,7 +160,8 @@ final class MemorySearcher implements SearcherInterface
 
                         $hasMatchingValue = false;
                         foreach ($values as $value) {
-                            if (!isset($value['latitude'])
+                            if (!\is_array($value)
+                                || !isset($value['latitude'])
                                 || !isset($value['longitude'])
                             ) {
                                 continue;
