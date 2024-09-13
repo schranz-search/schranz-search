@@ -106,9 +106,6 @@ final class AlgoliaSearcher implements SearcherInterface
                     ),
                     'aroundRadius' => $filter->distance,
                 ],
-                $filter instanceof Condition\GeoBoundingBoxCondition => $geoFilters = [
-                    'insideBoundingBox' => [[$filter->minLatitude, $filter->minLongitude, $filter->maxLatitude, $filter->maxLongitude]],
-                ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
