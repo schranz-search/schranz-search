@@ -60,7 +60,7 @@ final class SearchConfig extends InjectableConfig
 
     /**
      * @return array<string, array{
-     *     adapter: string,
+     *     adapter?: string,
      * }>
      */
     public function getEngines(): array
