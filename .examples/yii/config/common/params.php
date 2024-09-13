@@ -7,7 +7,7 @@ use App\ViewInjection\CommonViewInjection;
 use App\ViewInjection\LayoutViewInjection;
 use App\ViewInjection\TranslatorViewInjection;
 use Yiisoft\Definitions\Reference;
-use Yiisoft\Yii\View\CsrfViewInjection;
+use Yiisoft\Yii\View\Renderer\CsrfViewInjection;
 
 return [
     'app' => [

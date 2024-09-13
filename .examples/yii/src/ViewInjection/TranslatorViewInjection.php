@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\ViewInjection;
 
 use Yiisoft\Translator\TranslatorInterface;
-use Yiisoft\Yii\View\CommonParametersInjectionInterface;
+use Yiisoft\Yii\View\Renderer\CommonParametersInjectionInterface;
 
 final class TranslatorViewInjection implements CommonParametersInjectionInterface
 {
