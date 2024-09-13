@@ -351,7 +351,7 @@ final class Marshaller
             $latitude = $value[$this->geoPointFieldConfig['latitude'] ?? 'latitude'] ?? null;
             $longitude = $value[$this->geoPointFieldConfig['longitude'] ?? 'longitude'] ?? null;
 
-            \assert($latitude !== null && $longitude !== null, 'Expected to have latitude and longitude in geo point field.');
+            \assert(null !== $latitude && null !== $longitude, 'Expected to have latitude and longitude in geo point field.');
 
             return [
                 'latitude' => (float) $latitude,
