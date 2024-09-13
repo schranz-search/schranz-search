@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Spiral\Testing\Attribute\TestScope;
 use Spiral\Testing\Http\FakeHttp;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -18,6 +19,7 @@ final class SearchControllerTest extends TestCase
         $this->http = $this->fakeHttp();
     }
 
+    #[TestScope('http')]
     public function testDefaultActionWorks(): void
     {
         $response = $this->http

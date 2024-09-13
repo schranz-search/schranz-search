@@ -112,7 +112,10 @@ final class SearchBootloader extends Bootloader
             $schemaId = 'schranz_search.schema.' . $name;
 
             /** @var string $adapterDsn */
-            $adapterDsn = $engineConfig['adapter'];
+            $adapterDsn = $engineConfig['adapter'] ?? throw new \RuntimeException(\sprintf(
+                'No adapter DSN configured for engine "%s".',
+                $name,
+            ));
             $dirs = $engineSchemaDirs[$name] ?? [];
 
             $container->bindSingleton(
