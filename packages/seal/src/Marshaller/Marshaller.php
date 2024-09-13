@@ -25,8 +25,8 @@ final class Marshaller
     /**
      * @param array{
      *     name?: string,
-     *     latitude?: string,
-     *     longitude?: string,
+     *     latitude?: string|int,
+     *     longitude?: string|int,
      *     separator?: string,
      *     multiple?: bool,
      * }|null $geoPointFieldConfig
