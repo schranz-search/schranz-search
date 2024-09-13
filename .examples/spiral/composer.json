@@ -43,7 +43,7 @@
         "schranz-search/seal-solr-adapter": "^0.5",
         "schranz-search/seal-typesense-adapter": "^0.5",
         "spiral/dumper": "^3.3",
-        "spiral/testing": "^2.2",
+        "spiral/testing": "^2.8",
         "symfony/css-selector": "^6.2",
         "symfony/dom-crawler": "^6.2",
         "vimeo/psalm": "^5.22"
