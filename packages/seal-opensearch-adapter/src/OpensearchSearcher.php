@@ -31,7 +31,12 @@ final class OpensearchSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'latitude' => 'lat',
+                'longitude' => 'lon',
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -78,6 +83,13 @@ final class OpensearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gte'] = $filter->value,
                 $filter instanceof Condition\LessThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lt'] = $filter->value,
                 $filter instanceof Condition\LessThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\GeoDistanceCondition => $query['bool']['filter']['geo_distance'] = [
+                    'distance' => \sprintf('%dm', $filter->distance),
+                    $this->getFilterField($search->indexes, $filter->field) => [
+                        'lat' => $filter->latitude,
+                        'lon' => $filter->longitude,
+                    ],
+                ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

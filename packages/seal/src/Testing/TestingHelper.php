@@ -67,6 +67,7 @@ final class TestingHelper
             ], multiple: true),
             'tags' => new Field\TextField('tags', multiple: true, filterable: true),
             'categoryIds' => new Field\IntegerField('categoryIds', multiple: true, filterable: true),
+            'location' => new Field\GeoPointField('location', filterable: true, sortable: true),
         ];
 
         $simpleFields = [
@@ -103,6 +104,10 @@ final class TestingHelper
      *     }>|null,
      *     tags?: string[]|null,
      *     categoryIds?: int[]|null,
+     *     location?: array{
+     *         latitude: float,
+     *         longitude: float,
+     *     },
      * }>
      */
     public static function createComplexFixtures(): array
@@ -158,6 +163,11 @@ final class TestingHelper
                 ],
                 'tags' => ['Tech', 'UI'],
                 'categoryIds' => [1, 2],
+                'location' => [
+                    // New York
+                    'latitude' => 40.7128,
+                    'longitude' => -74.0060,
+                ],
             ],
             [
                 'uuid' => '79848403-c1a1-4420-bcc2-06ed537e0d4d',
@@ -177,6 +187,11 @@ final class TestingHelper
                 'comments' => [],
                 'tags' => ['UI', 'UX'],
                 'categoryIds' => [2, 3],
+                'location' => [
+                    // London
+                    'latitude' => 51.5074,
+                    'longitude' => -0.1278,
+                ],
             ],
             [
                 'uuid' => '8d90e7d9-2b56-4980-90ce-f91d020cee53',
@@ -190,6 +205,11 @@ final class TestingHelper
                 'comments' => [],
                 'tags' => ['Tech', 'UX'],
                 'categoryIds' => [3, 4],
+                'location' => [
+                    // Vienna
+                    'latitude' => 48.2082,
+                    'longitude' => 16.3738,
+                ],
             ],
             [
                 'uuid' => '97cd3e94-c17f-4c11-a22b-d9da2e5318cd',

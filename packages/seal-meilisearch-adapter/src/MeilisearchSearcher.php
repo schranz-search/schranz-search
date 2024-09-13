@@ -29,7 +29,13 @@ final class MeilisearchSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'name' => '_geo',
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -80,6 +86,12 @@ final class MeilisearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '_geoRadius(%s, %s, %s)',
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->distance),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

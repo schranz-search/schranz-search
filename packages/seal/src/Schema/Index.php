@@ -15,6 +15,7 @@ namespace Schranz\Search\SEAL\Schema;
 
 use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
 use Schranz\Search\SEAL\Schema\Field\AbstractField;
+use Schranz\Search\SEAL\Schema\Field\GeoPointField;
 use Schranz\Search\SEAL\Schema\Field\IdentifierField;
 use Schranz\Search\SEAL\Schema\Field\ObjectField;
 use Schranz\Search\SEAL\Schema\Field\TypedField;
@@ -64,6 +65,17 @@ final class Index
         }
 
         return $this->identifierField;
+    }
+
+    public function getGeoPointField(): GeoPointField|null
+    {
+        foreach ($this->fields as $field) {
+            if ($field instanceof GeoPointField) {
+                return $field;
+            }
+        }
+
+        return null;
     }
 
     public function getFieldByPath(string $path): AbstractField

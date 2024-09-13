@@ -32,6 +32,10 @@ final class LoupeSearcher implements SearcherInterface
             dateAsInteger: true,
             separator: LoupeHelper::SEPARATOR,
             sourceField: LoupeHelper::SOURCE_FIELD,
+            geoPointFieldConfig: [
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
         );
     }
 
@@ -83,6 +87,13 @@ final class LoupeSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' >= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' < ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '_geoRadius(%s, %s, %s, %s)',
+                    $this->loupeHelper->formatField($filter->field),
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->distance),
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

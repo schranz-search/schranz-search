@@ -29,7 +29,12 @@ final class ElasticsearchIndexer implements IndexerInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'latitude' => 'lat',
+                'longitude' => 'lon',
+            ],
+        );
     }
 
     public function save(Index $index, array $document, array $options = []): TaskInterface|null

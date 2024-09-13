@@ -116,6 +116,11 @@ final class OpensearchSchemaManager implements SchemaManagerInterface
                     'index' => $field->searchable || $field->filterable, // @phpstan-ignore-line // TODO recheck doc_values https://github.com/schranz-search/schranz-search/issues/65
                     'doc_values' => $field->filterable,
                 ],
+                $field instanceof Field\GeoPointField => $properties[$name] = [
+                    'type' => 'geo_point',
+                    'index' => $field->searchable,
+                    'doc_values' => $field->filterable || $field->sortable,
+                ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
                     'type' => 'object',
                     'properties' => $this->createPropertiesMapping($field->fields),

@@ -27,7 +27,13 @@ final class AlgoliaIndexer implements IndexerInterface
     public function __construct(
         private readonly SearchClient $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'name' => '_geoloc',
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
+        );
     }
 
     public function save(Index $index, array $document, array $options = []): TaskInterface|null

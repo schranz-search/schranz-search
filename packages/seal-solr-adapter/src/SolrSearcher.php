@@ -23,7 +23,6 @@ use Schranz\Search\SEAL\Search\Result;
 use Schranz\Search\SEAL\Search\Search;
 use Solarium\Client;
 use Solarium\Core\Query\DocumentInterface;
-use Solarium\Core\Query\Helper;
 
 final class SolrSearcher implements SearcherInterface
 {
@@ -32,7 +31,15 @@ final class SolrSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new FlattenMarshaller(addRawFilterTextField: true);
+        $this->marshaller = new FlattenMarshaller(
+            addRawFilterTextField: true,
+            geoPointFieldConfig: [
+                'latitude' => 0,
+                'longitude' => 1,
+                'separator' => ',',
+                'multiple' => false,
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -74,7 +81,6 @@ final class SolrSearcher implements SearcherInterface
             ->setCollection($index->name);
 
         $query = $this->client->createSelect();
-        $helper = $query->getHelper();
 
         $queryText = null;
 
@@ -82,13 +88,20 @@ final class SolrSearcher implements SearcherInterface
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($helper, $filter->identifier),
-                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($helper, $filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($helper, $filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($helper, $filter->value) . ' TO *}',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($helper, $filter->value) . ' TO *]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($helper, $filter->value) . '}',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($helper, $filter->value) . ']',
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . ' TO *}',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' TO *]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '{!geofilt sfield=%s pt=%s,%s d=%s}',
+                    $this->getFilterField($search->indexes, $filter->field),
+                    $filter->latitude,
+                    $filter->longitude,
+                    $filter->distance / 1000 // Convert meters to kilometers
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -152,7 +165,7 @@ final class SolrSearcher implements SearcherInterface
         }
     }
 
-    private function escapeFilterValue(Helper $helper, string|int|float|bool $value): string
+    private function escapeFilterValue(string|int|float|bool $value): string
     {
         return '"' . \addcslashes((string) $value, '"+-&|!(){}[]^~*?:\\/ ') . '"';
     }

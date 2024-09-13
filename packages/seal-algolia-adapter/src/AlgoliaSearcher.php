@@ -29,7 +29,13 @@ final class AlgoliaSearcher implements SearcherInterface
     public function __construct(
         private readonly SearchClient $client,
     ) {
-        $this->marshaller = new Marshaller();
+        $this->marshaller = new Marshaller(
+            geoPointFieldConfig: [
+                'name' => '_geoloc',
+                'latitude' => 'lat',
+                'longitude' => 'lng',
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -81,7 +87,7 @@ final class AlgoliaSearcher implements SearcherInterface
         $searchIndex = $this->client->initIndex($indexName);
 
         $query = '';
-        $filters = [];
+        $filters = $geoFilters = [];
         foreach ($search->filters as $filter) {
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
@@ -92,6 +98,14 @@ final class AlgoliaSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $geoFilters = [
+                    'aroundLatLng' => \sprintf(
+                        '%s, %s',
+                        $this->escapeFilterValue($filter->latitude),
+                        $this->escapeFilterValue($filter->longitude),
+                    ),
+                    'aroundRadius' => $filter->distance,
+                ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -99,6 +113,10 @@ final class AlgoliaSearcher implements SearcherInterface
         $searchParams = [];
         if ([] !== $filters) {
             $searchParams = ['filters' => \implode(' AND ', $filters)];
+        }
+
+        if ([] !== $geoFilters) {
+            $searchParams += $geoFilters;
         }
 
         if (0 !== $search->offset) {

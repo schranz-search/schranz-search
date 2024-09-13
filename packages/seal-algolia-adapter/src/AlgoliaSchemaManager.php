@@ -15,6 +15,7 @@ namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\SearchClient;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
+use Schranz\Search\SEAL\Schema\Field\GeoPointField;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
@@ -72,9 +73,14 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
     public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
         $searchIndex = $this->client->initIndex($index->name);
+        $geoPointField = $index->getGeoPointField();
 
         $replicas = [];
         foreach ($index->sortableFields as $field) {
+            if ($geoPointField?->name === $field) {
+                $field = '_geoloc';
+            }
+
             foreach (['asc', 'desc'] as $direction) {
                 $replicas[] = $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction;
             }
@@ -85,6 +91,16 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             'attributesForFaceting' => $index->filterableFields,
             'replicas' => $replicas,
         ];
+
+        if ($geoPointField instanceof GeoPointField) {
+            foreach ($attributes as $listKey => $list) {
+                foreach ($list as $key => $value) {
+                    if ($value === $geoPointField->name) {
+                        $attributes[$listKey][$key] = '_geoloc';
+                    }
+                }
+            }
+        }
 
         $indexResponses = [];
         $indexResponses[] = $searchIndex->setSettings($attributes);

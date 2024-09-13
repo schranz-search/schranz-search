@@ -29,7 +29,13 @@ final class TypesenseSearcher implements SearcherInterface
     public function __construct(
         private readonly Client $client,
     ) {
-        $this->marshaller = new Marshaller(dateAsInteger: true);
+        $this->marshaller = new Marshaller(
+            dateAsInteger: true,
+            geoPointFieldConfig: [
+                'latitude' => 0,
+                'longitude' => 1,
+            ],
+        );
     }
 
     public function search(Search $search): Result
@@ -79,6 +85,13 @@ final class TypesenseSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s)',
+                    $filter->field,
+                    $this->escapeFilterValue($filter->latitude),
+                    $this->escapeFilterValue($filter->longitude),
+                    $this->escapeFilterValue($filter->distance / 1000) . ' km', // convert to km
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

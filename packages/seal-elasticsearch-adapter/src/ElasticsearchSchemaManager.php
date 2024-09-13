@@ -116,6 +116,11 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
                     'index' => $field->searchable,
                     'doc_values' => $field->filterable || $field->sortable,
                 ],
+                $field instanceof Field\GeoPointField => $properties[$name] = [
+                    'type' => 'geo_point',
+                    'index' => $field->searchable,
+                    'doc_values' => $field->filterable || $field->sortable,
+                ],
                 $field instanceof Field\ObjectField => $properties[$name] = [
                     'type' => 'object',
                     'properties' => $this->createPropertiesMapping($field->fields),
