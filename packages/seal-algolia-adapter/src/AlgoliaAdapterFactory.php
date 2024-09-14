@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
-use Algolia\AlgoliaSearch\Config\SearchConfig;
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Configuration\SearchConfig;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Psr\Container\ContainerInterface;
 use Schranz\Search\SEAL\Adapter\AdapterFactoryInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;

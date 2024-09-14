@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -40,9 +40,8 @@ final class AlgoliaIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        $searchIndex = $this->client->initIndex($index->name);
-
-        $batchIndexingResponse = $searchIndex->saveObject(
+        $batchIndexingResponse = $this->client->saveObject(
+            $index->name,
             $this->marshaller->marshall($index->fields, $document),
             ['objectIDKey' => $identifierField->name],
         );
@@ -51,25 +50,27 @@ final class AlgoliaIndexer implements IndexerInterface
             return null;
         }
 
-        return new AsyncTask(function () use ($batchIndexingResponse, $document) {
-            $batchIndexingResponse->wait();
-
-            return $document;
+        return new AsyncTask(function () use ($batchIndexingResponse, $index) {
+            $this->client->waitForTask(
+                $index->name,
+                $batchIndexingResponse['taskID'],
+            );
         });
     }
 
     public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
-        $searchIndex = $this->client->initIndex($index->name);
-
-        $batchIndexingResponse = $searchIndex->deleteObject($identifier);
+        $batchIndexingResponse = $this->client->deleteObject($index->name, $identifier);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function () use ($batchIndexingResponse) {
-            $batchIndexingResponse->wait();
+        return new AsyncTask(function () use ($batchIndexingResponse, $index) {
+            $this->client->waitForTask(
+                $index->name,
+                $batchIndexingResponse['taskID'],
+            );
         });
     }
 }

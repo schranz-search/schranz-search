@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field\GeoPointField;
 use Schranz\Search\SEAL\Schema\Index;
@@ -29,33 +29,38 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
 
     public function existIndex(Index $index): bool
     {
-        $index = $this->client->initIndex($index->name);
-
-        return $index->exists();
+        return $this->client->indexExists($index->name);
     }
 
     public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
-        $searchIndex = $this->client->initIndex($index->name);
-
         $indexResponses = [];
-        $indexResponse = $searchIndex->delete();
-        $indexResponses[] = $indexResponse;
+        $indexResponses[] = [
+            'indexName' => $index->name,
+            ...$this->client->deleteIndex(
+                $index->name,
+            ),
+        ];
 
         if ([] !== $index->sortableFields) {
             // we need to wait for removing of primary index
             // see also: https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/delete-indices/#delete-multiple-indices
             // see also: https://support.algolia.com/hc/en-us/requests/540200
-            $indexResponse->wait();
+            $this->client->waitForTask(
+                $indexResponses[0]['indexName'],
+                $indexResponses[0]['taskID'],
+            );
         }
 
         foreach ($index->sortableFields as $field) {
             foreach (['asc', 'desc'] as $direction) {
-                $searchIndex = $this->client->initIndex(
-                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction,
-                );
-
-                $indexResponses[] = $searchIndex->delete();
+                $sortIndexName = $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction;
+                $indexResponses[] = [
+                    'indexName' => $sortIndexName,
+                    ...$this->client->deleteIndex(
+                        $sortIndexName,
+                    ),
+                ];
             }
         }
 
@@ -63,18 +68,19 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function () use ($indexResponses) {
+        return new AsyncTask(function () use ($indexResponses, $index) {
             foreach ($indexResponses as $indexResponse) {
-                $indexResponse->wait();
+                $this->client->waitForTask(
+                    $indexResponse['indexName'],
+                    $indexResponse['taskID'],
+                );
             }
         });
     }
 
     public function createIndex(Index $index, array $options = []): TaskInterface|null
     {
-        $searchIndex = $this->client->initIndex($index->name);
         $geoPointField = $index->getGeoPointField();
-
         $replicas = [];
         foreach ($index->sortableFields as $field) {
             if ($geoPointField?->name === $field) {
@@ -103,19 +109,26 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         }
 
         $indexResponses = [];
-        $indexResponses[] = $searchIndex->setSettings($attributes);
+        $indexResponses[] = [
+            'indexName' => $index->name,
+            ...$this->client->setSettings($index->name, $attributes),
+        ];
 
         foreach ($index->sortableFields as $field) {
             foreach (['asc', 'desc'] as $direction) {
-                $searchIndex = $this->client->initIndex(
-                    $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction,
-                );
+                $sortIndexName = $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction;
 
-                $indexResponses[] = $searchIndex->setSettings([
-                    'ranking' => [
-                        $direction . '(' . $field . ')',
-                    ],
-                ]);
+                $indexResponses[] = [
+                    'indexName' => $sortIndexName,
+                    ...$this->client->setSettings(
+                        $sortIndexName,
+                        [
+                            'ranking' => [
+                                $direction . '(' . $field . ')',
+                            ],
+                        ]
+                    )
+                ];
             }
         }
 
@@ -123,9 +136,12 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function () use ($indexResponses) {
+        return new AsyncTask(function () use ($indexResponses, $index) {
             foreach ($indexResponses as $indexResponse) {
-                $indexResponse->wait();
+                $this->client->waitForTask(
+                    $indexResponse['indexName'],
+                    $indexResponse['taskID'],
+                );
             }
         });
     }
