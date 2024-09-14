@@ -40,21 +40,27 @@ final class AlgoliaIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
+        $document = $this->marshaller->marshall($index->fields, $document);
+        $document['objectID'] = $document[$identifierField->name]; // TODO check objectIDKey instead see: https://github.com/algolia/algoliasearch-client-php/issues/738
+
         $batchIndexingResponse = $this->client->saveObject(
             $index->name,
-            $this->marshaller->marshall($index->fields, $document),
-            ['objectIDKey' => $identifierField->name],
+            $document,
         );
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function () use ($batchIndexingResponse, $index) {
+        return new AsyncTask(function () use ($batchIndexingResponse, $index, $document) {
+            \assert(isset($batchIndexingResponse['taskID']) && \is_int($batchIndexingResponse['taskID']), 'Task ID is expected to be returned by algolia client.');
+
             $this->client->waitForTask(
                 $index->name,
                 $batchIndexingResponse['taskID'],
             );
+
+            return $document;
         });
     }
 
@@ -67,6 +73,8 @@ final class AlgoliaIndexer implements IndexerInterface
         }
 
         return new AsyncTask(function () use ($batchIndexingResponse, $index) {
+            \assert(isset($batchIndexingResponse['taskID']) && \is_int($batchIndexingResponse['taskID']), 'Task ID is expected to be returned by algolia client.');
+
             $this->client->waitForTask(
                 $index->name,
                 $batchIndexingResponse['taskID'],

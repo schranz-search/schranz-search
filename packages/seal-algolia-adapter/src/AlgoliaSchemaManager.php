@@ -37,7 +37,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         $indexResponses = [];
         $indexResponses[] = [
             'indexName' => $index->name,
-            ...$this->client->deleteIndex(
+            ...$this->client->deleteIndex( // @phpstan-ignore-line
                 $index->name,
             ),
         ];
@@ -57,7 +57,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
                 $sortIndexName = $index->name . '__' . \str_replace('.', '_', $field) . '_' . $direction;
                 $indexResponses[] = [
                     'indexName' => $sortIndexName,
-                    ...$this->client->deleteIndex(
+                    ...$this->client->deleteIndex( // @phpstan-ignore-line
                         $sortIndexName,
                     ),
                 ];
@@ -68,7 +68,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function () use ($indexResponses, $index) {
+        return new AsyncTask(function () use ($indexResponses) {
             foreach ($indexResponses as $indexResponse) {
                 $this->client->waitForTask(
                     $indexResponse['indexName'],
@@ -111,7 +111,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
         $indexResponses = [];
         $indexResponses[] = [
             'indexName' => $index->name,
-            ...$this->client->setSettings($index->name, $attributes),
+            ...$this->client->setSettings($index->name, $attributes), // @phpstan-ignore-line
         ];
 
         foreach ($index->sortableFields as $field) {
@@ -120,14 +120,14 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
 
                 $indexResponses[] = [
                     'indexName' => $sortIndexName,
-                    ...$this->client->setSettings(
+                    ...$this->client->setSettings(  // @phpstan-ignore-line
                         $sortIndexName,
                         [
                             'ranking' => [
                                 $direction . '(' . $field . ')',
                             ],
-                        ]
-                    )
+                        ],
+                    ),
                 ];
             }
         }
@@ -136,7 +136,7 @@ final class AlgoliaSchemaManager implements SchemaManagerInterface
             return null;
         }
 
-        return new AsyncTask(function () use ($indexResponses, $index) {
+        return new AsyncTask(function () use ($indexResponses) {
             foreach ($indexResponses as $indexResponse) {
                 $this->client->waitForTask(
                     $indexResponse['indexName'],
