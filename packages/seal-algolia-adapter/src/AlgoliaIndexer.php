@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
-use Algolia\AlgoliaSearch\SearchClient;
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -40,19 +40,25 @@ final class AlgoliaIndexer implements IndexerInterface
     {
         $identifierField = $index->getIdentifierField();
 
-        $searchIndex = $this->client->initIndex($index->name);
+        $document = $this->marshaller->marshall($index->fields, $document);
+        $document['objectID'] = $document[$identifierField->name]; // TODO check objectIDKey instead see: https://github.com/algolia/algoliasearch-client-php/issues/738
 
-        $batchIndexingResponse = $searchIndex->saveObject(
-            $this->marshaller->marshall($index->fields, $document),
-            ['objectIDKey' => $identifierField->name],
+        $batchIndexingResponse = $this->client->saveObject(
+            $index->name,
+            $document,
         );
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function () use ($batchIndexingResponse, $document) {
-            $batchIndexingResponse->wait();
+        return new AsyncTask(function () use ($batchIndexingResponse, $index, $document) {
+            \assert(isset($batchIndexingResponse['taskID']) && \is_int($batchIndexingResponse['taskID']), 'Task ID is expected to be returned by algolia client.');
+
+            $this->client->waitForTask(
+                $index->name,
+                $batchIndexingResponse['taskID'],
+            );
 
             return $document;
         });
@@ -60,16 +66,19 @@ final class AlgoliaIndexer implements IndexerInterface
 
     public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
-        $searchIndex = $this->client->initIndex($index->name);
-
-        $batchIndexingResponse = $searchIndex->deleteObject($identifier);
+        $batchIndexingResponse = $this->client->deleteObject($index->name, $identifier);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
         }
 
-        return new AsyncTask(function () use ($batchIndexingResponse) {
-            $batchIndexingResponse->wait();
+        return new AsyncTask(function () use ($batchIndexingResponse, $index) {
+            \assert(isset($batchIndexingResponse['taskID']) && \is_int($batchIndexingResponse['taskID']), 'Task ID is expected to be returned by algolia client.');
+
+            $this->client->waitForTask(
+                $index->name,
+                $batchIndexingResponse['taskID'],
+            );
         });
     }
 }

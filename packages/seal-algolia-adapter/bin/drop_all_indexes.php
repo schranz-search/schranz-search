@@ -38,8 +38,7 @@ foreach ($client->listIndices()['items'] as $key => $value) {
     echo 'Delete ... ' . $value['name'] . \PHP_EOL;
 
     try {
-        $client->initIndex($value['name'])
-            ->delete();
+        $client->deleteIndex($value['name']);
     } catch (\Exception) {
         echo 'Errored ... ' . $value['name'] . \PHP_EOL;
         $return = 1;

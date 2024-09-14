@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
+use Algolia\AlgoliaSearch\Api\SearchClient;
 use Algolia\AlgoliaSearch\Exceptions\NotFoundException;
-use Algolia\AlgoliaSearch\SearchClient;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -51,10 +51,12 @@ final class AlgoliaSearcher implements SearcherInterface
             $index = $search->indexes[\array_key_first($search->indexes)];
             $identifierField = $index->getIdentifierField();
 
-            $searchIndex = $this->client->initIndex($index->name);
-
             try {
-                $data = $searchIndex->getObject($search->filters[0]->identifier, ['objectIDKey' => $identifierField->name]);
+                /** @var array<string, mixed> $data */
+                $data = $this->client->getObject(
+                    $index->name,
+                    $search->filters[0]->identifier,
+                );
             } catch (NotFoundException) {
                 return new Result(
                     $this->hitsToDocuments($search->indexes, []),
@@ -83,8 +85,6 @@ final class AlgoliaSearcher implements SearcherInterface
         if ($sortByField) {
             $indexName .= '__' . \str_replace('.', '_', $sortByField) . '_' . $search->sortBys[$sortByField];
         }
-
-        $searchIndex = $this->client->initIndex($indexName);
 
         $query = '';
         $filters = $geoFilters = [];
@@ -128,11 +128,17 @@ final class AlgoliaSearcher implements SearcherInterface
             $searchParams['offset'] ??= 0; // length would be ignored without offset see: https://www.algolia.com/doc/api-reference/api-parameters/length/
         }
 
-        $data = $searchIndex->search($query, $searchParams);
+        if ('' !== $query) {
+            $searchParams['query'] = $query;
+        }
+
+        $data = $this->client->searchSingleIndex($indexName, $searchParams);
+        \assert(\is_array($data) && isset($data['hits']) && \is_array($data['hits']), 'The "hits" array is expected to be returned by algolia client.');
+        \assert(isset($data['nbHits']) && \is_int($data['nbHits']), 'The "nbHits" value is expected to be returned by algolia client.');
 
         return new Result(
             $this->hitsToDocuments($search->indexes, $data['hits']),
-            $data['nbHits'] ?? null,
+            $data['nbHits'] ?? null, // @phpstan-ignore-line
         );
     }
 
