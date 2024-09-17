@@ -752,6 +752,87 @@ abstract class AbstractSearcherTestCase extends TestCase
         }
     }
 
+    public function testGeoBoundingBoxCondition(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+        }
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->addFilter(new Condition\GeoBoundingBoxCondition(
+            'location',
+            // Dublin - Athen
+            53.3498, // top
+            23.7275, // right
+            37.9838, // bottom
+            -6.2603, // left
+        ));
+
+        $loadedDocuments = [...$search->getResult()];
+        $this->assertGreaterThan(1, \count($loadedDocuments));
+
+        foreach ($loadedDocuments as $loadedDocument) {
+            $this->assertNotNull(
+                $loadedDocument['location'] ?? null,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location returned.',
+            );
+            $this->assertIsArray($loadedDocument['location']);
+
+            $latitude = $loadedDocument['location']['latitude'] ?? null;
+            $longitude = $loadedDocument['location']['longitude'] ?? null;
+
+            $this->assertNotNull(
+                $latitude,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location latitude returned.',
+            );
+
+            $this->assertNotNull(
+                $longitude,
+                'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location latitude returned.',
+            );
+
+            $isInBoxFunction = function(
+                float $latitude,
+                float $longitude,
+                float $northLatitude,
+                float $eastLongitude,
+                float $southLatitude,
+                float $westLongitude,
+            ): bool {
+                // Check if the latitude is between the north and south boundaries
+                $isWithinLatitude = $latitude <= $northLatitude && $latitude >= $southLatitude;
+
+                // Check if the longitude is between the west and east boundaries
+                $isWithinLongitude = $longitude >= $westLongitude && $longitude <= $eastLongitude;
+
+                // The point is inside the bounding box if both conditions are true
+                return $isWithinLatitude && $isWithinLongitude;
+            };
+
+            // TODO: Fix this test
+            $isInBox = $isInBoxFunction($latitude, $longitude, 53.3498, 23.7275,37.9838, -6.2603);
+            $this->assertTrue($isInBox, 'Document "' . $loadedDocument['uuid'] . '" is not in the box.');
+        }
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
+
     public function testLessThanEqualConditionMultiValue(): void
     {
         $documents = TestingHelper::createComplexFixtures();

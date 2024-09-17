@@ -102,12 +102,12 @@ final class ElasticsearchSearcher implements SearcherInterface
                 ],
                 $filter instanceof Condition\GeoBoundingBoxCondition => $query['bool']['filter']['geo_bounding_box'][$this->getFilterField($search->indexes, $filter->field)] = [
                     'top_left' => [
-                        'lat' => $filter->minLatitude,
-                        'lon' => $filter->minLongitude,
+                        'lat' => $filter->northLatitude,
+                        'lon' => $filter->westLongitude,
                     ],
                     'bottom_right' => [
-                        'lat' => $filter->maxLatitude,
-                        'lon' => $filter->maxLongitude,
+                        'lat' => $filter->southLatitude,
+                        'lon' => $filter->eastLongitude,
                     ],
                 ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),

@@ -15,12 +15,18 @@ namespace Schranz\Search\SEAL\Search\Condition;
 
 class GeoBoundingBoxCondition
 {
+    /**
+     * The order may first be unusally, but it is the same as in common JS libraries like.
+     *
+     * @see https://docs.mapbox.com/help/glossary/bounding-box/
+     * @see https://developers.google.com/maps/documentation/javascript/reference/coordinates#LatLngBounds
+     */
     public function __construct(
         public readonly string $field,
-        public readonly float $minLatitude,
-        public readonly float $minLongitude,
-        public readonly float $maxLatitude,
-        public readonly float $maxLongitude,
+        public readonly float $northLatitude, // top
+        public readonly float $eastLongitude, // right
+        public readonly float $southLatitude, // bottom
+        public readonly float $westLongitude, // left
     ) {
     }
 }
