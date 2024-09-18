@@ -168,7 +168,7 @@ final class RediSearchSchemaManager implements SchemaManagerInterface
                 ],
                 $field instanceof Field\GeoPointField => $indexFields[$name] = [
                     'jsonPath' => $jsonPath,
-                    'type' => 'GEO',
+                    'type' => 'GEOSHAPE',
                     'searchable' => $field->searchable,
                     'sortable' => $field->sortable,
                     'filterable' => $field->filterable,
