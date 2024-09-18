@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "42b49bd41f34db3bfbac71675f264af865187e16"
+                "reference": "93b4b7fce9b68b0cd3592e96c47abdec9d6c468c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/42b49bd41f34db3bfbac71675f264af865187e16",
-                "reference": "42b49bd41f34db3bfbac71675f264af865187e16",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/93b4b7fce9b68b0cd3592e96c47abdec9d6c468c",
+                "reference": "93b4b7fce9b68b0cd3592e96c47abdec9d6c468c",
                 "shasum": ""
             },
             "require": {
@@ -71,9 +71,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/algoliasearch-client-php/issues",
-                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.1"
+                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.2"
             },
-            "time": "2024-09-12T08:26:17+00:00"
+            "time": "2024-09-17T07:44:22+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -660,16 +660,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.1.0",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1"
+                "reference": "23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/683130c2ff8c2739f4822ff7ac5c873ec529abd1",
-                "reference": "683130c2ff8c2739f4822ff7ac5c873ec529abd1",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb",
+                "reference": "23c79fbbfb725fb92af9bcf41065c8e9a0d49ddb",
                 "shasum": ""
             },
             "require": {
@@ -712,9 +712,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.1.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.2.0"
             },
-            "time": "2024-07-01T20:03:41+00:00"
+            "time": "2024-09-15T16:40:33+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -942,12 +942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "da764a2d57a3a7afedaf3d5d087bae298a8c6c39"
+                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/da764a2d57a3a7afedaf3d5d087bae298a8c6c39",
-                "reference": "da764a2d57a3a7afedaf3d5d087bae298a8c6c39",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/05630e628f42b83e5ff000a3ac5aef86ffc18a62",
+                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +992,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-13T15:07:48+00:00"
+            "time": "2024-09-18T11:31:19+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -1376,12 +1376,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "319b9f2e4a608fdc98b3e3397f249d05e1fbb803"
+                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/319b9f2e4a608fdc98b3e3397f249d05e1fbb803",
-                "reference": "319b9f2e4a608fdc98b3e3397f249d05e1fbb803",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
+                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1469,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-14T05:29:33+00:00"
+            "time": "2024-09-15T17:23:23+00:00"
         },
         {
             "name": "rector/rector",
