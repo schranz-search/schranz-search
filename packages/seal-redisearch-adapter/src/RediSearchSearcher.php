@@ -97,7 +97,7 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->latitude,
                     ($filter->distance / 1000) . ' km',
                 ),
-                $filter instanceof  Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032'),
+                $filter instanceof Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032'),
                 /* Keep here for future implementation:
                 $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
                     '@%s:[WITHIN $filter_%s]',
@@ -139,7 +139,7 @@ final class RediSearchSearcher implements SearcherInterface
             $arguments[] = ($search->limit ?: 10);
         }
 
-        if (\count($parameters) > 0) { // @phpstan-ignore-line
+        if ([] !== $parameters) { // @phpstan-ignore-line
             $arguments[] = 'PARAMS';
             $arguments[] = \count($parameters) * 2;
             foreach ($parameters as $key => $value) {
