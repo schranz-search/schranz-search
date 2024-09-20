@@ -79,7 +79,8 @@ final class RediSearchSearcher implements SearcherInterface
         $index = $search->indexes[\array_key_first($search->indexes)];
 
         $filters = [];
-        foreach ($search->filters as $filter) {
+        $parameters = [];
+        foreach ($search->filters as $key => $filter) {
             match (true) {
                 $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
                 $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
@@ -96,6 +97,26 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->latitude,
                     ($filter->distance / 1000) . ' km',
                 ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032'),
+                /* Keep here for future implementation:
+                $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
+                    '@%s:[WITHIN $filter_%s]',
+                    $this->getFilterField($search->indexes, $filter->field),
+                    $key,
+                )) && ($parameters['filter_' . $key] = \sprintf(
+                    'POLYGON((%s %s, %s %s, %s %s, %s %s, %s %s))',
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                )),
+                */
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }
@@ -116,6 +137,15 @@ final class RediSearchSearcher implements SearcherInterface
             $arguments[] = 'LIMIT';
             $arguments[] = $search->offset;
             $arguments[] = ($search->limit ?: 10);
+        }
+
+        if ([] !== $parameters) { // @phpstan-ignore-line
+            $arguments[] = 'PARAMS';
+            $arguments[] = \count($parameters) * 2;
+            foreach ($parameters as $key => $value) {
+                $arguments[] = $key;
+                $arguments[] = $value;
+            }
         }
 
         $arguments[] = 'DIALECT';

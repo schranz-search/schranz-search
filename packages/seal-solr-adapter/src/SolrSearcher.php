@@ -102,6 +102,14 @@ final class SolrSearcher implements SearcherInterface
                     $filter->longitude,
                     $filter->distance / 1000, // Convert meters to kilometers
                 ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '%s:[%s,%s TO %s,%s]', // docs: https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=120723285#SolrAdaptersForLuceneSpatial4-Search
+                    $this->getFilterField($search->indexes, $filter->field),
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

@@ -33,4 +33,12 @@ class RediSearchSearcherTest extends AbstractSearcherTestCase
     {
         $this->markTestSkipped('Not supported by RediSearch: https://github.com/schranz-search/schranz-search/issues/93');
     }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testGeoBoundingBoxCondition(): void
+    {
+        $this->markTestSkipped('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032');
+    }
 }

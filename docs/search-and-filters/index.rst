@@ -204,8 +204,29 @@ The ``GeoDistanceCondition`` is used to filter results within a radius by specif
 
 The field is required to be marked as ``filterable`` in the index configuration.
 
+GeoBoundingBoxCondition
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``GeoBoundingBoxCondition`` is used to filter results within a bounding box by specifying a min latitude, min longitude, max latitude and max longitude.
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('restaurants')
+        ->addFilter(new Condition\GeoBoundingBoxCondition('location', 45.494181, 9.214024, 45.449484, 9.179175))
+        ->getResult();
+
 
 The field is required to be marked as ``filterable`` in the index configuration.
+
+.. note::
+
+    The ``GeoBoundingBoxCondition`` is currently not supported by ``Redisearch`` adapter.
+    See `this Github Issue <https://github.com/RediSearch/RediSearch/issues/680>`__ for more information.
 
 Filter on Objects and Typed Fields
 ----------------------------------

@@ -88,9 +88,22 @@ final class TypesenseSearcher implements SearcherInterface
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
                     '%s:(%s, %s, %s)',
                     $filter->field,
-                    $this->escapeFilterValue($filter->latitude),
-                    $this->escapeFilterValue($filter->longitude),
-                    $this->escapeFilterValue($filter->distance / 1000) . ' km', // convert to km
+                    $filter->latitude,
+                    $filter->longitude,
+                    ($filter->distance / 1000) . ' km', // convert to km
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s, %s, %s, %s, %s, %s)',
+                    $filter->field,
+                    // TODO recheck if polygon is bigger as half of the earth if it not accidentally switches
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
                 ),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };

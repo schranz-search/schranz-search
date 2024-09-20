@@ -90,6 +90,16 @@ final class OpensearchSearcher implements SearcherInterface
                         'lon' => $filter->longitude,
                     ],
                 ],
+                $filter instanceof Condition\GeoBoundingBoxCondition => $query['bool']['filter']['geo_bounding_box'][$this->getFilterField($search->indexes, $filter->field)] = [
+                    'top_left' => [
+                        'lat' => $filter->northLatitude,
+                        'lon' => $filter->westLongitude,
+                    ],
+                    'bottom_right' => [
+                        'lat' => $filter->southLatitude,
+                        'lon' => $filter->eastLongitude,
+                    ],
+                ],
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

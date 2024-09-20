@@ -182,6 +182,42 @@ final class MemorySearcher implements SearcherInterface
                         if (false === $hasMatchingValue) {
                             continue 2;
                         }
+                    } elseif ($filter instanceof Condition\GeoBoundingBoxCondition) {
+                        if (\str_contains($filter->field, '.')) {
+                            throw new \RuntimeException('Nested fields are not supported yet.');
+                        }
+
+                        $values = (array) ($document[$filter->field] ?? []);
+                        if (isset($values['latitude'])) {
+                            $values = [$values];
+                        }
+
+                        $hasMatchingValue = false;
+                        foreach ($values as $value) {
+                            if (!\is_array($value)
+                                || !isset($value['latitude'])
+                                || !isset($value['longitude'])
+                            ) {
+                                continue;
+                            }
+
+                            $isInsideBox = $this->coordinatesInsideBox(
+                                $value['latitude'],
+                                $value['longitude'],
+                                $filter->northLatitude,
+                                $filter->eastLongitude,
+                                $filter->southLatitude,
+                                $filter->westLongitude,
+                            );
+
+                            if ($isInsideBox) {
+                                $hasMatchingValue = true;
+                            }
+                        }
+
+                        if (false === $hasMatchingValue) {
+                            continue 2;
+                        }
                     } else {
                         throw new \LogicException($filter::class . ' filter not implemented.');
                     }
@@ -214,6 +250,27 @@ final class MemorySearcher implements SearcherInterface
             $generator(),
             \count($documents),
         );
+    }
+
+    /**
+     * Returns true or false if coordinates are inside the box.
+     */
+    private function coordinatesInsideBox(
+        float $latitude,
+        float $longitude,
+        float $northLatitude,
+        float $eastLongitude,
+        float $southLatitude,
+        float $westLongitude,
+    ): bool {
+        // Check if the latitude is between the north and south boundaries
+        $isWithinLatitude = $latitude <= $northLatitude && $latitude >= $southLatitude;
+
+        // Check if the longitude is between the west and east boundaries
+        $isWithinLongitude = $longitude >= $westLongitude && $longitude <= $eastLongitude;
+
+        // The point is inside the bounding box if both conditions are true
+        return $isWithinLatitude && $isWithinLongitude;
     }
 
     /**
