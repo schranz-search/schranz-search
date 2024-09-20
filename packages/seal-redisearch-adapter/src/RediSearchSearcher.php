@@ -97,6 +97,8 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->latitude,
                     ($filter->distance / 1000) . ' km',
                 ),
+                $filter instanceof  Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032');
+                /* Keep here for future implementation:
                 $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
                     '@%s:[WITHIN $filter_%s]',
                     $this->getFilterField($search->indexes, $filter->field),
@@ -114,6 +116,7 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->westLongitude,
                     $filter->northLatitude,
                 )),
+                */
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

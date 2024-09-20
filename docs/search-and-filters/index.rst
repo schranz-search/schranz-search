@@ -223,6 +223,11 @@ The ``GeoBoundingBoxCondition`` is used to filter results within a bounding box 
 
 The field is required to be marked as ``filterable`` in the index configuration.
 
+.. note::
+
+    The ``GeoBoundingBoxCondition`` is currently not supported by ``Redisearch`` adapter.
+    See `this Github Issue <https://github.com/RediSearch/RediSearch/issues/680>`__ for more information.
+
 Filter on Objects and Typed Fields
 ----------------------------------
 
