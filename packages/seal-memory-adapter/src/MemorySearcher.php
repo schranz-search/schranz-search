@@ -182,7 +182,7 @@ final class MemorySearcher implements SearcherInterface
                         if (false === $hasMatchingValue) {
                             continue 2;
                         }
-                    }  elseif ($filter instanceof Condition\GeoBoundingBoxCondition) {
+                    } elseif ($filter instanceof Condition\GeoBoundingBoxCondition) {
                         if (\str_contains($filter->field, '.')) {
                             throw new \RuntimeException('Nested fields are not supported yet.');
                         }
