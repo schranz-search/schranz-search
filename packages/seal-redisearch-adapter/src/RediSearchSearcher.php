@@ -139,7 +139,7 @@ final class RediSearchSearcher implements SearcherInterface
             $arguments[] = ($search->limit ?: 10);
         }
 
-        if (\count($parameters) > 0) {
+        if (\count($parameters) > 0) { // @phpstan-ignore-line
             $arguments[] = 'PARAMS';
             $arguments[] = \count($parameters) * 2;
             foreach ($parameters as $key => $value) {
