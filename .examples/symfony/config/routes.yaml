@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+seal_ui:
+    controller: schranz_search.seal_ui_controller
+    path: /seal-ui

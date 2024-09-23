@@ -29,11 +29,22 @@ use Schranz\Search\SEAL\Adapter\RediSearch\RediSearchAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Solr\SolrAdapterFactory;
 use Schranz\Search\SEAL\Adapter\Typesense\TypesenseAdapterFactory;
 use Schranz\Search\SEAL\EngineRegistry;
+use Schranz\Search\SEAL\UI\Controller\SealUiController;
 
 /*
  * @internal
  */
 return static function (ContainerConfigurator $container) {
+    // -------------------------------------------------------------------//
+    // Controllers                                                        //
+    // -------------------------------------------------------------------//
+    $container->services()
+        ->set('schranz_search.seal_ui_controller', SealUiController::class)
+        ->args([
+            service('schranz_search.engine_registry'),
+        ])
+        ->public();
+
     // -------------------------------------------------------------------//
     // Commands                                                           //
     // -------------------------------------------------------------------//
