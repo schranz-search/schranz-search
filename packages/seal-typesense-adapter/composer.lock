@@ -260,12 +260,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/client-common.git",
-                "reference": "d930a40e864109bf128431879b11bccfc09dccfc"
+                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/client-common/zipball/d930a40e864109bf128431879b11bccfc09dccfc",
-                "reference": "d930a40e864109bf128431879b11bccfc09dccfc",
+                "url": "https://api.github.com/repos/php-http/client-common/zipball/0cfe9858ab9d3b213041b947c881d5b19ceeca46",
+                "reference": "0cfe9858ab9d3b213041b947c881d5b19ceeca46",
                 "shasum": ""
             },
             "require": {
@@ -320,9 +320,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/client-common/issues",
-                "source": "https://github.com/php-http/client-common/tree/2.x"
+                "source": "https://github.com/php-http/client-common/tree/2.7.2"
             },
-            "time": "2024-01-29T12:02:44+00:00"
+            "time": "2024-09-24T06:21:48+00:00"
         },
         {
             "name": "php-http/discovery",
@@ -410,12 +410,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/httplug.git",
-                "reference": "87779285e14780b0a85209bfed8abd9d5fe0322e"
+                "reference": "37819ce3c78ed2e7d001de68b38e697bbd525f89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/87779285e14780b0a85209bfed8abd9d5fe0322e",
-                "reference": "87779285e14780b0a85209bfed8abd9d5fe0322e",
+                "url": "https://api.github.com/repos/php-http/httplug/zipball/37819ce3c78ed2e7d001de68b38e697bbd525f89",
+                "reference": "37819ce3c78ed2e7d001de68b38e697bbd525f89",
                 "shasum": ""
             },
             "require": {
@@ -460,7 +460,7 @@
                 "issues": "https://github.com/php-http/httplug/issues",
                 "source": "https://github.com/php-http/httplug/tree/2.x"
             },
-            "time": "2024-03-15T16:17:50+00:00"
+            "time": "2024-09-23T13:25:15+00:00"
         },
         {
             "name": "php-http/message",
@@ -1019,12 +1019,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "609955b4054258347e0b7379a8c16573ccf481a7"
+                "reference": "2b4dc7bfaf057c41c24c97c0176439090946eafc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/609955b4054258347e0b7379a8c16573ccf481a7",
-                "reference": "609955b4054258347e0b7379a8c16573ccf481a7",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/2b4dc7bfaf057c41c24c97c0176439090946eafc",
+                "reference": "2b4dc7bfaf057c41c24c97c0176439090946eafc",
                 "shasum": ""
             },
             "require": {
@@ -1106,7 +1106,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-17T12:51:32+00:00"
+            "time": "2024-09-20T08:31:44+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -1903,12 +1903,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62"
+                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/05630e628f42b83e5ff000a3ac5aef86ffc18a62",
-                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
+                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
                 "shasum": ""
             },
             "require": {
@@ -1953,7 +1953,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-18T11:31:19+00:00"
+            "time": "2024-09-23T13:22:33+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -2337,12 +2337,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba"
+                "reference": "7ac8b4e63f456046dcb4c9787da9382831a1874b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
-                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7ac8b4e63f456046dcb4c9787da9382831a1874b",
+                "reference": "7ac8b4e63f456046dcb4c9787da9382831a1874b",
                 "shasum": ""
             },
             "require": {
@@ -2430,7 +2430,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-15T17:23:23+00:00"
+            "time": "2024-09-19T10:52:21+00:00"
         },
         {
             "name": "rector/rector",
