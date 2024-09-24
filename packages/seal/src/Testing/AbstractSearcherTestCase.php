@@ -801,7 +801,7 @@ abstract class AbstractSearcherTestCase extends TestCase
                 'Expected only documents with location document "' . $loadedDocument['uuid'] . '" without location latitude returned.',
             );
 
-            $isInBoxFunction = function(
+            $isInBoxFunction = function (
                 float $latitude,
                 float $longitude,
                 float $northLatitude,
@@ -820,7 +820,7 @@ abstract class AbstractSearcherTestCase extends TestCase
             };
 
             // TODO: Fix this test
-            $isInBox = $isInBoxFunction($latitude, $longitude, 53.3498, 23.7275,37.9838, -6.2603);
+            $isInBox = $isInBoxFunction($latitude, $longitude, 53.3498, 23.7275, 37.9838, -6.2603);
             $this->assertTrue($isInBox, 'Document "' . $loadedDocument['uuid'] . '" is not in the box.');
         }
 
