@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "4.4.2",
+            "version": "4.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "93b4b7fce9b68b0cd3592e96c47abdec9d6c468c"
+                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/93b4b7fce9b68b0cd3592e96c47abdec9d6c468c",
-                "reference": "93b4b7fce9b68b0cd3592e96c47abdec9d6c468c",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/a6b050c306b66cc978f31851c12be686a4c0a671",
+                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671",
                 "shasum": ""
             },
             "require": {
@@ -71,9 +71,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/algoliasearch-client-php/issues",
-                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.2"
+                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.3"
             },
-            "time": "2024-09-17T07:44:22+00:00"
+            "time": "2024-09-19T10:21:27+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -942,12 +942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62"
+                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/05630e628f42b83e5ff000a3ac5aef86ffc18a62",
-                "reference": "05630e628f42b83e5ff000a3ac5aef86ffc18a62",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
+                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +992,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-18T11:31:19+00:00"
+            "time": "2024-09-23T13:22:33+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -1376,12 +1376,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba"
+                "reference": "7ac8b4e63f456046dcb4c9787da9382831a1874b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
-                "reference": "a2ac2271f169b143fd0a6791c77e7e2f02de0eba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7ac8b4e63f456046dcb4c9787da9382831a1874b",
+                "reference": "7ac8b4e63f456046dcb4c9787da9382831a1874b",
                 "shasum": ""
             },
             "require": {
@@ -1469,7 +1469,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-15T17:23:23+00:00"
+            "time": "2024-09-19T10:52:21+00:00"
         },
         {
             "name": "rector/rector",
