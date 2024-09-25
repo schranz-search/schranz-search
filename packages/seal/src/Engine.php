@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Schranz\Search\SEAL\Adapter\ReindexableSchemaManagerInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Schema\Schema;
@@ -139,28 +140,54 @@ final class Engine implements EngineInterface
             }
         }
 
+        $generators = [];
         foreach ($reindexProvidersPerIndex as $index => $reindexProviders) {
-            if ($dropIndex && $this->existIndex($index)) {
-                $task = $this->dropIndex($index, ['return_slow_promise_result' => true]);
+            $generators[$index] = function () use ($reindexProviders, $index, $progressCallback): \Generator {
+                foreach ($reindexProviders as $reindexProvider) {
+                    $total = $reindexProvider->total();
+                    $count = 0;
+                    foreach ($reindexProvider->provide() as $document) {
+                        yield $document;
+
+                        ++$count;
+
+                        if (null !== $progressCallback) {
+                            $progressCallback($index, $count, $total);
+                        }
+                    }
+                }
+            };
+        }
+
+        $schemaManager = $this->adapter->getSchemaManager();
+        $indexer = $this->adapter->getIndexer();
+        foreach ($generators as $indexName => $generator) {
+            $index = $this->schema->indexes[$indexName];
+
+            if ($dropIndex && $schemaManager instanceof ReindexableSchemaManagerInterface) {
+                $task = $schemaManager->reindex(
+                    $index,
+                    $generator(),
+                    ['return_slow_promise_result' => true],
+                );
+
                 $task->wait();
-                $task = $this->createIndex($index, ['return_slow_promise_result' => true]);
+
+                continue;
+            }
+
+            if ($dropIndex && $schemaManager->existIndex($index)) {
+                $task = $schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
                 $task->wait();
-            } elseif (!$this->existIndex($index)) {
-                $task = $this->createIndex($index, ['return_slow_promise_result' => true]);
+                $task = $schemaManager->createIndex($index, ['return_slow_promise_result' => true]);
                 $task->wait();
             }
 
-            foreach ($reindexProviders as $reindexProvider) {
-                $count = 0;
-                $total = $reindexProvider->total();
-                foreach ($reindexProvider->provide() as $document) {
-                    $this->saveDocument($index, $document);
-                    ++$count;
-
-                    if (null !== $progressCallback) {
-                        $progressCallback($index, $count, $total);
-                    }
-                }
+            foreach ($generator() as $document) {
+                $indexer->save(
+                    $index,
+                    $document,
+                );
             }
         }
     }
