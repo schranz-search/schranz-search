@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa09a4b18cf343ed73a10da813548648",
+    "content-hash": "07a7d346f7146a221ce7ac50a8ec93ce",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
-            "version": "4.4.3",
+            "version": "4.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algolia/algoliasearch-client-php.git",
-                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671"
+                "reference": "72ac57e5985135714df7e54d5be09191c2199e01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/a6b050c306b66cc978f31851c12be686a4c0a671",
-                "reference": "a6b050c306b66cc978f31851c12be686a4c0a671",
+                "url": "https://api.github.com/repos/algolia/algoliasearch-client-php/zipball/72ac57e5985135714df7e54d5be09191c2199e01",
+                "reference": "72ac57e5985135714df7e54d5be09191c2199e01",
                 "shasum": ""
             },
             "require": {
@@ -71,9 +71,9 @@
             ],
             "support": {
                 "issues": "https://github.com/algolia/algoliasearch-client-php/issues",
-                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.3"
+                "source": "https://github.com/algolia/algoliasearch-client-php/tree/4.4.4"
             },
-            "time": "2024-09-19T10:21:27+00:00"
+            "time": "2024-09-25T11:40:03+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -504,7 +504,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.5.x-dev",
+            "version": "0.6.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",
@@ -942,12 +942,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/de7481302262c6f13a31c8c64d6821ba42f60b71",
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +992,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-23T13:22:33+00:00"
+            "time": "2024-09-25T10:45:59+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d503f7ac8a9e98ec2c1cd93675e5ac53",
+    "content-hash": "aa898a5390a6c0c21adc8028ea5c518f",
     "packages": [
         {
             "name": "elastic/transport",
@@ -456,12 +456,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/opentelemetry-php/api.git",
-                "reference": "f74cbed0247f2121d7a6994fd72d497d9ec27cb2"
+                "reference": "62f2abc4c6d4ef6ea897256520052f9c29a0241f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opentelemetry-php/api/zipball/f74cbed0247f2121d7a6994fd72d497d9ec27cb2",
-                "reference": "f74cbed0247f2121d7a6994fd72d497d9ec27cb2",
+                "url": "https://api.github.com/repos/opentelemetry-php/api/zipball/62f2abc4c6d4ef6ea897256520052f9c29a0241f",
+                "reference": "62f2abc4c6d4ef6ea897256520052f9c29a0241f",
                 "shasum": ""
             },
             "require": {
@@ -514,7 +514,7 @@
                 "issues": "https://github.com/open-telemetry/opentelemetry-php/issues",
                 "source": "https://github.com/open-telemetry/opentelemetry-php"
             },
-            "time": "2024-09-06T22:51:46+00:00"
+            "time": "2024-09-24T23:58:09+00:00"
         },
         {
             "name": "open-telemetry/context",
@@ -1079,7 +1079,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.5.x-dev",
+            "version": "0.6.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",
@@ -1865,12 +1865,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/de7481302262c6f13a31c8c64d6821ba42f60b71",
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71",
                 "shasum": ""
             },
             "require": {
@@ -1915,7 +1915,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-23T13:22:33+00:00"
+            "time": "2024-09-25T10:45:59+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
