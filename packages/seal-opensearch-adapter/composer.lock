@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1fe2dc01c9321cee3255519dc76e343",
+    "content-hash": "4a2900d13d7fec2f2ed5dc946acebc40",
     "packages": [
         {
             "name": "ezimuel/guzzlestreams",
@@ -363,7 +363,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.5.x-dev",
+            "version": "0.6.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",
@@ -608,12 +608,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "8e82cc9f9b00ae936fef6968b8c666d7aa811a05"
+                "reference": "888f0ea2507fcc332a51fe9d2dcba7c6891e0417"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/8e82cc9f9b00ae936fef6968b8c666d7aa811a05",
-                "reference": "8e82cc9f9b00ae936fef6968b8c666d7aa811a05",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/888f0ea2507fcc332a51fe9d2dcba7c6891e0417",
+                "reference": "888f0ea2507fcc332a51fe9d2dcba7c6891e0417",
                 "shasum": ""
             },
             "require": {
@@ -672,7 +672,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-23T13:36:12+00:00"
+            "time": "2024-09-25T14:21:43+00:00"
         }
     ],
     "packages-dev": [
@@ -1532,12 +1532,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/de7481302262c6f13a31c8c64d6821ba42f60b71",
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-23T13:22:33+00:00"
+            "time": "2024-09-25T10:45:59+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",

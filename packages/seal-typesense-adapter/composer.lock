@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffb67121e8024886f04452a88d7f5ed0",
+    "content-hash": "37139aac2a52bb65d6b43010b4ff9277",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -854,7 +854,7 @@
         },
         {
             "name": "schranz-search/seal",
-            "version": "0.5.x-dev",
+            "version": "0.6.x-dev",
             "dist": {
                 "type": "path",
                 "url": "./../seal",
@@ -1903,12 +1903,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521"
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56770250b77c8c57c508beb7e68d5d925474e521",
-                "reference": "56770250b77c8c57c508beb7e68d5d925474e521",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/de7481302262c6f13a31c8c64d6821ba42f60b71",
+                "reference": "de7481302262c6f13a31c8c64d6821ba42f60b71",
                 "shasum": ""
             },
             "require": {
@@ -1953,7 +1953,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-23T13:22:33+00:00"
+            "time": "2024-09-25T10:45:59+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
