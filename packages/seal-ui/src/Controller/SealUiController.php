@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Schranz Search package.
+ *
+ * (c) Alexander Schranz <alexander@sulu.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Schranz\Search\SEAL\UI\Controller;
 
 use Schranz\Search\SEAL\EngineRegistry;
@@ -8,20 +19,26 @@ use Schranz\Search\SEAL\Search\Condition;
 
 class SealUiController
 {
-    public function __construct(private EngineRegistry $engineRegistry)
+    public function __construct(private readonly EngineRegistry $engineRegistry)
     {
     }
 
     public function __invoke(): string
     {
-        $parameters = $_GET ?? [];
+        $parameters = [
+            'query' => $_GET['query'] ?? '',
+            'page' => (int) ($_GET['page'] ?? 1),
+            'limit' => (int) ($_GET['limit'] ?? 10),
+            'index' => $_GET['index'] ?? null,
+        ];
 
-        $currentEngine = $parameters['engine'] ?? null;
-        $currentIndex = $parameters['index'] ?? null;
+        $currentEngine = null;
+        $currentIndex = null;
+        $currentValue = $parameters['index'] ?? null;
 
         $engines = [];
-        foreach ($this->engineRegistry->getEngines() as $key => $engine) {
-            $currentEngine = $currentEngine ?? $key;
+        foreach ($this->engineRegistry->getEngines() as $engineKey => $engine) {
+            $currentEngine ??= $engineKey;
 
             $reflectionClass = new \ReflectionClass($engine);
             $propertyReflection = $reflectionClass->getProperty('schema');
@@ -30,46 +47,64 @@ class SealUiController
             $schema = $propertyReflection->getValue($engine);
             $indexes = [];
             foreach ($schema->indexes as $indexKey => $index) {
-                $currentIndex = $currentIndex ?? $indexKey;
+                $currentIndex ??= $indexKey;
+
+                $value = $engineKey . '-' . $indexKey;
+                $active = false;
+
+                if ($value === $currentValue) {
+                    $currentEngine = $engineKey;
+                    $currentIndex = $indexKey;
+                    $active = true;
+                }
+
+                $title = \ucfirst($indexKey);
 
                 $indexes[$indexKey] = [
-                    'title' => \ucfirst($key),
-                    'url' => '?engine=' . $key . '&index=' . $indexKey,
-                    'active' => $indexKey === $currentIndex,
+                    'title' => $title,
+                    'value' => $value,
+                    'url' => '?engine=' . $engineKey . '&index=' . $indexKey,
+                    'active' => $active,
                 ];
             }
 
-            $engines[$key] = [
-                'title' => \ucfirst($key),
-                'url' => '?engine=' . $key,
-                'active' => $key === $currentEngine,
-                'indexes' => $indexes,
-            ];
+            if ([] !== $indexes) {
+                $engines[$engineKey] = [
+                    'title' => \ucfirst($engineKey),
+                    'url' => '?engine=' . $engineKey,
+                    'active' => $engineKey === $currentEngine,
+                    'indexes' => $indexes,
+                ];
+            }
         }
 
         $result = null;
+        $queryTime = 0;
         if ($currentEngine && $currentIndex) {
-            $query = $parameters['query'] ?? null;
-            $limit = $parameters['limit'] ?? 20;
-            $offset = ((($parameters['page'] ?? 1) - 1) * $limit);
+            $query = (string) $parameters['query'];
+            $limit = (int) $parameters['limit'];
+            $offset = (int) ((($parameters['page'] < 0 ? 1 : $parameters['page']) - 1) * $limit);
 
             $engine = $this->engineRegistry->getEngine($currentEngine);
             $searchBuilder = $engine->createSearchBuilder()
                 ->addIndex($currentIndex)
                 ->limit($limit)
-                ->offset($offset)
-            ;
+                ->offset($offset);
 
-            if ($query) {
+            if ('' !== $query) {
                 $searchBuilder->addFilter(new Condition\SearchCondition($query));
             }
 
+            $queryTime = \microtime(true);
             $result = $searchBuilder->getResult();
+            $queryTime = \microtime(true) - $queryTime;
         }
 
         echo $this->render('view/engines', [
             'engines' => $engines,
             'result' => $result,
+            'queryTime' => $queryTime,
+            'parameters' => $parameters,
         ]);
 
         exit;

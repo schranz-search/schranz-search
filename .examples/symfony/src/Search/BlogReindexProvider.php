@@ -10,28 +10,20 @@ class BlogReindexProvider implements ReindexProviderInterface
 {
     public function total(): int|null
     {
-        return 3;
+        return 2400;
     }
 
     public function provide(): \Generator
     {
-        yield [
-            'id' => 1,
-            'title' => 'Title 1',
-            'description' => 'Description 1',
-        ];
+        $total = $this->total();
 
-        yield [
-            'id' => 2,
-            'title' => 'Title 2',
-            'description' => 'Description 2',
-        ];
-
-        yield [
-            'id' => 3,
-            'title' => 'Title 3',
-            'description' => 'Description 3',
-        ];
+        for ($i = 1; $i <= $total; $i++) {
+            yield [
+                'id' => $i,
+                'title' => 'Title ' . $i,
+                'description' => 'Description ' . $i,
+            ];
+        }
     }
 
     public static function getIndex(): string
