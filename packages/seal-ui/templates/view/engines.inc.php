@@ -154,17 +154,13 @@ $base(function () use ($engines, $result, $parameters, $queryTime): void {
                     <?php $limit = $parameters['limit']; ?>
                     <?php $lastPage = \ceil($result->total() / $limit); ?>
 
-                    <?php if ($page > 0) { ?>
-                        <button form="search" type="submit" name="page" value="<?php echo $page - 1; ?>" style="cursor: pointer; padding: 4px 12px; width: auto; height: 40px; text-align: center; border: none; background: #fff; border: 2px solid #ccc; font-weight: bold; border-radius: 4px;">
-                            Previous
-                        </button>
-                    <?php } ?>
+                    <button <?php if ($page <= 1) { ?> disabled <?php } ?> form="search" type="submit" name="page" value="<?php echo $page - 1; ?>" style="cursor: pointer; padding: 4px 12px; width: auto; height: 40px; text-align: center; border: none; background: #fff; border: 2px solid #ccc; font-weight: bold; border-radius: 4px;">
+                        Previous
+                    </button>
 
-                    <?php if ($page < $lastPage) { ?>
-                        <button form="search" type="submit" name="page" value="<?php echo $page + 1; ?>" style="cursor: pointer; padding: 4px 12px; width: auto; height: 40px; text-align: center; border: none; background: #fff; border: 2px solid #ccc; font-weight: bold; border-radius: 4px;">
-                            Next
-                        </button>
-                    <?php } ?>
+                    <button <?php if ($page >= $lastPage) { ?> disabled <?php } ?> form="search" type="submit" name="page" value="<?php echo $page + 1; ?>" style="cursor: pointer; padding: 4px 12px; width: auto; height: 40px; text-align: center; border: none; background: #fff; border: 2px solid #ccc; font-weight: bold; border-radius: 4px;">
+                        Next
+                    </button>
                 </div>
             </main>
         <?php } ?>
