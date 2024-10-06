@@ -184,7 +184,7 @@ final class Engine implements EngineInterface
             }
 
             foreach ($reindexProviders as $reindexProvider) {
-                $bulkSize = 2;
+                $bulkSize = 100;
 
                 $this->bulk(
                     $index,

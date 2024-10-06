@@ -14,13 +14,15 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Algolia;
 
 use Algolia\AlgoliaSearch\Api\SearchClient;
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class AlgoliaIndexer implements IndexerInterface
+final class AlgoliaIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly Marshaller $marshaller;
 
@@ -79,6 +81,45 @@ final class AlgoliaIndexer implements IndexerInterface
                 $index->name,
                 $batchIndexingResponse['taskID'],
             );
+        });
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $identifierField = $index->getIdentifierField();
+
+        $batchIndexingResponses = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $marshalledBulkSaveDocuments = [];
+            foreach ($bulkSaveDocuments as $document) {
+                $document = $this->marshaller->marshall($index->fields, $document);
+                $document['objectID'] = $document[$identifierField->name]; // TODO check objectIDKey instead see: https://github.com/algolia/algoliasearch-client-php/issues/738
+
+                $marshalledBulkSaveDocuments[] = $document;
+            }
+
+            $batchIndexingResponses[] = $this->client->saveObjects($index->name, $marshalledBulkSaveDocuments);
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $batchIndexingResponses[] = $this->client->deleteObjects($index->name, $bulkDeleteDocumentIdentifiers);
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new AsyncTask(function () use ($batchIndexingResponses, $index) {
+            foreach ($batchIndexingResponses as $batchIndexingResponseList) {
+                foreach ($batchIndexingResponseList as $batchIndexingResponse) {
+                    \assert(isset($batchIndexingResponse['taskID']) && \is_int($batchIndexingResponse['taskID']), 'Task ID is expected to be returned by algolia client.');
+
+                    $this->client->waitForTask(
+                        $index->name,
+                        $batchIndexingResponse['taskID'],
+                    );
+                }
+            }
         });
     }
 }

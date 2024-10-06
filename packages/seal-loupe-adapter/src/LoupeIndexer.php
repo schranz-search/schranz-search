@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Loupe;
 
 use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -70,36 +71,21 @@ final class LoupeIndexer implements IndexerInterface, BulkableIndexerInterface
     {
         $loupe = $this->loupeHelper->getLoupe($index);
 
-        $bulkedSaveDocuments = [];
-        $count = 0;
-        foreach ($saveDocuments as $document) {
-            $bulkedSaveDocuments[] = $this->marshaller->marshall($index->fields, $document);
-            ++$count;
-
-            if (0 === ($count % $bulkSize)) {
-                $loupe->addDocuments($bulkedSaveDocuments);
-                $bulkedSaveDocuments = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $bulkedSaveDocuments = [];
+            foreach ($bulkSaveDocuments as $document) {
+                $bulkedSaveDocuments[] = $this->marshaller->marshall($index->fields, $document);
             }
-        }
 
-        if ([] !== $bulkedSaveDocuments) {
             $loupe->addDocuments($bulkedSaveDocuments);
         }
 
-        $count = 0;
-        $bulkedDeleteDocumentIdentifiers = [];
-        foreach ($deleteDocumentIdentifiers as $deleteDocumentIdentifier) {
-            $bulkedDeleteDocumentIdentifiers[] = $deleteDocumentIdentifier;
-            ++$count;
-
-            if (0 === ($count % $bulkSize)) {
-                $loupe->deleteDocuments($bulkedDeleteDocumentIdentifiers);
-                $bulkedDeleteDocumentIdentifiers = [];
-            }
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $loupe->deleteDocuments($bulkDeleteDocumentIdentifiers);
         }
 
-        if ([] !== $bulkedDeleteDocumentIdentifiers) {
-            $loupe->deleteDocuments($bulkedDeleteDocumentIdentifiers);
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
         }
 
         return new SyncTask(null);
