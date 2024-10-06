@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Loupe;
 
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class LoupeIndexer implements IndexerInterface
+final class LoupeIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly FlattenMarshaller $marshaller;
 
@@ -60,6 +61,45 @@ final class LoupeIndexer implements IndexerInterface
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;
+        }
+
+        return new SyncTask(null);
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $loupe = $this->loupeHelper->getLoupe($index);
+
+        $bulkedSaveDocuments = [];
+        $count = 0;
+        foreach ($saveDocuments as $document) {
+            $bulkedSaveDocuments[] = $this->marshaller->marshall($index->fields, $document);
+            ++$count;
+
+            if (0 === ($count % $bulkSize)) {
+                $loupe->addDocuments($bulkedSaveDocuments);
+                $bulkedSaveDocuments = [];
+            }
+        }
+
+        if ([] !== $bulkedSaveDocuments) {
+            $loupe->addDocuments($bulkedSaveDocuments);
+        }
+
+        $count = 0;
+        $bulkedDeleteDocumentIdentifiers = [];
+        foreach ($deleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+            $bulkedDeleteDocumentIdentifiers[] = $deleteDocumentIdentifier;
+            ++$count;
+
+            if (0 === ($count % $bulkSize)) {
+                $loupe->deleteDocuments($bulkedDeleteDocumentIdentifiers);
+                $bulkedDeleteDocumentIdentifiers = [];
+            }
+        }
+
+        if ([] !== $bulkedDeleteDocumentIdentifiers) {
+            $loupe->deleteDocuments($bulkedDeleteDocumentIdentifiers);
         }
 
         return new SyncTask(null);

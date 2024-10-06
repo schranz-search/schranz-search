@@ -198,7 +198,7 @@ final class Engine implements EngineInterface
                             yield $document;
 
                             if (null !== $progressCallback
-                                && 0 === $count % $bulkSize
+                                && 0 === ($count % $bulkSize)
                             ) {
                                 $progressCallback($index, $count, $total);
                             }
