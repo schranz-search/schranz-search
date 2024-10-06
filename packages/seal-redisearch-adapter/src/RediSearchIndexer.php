@@ -96,7 +96,6 @@ final class RediSearchIndexer implements IndexerInterface, BulkableIndexerInterf
     {
         $identifierField = $index->getIdentifierField();
 
-        $batchIndexingResponses = [];
         foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
             $multiClient = $this->client->multi();
             foreach ($bulkSaveDocuments as $document) {
