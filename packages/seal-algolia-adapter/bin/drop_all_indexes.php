@@ -34,12 +34,27 @@ $_ENV['ALGOLIA_DSN'] = $algoliaDsn;
 $client = \Schranz\Search\SEAL\Adapter\Algolia\Tests\ClientHelper::getClient();
 
 $return = 0;
+
+$retryIndexes = [];
 foreach ($client->listIndices()['items'] as $key => $value) {
     echo 'Delete ... ' . $value['name'] . \PHP_EOL;
 
     try {
         $client->deleteIndex($value['name']);
     } catch (\Exception) {
+        $retryIndexes[$key] =  $value;
+        echo 'Retry later ... ' . $value['name'] . \PHP_EOL;
+        $return = 1;
+    }
+}
+
+foreach ($retryIndexes as $key => $value) {
+    echo 'Delete ... ' . $value['name'] . \PHP_EOL;
+
+    try {
+        $client->deleteIndex($value['name']);
+    } catch (\Exception) {
+        $retryIndexes[] =  $value['name'];
         echo 'Errored ... ' . $value['name'] . \PHP_EOL;
         $return = 1;
     }
