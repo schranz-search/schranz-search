@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Tests\Schema;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
@@ -23,19 +24,27 @@ class IndexTest extends TestCase
     {
         $index = new Index('test', [
             'uuid' => new Field\IdentifierField('uuid'),
+            'title_underline' => new Field\TextField('title_underline'),
+            'descriptionCamelCase' => new Field\TextField('descriptionCamelCase'),
+            'number01' => new Field\TextField('number01'),
             'object' => new Field\ObjectField('object', [
                 'name' => new Field\TextField('name'),
             ]),
         ]);
 
         $this->assertSame('uuid', $index->getIdentifierField()->name);
-        $this->assertSame(['object.name'], $index->searchableFields);
+        $this->assertSame([
+            'title_underline',
+            'descriptionCamelCase',
+            'number01',
+            'object.name',
+        ], $index->searchableFields);
     }
 
     public function testFalseRootFieldMapping(): void
     {
         $this->expectException(\AssertionError::class);
-        $this->expectExceptionMessage('A field named "title" does not match key "name" in index "test", this is at current state required and may change in future.');
+        $this->expectExceptionMessage('A field named "title" does not match key "name" in index "test"');
 
         new Index('test', [
             'uuid' => new Field\IdentifierField('uuid'),
@@ -46,7 +55,7 @@ class IndexTest extends TestCase
     public function testFalseIdentifiertFieldMapping(): void
     {
         $this->expectException(\AssertionError::class);
-        $this->expectExceptionMessage('A field named "uuid" does not match key "id" in index "test", this is at current state required and may change in future.');
+        $this->expectExceptionMessage('A field named "uuid" does not match key "id" in index "test"');
 
         new Index('test', [
             'id' => new Field\IdentifierField('uuid'),
@@ -56,7 +65,7 @@ class IndexTest extends TestCase
     public function testFalseObjectFieldMapping(): void
     {
         $this->expectException(\AssertionError::class);
-        $this->expectExceptionMessage('A field named "title" does not match key "name" in index "test", this is at current state required and may change in future.');
+        $this->expectExceptionMessage('A field named "title" does not match key "name" in index "test"');
 
         new Index('test', [
             'uuid' => new Field\IdentifierField('uuid'),
@@ -66,27 +75,62 @@ class IndexTest extends TestCase
         ]);
     }
 
-    public function testFalseRootFieldCharacter(): void
+    #[DataProvider('provideFalseFieldCharacter')]
+    public function testFalseRootFieldCharacter(string $fieldName): void
     {
         $this->expectException(\AssertionError::class);
-        $this->expectExceptionMessage('A field named "test.title" uses unsupported character in index "test", supported characters are "a-z", "A-Z", "0-9" and "_".');
+        $this->expectExceptionMessage('A field named "' . $fieldName . '" uses unsupported character in index "test"');
 
         new Index('test', [
             'uuid' => new Field\IdentifierField('uuid'),
-            'test.title' => new Field\TextField('test.title'),
+            $fieldName => new Field\TextField($fieldName),
         ]);
     }
 
-    public function testFalseObjectFieldCharacter(): void
+    #[DataProvider('provideFalseFieldCharacter')]
+    public function testFalseObjectFieldCharacter(string $fieldName): void
     {
         $this->expectException(\AssertionError::class);
-        $this->expectExceptionMessage('A field named "test.title" uses unsupported character in index "test", supported characters are "a-z", "A-Z", "0-9" and "_".');
+        $this->expectExceptionMessage('A field named "' . $fieldName . '" uses unsupported character in index "test"');
 
         new Index('test', [
             'uuid' => new Field\IdentifierField('uuid'),
             'object' => new Field\ObjectField('object', [
-                'test.title' => new Field\TextField('test.title'),
+                $fieldName => new Field\TextField($fieldName),
             ]),
         ]);
+    }
+
+    /**
+     * @return \Generator<array{
+     *     0: string,
+     * }>
+     */
+    public static function provideFalseFieldCharacter(): \Generator
+    {
+        yield ['field.point'];
+        yield ['field,comma'];
+        yield ['field-minus'];
+        yield ['field+plus'];
+        yield ['field"quotes"'];
+        yield ['field´quotes`'];
+        yield ['field\'quotes\''];
+        yield ['field:colon'];
+        yield ['field;semicolon'];
+        yield ['field<lower'];
+        yield ['field>greater'];
+        yield ['field^circumflex'];
+        yield ['fieldümläot'];
+        yield ['fieldÜmlÄÖt'];
+        yield ['fieldßharp'];
+        yield ['field@at'];
+        yield ['field=same'];
+        yield ['field(brace)'];
+        yield ['field[brace]'];
+        yield ['field{brace}'];
+        yield ['field€uro'];
+        yield ['field$ollar'];
+        yield ['field#hash'];
+        yield ['123'];
     }
 }
