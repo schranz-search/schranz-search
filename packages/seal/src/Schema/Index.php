@@ -123,6 +123,25 @@ final class Index
         ];
 
         foreach ($fields as $name => $field) {
+            \assert(
+                (string) $name === $field->name, // this may change in future, see https://github.com/schranz-search/schranz-search/issues/200
+                \sprintf(
+                    'A field named "%s" does not match key "%s" in index "%s", this is at current state required and may change in future.',
+                    $field->name,
+                    $name,
+                    $this->name,
+                ),
+            );
+
+            \assert(
+                1 === \preg_match('/^([a-z]|[A-Z])\w+$/', $field->name),
+                \sprintf(
+                    'A field named "%s" uses unsupported character in index "%s", supported characters are "a-z", "A-Z", "0-9" and "_".',
+                    $field->name,
+                    $this->name,
+                ),
+            );
+
             if ($field instanceof Field\ObjectField) {
                 foreach ($this->getAttributes($field->fields, true) as $attributeType => $fieldNames) {
                     foreach ($fieldNames as $fieldName) {
