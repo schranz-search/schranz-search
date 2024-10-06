@@ -45,7 +45,7 @@ return new Index('news', [
     'rating' => new Field\FloatField('rating'),
     'comments' => new Field\ObjectField('comments', [
         'email' => new Field\TextField('email'),
-        'text' => new Field\TextField('title'),
+        'text' => new Field\TextField('text'),
     ], multiple: true),
     'tags' => new Field\TextField('tags', multiple: true),
     'categoryIds' => new Field\IntegerField('categoryIds', multiple: true),

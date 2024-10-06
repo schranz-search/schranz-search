@@ -123,6 +123,25 @@ final class Index
         ];
 
         foreach ($fields as $name => $field) {
+            \assert(
+                $name === $field->name,
+                \sprintf(
+                    'A field named "%s" does not match key "%s" in index "%s", this is at current state required and may change in future.',
+                    $field->name,
+                    $name,
+                    $this->name,
+                ),
+            );
+
+            \assert(
+                \preg_match('/^[a-zA-Z0-9_]+$/', $field->name) === 1,
+                \sprintf(
+                    'A field named "%s" uses unsupported character in index "%s", supported characters are "a-z", "A-Z", "0-9" and "_".',
+                    $field->name,
+                    $this->name,
+                ),
+            );
+
             if ($field instanceof Field\ObjectField) {
                 foreach ($this->getAttributes($field->fields, true) as $attributeType => $fieldNames) {
                     foreach ($fieldNames as $fieldName) {
