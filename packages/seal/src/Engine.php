@@ -192,6 +192,7 @@ final class Engine implements EngineInterface
                         $count = 0;
                         $total = $reindexProvider->total();
 
+                        $lastCount = 0;
                         foreach ($reindexProvider->provide() as $document) {
                             ++$count;
 
@@ -200,11 +201,14 @@ final class Engine implements EngineInterface
                             if (null !== $progressCallback
                                 && 0 === ($count % $bulkSize)
                             ) {
+                                $lastCount = $count;
                                 $progressCallback($index, $count, $total);
                             }
                         }
 
-                        if (null !== $progressCallback) {
+                        if ($lastCount !== $count
+                            && null !== $progressCallback
+                        ) {
                             $progressCallback($index, $count, $total);
                         }
                     })(),
