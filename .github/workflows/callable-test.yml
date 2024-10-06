@@ -44,7 +44,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php-version }}
                   tools: 'composer:v2'
-                  ini-values: memory_limit=-1
+                  ini-values: memory_limit=-1, zend.assertions=1
                   coverage: none
 
             - name: Install composer dependencies
