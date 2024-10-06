@@ -42,9 +42,8 @@ foreach ($client->listIndices()['items'] as $key => $value) {
     try {
         $client->deleteIndex($value['name']);
     } catch (\Exception) {
-        $retryIndexes[$key] =  $value;
+        $retryIndexes[$key] = $value;
         echo 'Retry later ... ' . $value['name'] . \PHP_EOL;
-        $return = 1;
     }
 }
 
@@ -54,7 +53,6 @@ foreach ($retryIndexes as $key => $value) {
     try {
         $client->deleteIndex($value['name']);
     } catch (\Exception) {
-        $retryIndexes[] =  $value['name'];
         echo 'Errored ... ' . $value['name'] . \PHP_EOL;
         $return = 1;
     }
