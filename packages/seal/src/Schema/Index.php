@@ -134,7 +134,7 @@ final class Index
             );
 
             \assert(
-                \preg_match('/^[a-zA-Z0-9_]+$/', $field->name) === 1,
+                1 === \preg_match('/^\w+$/', $field->name),
                 \sprintf(
                     'A field named "%s" uses unsupported character in index "%s", supported characters are "a-z", "A-Z", "0-9" and "_".',
                     $field->name,
