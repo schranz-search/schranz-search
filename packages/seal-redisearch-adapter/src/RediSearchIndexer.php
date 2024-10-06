@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class RediSearchIndexer implements IndexerInterface
+final class RediSearchIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly Marshaller $marshaller;
 
@@ -88,5 +90,56 @@ final class RediSearchIndexer implements IndexerInterface
         $this->client->clearLastError();
 
         return new \RuntimeException('Redis: ' . $lastError);
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $identifierField = $index->getIdentifierField();
+
+        $batchIndexingResponses = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $multiClient = $this->client->multi();
+            foreach ($bulkSaveDocuments as $document) {
+                /** @var string|int|null $identifier */
+                $identifier = $document[$identifierField->name] ?? null;
+
+                $marshalledDocument = $this->marshaller->marshall($index->fields, $document);
+
+                $multiClient->rawCommand(
+                    'JSON.SET',
+                    $index->name . ':' . ((string) $identifier),
+                    '$',
+                    \json_encode($marshalledDocument, \JSON_THROW_ON_ERROR),
+                );
+            }
+
+            $multiExec = $multiClient->exec();
+
+            if (false === $multiExec) {
+                throw $this->createRedisLastErrorException();
+            }
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $multiClient = $this->client->multi();
+            foreach ($bulkDeleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+                $multiClient->rawCommand(
+                    'JSON.DEL',
+                    $index->name . ':' . $deleteDocumentIdentifier,
+                );
+            }
+
+            $multiExec = $multiClient->exec();
+
+            if (false === $multiExec) {
+                throw $this->createRedisLastErrorException();
+            }
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
     }
 }
