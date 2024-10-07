@@ -949,4 +949,67 @@ abstract class AbstractSearcherTestCase extends TestCase
             $beforeRating = $rating;
         }
     }
+
+    public function testSearchingWithNestedAndOrConditions(): void
+    {
+        $expectedDocumentIds = [];
+        $documents = TestingHelper::createComplexFixtures();
+        $schema = self::getSchema();
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->save(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document,
+                ['return_slow_promise_result' => true],
+            );
+
+            if (isset($document['tags']) && \in_array('Tech', $document['tags'], true)
+                && isset($document['isSpecial']) && true === $document['isSpecial']) {
+                $expectedDocumentIds[] = $document['uuid'];
+            }
+
+            if (isset($document['tags']) && \in_array('UX', $document['tags'], true)
+                && isset($document['isSpecial']) && false === $document['isSpecial']) {
+                $expectedDocumentIds[] = $document['uuid'];
+            }
+        }
+        $expectedDocumentIds = array_unique($expectedDocumentIds);
+
+        self::$taskHelper->waitForAll();
+
+        $search = new SearchBuilder($schema, self::$searcher);
+        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+
+        $condition = new Condition\OrCondition([
+            new Condition\AndCondition([
+                    new Condition\EqualCondition('tags', 'Tech'),
+                    new Condition\EqualCondition('isSpecial', true)
+                ]
+            ),
+            new Condition\AndCondition([
+                    new Condition\EqualCondition('tags', 'UX'),
+                    new Condition\EqualCondition('isSpecial', false)
+                ]
+            ),
+        ]);
+
+        $search->addFilter($condition);
+
+        $loadedDocumentIds = array_map(function(array $document) {
+            return $document['uuid'];
+        }, [...$search->getResult()]);
+
+        sort($expectedDocumentIds);
+        sort($loadedDocumentIds);
+
+        $this->assertSame($expectedDocumentIds, $loadedDocumentIds, 'Incorrect documents found.');
+
+        foreach ($documents as $document) {
+            self::$taskHelper->tasks[] = self::$indexer->delete(
+                $schema->indexes[TestingHelper::INDEX_COMPLEX],
+                $document['uuid'],
+                ['return_slow_promise_result' => true],
+            );
+        }
+    }
 }
