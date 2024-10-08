@@ -27,7 +27,7 @@ final class ReindexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'schranz:search:reindex {--engine= : The name of the engine} {--index= : The name of the index} {--drop : Drop the index before reindexing}';
+    protected $signature = 'schranz:search:reindex {--engine= : The name of the engine} {--index= : The name of the index} {--drop : Drop the index before reindexing} {--bulk-size= : The bulk size for reindexing, defaults to 100.}';
 
     /**
      * The console command description.
@@ -57,6 +57,8 @@ final class ReindexCommand extends Command
         $indexName = $this->option('index');
         /** @var bool $drop */
         $drop = $this->option('drop');
+        /** @var int $bulkSize */
+        $bulkSize = $this->option('bulk-size') ?: 100;
 
         foreach ($engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {
@@ -71,6 +73,7 @@ final class ReindexCommand extends Command
                 $this->reindexProviders,
                 $indexName,
                 $drop,
+                $bulkSize,
                 function (string $index, int $count, int|null $total) use ($progressBar) {
                     if (null !== $total) {
                         $progressBar->setMaxSteps($total);

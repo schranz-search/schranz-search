@@ -158,6 +158,7 @@ final class Engine implements EngineInterface
         iterable $reindexProviders,
         string|null $index = null,
         bool $dropIndex = false,
+        int $bulkSize = 100,
         callable|null $progressCallback = null,
     ): void {
         /** @var array<string, ReindexProviderInterface[]> $reindexProvidersPerIndex */
@@ -184,8 +185,6 @@ final class Engine implements EngineInterface
             }
 
             foreach ($reindexProviders as $reindexProvider) {
-                $bulkSize = 100;
-
                 $this->bulk(
                     $index,
                     (function () use ($index, $reindexProvider, $bulkSize, $progressCallback) {
