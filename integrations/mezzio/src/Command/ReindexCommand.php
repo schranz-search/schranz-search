@@ -55,7 +55,7 @@ final class ReindexCommand extends Command
         /** @var bool $drop */
         $drop = $input->getOption('drop');
         /** @var int $bulkSize */
-        $bulkSize = ((int) $input->getOption('bulk-size')) ?: 100;
+        $bulkSize = ((int) $input->getOption('bulk-size')) ?: 100; // @phpstan-ignore-line
 
         foreach ($this->engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {
