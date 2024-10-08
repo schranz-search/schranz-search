@@ -15,7 +15,6 @@ namespace Schranz\Search\SEAL\Testing;
 
 use PHPUnit\Framework\TestCase;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
@@ -149,10 +148,6 @@ abstract class AbstractIndexerTestCase extends TestCase
         $schema = self::getSchema();
 
         $indexer = self::$indexer;
-
-        if (!$indexer instanceof BulkableIndexerInterface) {
-            $this->markTestSkipped('Indexer does not support bulk operations.');
-        }
 
         self::$taskHelper->tasks[] = $indexer->bulk(
             $schema->indexes[TestingHelper::INDEX_COMPLEX],
