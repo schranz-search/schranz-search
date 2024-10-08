@@ -94,6 +94,7 @@ interface EngineInterface
         iterable $reindexProviders,
         string|null $index = null,
         bool $dropIndex = false,
+        int $bulkSize = 100,
         callable|null $progressCallback = null,
     ): void;
 }
