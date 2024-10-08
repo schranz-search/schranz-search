@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
@@ -22,7 +21,7 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class OpensearchIndexer implements IndexerInterface, BulkableIndexerInterface
+final class OpensearchIndexer implements IndexerInterface
 {
     private readonly Marshaller $marshaller;
 

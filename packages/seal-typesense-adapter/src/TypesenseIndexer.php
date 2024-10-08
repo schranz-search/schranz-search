@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Typesense;
 
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
@@ -22,7 +21,7 @@ use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 use Typesense\Client;
 
-final class TypesenseIndexer implements IndexerInterface, BulkableIndexerInterface
+final class TypesenseIndexer implements IndexerInterface
 {
     private readonly Marshaller $marshaller;
 

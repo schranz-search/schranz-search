@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Loupe;
 
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
@@ -21,7 +20,7 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class LoupeIndexer implements IndexerInterface, BulkableIndexerInterface
+final class LoupeIndexer implements IndexerInterface
 {
     private readonly FlattenMarshaller $marshaller;
 
