@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Loupe;
 
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class LoupeIndexer implements IndexerInterface
+final class LoupeIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly FlattenMarshaller $marshaller;
 
@@ -57,6 +59,30 @@ final class LoupeIndexer implements IndexerInterface
         $loupe = $this->loupeHelper->getLoupe($index);
 
         $loupe->deleteDocument($identifier);
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $loupe = $this->loupeHelper->getLoupe($index);
+
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $bulkedSaveDocuments = [];
+            foreach ($bulkSaveDocuments as $document) {
+                $bulkedSaveDocuments[] = $this->marshaller->marshall($index->fields, $document);
+            }
+
+            $loupe->addDocuments($bulkedSaveDocuments);
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $loupe->deleteDocuments($bulkDeleteDocumentIdentifiers);
+        }
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;

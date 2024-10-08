@@ -14,13 +14,15 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Opensearch;
 
 use OpenSearch\Client;
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class OpensearchIndexer implements IndexerInterface
+final class OpensearchIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly Marshaller $marshaller;
 
@@ -72,6 +74,65 @@ final class OpensearchIndexer implements IndexerInterface
 
         if ('deleted' !== $data['result']) {
             throw new \RuntimeException('Unexpected error while delete document with identifier "' . $identifier . '" from Index "' . $index->name . '".');
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $identifierField = $index->getIdentifierField();
+
+        $batchIndexingResponses = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $params = ['body' => []];
+            foreach ($bulkSaveDocuments as $document) {
+                $document = $this->marshaller->marshall($index->fields, $document);
+
+                /** @var string|int|null $identifier */
+                $identifier = $document[$identifierField->name] ?? null;
+
+                $params['body'][] = [
+                    'index' => [
+                        '_index' => $index->name,
+                        '_id' => (string) $identifier,
+                    ],
+                ];
+
+                $params['body'][] = $document;
+            }
+
+            $response = $this->client->bulk($params);
+
+            if (false !== $response['errors']) {
+                throw new \RuntimeException('Unexpected error while bulk indexing documents for index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $response;
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $params = ['body' => []];
+            foreach ($bulkDeleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+                $params['body'][] = [
+                    'delete' => [
+                        '_index' => $index->name,
+                        '_id' => $deleteDocumentIdentifier,
+                    ],
+                ];
+            }
+
+            $response = $this->client->bulk($params);
+
+            if (false !== $response['errors']) {
+                throw new \RuntimeException('Unexpected error while bulk deleting documents for index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $response;
         }
 
         if (!($options['return_slow_promise_result'] ?? false)) {

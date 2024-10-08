@@ -69,16 +69,17 @@ final class ReindexCommand extends Command
                 $indexName,
                 $drop,
                 function (string $index, int $count, int|null $total) use ($progressBar) {
-                    $progressBar->setMessage($index);
-                    $progressBar->setProgress($count);
-
                     if (null !== $total) {
                         $progressBar->setMaxSteps($total);
                     }
+
+                    $progressBar->setMessage($index);
+                    $progressBar->setProgress($count);
                 },
             );
 
             $progressBar->finish();
+
             $ui->writeln('');
             $ui->writeln('');
         }

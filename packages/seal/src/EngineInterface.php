@@ -36,6 +36,15 @@ interface EngineInterface
     public function deleteDocument(string $index, string $identifier, array $options = []): TaskInterface|null;
 
     /**
+     * @param iterable<array<string, mixed>> $saveDocuments
+     * @param iterable<string> $deleteDocumentIdentifiers
+     * @param array{return_slow_promise_result?: true} $options
+     *
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
+     */
+    public function bulk(string $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null;
+
+    /**
      * @throws DocumentNotFoundException
      *
      * @return array<string, mixed>

@@ -14,13 +14,15 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Meilisearch;
 
 use Meilisearch\Client;
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\AsyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class MeilisearchIndexer implements IndexerInterface
+final class MeilisearchIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly Marshaller $marshaller;
 
@@ -76,6 +78,58 @@ final class MeilisearchIndexer implements IndexerInterface
 
         return new AsyncTask(function () use ($deleteResponse) {
             $this->client->waitForTask($deleteResponse['taskUid']);
+        });
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $identifierField = $index->getIdentifierField();
+
+        $batchIndexingResponses = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $marshalledBulkSaveDocuments = [];
+            foreach ($bulkSaveDocuments as $document) {
+                $document = $this->marshaller->marshall($index->fields, $document);
+                $marshalledBulkSaveDocuments[] = $document;
+            }
+
+            $indexResponse = $this->client->index($index->name)->addDocuments(
+                $marshalledBulkSaveDocuments,
+                $identifierField->name,
+            );
+
+            if ('enqueued' !== $indexResponse['status']) {
+                throw new \RuntimeException('Unexpected error while save documents into Index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $indexResponse;
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $filters = [];
+            foreach ($bulkDeleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+                $filters[] = '(' . $identifierField->name . ' = ' . $deleteDocumentIdentifier . ')';
+            }
+
+            $deleteResponse = $this->client->index($index->name)->deleteDocuments([
+                'filter' => \implode(' OR ', $filters),
+            ]);
+
+            if ('enqueued' !== $deleteResponse['status']) {
+                throw new \RuntimeException('Unexpected error while delete documents from Index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $deleteResponse;
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new AsyncTask(function () use ($batchIndexingResponses) {
+            foreach ($batchIndexingResponses as $batchIndexingResponse) {
+                $this->client->waitForTask($batchIndexingResponse['taskUid']);
+            }
         });
     }
 }

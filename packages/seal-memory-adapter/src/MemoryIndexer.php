@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Memory;
 
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class MemoryIndexer implements IndexerInterface
+final class MemoryIndexer implements IndexerInterface, BulkableIndexerInterface
 {
     private readonly Marshaller $marshaller;
 
@@ -42,6 +43,26 @@ final class MemoryIndexer implements IndexerInterface
     public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null
     {
         MemoryStorage::delete($index, $identifier);
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
+    }
+
+    /**
+     * Just a dummy implementation even not real bulk operation is done.
+     */
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        foreach ($saveDocuments as $document) {
+            MemoryStorage::save($index, $this->marshaller->marshall($index->fields, $document));
+        }
+
+        foreach ($deleteDocumentIdentifiers as $identifier) {
+            MemoryStorage::delete($index, $identifier);
+        }
 
         if (!($options['return_slow_promise_result'] ?? false)) {
             return null;

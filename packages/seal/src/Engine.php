@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
+use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Schema\Schema;
@@ -46,6 +47,38 @@ final class Engine implements EngineInterface
             $identifier,
             $options,
         );
+    }
+
+    public function bulk(string $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $indexer = $this->adapter->getIndexer();
+
+        if ($indexer instanceof BulkableIndexerInterface) {
+            return $indexer->bulk(
+                $this->schema->indexes[$index],
+                $saveDocuments,
+                $deleteDocumentIdentifiers,
+                $bulkSize,
+                $options,
+            );
+        }
+
+        $tasks = [];
+        foreach ($saveDocuments as $document) {
+            $tasks[] = $this->saveDocument($index, $document, $options);
+        }
+
+        foreach ($deleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+            $tasks[] = $this->deleteDocument($index, $deleteDocumentIdentifier, $options);
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        $tasks = \array_filter($tasks);
+
+        return new MultiTask($tasks);
     }
 
     public function getDocument(string $index, string $identifier): array
@@ -151,16 +184,37 @@ final class Engine implements EngineInterface
             }
 
             foreach ($reindexProviders as $reindexProvider) {
-                $count = 0;
-                $total = $reindexProvider->total();
-                foreach ($reindexProvider->provide() as $document) {
-                    $this->saveDocument($index, $document);
-                    ++$count;
+                $bulkSize = 100;
 
-                    if (null !== $progressCallback) {
-                        $progressCallback($index, $count, $total);
-                    }
-                }
+                $this->bulk(
+                    $index,
+                    (function () use ($index, $reindexProvider, $bulkSize, $progressCallback) {
+                        $count = 0;
+                        $total = $reindexProvider->total();
+
+                        $lastCount = -1;
+                        foreach ($reindexProvider->provide() as $document) {
+                            ++$count;
+
+                            yield $document;
+
+                            if (null !== $progressCallback
+                                && 0 === ($count % $bulkSize)
+                            ) {
+                                $lastCount = $count;
+                                $progressCallback($index, $count, $total);
+                            }
+                        }
+
+                        if ($lastCount !== $count
+                            && null !== $progressCallback
+                        ) {
+                            $progressCallback($index, $count, $total);
+                        }
+                    })(),
+                    [],
+                    $bulkSize,
+                );
             }
         }
     }
