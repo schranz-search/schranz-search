@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
 use Schranz\Search\SEAL\EngineInterface;
 use Schranz\Search\SEAL\EngineRegistry;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
 
 final class SearchController
 {
@@ -25,7 +25,7 @@ final class SearchController
     private readonly EngineInterface $readWriteEngine;
 
     public function __construct(
-        private readonly DataResponseFactoryInterface $responseFactory,
+        private readonly ResponseFactoryInterface $responseFactory,
         private readonly EngineRegistry $engineRegistry,
     ) {
         $this->algoliaEngine = $this->engineRegistry->getEngine('algolia');
@@ -41,11 +41,21 @@ final class SearchController
         $this->readWriteEngine = $this->engineRegistry->getEngine('read-write');
     }
 
+    private function createResponse(string $content): ResponseInterface
+    {
+        $response = $this->responseFactory->createResponse(200);
+        $body = $response->getBody();
+
+        $body->write($content);
+
+        return $response;
+    }
+
     public function home(): ResponseInterface
     {
         $engineNames = \implode(', ', \array_keys([...$this->engineRegistry->getEngines()]));
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -82,7 +92,7 @@ final class SearchController
     {
         $class = $this->getAdapterClass($this->algoliaEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -101,7 +111,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->meilisearchEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -120,7 +130,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->elasticsearchEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -139,7 +149,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->loupeEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -158,7 +168,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->memoryEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -177,7 +187,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->opensearchEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -196,7 +206,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->solrEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -215,7 +225,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->redisearchEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -234,7 +244,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->typesenseEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -253,7 +263,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->multiEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
@@ -272,7 +282,7 @@ HTML
     {
         $class = $this->getAdapterClass($this->readWriteEngine);
 
-        return $this->responseFactory->createResponse(
+        return $this->createResponse(
             <<<HTML
             <!doctype html>
             <html>
