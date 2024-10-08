@@ -58,7 +58,7 @@ final class ReindexCommand extends Command
         /** @var bool $drop */
         $drop = $this->option('drop');
         /** @var int $bulkSize */
-        $bulkSize = $this->option('bulk-size') ?: 100;
+        $bulkSize = ((int) $this->option('bulk-size')) ?: 100;
 
         foreach ($engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {
