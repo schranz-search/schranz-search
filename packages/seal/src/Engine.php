@@ -192,7 +192,7 @@ final class Engine implements EngineInterface
                         $count = 0;
                         $total = $reindexProvider->total();
 
-                        $lastCount = 0;
+                        $lastCount = -1;
                         foreach ($reindexProvider->provide() as $document) {
                             ++$count;
 
