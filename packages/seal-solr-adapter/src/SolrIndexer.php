@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Adapter\Solr;
 
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\FlattenMarshaller;
@@ -22,7 +21,7 @@ use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 use Solarium\Client;
 
-final class SolrIndexer implements IndexerInterface, BulkableIndexerInterface
+final class SolrIndexer implements IndexerInterface
 {
     private readonly FlattenMarshaller $marshaller;
 

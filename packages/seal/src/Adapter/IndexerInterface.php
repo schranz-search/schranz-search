@@ -32,4 +32,19 @@ interface IndexerInterface
      * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
      */
     public function delete(Index $index, string $identifier, array $options = []): TaskInterface|null;
+
+    /**
+     * @param iterable<array<string, mixed>> $saveDocuments
+     * @param iterable<string> $deleteDocumentIdentifiers
+     * @param array{return_slow_promise_result?: true} $options
+     *
+     * @return ($options is non-empty-array ? TaskInterface<void|null> : null)
+     */
+    public function bulk(
+        Index $index,
+        iterable $saveDocuments,
+        iterable $deleteDocumentIdentifiers,
+        int $bulkSize = 100,
+        array $options = [],
+    ): TaskInterface|null;
 }

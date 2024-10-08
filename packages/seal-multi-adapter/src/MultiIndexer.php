@@ -75,4 +75,27 @@ final class MultiIndexer implements IndexerInterface
             $multiTask->wait();
         });
     }
+
+    public function bulk(
+        Index $index,
+        iterable $saveDocuments,
+        iterable $deleteDocumentIdentifiers,
+        int $bulkSize = 100,
+        array $options = [],
+    ): TaskInterface|null {
+        $tasks = [];
+        foreach ($this->indexers as $indexer) {
+            $task = $indexer->bulk($index, $saveDocuments, $deleteDocumentIdentifiers, $bulkSize, $options);
+
+            if ($task instanceof TaskInterface) {
+                $tasks[] = $task;
+            }
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new MultiTask($tasks);
+    }
 }

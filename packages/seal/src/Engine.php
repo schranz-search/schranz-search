@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL;
 
 use Schranz\Search\SEAL\Adapter\AdapterInterface;
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Exception\DocumentNotFoundException;
 use Schranz\Search\SEAL\Reindex\ReindexProviderInterface;
 use Schranz\Search\SEAL\Schema\Schema;
@@ -51,34 +50,13 @@ final class Engine implements EngineInterface
 
     public function bulk(string $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
     {
-        $indexer = $this->adapter->getIndexer();
-
-        if ($indexer instanceof BulkableIndexerInterface) {
-            return $indexer->bulk(
-                $this->schema->indexes[$index],
-                $saveDocuments,
-                $deleteDocumentIdentifiers,
-                $bulkSize,
-                $options,
-            );
-        }
-
-        $tasks = [];
-        foreach ($saveDocuments as $document) {
-            $tasks[] = $this->saveDocument($index, $document, $options);
-        }
-
-        foreach ($deleteDocumentIdentifiers as $deleteDocumentIdentifier) {
-            $tasks[] = $this->deleteDocument($index, $deleteDocumentIdentifier, $options);
-        }
-
-        if (!($options['return_slow_promise_result'] ?? false)) {
-            return null;
-        }
-
-        $tasks = \array_filter($tasks);
-
-        return new MultiTask($tasks);
+        return $this->adapter->getIndexer()->bulk(
+            $this->schema->indexes[$index],
+            $saveDocuments,
+            $deleteDocumentIdentifiers,
+            $bulkSize,
+            $options,
+        );
     }
 
     public function getDocument(string $index, string $identifier): array

@@ -16,7 +16,6 @@ namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
-use Schranz\Search\SEAL\Adapter\BulkableIndexerInterface;
 use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
@@ -24,7 +23,7 @@ use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Task\SyncTask;
 use Schranz\Search\SEAL\Task\TaskInterface;
 
-final class ElasticsearchIndexer implements IndexerInterface, BulkableIndexerInterface
+final class ElasticsearchIndexer implements IndexerInterface
 {
     private readonly Marshaller $marshaller;
 
