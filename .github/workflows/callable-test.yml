@@ -28,6 +28,9 @@ jobs:
                       dependency-versions: 'highest'
 
         steps:
+            - name: Wait for 5 seconds
+              run: sleep 5
+
             - name: Checkout project
               uses: actions/checkout@v4
               with:

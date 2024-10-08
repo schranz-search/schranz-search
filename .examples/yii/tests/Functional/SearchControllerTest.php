@@ -22,15 +22,15 @@ final class SearchControllerTest extends TestCase
         $this->tester->bootstrapApplication(\dirname(__DIR__, 2));
         $response = $this->tester->doRequest('GET', '/');
 
-        self::assertSame(200, $response->getStatusCode());
         $content = $response->getContent();
+        self::assertSame(200, $response->getStatusCode(), $content);
         self::assertStringContainsString('<title>Search Engines</title>', $content);
 
         $crawler = $this->crawler($content);
         $crawler->filter('a')->each(function ($node) {
             $response = $this->tester->doRequest('GET', $node->attr('href'));
-            self::assertSame(200, $response->getStatusCode());
             $content = $response->getContent();
+            self::assertSame(200, $response->getStatusCode(), $content);
 
             $crawler = $this->crawler($content);
 

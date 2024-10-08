@@ -26,7 +26,9 @@ return [
         'defaultCategory' => 'app',
     ],
 
-    'yiisoft/yii-view' => [
+    'yiisoft/yii-view-renderer' => [
+        'viewPath' => '@views',
+        'layout' => '@layout/main.php',
         'injections' => [
             Reference::to(CommonViewInjection::class),
             Reference::to(CsrfViewInjection::class),
