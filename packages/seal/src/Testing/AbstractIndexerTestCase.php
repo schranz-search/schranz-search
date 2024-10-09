@@ -140,4 +140,72 @@ abstract class AbstractIndexerTestCase extends TestCase
             $this->assertNull($resultDocument, 'Expected document with uuid "' . $document['uuid'] . '" to be deleted.');
         }
     }
+
+    public function testBulkSaveAndDeletion(): void
+    {
+        $documents = TestingHelper::createComplexFixtures();
+
+        $schema = self::getSchema();
+
+        $indexer = self::$indexer;
+
+        self::$taskHelper->tasks[] = $indexer->bulk(
+            $schema->indexes[TestingHelper::INDEX_COMPLEX],
+            $documents,
+            [],
+            100,
+            ['return_slow_promise_result' => true],
+        );
+
+        self::$taskHelper->waitForAll();
+
+        $loadedDocuments = [];
+        foreach ($documents as $document) {
+            $search = new SearchBuilder($schema, self::$searcher);
+            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
+            $search->limit(1);
+
+            $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
+
+            if ($resultDocument) {
+                $loadedDocuments[] = $resultDocument;
+            }
+        }
+
+        $this->assertCount(
+            \count($documents),
+            $loadedDocuments,
+        );
+
+        foreach ($loadedDocuments as $key => $loadedDocument) {
+            $expectedDocument = $documents[$key];
+
+            $this->assertSame($expectedDocument, $loadedDocument);
+        }
+
+        self::$taskHelper->tasks[] = $indexer->bulk(
+            $schema->indexes[TestingHelper::INDEX_COMPLEX],
+            [],
+            \array_map(
+                static fn (array $document) => $document['uuid'],
+                $documents,
+            ),
+            100,
+            ['return_slow_promise_result' => true],
+        );
+
+        self::$taskHelper->waitForAll();
+
+        foreach ($documents as $document) {
+            $search = new SearchBuilder($schema, self::$searcher);
+            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
+            $search->limit(1);
+
+            $resultDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
+
+            $this->assertNull($resultDocument, 'Expected document with uuid "' . $document['uuid'] . '" to be deleted.');
+        }
+    }
 }

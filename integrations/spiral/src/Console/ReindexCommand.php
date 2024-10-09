@@ -32,8 +32,11 @@ final class ReindexCommand extends Command
     #[Option(name: 'index', mode: InputOption::VALUE_REQUIRED, description: 'The name of the index')]
     private string|null $indexName = null;
 
-    #[Option(shortcut: 'd', description: 'Drop the index before reindexing.')]
+    #[Option(name: 'drop', description: 'Drop the index before reindexing.')]
     private bool $drop = false;
+
+    #[Option(name: 'bulk-size', description: 'The bulk size for reindexing, defaults to 100.')]
+    private int $bulkSize = 100;
 
     /**
      * @param iterable<ReindexProviderInterface> $reindexProviders
@@ -60,13 +63,14 @@ final class ReindexCommand extends Command
                 $this->reindexProviders,
                 $this->indexName,
                 $this->drop,
+                $this->bulkSize,
                 function (string $index, int $count, int|null $total) use ($progressBar) {
-                    $progressBar->setMessage($index);
-                    $progressBar->setProgress($count);
-
                     if (null !== $total) {
                         $progressBar->setMaxSteps($total);
                     }
+
+                    $progressBar->setMessage($index);
+                    $progressBar->setProgress($count);
                 },
             );
 

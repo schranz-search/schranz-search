@@ -16,6 +16,7 @@ namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
+use Schranz\Search\SEAL\Adapter\BulkHelper;
 use Schranz\Search\SEAL\Adapter\IndexerInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
 use Schranz\Search\SEAL\Schema\Index;
@@ -84,6 +85,67 @@ final class ElasticsearchIndexer implements IndexerInterface
             if (404 !== $e->getResponse()->getStatusCode()) {
                 throw $e;
             }
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
+    }
+
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        $identifierField = $index->getIdentifierField();
+
+        $batchIndexingResponses = [];
+        foreach (BulkHelper::splitBulk($saveDocuments, $bulkSize) as $bulkSaveDocuments) {
+            $params = ['body' => []];
+            foreach ($bulkSaveDocuments as $document) {
+                $document = $this->marshaller->marshall($index->fields, $document);
+
+                /** @var string|int|null $identifier */
+                $identifier = $document[$identifierField->name] ?? null;
+
+                $params['body'][] = [
+                    'index' => [
+                        '_index' => $index->name,
+                        '_id' => (string) $identifier,
+                    ],
+                ];
+
+                $params['body'][] = $document;
+            }
+
+            /** @var Elasticsearch $response */
+            $response = $this->client->bulk($params);
+
+            if (200 !== $response->getStatusCode() && 201 !== $response->getStatusCode()) {
+                throw new \RuntimeException('Unexpected error while bulk indexing documents for index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $response;
+        }
+
+        foreach (BulkHelper::splitBulk($deleteDocumentIdentifiers, $bulkSize) as $bulkDeleteDocumentIdentifiers) {
+            $params = ['body' => []];
+            foreach ($bulkDeleteDocumentIdentifiers as $deleteDocumentIdentifier) {
+                $params['body'][] = [
+                    'delete' => [
+                        '_index' => $index->name,
+                        '_id' => $deleteDocumentIdentifier,
+                    ],
+                ];
+            }
+
+            /** @var Elasticsearch $response */
+            $response = $this->client->bulk($params);
+
+            if (200 !== $response->getStatusCode() && 201 !== $response->getStatusCode()) {
+                throw new \RuntimeException('Unexpected error while bulk deleting documents for index "' . $index->name . '".');
+            }
+
+            $batchIndexingResponses[] = $response;
         }
 
         if (!($options['return_slow_promise_result'] ?? false)) {

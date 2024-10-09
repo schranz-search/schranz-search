@@ -48,6 +48,17 @@ final class Engine implements EngineInterface
         );
     }
 
+    public function bulk(string $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        return $this->adapter->getIndexer()->bulk(
+            $this->schema->indexes[$index],
+            $saveDocuments,
+            $deleteDocumentIdentifiers,
+            $bulkSize,
+            $options,
+        );
+    }
+
     public function getDocument(string $index, string $identifier): array
     {
         $documents = [...$this->createSearchBuilder()
@@ -125,6 +136,7 @@ final class Engine implements EngineInterface
         iterable $reindexProviders,
         string|null $index = null,
         bool $dropIndex = false,
+        int $bulkSize = 100,
         callable|null $progressCallback = null,
     ): void {
         /** @var array<string, ReindexProviderInterface[]> $reindexProvidersPerIndex */
@@ -151,16 +163,35 @@ final class Engine implements EngineInterface
             }
 
             foreach ($reindexProviders as $reindexProvider) {
-                $count = 0;
-                $total = $reindexProvider->total();
-                foreach ($reindexProvider->provide() as $document) {
-                    $this->saveDocument($index, $document);
-                    ++$count;
+                $this->bulk(
+                    $index,
+                    (function () use ($index, $reindexProvider, $bulkSize, $progressCallback) {
+                        $count = 0;
+                        $total = $reindexProvider->total();
 
-                    if (null !== $progressCallback) {
-                        $progressCallback($index, $count, $total);
-                    }
-                }
+                        $lastCount = -1;
+                        foreach ($reindexProvider->provide() as $document) {
+                            ++$count;
+
+                            yield $document;
+
+                            if (null !== $progressCallback
+                                && 0 === ($count % $bulkSize)
+                            ) {
+                                $lastCount = $count;
+                                $progressCallback($index, $count, $total);
+                            }
+                        }
+
+                        if ($lastCount !== $count
+                            && null !== $progressCallback
+                        ) {
+                            $progressCallback($index, $count, $total);
+                        }
+                    })(),
+                    [],
+                    $bulkSize,
+                );
             }
         }
     }

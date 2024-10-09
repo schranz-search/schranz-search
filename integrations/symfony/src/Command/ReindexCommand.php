@@ -43,6 +43,7 @@ final class ReindexCommand extends Command
         $this->addOption('engine', null, InputOption::VALUE_REQUIRED, 'The name of the engine to create the schema for.');
         $this->addOption('index', null, InputOption::VALUE_REQUIRED, 'The name of the index to create the schema for.');
         $this->addOption('drop', null, InputOption::VALUE_NONE, 'Drop the index before reindexing.');
+        $this->addOption('bulk-size', null, InputOption::VALUE_REQUIRED, 'The bulk size for reindexing, defaults to 100.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -54,6 +55,8 @@ final class ReindexCommand extends Command
         $indexName = $input->getOption('index');
         /** @var bool $drop */
         $drop = $input->getOption('drop');
+        /** @var int $bulkSize */
+        $bulkSize = ((int) $input->getOption('bulk-size')) ?: 100; // @phpstan-ignore-line
 
         foreach ($this->engineRegistry->getEngines() as $name => $engine) {
             if ($engineName && $engineName !== $name) {
@@ -68,17 +71,19 @@ final class ReindexCommand extends Command
                 $this->reindexProviders,
                 $indexName,
                 $drop,
+                $bulkSize,
                 function (string $index, int $count, int|null $total) use ($progressBar) {
-                    $progressBar->setMessage($index);
-                    $progressBar->setProgress($count);
-
                     if (null !== $total) {
                         $progressBar->setMaxSteps($total);
                     }
+
+                    $progressBar->setMessage($index);
+                    $progressBar->setProgress($count);
                 },
             );
 
             $progressBar->finish();
+
             $ui->writeln('');
             $ui->writeln('');
         }

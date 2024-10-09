@@ -49,4 +49,24 @@ final class MemoryIndexer implements IndexerInterface
 
         return new SyncTask(null);
     }
+
+    /**
+     * Just a dummy implementation even not real bulk operation is done.
+     */
+    public function bulk(Index $index, iterable $saveDocuments, iterable $deleteDocumentIdentifiers, int $bulkSize = 100, array $options = []): TaskInterface|null
+    {
+        foreach ($saveDocuments as $document) {
+            MemoryStorage::save($index, $this->marshaller->marshall($index->fields, $document));
+        }
+
+        foreach ($deleteDocumentIdentifiers as $identifier) {
+            MemoryStorage::delete($index, $identifier);
+        }
+
+        if (!($options['return_slow_promise_result'] ?? false)) {
+            return null;
+        }
+
+        return new SyncTask(null);
+    }
 }

@@ -13,6 +13,9 @@ jobs:
     docs:
         runs-on: ubuntu-latest
         steps:
+            - name: Wait for 5 seconds
+              run: sleep 5
+
             - uses: actions/checkout@v4
               with:
                   ref: "${{ github.event.pull_request.merge_commit_sha }}"
