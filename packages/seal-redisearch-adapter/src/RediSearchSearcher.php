@@ -77,54 +77,9 @@ final class RediSearchSearcher implements SearcherInterface
         }
 
         $index = $search->indexes[\array_key_first($search->indexes)];
-
-        $filters = [];
         $parameters = [];
-        foreach ($search->filters as $key => $filter) {
-            match (true) {
-                $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
-                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
-                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[(' . $this->escapeFilterValue($filter->value) . ' inf]',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($search->indexes, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
-                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    '@%s:[%s %s %s]',
-                    $this->getFilterField($search->indexes, $filter->field),
-                    $filter->longitude,
-                    $filter->latitude,
-                    ($filter->distance / 1000) . ' km',
-                ),
-                $filter instanceof Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032'),
-                /* Keep here for future implementation:
-                $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
-                    '@%s:[WITHIN $filter_%s]',
-                    $this->getFilterField($search->indexes, $filter->field),
-                    $key,
-                )) && ($parameters['filter_' . $key] = \sprintf(
-                    'POLYGON((%s %s, %s %s, %s %s, %s %s, %s %s))',
-                    $filter->westLongitude,
-                    $filter->northLatitude,
-                    $filter->westLongitude,
-                    $filter->southLatitude,
-                    $filter->eastLongitude,
-                    $filter->southLatitude,
-                    $filter->eastLongitude,
-                    $filter->northLatitude,
-                    $filter->westLongitude,
-                    $filter->northLatitude,
-                )),
-                */
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
 
-        $query = '*';
-        if ([] !== $filters) {
-            $query = \implode(' ', $filters);
-        }
+        $query = $this->recursiveResolveFilterConditions($index, $search->filters, $search->indexes, true, $parameters) ?: '*';
 
         $arguments = [];
         foreach ($search->sortBys as $field => $direction) {
@@ -247,5 +202,61 @@ final class RediSearchSearcher implements SearcherInterface
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
+    }
+
+
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, array $indexes, bool $conjunctive, array &$parameters): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+
+                $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
+                $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
+                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[(' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '@%s:[%s %s %s]',
+                    $this->getFilterField($indexes, $filter->field),
+                    $filter->longitude,
+                    $filter->latitude,
+                    ($filter->distance / 1000) . ' km',
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => throw new \RuntimeException('Not supported by RediSearch: https://github.com/RediSearch/RediSearch/issues/680 or https://github.com/RediSearch/RediSearch/issues/5032'),
+                /* Keep here for future implementation:
+                $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
+                    '@%s:[WITHIN $filter_%s]',
+                    $this->getFilterField($search->indexes, $filter->field),
+                    $key,
+                )) && ($parameters['filter_' . $key] = \sprintf(
+                    'POLYGON((%s %s, %s %s, %s %s, %s %s, %s %s))',
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                )),
+                */
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, true, $parameters) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, false, $parameters) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' ' : ' | ', $filters);
     }
 }
