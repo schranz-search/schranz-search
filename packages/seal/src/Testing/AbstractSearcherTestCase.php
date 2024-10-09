@@ -973,34 +973,32 @@ abstract class AbstractSearcherTestCase extends TestCase
                 $expectedDocumentIds[] = $document['uuid'];
             }
         }
-        $expectedDocumentIds = array_unique($expectedDocumentIds);
+        $expectedDocumentIds = \array_unique($expectedDocumentIds);
 
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
 
-        $condition = new Condition\OrCondition([
-            new Condition\AndCondition([
-                    new Condition\EqualCondition('tags', 'Tech'),
-                    new Condition\EqualCondition('isSpecial', true)
-                ]
+        $condition = new Condition\OrCondition(
+            new Condition\AndCondition(
+                new Condition\EqualCondition('tags', 'Tech'),
+                new Condition\EqualCondition('isSpecial', true),
             ),
-            new Condition\AndCondition([
-                    new Condition\EqualCondition('tags', 'UX'),
-                    new Condition\EqualCondition('isSpecial', false)
-                ]
+            new Condition\AndCondition(
+                new Condition\EqualCondition('tags', 'UX'),
+                new Condition\EqualCondition('isSpecial', false),
             ),
-        ]);
+        );
 
         $search->addFilter($condition);
 
-        $loadedDocumentIds = array_map(function(array $document) {
+        $loadedDocumentIds = \array_map(function (array $document) {
             return $document['uuid'];
         }, [...$search->getResult()]);
 
-        sort($expectedDocumentIds);
-        sort($loadedDocumentIds);
+        \sort($expectedDocumentIds);
+        \sort($loadedDocumentIds);
 
         $this->assertSame($expectedDocumentIds, $loadedDocumentIds, 'Incorrect documents found.');
 
