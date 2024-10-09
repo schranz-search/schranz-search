@@ -83,36 +83,7 @@ final class SolrSearcher implements SearcherInterface
         $query = $this->client->createSelect();
 
         $queryText = null;
-
-        $filters = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
-                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($search->indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . ' TO *}',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' TO *]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($filter->value) . '}',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($search->indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($filter->value) . ']',
-                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    '{!geofilt sfield=%s pt=%s,%s d=%s}',
-                    $this->getFilterField($search->indexes, $filter->field),
-                    $filter->latitude,
-                    $filter->longitude,
-                    $filter->distance / 1000, // Convert meters to kilometers
-                ),
-                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
-                    '%s:[%s,%s TO %s,%s]', // docs: https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=120723285#SolrAdaptersForLuceneSpatial4-Search
-                    $this->getFilterField($search->indexes, $filter->field),
-                    $filter->southLatitude,
-                    $filter->westLongitude,
-                    $filter->northLatitude,
-                    $filter->eastLongitude,
-                ),
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
+        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, $search->indexes, true, $queryText);
 
         if (null !== $queryText) {
             $dismax = $query->getDisMax();
@@ -121,8 +92,8 @@ final class SolrSearcher implements SearcherInterface
             $query->setQuery($queryText);
         }
 
-        foreach ($filters as $key => $filter) {
-            $query->createFilterQuery('filter_' . $key)->setQuery($filter);
+        if ('' !== $filters) {
+            $query->createFilterQuery('filter')->setQuery($filters);
         }
 
         if (0 !== $search->offset) {
@@ -198,5 +169,47 @@ final class SolrSearcher implements SearcherInterface
         }
 
         return $name;
+    }
+
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, array $indexes, bool $conjunctive, string|null &$queryText): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+                $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->getFilterField($indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-' . $this->getFilterField($indexes, $filter->field) . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . ' TO *}',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->getFilterField($indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' TO *]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->getFilterField($indexes, $filter->field) . ':{* TO ' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->getFilterField($indexes, $filter->field) . ':[* TO ' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '{!geofilt sfield=%s pt=%s,%s d=%s}',
+                    $this->getFilterField($indexes, $filter->field),
+                    $filter->latitude,
+                    $filter->longitude,
+                    $filter->distance / 1000, // Convert meters to kilometers
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '%s:[%s,%s TO %s,%s]', // docs: https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=120723285#SolrAdaptersForLuceneSpatial4-Search
+                    $this->getFilterField($indexes, $filter->field),
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                ),
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, true, $queryText) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, false, $queryText) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' AND ' : ' OR ', $filters);
     }
 }
