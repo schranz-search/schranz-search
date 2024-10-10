@@ -275,6 +275,12 @@ in combination with ``OrCondition`` filters.
 
 The fields are required to be marked as ``filterable`` in the index configuration.
 
+
+.. note::
+
+    If the ``Algolia`` Adapter is used not all kind of combination with ``OrCondition`` are possible.
+    See `this Github Issue <https://github.com/algolia/algoliasearch-client-php/issues/385>`__ for more information.
+
 Filter on Objects and Typed Fields
 ----------------------------------
 
