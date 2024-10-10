@@ -231,7 +231,7 @@ The field is required to be marked as ``filterable`` in the index configuration.
 OrCondition
 ~~~~~~~~~~~
 
-The ``OrCondition`` is used to filter by two or more conditions where at least one condition need to match.
+The ``OrCondition`` is used to filter by two or more conditions where at least one condition needs to match.
 
 .. code-block:: php
 
@@ -252,9 +252,9 @@ The fields are required to be marked as ``filterable`` in the index configuratio
 AndCondition
 ~~~~~~~~~~~~
 
-The ``AndCondition`` is used to combine two or multiple conditions where all conditions need to match.
-As by default all conditions are ``AND``` connected it only make sense to use ``AndCondition`` in
-combination with an ``OrCondition`` filters.
+The ``AndCondition`` is used to combine two or more conditions where all conditions need to match.
+By default, all conditions are connected with ``AND``, so it only makes sense to use an ``AndCondition``
+in combination with ``OrCondition`` filters.
 
 .. code-block:: php
 
@@ -274,6 +274,12 @@ combination with an ``OrCondition`` filters.
         ->getResult();
 
 The fields are required to be marked as ``filterable`` in the index configuration.
+
+
+.. note::
+
+    If the ``Algolia`` Adapter is used not all kind of combination with ``OrCondition`` are possible.
+    See `this Github Issue <https://github.com/algolia/algoliasearch-client-php/issues/385>`__ for more information.
 
 Filter on Objects and Typed Fields
 ----------------------------------
