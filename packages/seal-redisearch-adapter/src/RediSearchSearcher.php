@@ -94,7 +94,7 @@ final class RediSearchSearcher implements SearcherInterface
             $arguments[] = ($search->limit ?: 10);
         }
 
-        if ([] !== $parameters) { // @phpstan-ignore-line
+        if ([] !== $parameters) {
             $arguments[] = 'PARAMS';
             $arguments[] = \count($parameters) * 2;
             foreach ($parameters as $key => $value) {
@@ -204,14 +204,17 @@ final class RediSearchSearcher implements SearcherInterface
         };
     }
 
-
+    /**
+     * @param object[] $conditions
+     * @param Index[] $indexes
+     * @param array<string, string> $parameters
+     */
     private function recursiveResolveFilterConditions(Index $index, array $conditions, array $indexes, bool $conjunctive, array &$parameters): string
     {
         $filters = [];
 
         foreach ($conditions as $filter) {
             match (true) {
-
                 $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
                 $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
                 $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',

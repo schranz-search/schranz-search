@@ -135,6 +135,9 @@ final class TypesenseSearcher implements SearcherInterface
         };
     }
 
+    /**
+     * @param object[] $conditions
+     */
     private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query): string
     {
         $filters = [];

@@ -152,6 +152,10 @@ final class AlgoliaSearcher implements SearcherInterface
         };
     }
 
+    /**
+     * @param object[] $conditions
+     * @param object[] $geoFilters
+     */
     private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query, array &$geoFilters): string
     {
         $filters = [];

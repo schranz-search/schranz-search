@@ -153,7 +153,12 @@ final class OpensearchSearcher implements SearcherInterface
         return $name;
     }
 
-
+    /**
+     * @param Index[] $indexes
+     * @param object[] $filters
+     *
+     * @return array<string|int, mixed>
+     */
     private function recursiveResolveFilterConditions(array $indexes, array $filters, bool $conjunctive): array
     {
         $filterQueries = [];
