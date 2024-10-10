@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Schranz\Search\SEAL\Adapter\Elasticsearch;
 
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
 use Schranz\Search\SEAL\Adapter\SchemaManagerInterface;
 use Schranz\Search\SEAL\Schema\Field;
@@ -40,8 +41,20 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
 
     public function dropIndex(Index $index, array $options = []): TaskInterface|null
     {
+        /** @var Elasticsearch $response */
+        $response = $this->client->indices()->getAlias([
+            'name' => $index->name,
+        ]);
+
+        $targetIndexName = \array_key_first($response->asArray());
+
+        $this->client->indices()->deleteAlias([
+            'name' => $index->name,
+            'index' => $targetIndexName,
+        ]);
+
         $this->client->indices()->delete([
-            'index' => $index->name,
+            'index' => $targetIndexName,
         ]);
 
         if (!($options['return_slow_promise_result'] ?? false)) {
@@ -55,14 +68,31 @@ final class ElasticsearchSchemaManager implements SchemaManagerInterface
     {
         $properties = $this->createPropertiesMapping($index->fields);
 
+        $targetIndexName = $index->name . '_' . \date('YmdHis');
+        try {
+            /** @var Elasticsearch $response */
+            $response = $this->client->indices()->getAlias([
+                'name' => $index->name,
+            ]);
+
+            $targetIndexName = \array_key_first($response->asArray()) ?? $targetIndexName;
+        } catch (ClientResponseException) {
+            // @ignoreException
+        }
+
         $this->client->indices()->create([
-            'index' => $index->name,
+            'index' => $targetIndexName,
             'body' => [
                 'mappings' => [
                     'dynamic' => 'strict',
                     'properties' => $properties,
                 ],
             ],
+        ]);
+
+        $this->client->indices()->putAlias([
+            'name' => $index->name,
+            'index' => $targetIndexName,
         ]);
 
         if (!($options['return_slow_promise_result'] ?? false)) {

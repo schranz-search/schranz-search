@@ -43,7 +43,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
+        $targetIndexName = \array_key_first($mapping);
+
+        $this->assertTrue(isset($mapping[$targetIndexName]['mappings']['properties']));
 
         $this->assertSame([
             'id' => [
@@ -52,7 +54,7 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'title' => [
                 'type' => 'text',
             ],
-        ], $mapping[$index->name]['mappings']['properties']);
+        ], $mapping[$targetIndexName]['mappings']['properties']);
     }
 
     public function testComplexOpensearchMapping(): void
@@ -68,7 +70,9 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
         $task = static::$schemaManager->dropIndex($index, ['return_slow_promise_result' => true]);
         $task->wait();
 
-        $this->assertTrue(isset($mapping[$index->name]['mappings']['properties']));
+        $targetIndexName = \array_key_first($mapping);
+
+        $this->assertTrue(isset($mapping[$targetIndexName]['mappings']['properties']));
 
         $this->assertSame([
             'article' => [
@@ -183,6 +187,6 @@ class OpensearchSchemaManagerTest extends AbstractSchemaManagerTestCase
             'uuid' => [
                 'type' => 'keyword',
             ],
-        ], $mapping[$index->name]['mappings']['properties']);
+        ], $mapping[$targetIndexName]['mappings']['properties']);
     }
 }
