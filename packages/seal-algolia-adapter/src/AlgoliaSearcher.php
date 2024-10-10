@@ -181,8 +181,8 @@ final class AlgoliaSearcher implements SearcherInterface
                 $filter instanceof Condition\GeoBoundingBoxCondition => $geoFilters = [
                     'insideBoundingBox' => [[$filter->northLatitude, $filter->westLongitude, $filter->southLatitude, $filter->eastLongitude]],
                 ],
-                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query, $geoFilters) . ')',
-                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query, $geoFilters) . ')',
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, true, $query, $geoFilters) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, false, $query, $geoFilters) . ')',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

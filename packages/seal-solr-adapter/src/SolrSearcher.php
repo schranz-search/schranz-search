@@ -204,8 +204,8 @@ final class SolrSearcher implements SearcherInterface
                     $filter->northLatitude,
                     $filter->eastLongitude,
                 ),
-                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, true, $queryText) . ')',
-                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, false, $queryText) . ')',
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, true, $queryText) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, false, $queryText) . ')',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

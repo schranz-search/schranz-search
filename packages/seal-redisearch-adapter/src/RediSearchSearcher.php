@@ -250,8 +250,8 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->northLatitude,
                 )),
                 */
-                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, true, $parameters) . ')',
-                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), $indexes, false, $parameters) . ')',
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, true, $parameters) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, false, $parameters) . ')',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

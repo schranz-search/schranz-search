@@ -263,9 +263,8 @@ final class MemorySearcher implements SearcherInterface
                     continue;
                 }
             } elseif ($filter instanceof Condition\AndCondition) {
-                $conditions = $filter->getConditions();
                 $subDocuments = [];
-                foreach ($conditions as $subFilter) {
+                foreach ($filter->conditions as $subFilter) {
                     $subDocuments = [...$subDocuments, ...$this->filterDocuments($index, [$document], $subFilter)];
                 }
 
@@ -273,9 +272,8 @@ final class MemorySearcher implements SearcherInterface
                     continue;
                 }
             } elseif ($filter instanceof Condition\OrCondition) {
-                $conditions = $filter->getConditions();
                 $subDocuments = [];
-                foreach ($conditions as $subFilter) {
+                foreach ($filter->conditions as $subFilter) {
                     $subDocuments = [...$subDocuments, ...$this->filterDocuments($index, [$document], $subFilter)];
                 }
 
