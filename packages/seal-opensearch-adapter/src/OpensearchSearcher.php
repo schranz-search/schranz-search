@@ -72,37 +72,7 @@ final class OpensearchSearcher implements SearcherInterface
             $indexesNames[] = $index->name;
         }
 
-        $query = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\IdentifierCondition => $query['ids']['values'][] = $filter->identifier,
-                $filter instanceof Condition\SearchCondition => $query['bool']['must']['query_string']['query'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $query['bool']['filter'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\NotEqualCondition => $query['bool']['filter']['bool']['must_not'][]['term'][$this->getFilterField($search->indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\GreaterThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gt'] = $filter->value,
-                $filter instanceof Condition\GreaterThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['gte'] = $filter->value,
-                $filter instanceof Condition\LessThanCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lt'] = $filter->value,
-                $filter instanceof Condition\LessThanEqualCondition => $query['bool']['filter'][]['range'][$this->getFilterField($search->indexes, $filter->field)]['lte'] = $filter->value,
-                $filter instanceof Condition\GeoDistanceCondition => $query['bool']['filter']['geo_distance'] = [
-                    'distance' => \sprintf('%dm', $filter->distance),
-                    $this->getFilterField($search->indexes, $filter->field) => [
-                        'lat' => $filter->latitude,
-                        'lon' => $filter->longitude,
-                    ],
-                ],
-                $filter instanceof Condition\GeoBoundingBoxCondition => $query['bool']['filter']['geo_bounding_box'][$this->getFilterField($search->indexes, $filter->field)] = [
-                    'top_left' => [
-                        'lat' => $filter->northLatitude,
-                        'lon' => $filter->westLongitude,
-                    ],
-                    'bottom_right' => [
-                        'lat' => $filter->southLatitude,
-                        'lon' => $filter->eastLongitude,
-                    ],
-                ],
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
+        $query = $this->recursiveResolveFilterConditions($search->indexes, $search->filters, true);
 
         if ([] === $query) {
             $query['match_all'] = new \stdClass();
@@ -181,5 +151,59 @@ final class OpensearchSearcher implements SearcherInterface
         }
 
         return $name;
+    }
+
+    /**
+     * @param Index[] $indexes
+     * @param object[] $filters
+     *
+     * @return array<string|int, mixed>
+     */
+    private function recursiveResolveFilterConditions(array $indexes, array $filters, bool $conjunctive): array
+    {
+        $filterQueries = [];
+
+        foreach ($filters as $filter) {
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filterQueries[]['ids']['values'][] = $filter->identifier,
+                $filter instanceof Condition\SearchCondition => $filterQueries[]['bool']['must']['query_string']['query'] = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filterQueries[]['term'][$this->getFilterField($indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $filterQueries[]['bool']['must_not']['term'][$this->getFilterField($indexes, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\GreaterThanCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['gt'] = $filter->value,
+                $filter instanceof Condition\GreaterThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['gte'] = $filter->value,
+                $filter instanceof Condition\LessThanCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lt'] = $filter->value,
+                $filter instanceof Condition\LessThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\GeoDistanceCondition => $filterQueries[]['geo_distance'] = [
+                    'distance' => $filter->distance,
+                    $this->getFilterField($indexes, $filter->field) => [
+                        'lat' => $filter->latitude,
+                        'lon' => $filter->longitude,
+                    ],
+                ],
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filterQueries[]['geo_bounding_box'][$this->getFilterField($indexes, $filter->field)] = [
+                    'top_left' => [
+                        'lat' => $filter->northLatitude,
+                        'lon' => $filter->westLongitude,
+                    ],
+                    'bottom_right' => [
+                        'lat' => $filter->southLatitude,
+                        'lon' => $filter->eastLongitude,
+                    ],
+                ],
+                $filter instanceof Condition\AndCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->getConditions(), true),
+                $filter instanceof Condition\OrCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->getConditions(), false),
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filterQueries) <= 1) {
+            return $filterQueries[0] ?? [];
+        }
+
+        return [
+            'bool' => [
+                $conjunctive ? 'must' : 'should' => $filterQueries,
+            ],
+        ];
     }
 }

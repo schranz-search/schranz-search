@@ -49,7 +49,6 @@ final class AlgoliaSearcher implements SearcherInterface
             && 1 === $search->limit
         ) {
             $index = $search->indexes[\array_key_first($search->indexes)];
-            $identifierField = $index->getIdentifierField();
 
             try {
                 /** @var array<string, mixed> $data */
@@ -87,35 +86,15 @@ final class AlgoliaSearcher implements SearcherInterface
         }
 
         $query = '';
-        $filters = $geoFilters = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
-                $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GeoDistanceCondition => $geoFilters = [
-                    'aroundLatLng' => \sprintf(
-                        '%s, %s',
-                        $this->escapeFilterValue($filter->latitude),
-                        $this->escapeFilterValue($filter->longitude),
-                    ),
-                    'aroundRadius' => $filter->distance,
-                ],
-                $filter instanceof Condition\GeoBoundingBoxCondition => $geoFilters = [
-                    'insideBoundingBox' => [[$filter->northLatitude, $filter->westLongitude, $filter->southLatitude, $filter->eastLongitude]],
-                ],
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
+        $geoFilters = [];
+        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query, $geoFilters);
 
         $searchParams = [];
-        if ([] !== $filters) {
-            $searchParams = ['filters' => \implode(' AND ', $filters)];
+        if ('' !== $filters) {
+            // Algolia does not like useless brackets around the topmost group so we remove them if present
+            $filters = \preg_replace('#(^\(|\)$)#', '', $filters);
+
+            $searchParams = ['filters' => $filters];
         }
 
         if ([] !== $geoFilters) {
@@ -171,5 +150,47 @@ final class AlgoliaSearcher implements SearcherInterface
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
+    }
+
+    /**
+     * @param object[] $conditions
+     * @param object[] $geoFilters
+     */
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query, array &$geoFilters): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = 'NOT ' . $filter->field . ':' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $geoFilters = [
+                    'aroundLatLng' => \sprintf(
+                        '%s, %s',
+                        $this->escapeFilterValue($filter->latitude),
+                        $this->escapeFilterValue($filter->longitude),
+                    ),
+                    'aroundRadius' => $filter->distance,
+                ],
+                $filter instanceof Condition\GeoBoundingBoxCondition => $geoFilters = [
+                    'insideBoundingBox' => [[$filter->northLatitude, $filter->westLongitude, $filter->southLatitude, $filter->eastLongitude]],
+                ],
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query, $geoFilters) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query, $geoFilters) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' AND ' : ' OR ', $filters);
     }
 }

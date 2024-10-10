@@ -75,37 +75,11 @@ final class MeilisearchSearcher implements SearcherInterface
         $searchIndex = $this->client->index($index->name);
 
         $query = null;
-        $filters = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
-                $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    '_geoRadius(%s, %s, %s)',
-                    $filter->latitude,
-                    $filter->longitude,
-                    $filter->distance,
-                ),
-                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
-                    '_geoBoundingBox([%s, %s], [%s, %s])',
-                    $filter->northLatitude,
-                    $filter->eastLongitude,
-                    $filter->southLatitude,
-                    $filter->westLongitude,
-                ),
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
+        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query);
 
         $searchParams = [];
-        if ([] !== $filters) {
-            $searchParams = ['filter' => \implode(' AND ', $filters)];
+        if ('' !== $filters) {
+            $searchParams = ['filter' => $filters];
         }
 
         if (0 !== $search->offset) {
@@ -150,5 +124,48 @@ final class MeilisearchSearcher implements SearcherInterface
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
+    }
+
+    /**
+     * @param object[] $conditions
+     */
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '_geoRadius(%s, %s, %s)',
+                    $filter->latitude,
+                    $filter->longitude,
+                    $filter->distance,
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '_geoBoundingBox([%s, %s], [%s, %s])',
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                ),
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' AND ' : ' OR ', $filters);
     }
 }

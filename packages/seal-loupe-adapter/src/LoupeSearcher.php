@@ -76,42 +76,14 @@ final class LoupeSearcher implements SearcherInterface
         $searchParameters = SearchParameters::create();
 
         $query = null;
-        $filters = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
-                $filter instanceof Condition\SearchCondition => $query = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' = ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' != ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' > ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' >= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' < ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' <= ' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    '_geoRadius(%s, %s, %s, %s)',
-                    $this->loupeHelper->formatField($filter->field),
-                    $filter->latitude,
-                    $filter->longitude,
-                    $filter->distance,
-                ),
-                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
-                    '_geoBoundingBox(%s, %s, %s, %s, %s)',
-                    $this->loupeHelper->formatField($filter->field),
-                    $filter->northLatitude,
-                    $filter->eastLongitude,
-                    $filter->southLatitude,
-                    $filter->westLongitude,
-                ),
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
-        }
+        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query);
 
         if ($query) {
             $searchParameters = $searchParameters->withQuery($query);
         }
 
-        if ([] !== $filters) {
-            $searchParameters = $searchParameters->withFilter(\implode(' AND ', $filters));
+        if ('' !== $filters) {
+            $searchParameters = $searchParameters->withFilter($filters);
         }
 
         if ($search->limit) {
@@ -159,5 +131,50 @@ final class LoupeSearcher implements SearcherInterface
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
+    }
+
+    /**
+     * @param object[] $conditions
+     */
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' = ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' != ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' > ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' >= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' < ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' <= ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '_geoRadius(%s, %s, %s, %s)',
+                    $this->loupeHelper->formatField($filter->field),
+                    $filter->latitude,
+                    $filter->longitude,
+                    $filter->distance,
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '_geoBoundingBox(%s, %s, %s, %s, %s)',
+                    $this->loupeHelper->formatField($filter->field),
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                ),
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' AND ' : ' OR ', $filters);
     }
 }

@@ -74,43 +74,15 @@ final class TypesenseSearcher implements SearcherInterface
             'query_by' => \implode(',', $index->searchableFields),
         ];
 
-        $filters = [];
-        foreach ($search->filters as $filter) {
-            match (true) {
-                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:=' . $this->escapeFilterValue($filter->identifier),
-                $filter instanceof Condition\SearchCondition => $searchParams['q'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':=' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ':!=' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':>' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $this->escapeFilterValue($filter->value),
-                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
-                    '%s:(%s, %s, %s)',
-                    $filter->field,
-                    $filter->latitude,
-                    $filter->longitude,
-                    ($filter->distance / 1000) . ' km', // convert to km
-                ),
-                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
-                    '%s:(%s, %s, %s, %s, %s, %s, %s, %s)',
-                    $filter->field,
-                    // TODO recheck if polygon is bigger as half of the earth if it not accidentally switches
-                    $filter->northLatitude,
-                    $filter->eastLongitude,
-                    $filter->southLatitude,
-                    $filter->eastLongitude,
-                    $filter->southLatitude,
-                    $filter->westLongitude,
-                    $filter->northLatitude,
-                    $filter->westLongitude,
-                ),
-                default => throw new \LogicException($filter::class . ' filter not implemented.'),
-            };
+        $query = null;
+        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query);
+
+        if (null !== $query) {
+            $searchParams['q'] = $query;
         }
 
-        if ([] !== $filters) {
-            $searchParams['filter_by'] = \implode(' && ', $filters);
+        if ('' !== $filters) {
+            $searchParams['filter_by'] = $filters;
         }
 
         if (0 !== $search->offset) {
@@ -161,5 +133,55 @@ final class TypesenseSearcher implements SearcherInterface
             \is_bool($value) => $value ? 'true' : 'false',
             default => (string) $value,
         };
+    }
+
+    /**
+     * @param object[] $conditions
+     */
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query): string
+    {
+        $filters = [];
+
+        foreach ($conditions as $filter) {
+            match (true) {
+                $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:=' . $this->escapeFilterValue($filter->identifier),
+                $filter instanceof Condition\SearchCondition => $query = $filter->query,
+                $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ':=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ':!=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ':>' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ':>=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ':<' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = $filter->field . ':<=' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s)',
+                    $filter->field,
+                    $filter->latitude,
+                    $filter->longitude,
+                    ($filter->distance / 1000) . ' km', // convert to km
+                ),
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filters[] = \sprintf(
+                    '%s:(%s, %s, %s, %s, %s, %s, %s, %s)',
+                    $filter->field,
+                    // TODO recheck if polygon is bigger as half of the earth if it not accidentally switches
+                    $filter->northLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->eastLongitude,
+                    $filter->southLatitude,
+                    $filter->westLongitude,
+                    $filter->northLatitude,
+                    $filter->westLongitude,
+                ),
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query) . ')',
+                default => throw new \LogicException($filter::class . ' filter not implemented.'),
+            };
+        }
+
+        if (\count($filters) < 2) {
+            return \implode('', $filters);
+        }
+
+        return \implode($conjunctive ? ' && ' : ' || ', $filters);
     }
 }
