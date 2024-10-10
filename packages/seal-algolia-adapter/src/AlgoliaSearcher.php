@@ -92,7 +92,7 @@ final class AlgoliaSearcher implements SearcherInterface
         $searchParams = [];
         if ('' !== $filters) {
             // Algolia does not like useless brackets around the topmost group so we remove them if present
-            $filters = preg_replace('#(^\(|\)$)#', '', $filters);
+            $filters = \preg_replace('#(^\(|\)$)#', '', $filters);
 
             $searchParams = ['filters' => $filters];
         }
@@ -152,9 +152,7 @@ final class AlgoliaSearcher implements SearcherInterface
         };
     }
 
-
-
-    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query, array& $geoFilters): string
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, string|null &$query, array &$geoFilters): string
     {
         $filters = [];
 
