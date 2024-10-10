@@ -963,13 +963,13 @@ abstract class AbstractSearcherTestCase extends TestCase
                 ['return_slow_promise_result' => true],
             );
 
-            if (isset($document['tags']) && \in_array('Tech', $document['tags'], true)
-                && isset($document['isSpecial']) && true === $document['isSpecial']) {
-                $expectedDocumentIds[] = $document['uuid'];
+            if (!isset($document['tags'])) {
+                continue;
             }
 
-            if (isset($document['tags']) && \in_array('UX', $document['tags'], true)
-                && isset($document['isSpecial']) && false === $document['isSpecial']) {
+            if (\in_array('Tech', $document['tags'], true) &&
+                (\in_array('UX', $document['tags'], true) || (isset($document['isSpecial']) && false === $document['isSpecial']))
+            ) {
                 $expectedDocumentIds[] = $document['uuid'];
             }
         }
@@ -980,12 +980,9 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search = new SearchBuilder($schema, self::$searcher);
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
 
-        $condition = new Condition\OrCondition(
-            new Condition\AndCondition(
-                new Condition\EqualCondition('tags', 'Tech'),
-                new Condition\EqualCondition('isSpecial', true),
-            ),
-            new Condition\AndCondition(
+        $condition = new Condition\AndCondition(
+            new Condition\EqualCondition('tags', 'Tech'),
+            new Condition\OrCondition(
                 new Condition\EqualCondition('tags', 'UX'),
                 new Condition\EqualCondition('isSpecial', false),
             ),
