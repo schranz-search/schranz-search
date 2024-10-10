@@ -156,8 +156,8 @@ final class MeilisearchSearcher implements SearcherInterface
                     $filter->southLatitude,
                     $filter->westLongitude,
                 ),
-                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), true, $query) . ')',
-                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->getConditions(), false, $query) . ')',
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, true, $query) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, false, $query) . ')',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

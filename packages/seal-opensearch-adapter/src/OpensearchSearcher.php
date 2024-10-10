@@ -190,8 +190,8 @@ final class OpensearchSearcher implements SearcherInterface
                         'lon' => $filter->eastLongitude,
                     ],
                 ],
-                $filter instanceof Condition\AndCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->getConditions(), true),
-                $filter instanceof Condition\OrCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->getConditions(), false),
+                $filter instanceof Condition\AndCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->conditions, true),
+                $filter instanceof Condition\OrCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->conditions, false),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

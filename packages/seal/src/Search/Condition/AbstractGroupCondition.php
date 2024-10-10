@@ -13,35 +13,21 @@ declare(strict_types=1);
 
 namespace Schranz\Search\SEAL\Search\Condition;
 
+/**
+ * @internal this class is internal please use AndCondition or OrCondition directly
+ */
 abstract class AbstractGroupCondition
 {
     /**
      * @var array<EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition>
      */
-    private array $conditions = [];
+    public readonly array $conditions;
 
     /**
      * @param EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition $conditions
      */
     public function __construct(...$conditions)
     {
-        foreach ($conditions as $condition) {
-            $this->addCondition($condition);
-        }
-    }
-
-    public function addCondition(EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition $condition): static
-    {
-        $this->conditions[] = $condition;
-
-        return $this;
-    }
-
-    /**
-     * @return array<EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition>
-     */
-    public function getConditions(): array
-    {
-        return $this->conditions;
+        $this->conditions = $conditions;
     }
 }
