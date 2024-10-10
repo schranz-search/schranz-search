@@ -13,7 +13,7 @@ release = '0.3'
 html_title = 'SEAL Documentation'
 html_short_title = 'SEAL'
 html_favicon = '_static/icons/favicon.ico'
-html_logo = '_static/icons/logo.png'
+html_logo = '_static/icons/logo.svg'
 
 html_context = {
     "display_github": True, # Integrate GitHub

@@ -1,8 +1,10 @@
 <div align="center">
-    <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=5" width="200" height="200">
+    <img alt="Schranz Search Logo with a Seal on it with a magnifying glass" src="https://avatars.githubusercontent.com/u/120221538?s=400&v=6" width="200" height="200">
 </div>
 
-<h1 align="center">Schranz Search SEAL <br /> Yii Integration</h1>
+<div align="center">Logo created by <a href="https://cargocollective.com/meinewilma">Meine Wilma</a></div>
+
+<h1 align="center">SEAL <br /> Yii Integration</h1>
 
 <br />
 <br />
