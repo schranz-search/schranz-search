@@ -268,7 +268,7 @@ final class MemorySearcher implements SearcherInterface
                     $subDocuments = [...$subDocuments, ...$this->filterDocuments($index, [$document], $subFilter)];
                 }
 
-                if (\count($conditions) !== \count($subDocuments)) {
+                if (\count($filter->conditions) !== \count($subDocuments)) {
                     continue;
                 }
             } elseif ($filter instanceof Condition\OrCondition) {

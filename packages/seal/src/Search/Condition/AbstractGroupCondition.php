@@ -21,7 +21,7 @@ abstract class AbstractGroupCondition
     /**
      * @var array<EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition>
      */
-    public array $conditions = [];
+    public readonly array $conditions;
 
     /**
      * @param EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition $conditions
