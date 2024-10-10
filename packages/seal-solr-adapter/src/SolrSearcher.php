@@ -171,6 +171,10 @@ final class SolrSearcher implements SearcherInterface
         return $name;
     }
 
+    /**
+     * @param object[] $conditions
+     * @param Index[] $indexes
+     */
     private function recursiveResolveFilterConditions(Index $index, array $conditions, array $indexes, bool $conjunctive, string|null &$queryText): string
     {
         $filters = [];
