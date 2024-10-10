@@ -1,0 +1,28 @@
+<div class="sidebar-brand{% if logo %} centered{% endif %}" href="{{ pathto(master_doc) }}">
+    {%- block brand_content -%}
+        {%- if logo_url %}
+        <a href="{{ pathto(master_doc) }}" class="sidebar-logo-container">
+            <img class="sidebar-logo" src="{{ logo_url }}" alt="Logo"/>
+        </a>
+        {%- endif %}
+        {%- if theme_light_logo and theme_dark_logo %}
+        <a href="{{ pathto(master_doc) }}" class="sidebar-logo-container">
+            <img class="sidebar-logo only-light" src="{{ pathto('_static/' + theme_light_logo, 1) }}" alt="Light Logo"/>
+            <img class="sidebar-logo only-dark" src="{{ pathto('_static/' + theme_dark_logo, 1) }}" alt="Dark Logo"/>
+        </a>
+        {%- endif %}
+
+        {% if logo_url or (theme_light_logo and theme_dark_logo) %}
+        <span class="sidebar-logo-creator centered">
+            <span>Logo created by</span> <a target="_blank" href="https://cargocollective.com/meinewilma">Mein Wilma</a>
+        </span>
+        {%- endif %}
+
+        {% if not theme_sidebar_hide_name %}
+            <span class="sidebar-brand-text">
+                <span class="sidebar-brand-text-before">SEAL</span>
+                <span class="sidebar-brand-text-after">Search Engine Abstraction Layer</span>
+            </span>
+        {%- endif %}
+    {%- endblock brand_content -%}
+</div>

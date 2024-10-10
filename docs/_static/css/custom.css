@@ -86,14 +86,22 @@ article table th {
     font-size: 0;
     display: block;
     font-weight: 500;
+    padding-top: 12px;
 }
 
-.sidebar-brand-text::before {
-    content: "SEAL";
+.sidebar-logo-creator {
+    font-size: 10px;
+
+    > a {
+        font-size: 1em !important;
+    }
+}
+
+.sidebar-brand-text-before {
     font-size: 20px;
 }
 
-.sidebar-brand-text::after {
+.sidebar-brand-text-after {
     display: block;
     content: "Search Engine Abstraction Layer";
     padding-top: 6px;
