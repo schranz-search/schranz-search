@@ -36,193 +36,19 @@ final class MemorySearcher implements SearcherInterface
 
         /** @var Index $index */
         foreach ($search->indexes as $index) {
-            foreach (MemoryStorage::getDocuments($index) as $identifier => $document) {
-                $identifier = (string) $identifier;
+            $indexDocuments = MemoryStorage::getDocuments($index);
 
-                if ([] === $search->filters) {
-                    $documents[] = $document;
+            if ([] === $search->filters) {
+                $documents = [...$documents, ...$indexDocuments];
 
-                    continue;
-                }
+                continue;
+            }
 
-                foreach ($search->filters as $filter) {
-                    if ($filter instanceof Condition\IdentifierCondition) {
-                        if ($filter->identifier !== $identifier) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\SearchCondition) {
-                        $searchableDocument = $this->getSearchableDocument($index->fields, $document);
+            foreach ($search->filters as $filter) {
+                $indexDocuments = $this->filterDocuments($index, $indexDocuments, $filter);
+            }
 
-                        $text = \json_encode($searchableDocument, \JSON_THROW_ON_ERROR);
-                        $terms = \explode(' ', $filter->query);
-
-                        foreach ($terms as $term) {
-                            if (!\str_contains($text, $term)) {
-                                continue 3;
-                            }
-                        }
-                    } elseif ($filter instanceof Condition\EqualCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-
-                        if (!\in_array($filter->value, $values, true)) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\NotEqualCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-
-                        if (\in_array($filter->value, $values, true)) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\GreaterThanCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if ($value > $filter->value) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\GreaterThanEqualCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if ($value >= $filter->value) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\LessThanCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if ($value < $filter->value) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\LessThanEqualCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if ($value <= $filter->value) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\GeoDistanceCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-                        if (isset($values['latitude'])) {
-                            $values = [$values];
-                        }
-
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if (!\is_array($value)
-                                || !isset($value['latitude'])
-                                || !isset($value['longitude'])
-                            ) {
-                                continue;
-                            }
-
-                            $distance = $this->distanceBetween(
-                                $filter->latitude,
-                                $filter->longitude,
-                                $value['latitude'],
-                                $value['longitude'],
-                            );
-
-                            if ($distance <= $filter->distance) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } elseif ($filter instanceof Condition\GeoBoundingBoxCondition) {
-                        if (\str_contains($filter->field, '.')) {
-                            throw new \RuntimeException('Nested fields are not supported yet.');
-                        }
-
-                        $values = (array) ($document[$filter->field] ?? []);
-                        if (isset($values['latitude'])) {
-                            $values = [$values];
-                        }
-
-                        $hasMatchingValue = false;
-                        foreach ($values as $value) {
-                            if (!\is_array($value)
-                                || !isset($value['latitude'])
-                                || !isset($value['longitude'])
-                            ) {
-                                continue;
-                            }
-
-                            $isInsideBox = $this->coordinatesInsideBox(
-                                $value['latitude'],
-                                $value['longitude'],
-                                $filter->northLatitude,
-                                $filter->eastLongitude,
-                                $filter->southLatitude,
-                                $filter->westLongitude,
-                            );
-
-                            if ($isInsideBox) {
-                                $hasMatchingValue = true;
-                            }
-                        }
-
-                        if (false === $hasMatchingValue) {
-                            continue 2;
-                        }
-                    } else {
-                        throw new \LogicException($filter::class . ' filter not implemented.');
-                    }
-                }
-
+            foreach ($indexDocuments as $document) {
                 $documents[] = $this->marshaller->unmarshall($index->fields, $document);
             }
         }
@@ -250,6 +76,220 @@ final class MemorySearcher implements SearcherInterface
             $generator(),
             \count($documents),
         );
+    }
+
+    /**
+     * @param array<array<string, mixed>> $documents
+     *
+     * @return array<array<string, mixed>>
+     */
+    private function filterDocuments(Index $index, array $documents, object $filter): array
+    {
+        $filteredDocuments = [];
+
+        foreach ($documents as $identifier => $document) {
+            $identifier = (string) $identifier;
+
+            if ($filter instanceof Condition\IdentifierCondition) {
+                if ($filter->identifier !== $identifier) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\SearchCondition) {
+                $searchableDocument = $this->getSearchableDocument($index->fields, $document);
+
+                $text = \json_encode($searchableDocument, \JSON_THROW_ON_ERROR);
+                $terms = \explode(' ', $filter->query);
+
+                foreach ($terms as $term) {
+                    if (!\str_contains($text, $term)) {
+                        continue 2;
+                    }
+                }
+            } elseif ($filter instanceof Condition\EqualCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                if (!\in_array($filter->value, $values, true)) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\NotEqualCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                if (\in_array($filter->value, $values, true)) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\GreaterThanCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if ($value > $filter->value) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\GreaterThanEqualCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if ($value >= $filter->value) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\LessThanCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if ($value < $filter->value) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\LessThanEqualCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if ($value <= $filter->value) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\GeoDistanceCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+                if (isset($values['latitude'])) {
+                    $values = [$values];
+                }
+
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if (!\is_array($value)
+                        || !isset($value['latitude'])
+                        || !isset($value['longitude'])
+                    ) {
+                        continue;
+                    }
+
+                    $distance = $this->distanceBetween(
+                        $filter->latitude,
+                        $filter->longitude,
+                        $value['latitude'],
+                        $value['longitude'],
+                    );
+
+                    if ($distance <= $filter->distance) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\GeoBoundingBoxCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+                if (isset($values['latitude'])) {
+                    $values = [$values];
+                }
+
+                $hasMatchingValue = false;
+                foreach ($values as $value) {
+                    if (!\is_array($value)
+                        || !isset($value['latitude'])
+                        || !isset($value['longitude'])
+                    ) {
+                        continue;
+                    }
+
+                    $isInsideBox = $this->coordinatesInsideBox(
+                        $value['latitude'],
+                        $value['longitude'],
+                        $filter->northLatitude,
+                        $filter->eastLongitude,
+                        $filter->southLatitude,
+                        $filter->westLongitude,
+                    );
+
+                    if ($isInsideBox) {
+                        $hasMatchingValue = true;
+                    }
+                }
+
+                if (false === $hasMatchingValue) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\AndCondition) {
+                $conditions = $filter->getConditions();
+                $subDocuments = [];
+                foreach ($conditions as $subFilter) {
+                    $subDocuments = [...$subDocuments, ...$this->filterDocuments($index, [$document], $subFilter)];
+                }
+
+                if (\count($conditions) !== \count($subDocuments)) {
+                    continue;
+                }
+            } elseif ($filter instanceof Condition\OrCondition) {
+                $conditions = $filter->getConditions();
+                $subDocuments = [];
+                foreach ($conditions as $subFilter) {
+                    $subDocuments = [...$subDocuments, ...$this->filterDocuments($index, [$document], $subFilter)];
+                }
+
+                if ([] === $subDocuments) {
+                    continue;
+                }
+            } else {
+                throw new \LogicException($filter::class . ' filter not implemented.');
+            }
+
+            $filteredDocuments[] = $document;
+        }
+
+        return $filteredDocuments;
     }
 
     /**
