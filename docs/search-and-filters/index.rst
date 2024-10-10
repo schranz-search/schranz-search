@@ -228,6 +228,53 @@ The field is required to be marked as ``filterable`` in the index configuration.
     The ``GeoBoundingBoxCondition`` is currently not supported by ``Redisearch`` adapter.
     See `this Github Issue <https://github.com/RediSearch/RediSearch/issues/680>`__ for more information.
 
+OrCondition
+~~~~~~~~~~~
+
+The ``OrCondition`` is used to filter by two or more conditions where at least one condition need to match.
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('blog')
+        ->addFilter(new Condition\OrCondition(
+            new Condition\GreaterThanCondition('rating', 2.5),
+            new Condition\EqualCondition('isSpecial', true),
+        ))
+        ->getResult();
+
+The fields are required to be marked as ``filterable`` in the index configuration.
+
+AndCondition
+~~~~~~~~~~~~
+
+The ``AndCondition`` is used to combine two or multiple conditions where all conditions need to match.
+As by default all conditions are ``AND``` connected it only make sense to use ``AndCondition`` in
+combination with an ``OrCondition`` filters.
+
+.. code-block:: php
+
+    <?php
+
+    use Schranz\Search\SEAL\Search\Condition;
+
+    $result = $this->engine->createSearchBuilder()
+        ->addIndex('blog')
+        ->addFilter(new Condition\AndCondition(
+            new Condition\EqualCondition('tags', 'Tech'),
+            new Condition\OrCondition(
+                new Condition\EqualCondition('tags', 'UX'),
+                new Condition\EqualCondition('isSpecial', true),
+            ),
+        ))
+        ->getResult();
+
+The fields are required to be marked as ``filterable`` in the index configuration.
+
 Filter on Objects and Typed Fields
 ----------------------------------
 
