@@ -967,8 +967,8 @@ abstract class AbstractSearcherTestCase extends TestCase
                 continue;
             }
 
-            if (\in_array('Tech', $document['tags'], true) &&
-                (\in_array('UX', $document['tags'], true) || (isset($document['isSpecial']) && false === $document['isSpecial']))
+            if (\in_array('Tech', $document['tags'], true)
+                && (\in_array('UX', $document['tags'], true) || (isset($document['isSpecial']) && false === $document['isSpecial']))
             ) {
                 $expectedDocumentIds[] = $document['uuid'];
             }
@@ -990,9 +990,7 @@ abstract class AbstractSearcherTestCase extends TestCase
 
         $search->addFilter($condition);
 
-        $loadedDocumentIds = \array_map(function (array $document) {
-            return $document['uuid'];
-        }, [...$search->getResult()]);
+        $loadedDocumentIds = \array_map(fn (array $document) => $document['uuid'], [...$search->getResult()]);
 
         \sort($expectedDocumentIds);
         \sort($loadedDocumentIds);

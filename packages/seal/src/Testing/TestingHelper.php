@@ -88,6 +88,10 @@ final class TestingHelper
      * @return array<array{
      *     uuid: string,
      *     title?: string|null,
+     *     header?: array{
+     *         type: string,
+     *         media: int|string,
+     *     },
      *     article?: string|null,
      *     blocks?: array<array{
      *          type: string,
@@ -98,6 +102,7 @@ final class TestingHelper
      *     created?: string|null,
      *     commentsCount?: int|null,
      *     rating?: float|null,
+     *     isSpecial?: bool,
      *     comments?: array<array{
      *         email?: string|null,
      *         text?: string|null,

@@ -20,6 +20,9 @@ abstract class AbstractGroupCondition
      */
     private array $conditions = [];
 
+    /**
+     * @param EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition $conditions
+     */
     public function __construct(...$conditions)
     {
         foreach ($conditions as $condition) {
