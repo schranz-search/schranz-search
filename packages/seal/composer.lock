@@ -352,12 +352,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb"
+                "reference": "40e461db3baa83c2a2ed95499b9af8b6f875bc53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/df396882440f0eaaa18ef2f7f6c31e06221b77fb",
-                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/40e461db3baa83c2a2ed95499b9af8b6f875bc53",
+                "reference": "40e461db3baa83c2a2ed95499b9af8b6f875bc53",
                 "shasum": ""
             },
             "require": {
@@ -402,7 +402,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-09T10:39:17+00:00"
+            "time": "2024-10-14T08:46:51+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -883,16 +883,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "1.2.6",
+            "version": "1.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "6ca85da28159dbd3bb36211c5104b7bc91278e99"
+                "reference": "5b33bdd871895276e2c18e5410a4a57df9233ee0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/6ca85da28159dbd3bb36211c5104b7bc91278e99",
-                "reference": "6ca85da28159dbd3bb36211c5104b7bc91278e99",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/5b33bdd871895276e2c18e5410a4a57df9233ee0",
+                "reference": "5b33bdd871895276e2c18e5410a4a57df9233ee0",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +930,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/1.2.6"
+                "source": "https://github.com/rectorphp/rector/tree/1.2.7"
             },
             "funding": [
                 {
@@ -938,7 +938,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-03T08:56:44+00:00"
+            "time": "2024-10-12T11:12:46+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1916,12 +1916,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }
