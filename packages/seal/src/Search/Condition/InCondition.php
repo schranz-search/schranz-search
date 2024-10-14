@@ -23,4 +23,18 @@ class InCondition
         public readonly array $values,
     ) {
     }
+
+    /**
+     * Some search engines do not support the `IN` operator, so we need to convert it to an `OR` condition.
+     */
+    public function createOrCondition(): OrCondition
+    {
+        /** @var array<EqualCondition|GreaterThanCondition|GreaterThanEqualCondition|IdentifierCondition|LessThanCondition|LessThanEqualCondition|NotEqualCondition|AndCondition|OrCondition> $conditions */
+        $conditions = [];
+        foreach ($this->values as $value) {
+            $conditions[] = new EqualCondition($this->field, $value);
+        }
+
+        return new OrCondition(...$conditions);
+    }
 }
