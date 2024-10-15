@@ -180,6 +180,10 @@ final class SolrSearcher implements SearcherInterface
         $filters = [];
 
         foreach ($conditions as $filter) {
+            if ($filter instanceof Condition\InCondition) {
+                $filter = $filter->createOrCondition();
+            }
+
             match (true) {
                 $filter instanceof Condition\SearchCondition => $queryText = $filter->query,
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),
