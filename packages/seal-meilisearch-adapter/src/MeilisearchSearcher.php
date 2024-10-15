@@ -134,6 +134,10 @@ final class MeilisearchSearcher implements SearcherInterface
         $filters = [];
 
         foreach ($conditions as $filter) {
+            if ($filter instanceof Condition\InCondition) {
+                $filter = $filter->createOrCondition();
+            }
+
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ' = ' . $this->escapeFilterValue($filter->identifier),
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,

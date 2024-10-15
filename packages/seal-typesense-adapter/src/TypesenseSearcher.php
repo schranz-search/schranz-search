@@ -143,6 +143,10 @@ final class TypesenseSearcher implements SearcherInterface
         $filters = [];
 
         foreach ($conditions as $filter) {
+            if ($filter instanceof Condition\InCondition) {
+                $filter = $filter->createOrCondition();
+            }
+
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = 'id:=' . $this->escapeFilterValue($filter->identifier),
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,

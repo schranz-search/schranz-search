@@ -214,6 +214,10 @@ final class RediSearchSearcher implements SearcherInterface
         $filters = [];
 
         foreach ($conditions as $filter) {
+            if ($filter instanceof Condition\InCondition) {
+                $filter = $filter->createOrCondition();
+            }
+
             match (true) {
                 $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
                 $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
