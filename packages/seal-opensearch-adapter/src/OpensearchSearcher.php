@@ -173,6 +173,7 @@ final class OpensearchSearcher implements SearcherInterface
                 $filter instanceof Condition\GreaterThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['gte'] = $filter->value,
                 $filter instanceof Condition\LessThanCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lt'] = $filter->value,
                 $filter instanceof Condition\LessThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\InCondition => $filterQueries[]['terms'][$this->getFilterField($indexes, $filter->field)] = $filter->values,
                 $filter instanceof Condition\GeoDistanceCondition => $filterQueries[]['geo_distance'] = [
                     'distance' => $filter->distance,
                     $this->getFilterField($indexes, $filter->field) => [
