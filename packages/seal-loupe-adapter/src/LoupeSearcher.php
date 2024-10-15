@@ -151,6 +151,7 @@ final class LoupeSearcher implements SearcherInterface
                 $filter instanceof Condition\LessThanCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' < ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanEqualCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' <= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\InCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' IN (' . \implode(', ', \array_map(fn ($value) => $this->escapeFilterValue($value), $filter->values)) . ')',
+                $filter instanceof Condition\NotInCondition => $filters[] = $this->loupeHelper->formatField($filter->field) . ' NOT IN (' . \implode(', ', \array_map(fn ($value) => $this->escapeFilterValue($value), $filter->values)) . ')',
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
                     '_geoRadius(%s, %s, %s, %s)',
                     $this->loupeHelper->formatField($filter->field),
