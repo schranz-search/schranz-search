@@ -25,6 +25,8 @@ class InCondition
     }
 
     /**
+     * @internal This method is for internal use and should not be called from outside.
+     *
      * Some search engines do not support the `IN` operator, so we need to convert it to an `OR` condition.
      */
     public function createOrCondition(): OrCondition
