@@ -126,6 +126,14 @@ final class MeilisearchSearcher implements SearcherInterface
         };
     }
 
+    private function escapeArrayFilterValues(array $value): string
+    {
+        return implode(
+            ', ',
+            array_map([$this, 'escapeFilterValue'], $value)
+        );
+    }
+
     /**
      * @param object[] $conditions
      */
@@ -143,6 +151,7 @@ final class MeilisearchSearcher implements SearcherInterface
                 $filter instanceof Condition\SearchCondition => $query = $filter->query,
                 $filter instanceof Condition\EqualCondition => $filters[] = $filter->field . ' = ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\NotEqualCondition => $filters[] = $filter->field . ' != ' . $this->escapeFilterValue($filter->value),
+                $filter instanceof Condition\NotInCondition => $filters[] = $filter->field . ' NOT IN [' . $this->escapeArrayFilterValues($filter->values) . ']',
                 $filter instanceof Condition\GreaterThanCondition => $filters[] = $filter->field . ' > ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = $filter->field . ' >= ' . $this->escapeFilterValue($filter->value),
                 $filter instanceof Condition\LessThanCondition => $filters[] = $filter->field . ' < ' . $this->escapeFilterValue($filter->value),

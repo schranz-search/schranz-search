@@ -161,9 +161,11 @@ final class AlgoliaSearcher implements SearcherInterface
         $filters = [];
 
         foreach ($conditions as $filter) {
-            if ($filter instanceof Condition\InCondition) {
-                $filter = $filter->createOrCondition();
-            }
+            $filter = match (true) {
+                $filter instanceof Condition\InCondition => $filter->createOrCondition(),
+                $filter instanceof Condition\NotInCondition => $filter->createAndCondition(),
+                default => $filter,
+            };
 
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filters[] = $index->getIdentifierField()->name . ':' . $this->escapeFilterValue($filter->identifier),

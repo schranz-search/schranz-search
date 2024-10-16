@@ -125,6 +125,16 @@ final class MemorySearcher implements SearcherInterface
                 if ([] === \array_intersect($filter->values, $values)) {
                     continue;
                 }
+            } elseif ($filter instanceof Condition\NotInCondition) {
+                if (\str_contains($filter->field, '.')) {
+                    throw new \RuntimeException('Nested fields are not supported yet.');
+                }
+
+                $values = (array) ($document[$filter->field] ?? []);
+
+                if ([] !== \array_intersect($filter->values, $values)) {
+                    continue;
+                }
             } elseif ($filter instanceof Condition\NotEqualCondition) {
                 if (\str_contains($filter->field, '.')) {
                     throw new \RuntimeException('Nested fields are not supported yet.');
