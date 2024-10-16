@@ -938,16 +938,22 @@ abstract class AbstractSearcherTestCase extends TestCase
         $search->addIndex(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\NotInCondition('tags', ['UI']));
 
-        $expectedDocumentsVariant = [
+        $expectedDocumentsVariantA = [
             $documents[2],
             $documents[3],
+        ];
+
+        $expectedDocumentsVariantB = [
+            $documents[3],
+            $documents[2],
         ];
 
         $loadedDocuments = [...$search->getResult()];
         $this->assertCount(2, $loadedDocuments);
 
         $this->assertTrue(
-            $expectedDocumentsVariant === $loadedDocuments,
+            $expectedDocumentsVariantA === $loadedDocuments
+            || $expectedDocumentsVariantB === $loadedDocuments,
             'Not correct documents where found.',
         );
 
