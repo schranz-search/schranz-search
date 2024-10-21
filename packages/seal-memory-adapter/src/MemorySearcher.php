@@ -35,7 +35,7 @@ final class MemorySearcher implements SearcherInterface
         $documents = [];
 
         /** @var Index $index */
-        foreach ($search->indexes as $index) {
+        foreach ([$search->index] as $index) {
             $indexDocuments = MemoryStorage::getDocuments($index);
 
             if ([] === $search->filters) {

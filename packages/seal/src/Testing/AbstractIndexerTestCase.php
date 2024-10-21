@@ -97,7 +97,7 @@ abstract class AbstractIndexerTestCase extends TestCase
         $loadedDocuments = [];
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$searcher);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->index(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
             $search->limit(1);
 
@@ -131,7 +131,7 @@ abstract class AbstractIndexerTestCase extends TestCase
 
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$searcher);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->index(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
             $search->limit(1);
 
@@ -162,7 +162,7 @@ abstract class AbstractIndexerTestCase extends TestCase
         $loadedDocuments = [];
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$searcher);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->index(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
             $search->limit(1);
 
@@ -199,7 +199,7 @@ abstract class AbstractIndexerTestCase extends TestCase
 
         foreach ($documents as $document) {
             $search = new SearchBuilder($schema, self::$searcher);
-            $search->addIndex(TestingHelper::INDEX_COMPLEX);
+            $search->index(TestingHelper::INDEX_COMPLEX);
             $search->addFilter(new Condition\IdentifierCondition($document['uuid']));
             $search->limit(1);
 

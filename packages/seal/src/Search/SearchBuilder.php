@@ -19,10 +19,7 @@ use Schranz\Search\SEAL\Schema\Schema;
 
 final class SearchBuilder
 {
-    /**
-     * @var array<string, Index>
-     */
-    private array $indexes = [];
+    private Index $index;
 
     /**
      * @var object[]
@@ -44,9 +41,9 @@ final class SearchBuilder
     ) {
     }
 
-    public function addIndex(string $name): static
+    public function index(string $name): static
     {
-        $this->indexes[$name] = $this->schema->indexes[$name];
+        $this->index = $this->schema->indexes[$name];
 
         return $this;
     }
@@ -85,7 +82,7 @@ final class SearchBuilder
     public function getSearch(): Search
     {
         return new Search(
-            $this->indexes,
+            $this->index,
             $this->filters,
             $this->sortBys,
             $this->limit,

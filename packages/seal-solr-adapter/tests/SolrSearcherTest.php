@@ -25,12 +25,4 @@ class SolrSearcherTest extends AbstractSearcherTestCase
 
         parent::setUpBeforeClass();
     }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testFindMultipleIndexes(): void
-    {
-        $this->markTestSkipped('Not supported by Solr: TODO create issue');
-    }
 }

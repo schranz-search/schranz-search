@@ -5,6 +5,7 @@
          colors="true"
          bootstrap="vendor/autoload.php"
          cacheDirectory=".phpunit.cache"
+         displayDetailsOnTestsThatTriggerWarnings="true"
 >
     <php>
         <ini name="error_reporting" value="-1" />

@@ -25,12 +25,4 @@ class TypesenseSearcherTest extends AbstractSearcherTestCase
 
         parent::setUpBeforeClass();
     }
-
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testFindMultipleIndexes(): void
-    {
-        $this->markTestSkipped('Not supported by Typesense: https://github.com/schranz-search/schranz-search/issues/98');
-    }
 }
