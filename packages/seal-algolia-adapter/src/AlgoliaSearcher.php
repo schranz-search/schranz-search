@@ -79,7 +79,7 @@ final class AlgoliaSearcher implements SearcherInterface
 
         $query = '';
         $geoFilters = [];
-        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query, $geoFilters);
+        $filters = $this->recursiveResolveFilterConditions($search->index, $search->filters, true, $query, $geoFilters);
 
         $searchParams = [];
         if ('' !== $filters) {
@@ -111,7 +111,7 @@ final class AlgoliaSearcher implements SearcherInterface
         \assert(isset($data['nbHits']) && \is_int($data['nbHits']), 'The "nbHits" value is expected to be returned by algolia client.');
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $data['hits']),
+            $this->hitsToDocuments($search->index, $data['hits']),
             $data['nbHits'] ?? null, // @phpstan-ignore-line
         );
     }
