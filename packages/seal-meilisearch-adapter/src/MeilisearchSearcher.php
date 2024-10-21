@@ -117,6 +117,10 @@ final class MeilisearchSearcher implements SearcherInterface
         };
     }
 
+    /**
+     * @param list<string|int|float|bool> $value
+     * @return string
+     */
     private function escapeArrayFilterValues(array $value): string
     {
         return \implode(
