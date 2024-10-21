@@ -61,8 +61,7 @@ final class Engine implements EngineInterface
 
     public function getDocument(string $index, string $identifier): array
     {
-        $documents = [...$this->createSearchBuilder()
-            ->addIndex($index)
+        $documents = [...$this->createSearchBuilder($index)
             ->addFilter(new IdentifierCondition($identifier))
             ->limit(1)
             ->getResult()];
@@ -81,12 +80,13 @@ final class Engine implements EngineInterface
         return $document;
     }
 
-    public function createSearchBuilder(): SearchBuilder
+    public function createSearchBuilder(string $index): SearchBuilder
     {
-        return new SearchBuilder(
+        return (new SearchBuilder(
             $this->schema,
             $this->adapter->getSearcher(),
-        );
+        ))
+            ->index($index);
     }
 
     public function createIndex(string $index, array $options = []): TaskInterface|null

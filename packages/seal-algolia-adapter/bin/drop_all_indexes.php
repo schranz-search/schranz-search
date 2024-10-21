@@ -31,31 +31,35 @@ if (!isset($_ENV['ALGOLIA_DSN'])) {
 
 $_ENV['ALGOLIA_DSN'] = $algoliaDsn;
 
-$client = \Schranz\Search\SEAL\Adapter\Algolia\Tests\ClientHelper::getClient();
-
 $return = 0;
 
-$retryIndexes = [];
-foreach ($client->listIndices()['items'] as $key => $value) {
-    echo 'Delete ... ' . $value['name'] . \PHP_EOL;
+$client = \Schranz\Search\SEAL\Adapter\Algolia\Tests\ClientHelper::getClient();
+$retryIndexes = $client->listIndices()['items'];
+$retryCounter = 0;
 
-    try {
-        $client->deleteIndex($value['name']);
-    } catch (\Exception) {
-        $retryIndexes[$key] = $value;
-        echo 'Retry later ... ' . $value['name'] . \PHP_EOL;
+while (\count($retryIndexes) > 0) {
+    $client = \Schranz\Search\SEAL\Adapter\Algolia\Tests\ClientHelper::getClient();
+    $currentIndexes = $retryIndexes;
+    $retryIndexes = [];
+    foreach ($currentIndexes as $key => $value) {
+        echo 'Delete ... ' . $value['name'] . \PHP_EOL;
+
+        try {
+            $client->deleteIndex($value['name']);
+        } catch (\Exception) {
+            $retryIndexes[$key] = $value;
+            echo 'Retry later ... ' . $value['name'] . \PHP_EOL;
+        }
+    }
+
+    ++$retryCounter;
+    if ($retryCounter >= 10) {
+        break;
     }
 }
 
-foreach ($retryIndexes as $key => $value) {
-    echo 'Delete ... ' . $value['name'] . \PHP_EOL;
-
-    try {
-        $client->deleteIndex($value['name']);
-    } catch (\Exception) {
-        echo 'Errored ... ' . $value['name'] . \PHP_EOL;
-        $return = 1;
-    }
+if (\count($retryIndexes) > 0) {
+    $return = 1;
 }
 
 exit($return);

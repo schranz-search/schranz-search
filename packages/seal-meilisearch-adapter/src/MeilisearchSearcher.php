@@ -42,40 +42,34 @@ final class MeilisearchSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            1 === \count($search->indexes)
-            && 1 === \count($search->filters)
+            1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
             && 0 === $search->offset
             && 1 === $search->limit
         ) {
             try {
-                $data = $this->client->index($search->indexes[\array_key_first($search->indexes)]->name)->getDocument($search->filters[0]->identifier);
+                $data = $this->client->index($search->index->name)->getDocument($search->filters[0]->identifier);
             } catch (ApiException $e) {
                 if (404 !== $e->httpStatus) {
                     throw $e;
                 }
 
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, []),
+                    $this->hitsToDocuments($search->index, []),
                     0,
                 );
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$data]),
+                $this->hitsToDocuments($search->index, [$data]),
                 1,
             );
         }
 
-        if (1 !== \count($search->indexes)) {
-            throw new \RuntimeException('Meilisearch does not yet support search across multiple indexes: https://github.com/schranz-search/schranz-search/issues/28');
-        }
-
-        $index = $search->indexes[\array_key_first($search->indexes)];
-        $searchIndex = $this->client->index($index->name);
+        $searchIndex = $this->client->index($search->index->name);
 
         $query = null;
-        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query);
+        $filters = $this->recursiveResolveFilterConditions($search->index, $search->filters, true, $query);
 
         $searchParams = [];
         if ('' !== $filters) {
@@ -97,21 +91,18 @@ final class MeilisearchSearcher implements SearcherInterface
         $data = $searchIndex->search($query, $searchParams)->toArray();
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $data['hits']),
+            $this->hitsToDocuments($search->index, $data['hits']),
             $data['totalHits'] ?? $data['estimatedTotalHits'] ?? null,
         );
     }
 
     /**
-     * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
      * @return \Generator<int, array<string, mixed>>
      */
-    private function hitsToDocuments(array $indexes, iterable $hits): \Generator
+    private function hitsToDocuments(Index $index, iterable $hits): \Generator
     {
-        $index = $indexes[\array_key_first($indexes)];
-
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
@@ -126,11 +117,14 @@ final class MeilisearchSearcher implements SearcherInterface
         };
     }
 
+    /**
+     * @param list<string|int|float|bool> $value
+     */
     private function escapeArrayFilterValues(array $value): string
     {
-        return implode(
+        return \implode(
             ', ',
-            array_map([$this, 'escapeFilterValue'], $value)
+            \array_map([$this, 'escapeFilterValue'], $value),
         );
     }
 

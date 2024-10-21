@@ -79,35 +79,6 @@ abstract class AbstractSearcherTestCase extends TestCase
         return self::$schema;
     }
 
-    public function testFindMultipleIndexes(): void
-    {
-        $document = TestingHelper::createSimpleFixtures()[0];
-
-        $schema = self::getSchema();
-
-        self::$indexer->save(
-            $schema->indexes[TestingHelper::INDEX_SIMPLE],
-            $document,
-            ['return_slow_promise_result' => true],
-        )->wait();
-
-        $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
-        $search->addIndex(TestingHelper::INDEX_SIMPLE);
-        $search->addFilter(new Condition\IdentifierCondition($document['id']));
-
-        $expectedDocument = $document;
-        $loadedDocument = \iterator_to_array($search->getResult(), false)[0] ?? null;
-
-        $this->assertSame($expectedDocument, $loadedDocument);
-
-        self::$indexer->delete(
-            $schema->indexes[TestingHelper::INDEX_SIMPLE],
-            $document['id'],
-            ['return_slow_promise_result' => true],
-        )->wait();
-    }
-
     public function testSearchCondition(): void
     {
         $documents = TestingHelper::createComplexFixtures();
@@ -124,7 +95,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('Blog'));
 
         $expectedDocumentsVariantA = [
@@ -146,7 +117,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         );
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('Thing'));
 
         $this->assertSame([$documents[2]], [...$search->getResult()]);
@@ -176,7 +147,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\SearchCondition('admin.nonesearchablefield@localhost'));
 
         $this->assertCount(0, [...$search->getResult()]);
@@ -198,7 +169,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = (new SearchBuilder($schema, self::$searcher))
-            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->index(TestingHelper::INDEX_COMPLEX)
             ->addFilter(new Condition\SearchCondition('Blog'))
             ->limit(1);
 
@@ -214,7 +185,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         $isFirstDocumentOnPage1 = [$documents[0]] === $loadedDocuments;
 
         $search = (new SearchBuilder($schema, self::$searcher))
-            ->addIndex(TestingHelper::INDEX_COMPLEX)
+            ->index(TestingHelper::INDEX_COMPLEX)
             ->addFilter(new Condition\SearchCondition('Blog'))
             ->offset(1)
             ->limit(1);
@@ -251,7 +222,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
@@ -297,7 +268,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('isSpecial', true));
 
         $expectedDocumentsVariantA = [
@@ -347,7 +318,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', $specialString));
 
         $expectedDocumentsVariantA = [
@@ -391,7 +362,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', 'UI'));
         $search->addFilter(new Condition\EqualCondition('tags', 'UX'));
 
@@ -428,7 +399,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\EqualCondition('tags', 'Tech'));
         $search->addFilter(new Condition\SearchCondition('Blog'));
 
@@ -462,7 +433,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\NotEqualCondition('tags', 'UI'));
 
         $expectedDocumentsVariantA = [
@@ -508,7 +479,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
@@ -543,7 +514,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5));
 
         $loadedDocuments = [...$search->getResult()];
@@ -583,7 +554,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanEqualCondition('categoryIds', 3.0));
 
         $loadedDocuments = [...$search->getResult()];
@@ -623,7 +594,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\LessThanCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
@@ -663,7 +634,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\LessThanEqualCondition('rating', 3.5));
 
         $loadedDocuments = [...$search->getResult()];
@@ -703,7 +674,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GeoDistanceCondition(
             'location',
             // Berlin
@@ -768,7 +739,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GeoBoundingBoxCondition(
             'location',
             // Dublin - Athen
@@ -849,7 +820,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\LessThanEqualCondition('categoryIds', 2.0));
 
         $loadedDocuments = [...$search->getResult()];
@@ -889,7 +860,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\InCondition('tags', ['UI']));
 
         $expectedDocumentsVariantA = [
@@ -935,7 +906,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\NotInCondition('tags', ['UI']));
 
         $expectedDocumentsVariantA = [
@@ -982,7 +953,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
         $search->addSortBy('rating', 'asc');
 
@@ -1021,7 +992,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
         $search->addFilter(new Condition\GreaterThanCondition('rating', 0));
         $search->addSortBy('rating', 'desc');
 
@@ -1071,7 +1042,7 @@ abstract class AbstractSearcherTestCase extends TestCase
         self::$taskHelper->waitForAll();
 
         $search = new SearchBuilder($schema, self::$searcher);
-        $search->addIndex(TestingHelper::INDEX_COMPLEX);
+        $search->index(TestingHelper::INDEX_COMPLEX);
 
         $condition = new Condition\AndCondition(
             new Condition\EqualCondition('tags', 'Tech'),

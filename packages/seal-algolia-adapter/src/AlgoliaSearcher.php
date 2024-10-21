@@ -42,43 +42,35 @@ final class AlgoliaSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            1 === \count($search->indexes)
-            && 1 === \count($search->filters)
+            1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
             && 0 === $search->offset
             && 1 === $search->limit
         ) {
-            $index = $search->indexes[\array_key_first($search->indexes)];
-
             try {
                 /** @var array<string, mixed> $data */
                 $data = $this->client->getObject(
-                    $index->name,
+                    $search->index->name,
                     $search->filters[0]->identifier,
                 );
             } catch (NotFoundException) {
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, []),
+                    $this->hitsToDocuments($search->index, []),
                     0,
                 );
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$data]),
+                $this->hitsToDocuments($search->index, [$data]),
                 1,
             );
-        }
-
-        if (1 !== \count($search->indexes)) {
-            throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
         if (\count($search->sortBys) > 1) {
             throw new \RuntimeException('Algolia Adapter does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/41');
         }
 
-        $index = $search->indexes[\array_key_first($search->indexes)];
-        $indexName = $index->name;
+        $indexName = $search->index->name;
 
         $sortByField = \array_key_first($search->sortBys);
         if ($sortByField) {
@@ -87,7 +79,7 @@ final class AlgoliaSearcher implements SearcherInterface
 
         $query = '';
         $geoFilters = [];
-        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query, $geoFilters);
+        $filters = $this->recursiveResolveFilterConditions($search->index, $search->filters, true, $query, $geoFilters);
 
         $searchParams = [];
         if ('' !== $filters) {
@@ -119,21 +111,18 @@ final class AlgoliaSearcher implements SearcherInterface
         \assert(isset($data['nbHits']) && \is_int($data['nbHits']), 'The "nbHits" value is expected to be returned by algolia client.');
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $data['hits']),
+            $this->hitsToDocuments($search->index, $data['hits']),
             $data['nbHits'] ?? null, // @phpstan-ignore-line
         );
     }
 
     /**
-     * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
      * @return \Generator<int, array<string, mixed>>
      */
-    private function hitsToDocuments(array $indexes, iterable $hits): \Generator
+    private function hitsToDocuments(Index $index, iterable $hits): \Generator
     {
-        $index = $indexes[\array_key_first($indexes)];
-
         foreach ($hits as $hit) {
             // remove Algolia Metadata
             unset($hit['objectID']);

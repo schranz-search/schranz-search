@@ -17,7 +17,6 @@ use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
-use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
@@ -43,36 +42,30 @@ final class OpensearchSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            1 === \count($search->indexes)
-            && 1 === \count($search->filters)
+            1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
             && 0 === $search->offset
             && 1 === $search->limit
         ) {
             try {
                 $searchResult = $this->client->get([
-                    'index' => $search->indexes[\array_key_first($search->indexes)]->name,
+                    'index' => $search->index->name,
                     'id' => $search->filters[0]->identifier,
                 ]);
             } catch (Missing404Exception) {
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, []),
+                    $this->hitsToDocuments($search->index, []),
                     0,
                 );
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$searchResult]),
+                $this->hitsToDocuments($search->index, [$searchResult]),
                 1,
             );
         }
 
-        $indexesNames = [];
-        foreach ($search->indexes as $index) {
-            $indexesNames[] = $index->name;
-        }
-
-        $query = $this->recursiveResolveFilterConditions($search->indexes, $search->filters, true);
+        $query = $this->recursiveResolveFilterConditions($search->index, $search->filters, true);
 
         if ([] === $query) {
             $query['match_all'] = new \stdClass();
@@ -97,69 +90,46 @@ final class OpensearchSearcher implements SearcherInterface
         }
 
         $searchResult = $this->client->search([
-            'index' => \implode(',', $indexesNames),
+            'index' => $search->index->name,
             'body' => $body,
         ]);
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $searchResult['hits']['hits']),
+            $this->hitsToDocuments($search->index, $searchResult['hits']['hits']),
             $searchResult['hits']['total']['value'],
         );
     }
 
     /**
-     * @param Index[] $indexes
      * @param array<array<string, mixed>> $hits
      *
      * @return \Generator<int, array<string, mixed>>
      */
-    private function hitsToDocuments(array $indexes, array $hits): \Generator
+    private function hitsToDocuments(Index $index, array $hits): \Generator
     {
-        $indexesByInternalName = [];
-        foreach ($indexes as $index) {
-            $indexesByInternalName[$index->name] = $index;
-        }
-
         /** @var array{_index: string, _source: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
-            $index = $indexesByInternalName[$hit['_index']] ?? null;
-            if (!$index instanceof Index) {
-                throw new \RuntimeException('SchemaMetadata for Index "' . $hit['_index'] . '" not found.');
-            }
-
             yield $this->marshaller->unmarshall($index->fields, $hit['_source']);
         }
     }
 
-    /**
-     * @param Index[] $indexes
-     */
-    private function getFilterField(array $indexes, string $name): string
+    private function getFilterField(Index $index, string $name): string
     {
-        foreach ($indexes as $index) {
-            try {
-                $field = $index->getFieldByPath($name);
+        $field = $index->getFieldByPath($name);
 
-                if ($field instanceof Field\TextField) {
-                    return $name . '.raw';
-                }
-
-                return $name;
-            } catch (FieldByPathNotFoundException) {
-                // ignore when field is not found and use go to next index instead
-            }
+        if ($field instanceof Field\TextField) {
+            return $name . '.raw';
         }
 
         return $name;
     }
 
     /**
-     * @param Index[] $indexes
      * @param object[] $filters
      *
      * @return array<string|int, mixed>
      */
-    private function recursiveResolveFilterConditions(array $indexes, array $filters, bool $conjunctive): array
+    private function recursiveResolveFilterConditions(Index $index, array $filters, bool $conjunctive): array
     {
         $filterQueries = [];
 
@@ -167,22 +137,22 @@ final class OpensearchSearcher implements SearcherInterface
             match (true) {
                 $filter instanceof Condition\IdentifierCondition => $filterQueries[]['ids']['values'][] = $filter->identifier,
                 $filter instanceof Condition\SearchCondition => $filterQueries[]['bool']['must']['query_string']['query'] = $filter->query,
-                $filter instanceof Condition\EqualCondition => $filterQueries[]['term'][$this->getFilterField($indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\NotEqualCondition => $filterQueries[]['bool']['must_not']['term'][$this->getFilterField($indexes, $filter->field)]['value'] = $filter->value,
-                $filter instanceof Condition\GreaterThanCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['gt'] = $filter->value,
-                $filter instanceof Condition\GreaterThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['gte'] = $filter->value,
-                $filter instanceof Condition\LessThanCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lt'] = $filter->value,
-                $filter instanceof Condition\LessThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($indexes, $filter->field)]['lte'] = $filter->value,
-                $filter instanceof Condition\InCondition => $filterQueries[]['terms'][$this->getFilterField($indexes, $filter->field)] = $filter->values,
-                $filter instanceof Condition\NotInCondition => $filterQueries[]['bool']['must_not']['terms'][$this->getFilterField($indexes, $filter->field)] = $filter->values,
+                $filter instanceof Condition\EqualCondition => $filterQueries[]['term'][$this->getFilterField($index, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\NotEqualCondition => $filterQueries[]['bool']['must_not']['term'][$this->getFilterField($index, $filter->field)]['value'] = $filter->value,
+                $filter instanceof Condition\GreaterThanCondition => $filterQueries[]['range'][$this->getFilterField($index, $filter->field)]['gt'] = $filter->value,
+                $filter instanceof Condition\GreaterThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($index, $filter->field)]['gte'] = $filter->value,
+                $filter instanceof Condition\LessThanCondition => $filterQueries[]['range'][$this->getFilterField($index, $filter->field)]['lt'] = $filter->value,
+                $filter instanceof Condition\LessThanEqualCondition => $filterQueries[]['range'][$this->getFilterField($index, $filter->field)]['lte'] = $filter->value,
+                $filter instanceof Condition\InCondition => $filterQueries[]['terms'][$this->getFilterField($index, $filter->field)] = $filter->values,
+                $filter instanceof Condition\NotInCondition => $filterQueries[]['bool']['must_not']['terms'][$this->getFilterField($index, $filter->field)] = $filter->values,
                 $filter instanceof Condition\GeoDistanceCondition => $filterQueries[]['geo_distance'] = [
                     'distance' => $filter->distance,
-                    $this->getFilterField($indexes, $filter->field) => [
+                    $this->getFilterField($index, $filter->field) => [
                         'lat' => $filter->latitude,
                         'lon' => $filter->longitude,
                     ],
                 ],
-                $filter instanceof Condition\GeoBoundingBoxCondition => $filterQueries[]['geo_bounding_box'][$this->getFilterField($indexes, $filter->field)] = [
+                $filter instanceof Condition\GeoBoundingBoxCondition => $filterQueries[]['geo_bounding_box'][$this->getFilterField($index, $filter->field)] = [
                     'top_left' => [
                         'lat' => $filter->northLatitude,
                         'lon' => $filter->westLongitude,
@@ -192,8 +162,8 @@ final class OpensearchSearcher implements SearcherInterface
                         'lon' => $filter->eastLongitude,
                     ],
                 ],
-                $filter instanceof Condition\AndCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->conditions, true),
-                $filter instanceof Condition\OrCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($indexes, $filter->conditions, false),
+                $filter instanceof Condition\AndCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($index, $filter->conditions, true),
+                $filter instanceof Condition\OrCondition => $filterQueries[] = $this->recursiveResolveFilterConditions($index, $filter->conditions, false),
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

@@ -15,7 +15,6 @@ namespace Schranz\Search\SEAL\Adapter\RediSearch;
 
 use Schranz\Search\SEAL\Adapter\SearcherInterface;
 use Schranz\Search\SEAL\Marshaller\Marshaller;
-use Schranz\Search\SEAL\Schema\Exception\FieldByPathNotFoundException;
 use Schranz\Search\SEAL\Schema\Field;
 use Schranz\Search\SEAL\Schema\Index;
 use Schranz\Search\SEAL\Search\Condition;
@@ -44,8 +43,7 @@ final class RediSearchSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            1 === \count($search->indexes)
-            && 1 === \count($search->filters)
+            1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
             && 0 === $search->offset
             && 1 === $search->limit
@@ -53,12 +51,12 @@ final class RediSearchSearcher implements SearcherInterface
             /** @var string|false $jsonGet */
             $jsonGet = $this->client->rawCommand(
                 'JSON.GET',
-                $search->indexes[\array_key_first($search->indexes)]->name . ':' . $search->filters[0]->identifier,
+                $search->index->name . ':' . $search->filters[0]->identifier,
             );
 
             if (false === $jsonGet) {
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, []),
+                    $this->hitsToDocuments($search->index, []),
                     0,
                 );
             }
@@ -67,19 +65,14 @@ final class RediSearchSearcher implements SearcherInterface
             $document = \json_decode($jsonGet, true, flags: \JSON_THROW_ON_ERROR);
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [$document]),
+                $this->hitsToDocuments($search->index, [$document]),
                 1,
             );
         }
 
-        if (1 !== \count($search->indexes)) {
-            throw new \RuntimeException('RediSearch does not yet support search multiple indexes: https://github.com/schranz-search/schranz-search/issues/93');
-        }
-
-        $index = $search->indexes[\array_key_first($search->indexes)];
         $parameters = [];
 
-        $query = $this->recursiveResolveFilterConditions($index, $search->filters, $search->indexes, true, $parameters) ?: '*';
+        $query = $this->recursiveResolveFilterConditions($search->index, $search->filters, true, $parameters) ?: '*';
 
         $arguments = [];
         foreach ($search->sortBys as $field => $direction) {
@@ -109,7 +102,7 @@ final class RediSearchSearcher implements SearcherInterface
         /** @var mixed[]|false $result */
         $result = $this->client->rawCommand(
             'FT.SEARCH',
-            $index->name,
+            $search->index->name,
             $query,
             ...$arguments,
         );
@@ -141,43 +134,29 @@ final class RediSearchSearcher implements SearcherInterface
         }
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $documents),
+            $this->hitsToDocuments($search->index, $documents),
             $total,
         );
     }
 
     /**
-     * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
      * @return \Generator<int, array<string, mixed>>
      */
-    private function hitsToDocuments(array $indexes, iterable $hits): \Generator
+    private function hitsToDocuments(Index $index, iterable $hits): \Generator
     {
-        $index = $indexes[\array_key_first($indexes)];
-
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit);
         }
     }
 
-    /**
-     * @param Index[] $indexes
-     */
-    private function getFilterField(array $indexes, string $name): string
+    private function getFilterField(Index $index, string $name): string
     {
-        foreach ($indexes as $index) {
-            try {
-                $field = $index->getFieldByPath($name);
+        $field = $index->getFieldByPath($name);
 
-                if ($field instanceof Field\TextField) {
-                    $name .= '__raw';
-                }
-
-                break;
-            } catch (FieldByPathNotFoundException) {
-                // ignore when field is not found and use go to next index instead
-            }
+        if ($field instanceof Field\TextField) {
+            $name .= '__raw';
         }
 
         return \str_replace('.', '__', $name);
@@ -206,10 +185,9 @@ final class RediSearchSearcher implements SearcherInterface
 
     /**
      * @param object[] $conditions
-     * @param Index[] $indexes
      * @param array<string, string> $parameters
      */
-    private function recursiveResolveFilterConditions(Index $index, array $conditions, array $indexes, bool $conjunctive, array &$parameters): string
+    private function recursiveResolveFilterConditions(Index $index, array $conditions, bool $conjunctive, array &$parameters): string
     {
         $filters = [];
 
@@ -223,15 +201,15 @@ final class RediSearchSearcher implements SearcherInterface
             match (true) {
                 $filter instanceof Condition\SearchCondition => $filters[] = '%%' . \implode('%% ', \explode(' ', $this->escapeFilterValue($filter->query))) . '%%', // levenshtein of 2 per word
                 $filter instanceof Condition\IdentifierCondition => $filters[] = '@' . $index->getIdentifierField()->name . ':{' . $this->escapeFilterValue($filter->identifier) . '}',
-                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
-                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($indexes, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
-                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[(' . $this->escapeFilterValue($filter->value) . ' inf]',
-                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
-                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
-                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($indexes, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\EqualCondition => $filters[] = '@' . $this->getFilterField($index, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\NotEqualCondition => $filters[] = '-@' . $this->getFilterField($index, $filter->field) . ':{' . $this->escapeFilterValue($filter->value) . '}',
+                $filter instanceof Condition\GreaterThanCondition => $filters[] = '@' . $this->getFilterField($index, $filter->field) . ':[(' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\GreaterThanEqualCondition => $filters[] = '@' . $this->getFilterField($index, $filter->field) . ':[' . $this->escapeFilterValue($filter->value) . ' inf]',
+                $filter instanceof Condition\LessThanCondition => $filters[] = '@' . $this->getFilterField($index, $filter->field) . ':[-inf (' . $this->escapeFilterValue($filter->value) . ']',
+                $filter instanceof Condition\LessThanEqualCondition => $filters[] = '@' . $this->getFilterField($index, $filter->field) . ':[-inf ' . $this->escapeFilterValue($filter->value) . ']',
                 $filter instanceof Condition\GeoDistanceCondition => $filters[] = \sprintf(
                     '@%s:[%s %s %s]',
-                    $this->getFilterField($indexes, $filter->field),
+                    $this->getFilterField($index, $filter->field),
                     $filter->longitude,
                     $filter->latitude,
                     ($filter->distance / 1000) . ' km',
@@ -240,7 +218,7 @@ final class RediSearchSearcher implements SearcherInterface
                 /* Keep here for future implementation:
                 $filter instanceof Condition\GeoBoundingBoxCondition => ($filters[] = \sprintf(
                     '@%s:[WITHIN $filter_%s]',
-                    $this->getFilterField($search->indexes, $filter->field),
+                    $this->getFilterField($index, $filter->field),
                     $key,
                 )) && ($parameters['filter_' . $key] = \sprintf(
                     'POLYGON((%s %s, %s %s, %s %s, %s %s, %s %s))',
@@ -256,8 +234,8 @@ final class RediSearchSearcher implements SearcherInterface
                     $filter->northLatitude,
                 )),
                 */
-                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, true, $parameters) . ')',
-                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, $indexes, false, $parameters) . ')',
+                $filter instanceof Condition\AndCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, true, $parameters) . ')',
+                $filter instanceof Condition\OrCondition => $filters[] = '(' . $this->recursiveResolveFilterConditions($index, $filter->conditions, false, $parameters) . ')',
                 default => throw new \LogicException($filter::class . ' filter not implemented.'),
             };
         }

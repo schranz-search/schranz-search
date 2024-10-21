@@ -42,40 +42,33 @@ final class TypesenseSearcher implements SearcherInterface
     {
         // optimized single document query
         if (
-            1 === \count($search->indexes)
-            && 1 === \count($search->filters)
+            1 === \count($search->filters)
             && $search->filters[0] instanceof Condition\IdentifierCondition
             && 0 === $search->offset
             && 1 === $search->limit
         ) {
             try {
-                $data = $this->client->collections[$search->indexes[\array_key_first($search->indexes)]->name]->documents[$search->filters[0]->identifier]->retrieve();
+                $data = $this->client->collections[$search->index->name]->documents[$search->filters[0]->identifier]->retrieve();
             } catch (ObjectNotFound) {
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, []),
+                    $this->hitsToDocuments($search->index, []),
                     0,
                 );
             }
 
             return new Result(
-                $this->hitsToDocuments($search->indexes, [['document' => $data]]),
+                $this->hitsToDocuments($search->index, [['document' => $data]]),
                 1,
             );
         }
 
-        if (1 !== \count($search->indexes)) {
-            throw new \RuntimeException('Typesense does not yet support search multiple indexes: TODO');
-        }
-
-        $index = $search->indexes[\array_key_first($search->indexes)];
-
         $searchParams = [
             'q' => '',
-            'query_by' => \implode(',', $index->searchableFields),
+            'query_by' => \implode(',', $search->index->searchableFields),
         ];
 
         $query = null;
-        $filters = $this->recursiveResolveFilterConditions($index, $search->filters, true, $query);
+        $filters = $this->recursiveResolveFilterConditions($search->index, $search->filters, true, $query);
 
         if (null !== $query) {
             $searchParams['q'] = $query;
@@ -102,24 +95,21 @@ final class TypesenseSearcher implements SearcherInterface
             $searchParams['sort_by'] = \implode(',', $sortBys);
         }
 
-        $data = $this->client->collections[$index->name]->documents->search($searchParams);
+        $data = $this->client->collections[$search->index->name]->documents->search($searchParams);
 
         return new Result(
-            $this->hitsToDocuments($search->indexes, $data['hits']),
+            $this->hitsToDocuments($search->index, $data['hits']),
             $data['found'] ?? null,
         );
     }
 
     /**
-     * @param Index[] $indexes
      * @param iterable<array<string, mixed>> $hits
      *
      * @return \Generator<int, array<string, mixed>>
      */
-    private function hitsToDocuments(array $indexes, iterable $hits): \Generator
+    private function hitsToDocuments(Index $index, iterable $hits): \Generator
     {
-        $index = $indexes[\array_key_first($indexes)];
-
         /** @var array{document: array<string, mixed>} $hit */
         foreach ($hits as $hit) {
             yield $this->marshaller->unmarshall($index->fields, $hit['document']);

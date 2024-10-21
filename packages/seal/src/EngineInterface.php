@@ -51,7 +51,7 @@ interface EngineInterface
      */
     public function getDocument(string $index, string $identifier): array;
 
-    public function createSearchBuilder(): SearchBuilder;
+    public function createSearchBuilder(string $index): SearchBuilder;
 
     /**
      * @param array{return_slow_promise_result?: true} $options
