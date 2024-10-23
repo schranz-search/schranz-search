@@ -524,13 +524,12 @@ Search Engine to Search Engine. A common way is the following example:
         {
             // optimized single document query
             if (
-                1 === \count($search->indexes)
-                && 1 === \count($search->filters)
+                1 === \count($search->filters)
                 && $search->filters[0] instanceof Condition\IdentifierCondition
                 && 0 === $search->offset
                 && 1 === $search->limit
             ) {
-                $singleDocumentIndexName = $search->indexes[\array_key_first($search->indexes)]->name;
+                $singleDocumentIndexName = $search->index->name;
                 $singleDocumentIdentifier = $search->filters[0]->identifier;
 
                 try {
@@ -541,13 +540,13 @@ Search Engine to Search Engine. A common way is the following example:
                     }
 
                     return new Result(
-                        $this->hitsToDocuments($search->indexes, []),
+                        $this->hitsToDocuments($search->index, []),
                         0,
                     );
                 }
 
                 return new Result(
-                    $this->hitsToDocuments($search->indexes, [$data]),
+                    $this->hitsToDocuments($search->index, [$data]),
                     1,
                 );
             }
@@ -556,15 +555,13 @@ Search Engine to Search Engine. A common way is the following example:
         }
 
         /**
-         * @param Index[] $indexes
+         * @param Index $index
          * @param iterable<array<string, mixed>> $hits
          *
          * @return \Generator<int, array<string, mixed>>
          */
-        private function hitsToDocuments(array $indexes, iterable $hits): \Generator
+        private function hitsToDocuments(Index $index, iterable $hits): \Generator
         {
-            $index = $indexes[\array_key_first($indexes)];
-
             foreach ($hits as $hit) {
                 yield $this->marshaller->unmarshall($index->fields, $hit);
             }

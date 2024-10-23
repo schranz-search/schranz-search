@@ -16,8 +16,7 @@ The following shows the basic usage as already shown in the "Getting Started" do
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(/* ... */)
         ->getResult();
 
@@ -29,9 +28,7 @@ The following shows the basic usage as already shown in the "Getting Started" do
 
 .. note::
 
-    Currently only the ``Elasticsearch`` and ``Opensearch`` adapters supports to search on
-    multiple indexes at once. The other adapters are not yet supporting to call ``addIndex``
-    multiple times and will fail so with an exception if you try to do so.
+    It is also possible to change the index after creating the searchbuilder via ``$searchBuilder->index('other')``.
 
 Conditions
 ----------
@@ -47,8 +44,7 @@ The ``SearchCondition`` is the most basic condition and can be used to search fo
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\SearchCondition('Search Term'))
         ->getResult();
 
@@ -65,8 +61,7 @@ The ``EqualCondition`` is used to filter the result by a specific field value ma
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\EqualCondition('tags', 'UI'))
         ->getResult();
 
@@ -84,8 +79,7 @@ The ``NotEqualCondition`` is used to filter the result by a specific field value
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\NotEqualCondition('tags', 'UI'))
         ->getResult();
 
@@ -105,8 +99,7 @@ then using a ``EqualCondition``.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\IdentifierCondition('23b30f01-d8fd-4dca-b36a-4710e360a965'))
         ->getResult();
 
@@ -122,8 +115,7 @@ the given value.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\GreaterThanCondition('rating', 2.5))
         ->getResult();
 
@@ -141,8 +133,7 @@ the given value.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\GreaterThanEqualCondition('rating', 2.5))
         ->getResult();
 
@@ -160,8 +151,7 @@ the given value.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\LessThanCondition('rating', 2.5))
         ->getResult();
 
@@ -179,8 +169,7 @@ the given value.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\LessThanEqualCondition('rating', 2.5))
         ->getResult();
 
@@ -197,8 +186,7 @@ The ``GeoDistanceCondition`` is used to filter results within a radius by specif
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('restaurants')
+    $result = $this->engine->createSearchBuilder('restaurants')
         ->addFilter(new Condition\GeoDistanceCondition('location', 45.472735, 9.184019, 2000))
         ->getResult();
 
@@ -215,8 +203,7 @@ The ``GeoBoundingBoxCondition`` is used to filter results within a bounding box 
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('restaurants')
+    $result = $this->engine->createSearchBuilder('restaurants')
         ->addFilter(new Condition\GeoBoundingBoxCondition('location', 45.494181, 9.214024, 45.449484, 9.179175))
         ->getResult();
 
@@ -239,8 +226,7 @@ The ``OrCondition`` is used to filter by two or more conditions where at least o
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\OrCondition(
             new Condition\GreaterThanCondition('rating', 2.5),
             new Condition\EqualCondition('isSpecial', true),
@@ -262,8 +248,7 @@ in combination with ``OrCondition`` filters.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\AndCondition(
             new Condition\EqualCondition('tags', 'Tech'),
             new Condition\OrCondition(
@@ -307,8 +292,7 @@ Need to be queried this way `<object>.<field>`:
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\LessThanEqualCondition('rating.value', 2.5))
         ->getResult();
 
@@ -335,8 +319,7 @@ Need to be queried this way `<object>.<type>.<field>`:
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(new Condition\EqualCondition('header.image.media', 21))
         ->getResult();
 
@@ -353,8 +336,7 @@ Beside the searches and filters you can also limit the result by a given ``limit
 
     <?php
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(/* ... */)
         ->limit(10)
         ->offset(20)
@@ -369,8 +351,7 @@ With the ``limit`` and ``offset`` also a basic pagination can be created this wa
     $page = 1; // get from query parameter
     $pageSize = 10;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addFilter(/* ... */)
         ->limit($pageSize)
         ->offset(($page - 1) * $pageSize)
@@ -397,8 +378,7 @@ your results but also ``sort`` them by a given field.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addSortBy('rating', 'desc')
         ->getResult();
 
@@ -408,8 +388,7 @@ your results but also ``sort`` them by a given field.
 
     use Schranz\Search\SEAL\Search\Condition;
 
-    $result = $this->engine->createSearchBuilder()
-        ->addIndex('blog')
+    $result = $this->engine->createSearchBuilder('blog')
         ->addSortBy('rating', 'asc')
         ->getResult();
 

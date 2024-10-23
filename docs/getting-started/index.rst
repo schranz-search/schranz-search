@@ -1843,8 +1843,7 @@ many exists in the given index.
 
         public function someMethod()
         {
-            $result = $this->engine->createSearchBuilder()
-                ->addIndex('blog')
+            $result = $this->engine->createSearchBuilder('blog')
                 ->addFilter(new \Schranz\Search\SEAL\Search\Condition\SearchCondition('first'))
                 ->getResult();
 
@@ -1876,8 +1875,7 @@ we will filter by the ``tags`` field and get all documents which have the tag ``
 
         public function someMethod()
         {
-            $result = $this->engine->createSearchBuilder()
-                ->addIndex('blog')
+            $result = $this->engine->createSearchBuilder('blog')
                 ->addFilter(new \Schranz\Search\SEAL\Search\Condition\EqualCondition('tags', 'UI'));
                 ->getResult();
 
